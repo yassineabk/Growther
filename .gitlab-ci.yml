@@ -1,0 +1,161 @@
+
+variables:
+  APP_NAME_FRONTEND: frontendgrowtherapp
+  APP_NAME_FRONTEND_STAGING: staging-frontendapp
+  APP_NAME_BACKEND: backendgrowtherapp
+  APP_NAME_BACKEND_STAGING: staging-backendapp
+  DOCKER_DRIVER: overlay2
+  DOCKER_TLS_CERTDIR: ""
+
+stages:
+  - build
+  - test
+  - staging
+  - deploy
+
+
+
+
+# Build-Frontend:
+#   stage: build
+#   image: node:alpine3.11
+#   script: 
+#     - echo "Building Frontend ..."
+#     - cd ./frontend
+#     - npm install
+#     - npm run build
+#     - echo "Frontend build complete!"
+  
+  
+
+# test-Frontend:
+#   stage: test
+#   image: node:alpine3.11
+#   script:
+#     - echo "Testing Frontend..."
+#     - cd ./frontend
+#     - npm install
+#     - CI=true npm test
+#     - echo "Frontend test Complete!"
+    
+
+Build-Test-Deploy-Frontend-to-Staging:
+  stage: staging
+  image: docker:19.03.15-dind
+  only:
+    - Develop
+  services:
+  - docker:19.03.15-dind
+  environment:
+    name: frontend-staging
+  script:
+    - echo "Deploying reactJS Frontend..."
+    - docker login -u _ -p $HEROKU_API_KEY registry.heroku.com
+    - docker build --file=frontend/dockerfile --rm=true -t registry.heroku.com/$APP_NAME_FRONTEND_STAGING/web .
+    - docker push registry.heroku.com/$APP_NAME_FRONTEND_STAGING/web
+    - docker run -e HEROKU_API_KEY=$HEROKU_API_KEY wingrunr21/alpine-heroku-cli:latest container:release web -a $APP_NAME_FRONTEND_STAGING
+    - echo "Frontend Deployment Complete!"
+
+Build-Test-Deploy-Frontend-to-Heroku:
+  stage: deploy
+  image: docker:19.03.15-dind
+  only:
+    - master
+  services:
+  - docker:19.03.15-dind
+  environment:
+    name: frontend-production
+  when: manual
+  script:
+    - echo "Deploying reactJS Frontend..."
+    - docker login -u _ -p $HEROKU_API_KEY registry.heroku.com
+    - docker build --file=frontend/dockerfile --rm=true -t registry.heroku.com/$APP_NAME_FRONTEND/web .
+    - docker push registry.heroku.com/$APP_NAME_FRONTEND/web
+    - docker run -e HEROKU_API_KEY=$HEROKU_API_KEY wingrunr21/alpine-heroku-cli:latest container:release web -a $APP_NAME_FRONTEND
+    - echo "Frontend Deployment Complete!"
+
+
+Build-Backend:
+  stage: build
+  image: maven:3-jdk-8
+  script:
+    - echo "Building Backend..."
+    - cd ./backend
+    - mvn clean package -B
+    - echo "Backend Build Complete!"
+  cache:
+    key: "$CI_COMMIT_SHA"
+    policy: push
+    paths:
+      - backend/target
+  artifacts:
+    paths:
+      - backend/target/*.jar
+    # expire_in: 1 week
+  only:
+    - master
+    - Develop
+
+test-backend:
+  stage: test
+  image: maven:3-jdk-8
+  script: 
+    - echo "Testing Backend..."
+    - cd ./backend
+    - mvn test
+    - echo "Backend test Complete!"
+  artifacts:
+    paths:
+      - backend/target/*.jar
+
+
+# Deploy-Backend-to-Heroku:
+#   stage: build
+#   image: ruby:3.0
+#   only:
+#     - master
+#   script:
+#     - echo "Deploying Backend..."
+#     - apt-get update -qy
+#     - apt-get install -y ruby-dev
+#     - gem install dpl
+#     - dpl --provider=heroku --app=$APP_NAME_BACKEND --api-key=$HEROKU_API_KEY
+#     - echo "Backend Deployment Complete!"
+
+
+Deploy-Backend-to-Staging:
+  stage: staging
+  image: docker:20.10.7-dind
+  only:
+    - Develop
+  services:
+  - docker:20.10.7-dind
+  environment:
+    name: backend-staging
+  script:
+    - echo "Deploying reactJS Backend..."
+    - docker login -u _ -p $HEROKU_API_KEY registry.heroku.com
+    - docker build --file=backend/dockerfile --rm=true -t registry.heroku.com/$APP_NAME_BACKEND_STAGING/web .
+    - docker push registry.heroku.com/$APP_NAME_BACKEND_STAGING/web
+    - docker run -e HEROKU_API_KEY=$HEROKU_API_KEY wingrunr21/alpine-heroku-cli:latest container:release web -a $APP_NAME_BACKEND_STAGING
+    - echo "Backend Deployment Complete!"
+
+
+
+Deploy-Backend-to-Heroku:
+  stage: deploy
+  image: docker:20.10.7-dind
+  only:
+    - master
+  services:
+  - docker:20.10.7-dind
+  environment:
+    name: backend-production
+  when: manual
+  script:
+    - echo "Deploying reactJS Backend..."
+    - docker login -u _ -p $HEROKU_API_KEY registry.heroku.com
+    - docker build --file=backend/dockerfile --rm=true -t registry.heroku.com/$APP_NAME_BACKEND/web .
+    - docker push registry.heroku.com/$APP_NAME_BACKEND/web
+    - docker run -e HEROKU_API_KEY=$HEROKU_API_KEY wingrunr21/alpine-heroku-cli:latest container:release web -a $APP_NAME_BACKEND
+    - echo "Backend Deployment Complete!"
