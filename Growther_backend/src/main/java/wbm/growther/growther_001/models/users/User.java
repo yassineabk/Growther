@@ -1,4 +1,4 @@
-package wbm.growther.growther_001.models;
+package wbm.growther.growther_001.models.users;
 
 import javax.persistence.*;
 

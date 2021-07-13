@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import wbm.growther.growther_001.exceptions.ResourceNotFoundException;
-import wbm.growther.growther_001.models.User;
+import wbm.growther.growther_001.models.users.User;
 import wbm.growther.growther_001.repository.UserRepository;
 
 import java.util.HashMap;
