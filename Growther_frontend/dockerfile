@@ -25,7 +25,6 @@ RUN npm run build
 # We use a varibale here as the port is something that can differ on the environment.
 EXPOSE $PORT
 
-ENV REACT_APP_URLback = https://backendgrowtherapp.herokuapp.com/greeting
 
 # Start the app
 CMD [ "npm", "start" ]

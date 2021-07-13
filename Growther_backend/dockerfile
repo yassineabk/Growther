@@ -13,7 +13,6 @@ COPY backend/target/*.jar ./app.jar
 # We use a variable here as the port is something that can differ on the environment.
 EXPOSE $PORT
 
-ENV URLfront = https://frontendgrowtherapp.herokuapp.com
 
 # dzzdz
 
