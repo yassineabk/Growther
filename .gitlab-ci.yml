@@ -1,4 +1,3 @@
-
 variables:
   APP_NAME_FRONTEND: frontendgrowtherapp
   APP_NAME_FRONTEND_STAGING: staging-frontendapp
@@ -14,7 +13,7 @@ stages:
   - deploy
 
 
-
+#testing 
 
 # Build-Frontend:
 #   stage: build
