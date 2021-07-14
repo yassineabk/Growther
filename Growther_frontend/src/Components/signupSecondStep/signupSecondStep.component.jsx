@@ -19,7 +19,7 @@ const SingupSecondStep=({handleChange,handleSubmit,BrandFunctions,IndividualFunc
                       <p className="subtitle is6">Let's know you better</p>
                     </div>
                     <form action="" className="box" onSubmit={handleSubmit}>
-                    <label className="label">Your are </label>
+                    <label className="label">You are </label>
                     <div className="control pb-4 is-center" onChange={handleChange}>
                             <label className="radio ml-5">
                                 <input className="mr-2" type="radio" name="answer" id="individual"/>
