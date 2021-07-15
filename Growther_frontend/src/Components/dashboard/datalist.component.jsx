@@ -67,8 +67,11 @@ export const Listwithimages = ({data, title})=>{
     var locations = ["/dashboard/My Contests", "/dashboard/Templates"]
     return(
         <div className="is-flex is-flex-direction-column list-container">
-            <div className="list-title">
-                {title ? title : "No Title"}
+            <div className="list-title-container is-flex is-flex-direction-row is-justify-content-space-between is-align-items-center">
+                <span className="list-title">{title ? title : "No Title"}</span>
+                <span className="addNew">
+                    <Link to={"/dashboard" + `${title ? "/"+title : ""}` + "/new"}>+ Add New</Link>
+                </span>
             </div>
             <div className="columns is-multiline is-flex is-flex-row articles">
                 {Array.isArray(data) ? data.map((element, index)=>{

@@ -12,7 +12,7 @@ export const Dashboard_FirstPage = ({contests, templates, todo, recent, brandnam
                 <div className="mb-4">
                     <Listwithimages data={contests} title={"My Contests"} />
                 </div>
-                <div className="mb-4">
+                <div className="">
                     <Listwithimages data={templates} title={"Templates"}/>
                 </div>
             </div>,

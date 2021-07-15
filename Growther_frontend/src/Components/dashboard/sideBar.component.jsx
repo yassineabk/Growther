@@ -8,7 +8,13 @@ export const Dashborad_sideBar = ({profilePicture})=>{
         isSettings: false
     })
 
-    var homeLocations = ["/dashboard", "/dashboard/My Contests", "/dashboard/Templates"]
+    var homeLocations = [
+        "/dashboard", 
+        "/dashboard/My Contests", 
+        "/dashboard/My Contests/new", 
+        "/dashboard/Templates",
+        "/dashboard/Templates/new"
+    ]
     var history = useHistory()
     var location = useLocation()
     var changeHandler = (path)=>{
@@ -17,7 +23,7 @@ export const Dashborad_sideBar = ({profilePicture})=>{
     return(
         <div className="sideBar is-flex-direction-column d-flex">
             <div className="sideBar_Items is-flex-direction-column d-flex">
-                <div className="logo-container d-flex">
+                <div onClick={()=> changeHandler("/")} className="logo-container d-flex">
                     <img src={require("../../assets/icons/logo.png").default}/>
                 </div>
                 <div className="screens-buttons is-flex-direction-column d-flex">
