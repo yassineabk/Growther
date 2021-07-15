@@ -2,6 +2,10 @@
 .d-flex{
   display: flex;
 }
+.list-title{
+  font-size: 20px;
+  margin-bottom: 0.3em;
+}
 .App{
   min-height: 100vh;
   &.bgcolor{

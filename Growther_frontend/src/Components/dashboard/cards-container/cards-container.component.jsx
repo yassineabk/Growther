@@ -1,8 +1,10 @@
 import React from "react"
-import { Link, useLocation } from "react-router-dom"
+import { CardTitle } from "../card-title/card-title.component"
+import { CardComponent } from "../cards/card.component"
+import { ShowMoreButton } from "../show-more/show-more.component"
 const test = [
     <div className="column is-flex is-flex-direction-column article">
-        <img src={require("../../assets/icons/datalist.jpg").default} />
+        <img src={require("../../../assets/icons/datalist.jpg").default} />
         <div className="article-infos is-flex is-flex-direction-row">
             <div className="article-title">
                 {"Nothing"}
@@ -17,7 +19,7 @@ const test = [
         </div>
     </div>,
     <div className="column is-flex is-flex-direction-column article">
-        <img src={require("../../assets/icons/datalist.jpg").default} />
+        <img src={require("../../../assets/icons/datalist.jpg").default} />
         <div className="article-infos is-flex is-flex-direction-row">
             <div className="article-title">
                 {"Nothing"}
@@ -32,7 +34,7 @@ const test = [
         </div>
     </div>,
     <div className="column is-flex is-flex-direction-column article">
-        <img src={require("../../assets/icons/datalist.jpg").default} />
+        <img src={require("../../../assets/icons/datalist.jpg").default} />
         <div className="article-infos is-flex is-flex-direction-row">
             <div className="article-title">
                 {"Nothing"}
@@ -47,7 +49,7 @@ const test = [
         </div>
     </div>,
     <div className="column is-flex is-flex-direction-column article">
-        <img src={require("../../assets/icons/datalist.jpg").default} />
+        <img src={require("../../../assets/icons/datalist.jpg").default} />
         <div className="article-infos is-flex is-flex-direction-row">
             <div className="article-title">
                 {"Nothing"}
@@ -62,45 +64,23 @@ const test = [
         </div>
     </div>
 ]
-export const Listwithimages = ({data, title})=>{
-    var location = useLocation()
-    var locations = ["/dashboard/My Contests", "/dashboard/Templates"]
+export const CardsContainer = ({data, title})=>{
     return(
         <div className="is-flex is-flex-direction-column list-container">
-            <div className="list-title-container is-flex is-flex-direction-row is-justify-content-space-between is-align-items-center">
-                <span className="list-title">{title ? title : "No Title"}</span>
-                <span className="addNew">
-                    <Link to={"/dashboard" + `${title ? "/"+title : ""}` + "/new"}>+ Add New</Link>
-                </span>
-            </div>
+            <CardTitle title={title} />
             <div className="columns is-multiline is-flex is-flex-row articles">
                 {Array.isArray(data) ? data.map((element, index)=>{
                     return(
-                        <div className="column is-flex is-flex-direction-column article">
-                            <img src={element.img ? element.img : require("../../assets/icons/datalist.jpg").default} />
-                            <div className="article-infos is-flex is-flex-direction-row">
-                                <div className="article-title">
-                                    {element.title ? element.title : "Nothing"}
-                                </div>
-                                <div className="article-date">
-                                    {element.date ? element.date : "xx days"}
-                                </div>
-                            </div>
-                            <div className="article-buttons is-flex is-flex-direction-row">
-                                <div className="details-button">Details</div>
-                                <div className="duplicate-button">Duplicate</div>
-                            </div>
-                        </div>                    
+                        <CardComponent 
+                            img={element.img} 
+                            title={element.title}
+                            date={element.date}
+                            button={title}
+                        />                    
                     )
                 }): test}
             </div>
-            {locations.includes(location.pathname) ? null : <div className="arrow-button-container is-flex is-justify-content-flex-end">
-                <div className="arrow-button">
-                    <Link to={"/dashboard" + `${title ? "/"+title : ""}`} >
-                        <img src={require("../../assets/icons/right-arrow.png").default}/>
-                    </Link>
-                </div>
-            </div>}
+            <ShowMoreButton title={title} />
         </div>
     )
 }

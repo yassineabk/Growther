@@ -1,9 +1,9 @@
 import React from "react"
-import { Link } from "react-router-dom"
+import { ShowMoreButton } from "../show-more/show-more.component"
 var test = [
     <div className="is-flex is-flex-direction-row contestContainer">
         <div className="calendarIcon">
-            <img src={require("../../assets/icons/calendar.png").default} />
+            <img src={require("../../../assets/icons/calendar.png").default} />
         </div>
         <div className="contestInfos is-flex is-flex-direction-column">
             <div className="contestTitle">
@@ -17,7 +17,7 @@ var test = [
     </div>,
     <div className="is-flex is-flex-direction-row contestContainer">
         <div className="calendarIcon">
-            <img src={require("../../assets/icons/calendar.png").default} />
+            <img src={require("../../../assets/icons/calendar.png").default} />
         </div>
         <div className="contestInfos is-flex is-flex-direction-column">
             <div className="contestTitle">
@@ -31,7 +31,7 @@ var test = [
     </div>,
     <div className="is-flex is-flex-direction-row contestContainer">
         <div className="calendarIcon">
-            <img src={require("../../assets/icons/calendar.png").default} />
+            <img src={require("../../../assets/icons/calendar.png").default} />
         </div>
         <div className="contestInfos is-flex is-flex-direction-column">
             <div className="contestTitle">
@@ -45,7 +45,7 @@ var test = [
     </div>,
     <div className="is-flex is-flex-direction-row contestContainer">
         <div className="calendarIcon">
-            <img src={require("../../assets/icons/calendar.png").default} />
+            <img src={require("../../../assets/icons/calendar.png").default} />
         </div>
         <div className="contestInfos is-flex is-flex-direction-column">
             <div className="contestTitle">
@@ -70,7 +70,7 @@ export const RecentContests = ({data})=>{
                     return(
                         <div className="is-flex is-flex-direction-row contestContainer">
                             <div >
-                                <img className="calendarIcon" src={require("../../assets/icons/calendar.png").default} />
+                                <img className="calendarIcon" src={require("../../../assets/icons/calendar.png").default} />
                             </div>
                             <div className="contestInfos is-flex is-flex-direction-column">
                                 <div className="contestTitle">
@@ -85,11 +85,12 @@ export const RecentContests = ({data})=>{
                     )
                 }) : test.slice(0,5)}
             </div>
-            <div className="arrow-button-container is-flex is-justify-content-flex-end">
+            <ShowMoreButton title={"recentcontests"} />
+            {/*<div className="arrow-button-container is-flex is-justify-content-flex-end">
                 <div className="arrow-button">
                     <Link to={"/dashboard/recentcontests"} ><img src={require("../../assets/icons/right-arrow.png").default}/></Link>
                 </div>
-            </div>
+            </div>*/}
         </div>
     )
 }
