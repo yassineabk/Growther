@@ -17,20 +17,21 @@ class App extends React.Component {
   constructor(){
     super()
     this.state = {
-      currentPath: ""
+      currentPath: window.location.pathname
     }
+  }
+  getPath = ()=>{
+    this.setState({
+      currentPath: window.location.pathname
+    })  
   }
   componentDidMount(){
 
+    this.getPath()
     const {setCurrentUser}=this.props
-    this.setState({
-      currentPath: window.location.pathname
-    })
-
+    
     //auth logic here
   }
-
-
 
   render(){
     return (
