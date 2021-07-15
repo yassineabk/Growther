@@ -8,7 +8,7 @@ import {selectCurrentUser} from '../../redux/user/user.selectors'
 
 const Header=({currentUser})=>{
     var location = useLocation()
-    var paths = ["/signup", "signin", "/"]
+    var paths = ["/signup", "/login", "/", "/home"]
     if(!paths.includes(location.pathname)) return null
     return(
 
