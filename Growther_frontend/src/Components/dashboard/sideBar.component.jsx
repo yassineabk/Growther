@@ -7,7 +7,6 @@ export const Dashborad_sideBar = ({profilePicture})=>{
         isPie: false,
         isSettings: false
     })
-
     var homeLocations = [
         "/dashboard", 
         "/dashboard/My Contests", 

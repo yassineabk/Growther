@@ -1,34 +1,9 @@
-$icons-color: #83838E;
-$bg-color: #EBF4F8;
-$sideBar-color: #2C2738;
-$big-text: #272D3B;
-$button-color1: #0880AE;
-$button-color2: #FFFFFF;
-$button-text1: #7C9CBF;
-$button-text2: #FFFFFF;
-$border-color: #DBE2EA;
-$contest-bgColors: #39D5CF, #FF007C, #7D00B5, #0880AE, #7C9CBF;
-$boxshadow: #2C27380A;
-@font-face {
-  font-family: Montserrat-SemiBold;
-  src: url("./assets/fonts/Montserrat-SemiBold.ttf");
-}
-@font-face {
-  font-family: Montserrat-Bold;
-  src: url("./assets/fonts/Montserrat-Bold.ttf");
-}
+@import "sass/main.scss";
 .d-flex{
   display: flex;
 }
-.list-title{
-  font-size: 22px;
-  font-weight: 500;
-  font-family: Montserrat-Bold;
-  margin-bottom: 0.3em;
-}
 .App{
   min-height: 100vh;
-  max-width: 100vw;
   &.bgcolor{
     background-color: $bg-color;
   }

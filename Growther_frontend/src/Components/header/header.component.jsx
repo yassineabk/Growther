@@ -46,7 +46,7 @@ const Header=({currentUser})=>{
                         ):(
                         <div className="buttons">
                             <Link className="button is-primary" to="/signup"><strong>Sign up</strong></Link>
-                            <Link className="button is-light" to=""> Log in</Link>
+                            <Link className="button is-light" to="/login"> Log in</Link>
                         </div>
                         )
                     }
