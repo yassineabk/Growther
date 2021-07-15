@@ -1,5 +1,5 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
+import {Link, useLocation} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {createStructuredSelector} from 'reselect'
 import {selectCurrentUser} from '../../redux/user/user.selectors'
@@ -7,7 +7,9 @@ import {selectCurrentUser} from '../../redux/user/user.selectors'
 
 
 const Header=({currentUser})=>{
-    
+    var location = useLocation()
+    var paths = ["/signup", "signin", "/"]
+    if(!paths.includes(location.pathname)) return null
     return(
 
         <nav className="navbar pr-6 pt-4 pl-6" role="navigation" aria-label="main navigation">
