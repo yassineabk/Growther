@@ -1,0 +1,265 @@
+@import "sass/main.scss";
+
+@font-face {
+  font-family: Montserrat-SemiBold;
+  src: url("./assets/fonts/Montserrat-SemiBold.ttf");
+}
+@font-face {
+  font-family: Montserrat-Bold;
+  src: url("./assets/fonts/Montserrat-Bold.ttf");
+}
+.d-flex{
+  display: flex;
+}
+.App{
+  min-height: 100vh;
+  &.bgcolor{
+    background-color: $bg-color;
+  }
+}
+.sideBar{
+  position: fixed;
+  width: -moz-fit-content;
+  width: fit-content;
+  width: 80px;
+  height: 100vh;
+  background-color: $sideBar-color;
+  padding: 15px 10px 15px 0;
+  justify-content: space-between;
+  align-items: center;
+  transition: all .5s;
+  animation: slidein-sideBar 1s alternate forwards;
+  transform: translateX(-20px);
+  img{
+    width: 30px;
+    height: 30px;
+    //margin-left: 10px;
+  }
+  > div{
+    flex: 1;
+    width: 100%;
+  }
+  .sideBar_Items{
+    justify-content: space-between;
+    align-items: center !important;
+    > div{
+      width: 100% !important;
+      align-items: center !important;
+    }
+    .logo-container{
+      justify-content: center;
+      //padding-left: 10px;
+    }
+    .screens-buttons{
+      .sideBar_item{  
+        flex: 1;   
+        width: 100%;
+        display: flex;  
+        flex-direction: column; 
+        align-items: center;
+        border-left: 3px $sideBar-color solid;
+        margin: 6px 0;
+        cursor: pointer;
+        transition: all 0.5s;
+        //padding-left: 7px;
+        &.active{
+          border-left: 3px white solid;
+          border-radius: 0 50% 50% 0;
+        }
+      }
+    }
+  }
+  .profile_picture{
+    justify-content: flex-end;
+    //padding-left: 10px;
+    align-items: center;
+    img{
+      border-radius: 100%;
+    }
+  }
+}
+.dashboard_Body{
+  padding: 25px 50px 25px 130px;
+  color: $big-text;
+  background-color: $bg-color;
+  font-family: Montserrat-SemiBold;
+  transition: all 0.5s;
+  .big_title{
+    font-size: 30px;
+    font-weight: bold;
+    font-family: Montserrat-Bold;
+  }
+}
+.column.recentContests{
+  max-height: 100%;
+  overflow-y: auto;
+  .arrow-button-container{
+    margin-top: 7px;
+  }
+}
+.list-container{
+  padding: 20px 20px 25px 20px;
+  background-color: #FFFFFF;
+  border-radius: 15px;
+  box-shadow: 3px 3px 6px #272D3B33;
+  &.recentContests{
+    @media only screen and (max-width: 1408px){
+      order: 1 !important;
+    }
+  }
+  &{
+    @media only screen and (max-width: 1408px){
+      order: 2 !important;
+    }
+  }
+  .list-title{
+    font-size: 22px;
+    font-weight: 500;
+    margin-bottom: 0.3em;
+    font-family: Montserrat-Bold;
+  }
+  .span{
+
+  }
+  ul{
+    &.todolist{
+      list-style: none;
+    }
+    li{
+      display: flex;
+      align-items: center;
+    }
+    li::before {
+      text-align: center;
+      content: "\2022";
+      color: $button-color1; 
+      font-weight: bold; 
+      font-size: 27px;
+      display: inline-block;
+      width: 0.7em; 
+      margin-bottom: 5px;
+    }
+  }
+  .contestContainer{
+    align-items: center;
+    margin: 5px 0;
+    flex: 1;
+    @for $i from 1 through length($contest-bgColors){
+        &:nth-child(#{$i}) .calendarIcon {
+          background-color: nth($contest-bgColors, $i);
+        }
+    }
+    .calendarIcon{
+      display: flex;
+      height: 100%;
+      padding: 10px;
+      margin-right: 10px;
+      align-items: center;
+      border-radius: 50%;
+      img{
+        width: 40px;
+        height: auto;
+      }
+    }
+    .contestInfos{
+      width: 100%;
+      .contestTitle{
+        font-weight: bold;
+        font-size: 18px;
+      }
+      .contestEndingDate{
+        font-size: 15px;
+        justify-content: space-between !important;
+      }
+    }
+  }
+  .arrow-button-container{
+    width: 100%;
+    .arrow-button{
+      a{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: $button-color1;
+        border-radius: 50%;
+        padding: 10px;
+        img{
+          width: 22px;
+          height: auto;
+        }
+      }
+    }
+  }
+}
+.articles{
+  flex-wrap: wrap;
+  align-items: center;
+  position: relative;
+  .article {
+    @extend .article;
+  }
+}
+.article{
+  background-color: #FFFFFF;
+  position: relative;
+  padding: 10px;
+  border: 1px solid $border-color;
+  border-radius: 20px;
+  margin-top: 1.2rem;
+  margin-right: 5px;
+  margin-left: 5px;
+  transition: all 0.5s;
+  > div{
+    margin: 2.5px 0;
+    flex-grow: 1;
+  }
+  img{
+    flex: 1;
+    height: 200px;
+    width: inherit;
+    max-height: 200px;
+    border-radius: 10px;
+  }
+  .article-infos{
+    justify-content: space-between;
+    align-items: center;
+    .article-title{
+      font-size: 18px;
+      font-weight: 500;
+    }
+    .article-date{
+      font-size: 12px;
+      font-weight: 400;
+    }
+  }
+  .article-buttons{
+    justify-content: space-between;
+    align-items: center;
+    > div{
+      flex: 1;
+      text-align: center;
+      padding: 5px;
+      cursor: pointer;
+      border-radius: 5px;
+      border: 2px solid $border-color;
+      font-size: 15px;
+    }
+    .details-button{
+      background-color: $button-color2;
+      color: $button-text1;
+      margin-right: 2.5px;
+    }
+    .duplicate-button{
+      background-color: $button-color1;
+      color: $button-text2;
+      margin-left: 2.5px;
+    }
+  }
+}
+@keyframes slidein-sideBar {
+  from{
+    transform: translateX(-20px);
+  }to{
+    transform: translateX(0px);
+  }
+}
