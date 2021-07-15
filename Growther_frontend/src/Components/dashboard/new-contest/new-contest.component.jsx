@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Contest_TextInput } from "./newContest_textInput.component"
+import { Contest_TextInput } from "../inputs/contest-input.component"
 export const NewContest = ()=>{
     var [contest, setContest] = useState({
         contestTitle: null,

@@ -1,7 +1,6 @@
 import React, { Component } from "react"
-import {Switch ,Route,Redirect, useParams} from 'react-router-dom'
-import { Dashborad_sideBar } from "../../Components/dashboard/sideBar.component"
-import { Dashboard_Body } from "../../Components/dashboard/body.component"
+import { DashboradSideBar } from "../../Components/dashboard/side-bar/side-bar.component"
+import { DashboardBody } from "../../Components/dashboard/body/body.component"
 
 class Dashboard extends Component{
     constructor(){
@@ -13,8 +12,8 @@ class Dashboard extends Component{
     render(){
         return(
             <div className="is-flex is-flex-direction-row">
-                <Dashborad_sideBar />
-                <Dashboard_Body currentUser={this.props.currentUser} />
+                <DashboradSideBar />
+                <DashboardBody currentUser={this.props.currentUser} />
             </div>
         )
     }
