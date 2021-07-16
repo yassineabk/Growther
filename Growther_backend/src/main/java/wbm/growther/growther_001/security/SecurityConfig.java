@@ -76,9 +76,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                             System.out.println("Authentication name: " + authentication.getName());
                             //CustomOAuth2User oauthUser = (CustomOAuth2User) authentication.getPrincipal();
                             Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
-                            String email = loggedInUser.getName();
-                            
-                            userService.processOAuthPostLogin(email);
+                            String userName = loggedInUser.getName();
+                            CustomOAuth2User oAuth2User = (CustomOAuth2User) authentication.getPrincipal();
+                            String provider= oAuth2User.getClientName();
+                            String email= oAuth2User.getEmail();
+                            userService.processOAuthPostLogin(userName,email,provider);
 
                             response.sendRedirect("/api/users");
                         }

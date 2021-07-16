@@ -13,8 +13,7 @@ public class User {
     private String name;
     private String email;
     private String password;
-    @Enumerated(EnumType.STRING)
-    private AuthenticationProvider authProvider;
+    private String authProvider;
 
     public User(String name, String email, String password) {
         this.name = name;
@@ -57,11 +56,11 @@ public class User {
         this.password = password;
     }
 
-    public AuthenticationProvider getAuthProvider() {
+    public String getAuthProvider() {
         return authProvider;
     }
 
-    public void setAuthProvider(AuthenticationProvider authProvider) {
+    public void setAuthProvider(String authProvider) {
         this.authProvider = authProvider;
     }
 }
