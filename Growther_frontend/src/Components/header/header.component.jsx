@@ -8,14 +8,14 @@ import {selectCurrentUser} from '../../redux/user/user.selectors'
 
 const Header=({currentUser})=>{
     var location = useLocation()
-    var paths = ["/signup", "/login", "/", "/home"]
+    var paths = ["/signup", "/login", "/", "/home","/landing-page"]
     if(!paths.includes(location.pathname)) return null
     return(
 
-        <nav className="navbar pr-6 pt-4 pl-6" role="navigation" aria-label="main navigation">
+        <nav className="navbar pr-6 pt-4 pl-6 is-dark pb-4" role="navigation" aria-label="main navigation">
             <div className="navbar-brand ">
                 <Link  className="navbar-item" to="/">
-                    <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28"/>
+                    DiD
                 </Link >
 
                 <a role="button" className="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
@@ -45,8 +45,7 @@ const Header=({currentUser})=>{
                         </div>
                         ):(
                         <div className="buttons">
-                            <Link className="button is-primary" to="/signup"><strong>Sign up</strong></Link>
-                            <Link className="button is-light" to="/login"> Log in</Link>
+                            <Link className="button is-info is-rounded " to="/signup"><strong>Try free</strong></Link>
                         </div>
                         )
                     }
