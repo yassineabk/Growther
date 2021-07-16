@@ -1,5 +1,5 @@
 import React from "react"
-import { List } from "../list/liste-component.component"
+import { List } from "../liste-component/liste-component.component"
 const test = [
     <li>{"Do something"}</li>,
     <li>{"Do something"}</li>,

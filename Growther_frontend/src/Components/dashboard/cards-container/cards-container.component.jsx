@@ -1,6 +1,6 @@
 import React from "react"
 import { CardTitle } from "../card-title/card-title.component"
-import { CardComponent } from "../cards/card.component"
+import { CardComponent } from "../card/card.component"
 import { ShowMoreButton } from "../show-more/show-more.component"
 const test = [
     <div className="column is-flex is-flex-direction-column card">
