@@ -1,10 +1,10 @@
 import React from "react"
 import { ListAction } from "../contest-list-action/contest-list-action.component"
-export const ActionsList = ({actions})=>{
+export const ActionsList = ({actions, addAction, title})=>{
     return(
-        <div className="actionsList is-flex is-flex-direction is-flex-wrap-wrap">
+        <div className="actionsList is-flex is-flex-wrap-wrap">
             {Array.isArray(actions) ? actions.map((element, index)=>{
-                <ListAction action={element} />
+                return <ListAction action={element} addAction={(action)=> addAction(action)} />
             }) : null}
         </div>
     )

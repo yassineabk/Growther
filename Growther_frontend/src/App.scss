@@ -137,6 +137,14 @@
     @media only screen and (max-width: 1023px){
       flex-direction: column-reverse;
     }
+    .actionsContainer{
+      flex: 1.05;
+      .contestButtons{
+        .buttonContainer{
+          @extend .button_container;
+        }
+      }
+    }
     .newContestFrom{
       flex: 1;
       .mainInfos, .prizes, .contestButtons{
