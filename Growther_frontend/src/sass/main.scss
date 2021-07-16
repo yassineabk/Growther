@@ -4,6 +4,11 @@
 @import 'base/reset';
 @import 'base/typography';
 
+@import 'components/preview.scss';
+@import 'components/inputs.scss';
+@import 'components/buttons.scss';
+@import 'components/cards.scss';
+
 @import 'layout/header';
 @import 'layout/footer';
 @import 'layout/sidebar';

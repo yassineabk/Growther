@@ -1,0 +1,58 @@
+.card{
+    background-color: #FFFFFF;
+    position: relative;
+    padding: 10px;
+    border: 1px solid $border-color;
+    border-radius: 20px;
+    margin-top: 1.2rem;
+    margin-right: 5px;
+    margin-left: 5px;
+    transition: all 0.5s;
+    //flex: 1 1 250px;
+    > div{
+      margin: 2.5px 0;
+      flex-grow: 1;
+    }
+    img{
+      flex: 1;
+      height: 200px;
+      width: inherit;
+      max-height: 200px;
+      border-radius: 10px;
+    }
+    .card-infos{
+      justify-content: space-between;
+      align-items: center;
+      .card-title{
+        font-size: 18px;
+        font-weight: 500;
+      }
+      .card-date{
+        font-size: 12px;
+        font-weight: 400;
+      }
+    }
+    .card-buttons{
+      justify-content: space-between;
+      align-items: center;
+      > div{
+        flex: 1;
+        text-align: center;
+        padding: 5px;
+        cursor: pointer;
+        border-radius: 5px;
+        border: 2px solid $border-color;
+        font-size: 15px;
+      }
+      .details-button{
+        background-color: $button-color2;
+        color: $button-text1;
+        margin-right: 2.5px;
+      }
+      .duplicate-button{
+        background-color: $button-color1;
+        color: $button-text2;
+        margin-left: 2.5px;
+      }
+    }
+}

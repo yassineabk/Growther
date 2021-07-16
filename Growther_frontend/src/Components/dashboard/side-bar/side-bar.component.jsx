@@ -20,12 +20,12 @@ export const DashboradSideBar = ({profilePicture})=>{
         history.push(path)
     }
     return(
-        <div className="sideBar is-flex-direction-column d-flex">
-            <div className="sideBar_Items is-flex-direction-column d-flex">
-                <div onClick={()=> changeHandler("/")} className="logo-container d-flex">
+        <div className="sideBar is-flex-tablet is-flex-direction-column">
+            <div className="sideBar_Items is-flex is-flex-direction-column">
+                <div onClick={()=> changeHandler("/")} className="is-flex logo-container">
                     <img src={require("../../../assets/icons/logo.png").default}/>
                 </div>
-                <div className="screens-buttons is-flex-direction-column d-flex">
+                <div className="screens-buttons is-flex is-flex-direction-column">
                     <div onClick={()=>changeHandler("/dashboard")} className={homeLocations.includes(location.pathname) ? "sideBar_item active" : "sideBar_item"}>
                         <img src={require("../../../assets/icons/home.png").default}/>
                     </div>
@@ -37,7 +37,7 @@ export const DashboradSideBar = ({profilePicture})=>{
                     </div>
                 </div>
             </div>
-            <div className="profile_picture d-flex is-flex-direction-column">
+            <div className="profile_picture is-flex is-flex-direction-column">
                 <img src={profilePicture ? profilePicture : require("../../../assets/icons/pdp.jpg").default} />
             </div>
         </div>

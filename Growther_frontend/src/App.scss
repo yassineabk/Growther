@@ -12,71 +12,6 @@
     background-color: $bg-color;
   }
 }
-.sideBar{
-  position: fixed;
-  width: -moz-fit-content;
-  width: fit-content;
-  width: 80px;
-  height: 100vh;
-  background-color: $sideBar-color;
-  padding: 15px 10px 15px 0;
-  justify-content: space-between;
-  align-items: center;
-  transition: all .5s;
-  animation: slidein-sideBar 1s alternate forwards;
-  transform: translateX(-20px);
-  @media only screen and (max-width: 540px) {
-    display: none;
-  }
-  img{
-    width: 30px;
-    height: 30px;
-    //margin-left: 10px;
-  }
-  > div{
-    flex: 1;
-    width: 100%;
-  }
-  .sideBar_Items{
-    justify-content: space-between;
-    align-items: center !important;
-    > div{
-      width: 100% !important;
-      align-items: center !important;
-    }
-    .logo-container{
-      justify-content: center;
-      cursor: pointer;
-      //padding-left: 10px;
-    }
-    .screens-buttons{
-      .sideBar_item{  
-        flex: 1;   
-        width: 100%;
-        display: flex;  
-        flex-direction: column; 
-        align-items: center;
-        border-left: 3px $sideBar-color solid;
-        margin: 6px 0;
-        cursor: pointer;
-        transition: all 0.5s;
-        //padding-left: 7px;
-        &.active{
-          border-left: 3px white solid;
-          border-radius: 0 50% 50% 0;
-        }
-      }
-    }
-  }
-  .profile_picture{
-    justify-content: flex-end;
-    //padding-left: 10px;
-    align-items: center;
-    img{
-      border-radius: 100%;
-    }
-  }
-}
 .dashboard_Body{
   flex: 1;
   padding: 25px 50px 25px 130px;
@@ -199,37 +134,39 @@
     }
   }
   &.newContest{
+    @media only screen and (max-width: 1023px){
+      flex-direction: column-reverse;
+    }
     .newContestFrom{
-      .mainInfos, .prizes{
+      flex: 1;
+      .mainInfos, .prizes, .contestButtons{
+        padding: 10px;
         flex: 1;
         flex-wrap: wrap;
         .textInputs, .otherInputs{
-          margin: 0 0.25em;
-          flex: 1;
-          .contest_input{
-            margin: 5px 0;
-            label{
-              font-size: 14px;
-              margin-bottom: 0.5em;
-            }
-            input{
-              flex: 1;
-              width: 100%;
-              min-height: 50px !important;
-              min-width: 250px;
-              outline: none;
-              padding: 13px 15px;
-              border: 1px solid $border-color;
-              border-radius: 5px;
-              box-shadow: 4px 4px 4px $boxshadow;
-            }
+          @extend .input;
+          flex-wrap: wrap;
+        }
+        .buttonContainer{
+          @extend .button_container;
+        }
+      }
+      .prizes{
+        margin-top: 0.5em;
+        label{
+          font-size: 14px;
+        }
+        .textInputs, .otherInputs{
+          .contest_input, .input_container{
+            flex: 1;
+            margin: 0px 0.5em 0px 0px;
           }
         }
       }
     }
   }
 }
-.articles{
+.articles, .cardsContainer{
   flex-wrap: wrap;
   align-items: center;
   position: relative;
@@ -237,63 +174,8 @@
     @extend .article;
   }
 }
-.article{
-  background-color: #FFFFFF;
-  position: relative;
-  padding: 10px;
-  border: 1px solid $border-color;
-  border-radius: 20px;
-  margin-top: 1.2rem;
-  margin-right: 5px;
-  margin-left: 5px;
-  transition: all 0.5s;
-  //flex: 1 1 250px;
-  > div{
-    margin: 2.5px 0;
-    flex-grow: 1;
-  }
-  img{
-    flex: 1;
-    height: 200px;
-    width: inherit;
-    max-height: 200px;
-    border-radius: 10px;
-  }
-  .article-infos{
-    justify-content: space-between;
-    align-items: center;
-    .article-title{
-      font-size: 18px;
-      font-weight: 500;
-    }
-    .article-date{
-      font-size: 12px;
-      font-weight: 400;
-    }
-  }
-  .article-buttons{
-    justify-content: space-between;
-    align-items: center;
-    > div{
-      flex: 1;
-      text-align: center;
-      padding: 5px;
-      cursor: pointer;
-      border-radius: 5px;
-      border: 2px solid $border-color;
-      font-size: 15px;
-    }
-    .details-button{
-      background-color: $button-color2;
-      color: $button-text1;
-      margin-right: 2.5px;
-    }
-    .duplicate-button{
-      background-color: $button-color1;
-      color: $button-text2;
-      margin-left: 2.5px;
-    }
-  }
+.article, .card{
+  @extend .card;
 }
 @keyframes slidein-sideBar {
   from{
