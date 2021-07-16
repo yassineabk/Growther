@@ -1,0 +1,21 @@
+import React, { useEffect, useState } from "react"
+import { Contest_TextInput } from "../inputs/contest-input.component";
+export const PrizesInputs = ({dispatch, num, prizesHandler, label})=>{
+    var result = []
+    for(var i = 0; i < num; i++){
+        result.push(
+            <Contest_TextInput 
+                type={"text"}
+                id={"prize"+i}
+                name={"prize"+i}
+                placeholder={"Prize " + parseInt(i+1)}
+                changeHandler={(event)=> prizesHandler(event)}
+            />
+        )
+    }
+    return(
+        <div className="textInputs is-flex is-flex-direction-row">
+            {result}
+        </div>
+    )
+}
