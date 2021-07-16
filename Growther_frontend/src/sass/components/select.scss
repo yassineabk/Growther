@@ -1,0 +1,17 @@
+.selectForm{
+    flex: 1;
+    min-height: 50px !important;
+    width: 120px;
+    outline: none;
+    padding: 13px 15px;
+    margin-top: 10px;
+    border: 1px solid $border-color;
+    border-radius: 5px;
+    box-shadow: 4px 4px 4px $boxshadow;
+    font-size: 14px;
+    font-family: Montserrat-Medium;
+    align-self: flex-end;
+    @media only screen and (max-width: 300px){
+        min-width: 150px !important;
+    }
+}

@@ -1,5 +1,5 @@
 import React from "react"
-export const Contest_TextInput = ({type, name, placeholder, changeHandler, id, min, label})=>{
+export const Contest_TextInput = ({type, name, placeholder, changeHandler, id, min, label, child})=>{
     return(
         <div className="contest_input is-flex is-flex-direction-column">
             <label for={id ? id : ""}>{label ? label : ""}</label>
@@ -11,6 +11,7 @@ export const Contest_TextInput = ({type, name, placeholder, changeHandler, id, m
                 onChange={(event)=>{ changeHandler(event) }}
                 min={type === "number" ? min : 0}
             />
+            {Array.isArray(child) ? child :  null}
         </div>
     )
 }

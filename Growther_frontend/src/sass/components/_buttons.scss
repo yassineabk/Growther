@@ -2,9 +2,12 @@
     margin: 0 0.25em;
     border: 1px solid $border-color;
     outline: none;
-    min-width: 100px;
+    min-width: 140px;
     padding: 13px 15px;
     border-radius: 5px;
     font-size: 15px;
     font-family: Montserrat-Medium;
+    @media only screen and (max-width: 539px){
+        width: 100%;
+    }
 }
