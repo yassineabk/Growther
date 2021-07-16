@@ -1,6 +1,6 @@
 import React from "react"
 import { Route, Switch, Redirect } from "react-router-dom"
-import { DashboardContestPage } from "../contests-page/contests-page.component"
+import { DashboardContestPage } from "../../contest/contests-page/contests-page.component"
 import { DashboardHomePage } from "../home-page/home-page.component"
 import { NewContest } from "../../contest/new-contest/new-contest.component"
 import { DashboardTemplatesPage } from "../templates-page/templates-page.component"
