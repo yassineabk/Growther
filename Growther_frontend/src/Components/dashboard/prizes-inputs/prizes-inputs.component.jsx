@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { Contest_TextInput } from "../inputs/contest-input.component";
+import { Contest_TextInput } from "../contest-input/contest-input.component";
 export const PrizesInputs = ({dispatch, num, prizesHandler, label})=>{
     var result = []
     for(var i = 0; i < num; i++){

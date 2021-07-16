@@ -1,8 +1,8 @@
 import React, { useState } from "react"
 import {useDispatch, useSelector} from "react-redux"
 import { PrizesChange, StateChange } from "../../../redux/contest/contest-actions"
-import { ContestButton } from "../contest-buttons/button-component"
-import { Contest_TextInput } from "../inputs/contest-input.component"
+import { ContestButton } from "../contest-buttons/contest-buttons.component"
+import { Contest_TextInput } from "../contest-input/contest-input.component"
 import { PrizesInputs } from "../prizes-inputs/prizes-inputs.component"
 export const NewContest = ()=>{
     var dispatch = useDispatch()
