@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 public class Contest {
+
     private long id;
     private String name;
     private String description;
@@ -16,7 +17,10 @@ public class Contest {
     private List<Action> actions;
     private List<Prize> prizes;
 
-    public Contest(String name, String description, Date startDate, Date endDate, List<Action> actions, List<Prize> prizes) {
+    public Contest(String name, String description,
+                   Date startDate, Date endDate,
+                   List<Action> actions, List<Prize> prizes) {
+
         this.name = name;
         this.description = description;
         this.nbrPrizes = prizes.size();
