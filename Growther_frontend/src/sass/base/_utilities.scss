@@ -130,16 +130,7 @@ iframe {
 .text-right{text-align:right!important}
 
 .d-block{display:block!important}
-.text-center{text-align:center!important}
-.col-lg-7{-ms-flex:0 0 58.333333%;flex:0 0 58.333333%;max-width:58.333333%}
-.col-lg-8{-ms-flex:0 0 66.666667%;flex:0 0 66.666667%;max-width:66.666667%}
-.offset-lg-2{margin-left:16.666667%}
-.col-lg-4{-ms-flex:0 0 33.333333%;flex:0 0 33.333333%;max-width:33.333333%}
-.col-lg-5{-ms-flex:0 0 41.666667%;flex:0 0 41.666667%;max-width:41.666667%}
-.col-md-6{-ms-flex:0 0 50%;flex:0 0 50%;max-width:50%}
-.col-lg-12{-ms-flex:0 0 100%;flex:0 0 100%;max-width:100%}
-.col-lg-6{-ms-flex:0 0 50%;flex:0 0 50%;max-width:50%}
-.col-lg-3{-ms-flex:0 0 25%;flex:0 0 25%;max-width:25%}
+
 .text-white {
     color: #fff !important;
 }
@@ -178,10 +169,7 @@ iframe {
   }
   img{vertical-align:middle;border-style:none}
 
-  .services-section{
-      height: 100vh;
-
-  }
+  
 
   .features-section{
     height: 100vh;
@@ -190,4 +178,9 @@ iframe {
 
 .btn-rounded {
     border-radius: 30px;
+}
+
+.center-cta{
+    padding: 8px 12px;
+    border-radius: 50px;
 }

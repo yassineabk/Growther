@@ -36,7 +36,6 @@ class App extends React.Component {
   render(){
     return (
       <div className={this.state.currentPath.includes("dashboard") ? "App bgcolor" : "App"}>
-        <Header/>
         <Switch>
           <Route exact path='/landing-page' render={()=>this.props.currentUser ? (<Redirect to='/'/>) : (<LandingPage/>) } />
           <Route exact path='/login' render={()=>this.props.currentUser ? (<Redirect to='/'/>) : (<LoginPage/>) } />
@@ -49,6 +48,7 @@ class App extends React.Component {
     );
   }
 }
+
 
 const mapStateToProps=createStructuredSelector({
   currentUser:selectCurrentUser

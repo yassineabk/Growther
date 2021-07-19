@@ -6,8 +6,8 @@ class Footer extends React.Component {
   	return (
          <footer className="footer-color">
             <div className="container">
-                <div className="row center-newsletter">
-                    <div className="col-lg-3 margin-t-20">
+                <div className="columns center-newsletter">
+                    <div className="column is-3-desktop is-9-mobile is-6-tablet margin-t-20">
                         <h4>Subscribe</h4>
                         <div className="text-muted margin-t-20">
                             <p>In an ideal world this text wouldn’t exist, a client would acknowledge the importance of having web copy before the design starts.</p>

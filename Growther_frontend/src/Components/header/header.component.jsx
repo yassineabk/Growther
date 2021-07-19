@@ -12,7 +12,7 @@ const Header=({currentUser})=>{
     if(!paths.includes(location.pathname)) return null
     return(
 
-        <nav className="navbar pr-6 pt-4 pl-6 is-dark pb-4" role="navigation" aria-label="main navigation">
+        <nav className="navbar pr-6 pt-4 pl-6 is-dark  pb-4" role="navigation" aria-label="main navigation">
             <div className="navbar-brand ">
                 <Link  className="navbar-item" to="/">
                     DiD
@@ -37,15 +37,15 @@ const Header=({currentUser})=>{
             </div>
 
             <div className="navbar-end">
-                <div className="navbar-item">
+                <div className="navbar-item ">
                     {
                         currentUser ? (
                         <div className="buttons">
                             <Link className="button" to=""><strong>Sign out</strong></Link>
                         </div>
                         ):(
-                        <div className="buttons">
-                            <Link className="button is-info is-rounded " to="/signup"><strong>Try free</strong></Link>
+                        <div className="buttons ">
+                        <Link to="JavaScript:Void(0);" className="btn btn-primary center-cta">Learn More <i className="mdi mdi-arrow-right"></i></Link>
                         </div>
                         )
                     }

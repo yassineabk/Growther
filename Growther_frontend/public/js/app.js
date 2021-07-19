@@ -4,94 +4,33 @@
    Created: July 2018
    File Description: Main JS file of the template
 */
-(function ($) {
 
-    'use strict';
+function initNavbar() {
+    document.querySelectorAll('.navbar-nav a').bind('click', function(event) {
+      var $anchor = document(this);
+      document.querySelector('html, body').stop().animate({
+          scrollTop: (document.querySelector($anchor.attr('href')).offset().top - 92)
+      }, 1500, 'easeInOutExpo');
+      event.preventDefault();
+  });
+}
 
-    // Navbar
-    function initNavbar() {
-  		$('.navbar-nav a').bind('click', function(event) {
-            var $anchor = $(this);
-            $('html, body').stop().animate({
-                scrollTop: ($($anchor.attr('href')).offset().top - 92)
-            }, 1500, 'easeInOutExpo');
-            event.preventDefault();
-        });
-    }
-
-    // Sticky Header
-    function initSticky() {
-        $(".sticky").sticky({
-            topSpacing: 0
-        });
-    }
-    
-    //Scrollspy
-	function initScrollspy() {
-		$("#navbarCollapse").scrollspy({
-		    offset:20
-		});
-	}
-
-	// Magnific Popup
-    function initMagnificPopup() {
-        $('.video-play-icon').magnificPopup({
-          disableOn: 700,
-          type: 'iframe',
-          mainClass: 'mfp-fade',
-          removalDelay: 160,
-          preloader: false,
-
-          fixedContentPos: false
-        });
-    }
-
-    function initContactForm() {
-    	$('#contact-form').submit(function() {
-
-            var action = $(this).attr('action');
-
-            $("#message").slideUp(750, function() {
-                $('#message').hide();
-
-                $('#submit')
-                    .attr('disabled', 'disabled');
-
-                $.post(action, {
-                        name: $('#name').val(),
-                        email: $('#email').val(),
-                        comments: $('#comments').val(),
-                    },
-                    function(data) {
-                        document.getElementById('message').innerHTML = data;
-                        $('#message').slideDown('slow');
-                        $('#cform img.contact-loader').fadeOut('slow', function() {
-                            $(this).remove()
-                        });
-                        $('#submit').removeAttr('disabled');
-                        if (data.match('success') != null) $('#cform').slideUp('slow');
-                    }
-                );
-
-            });
-
-            return false;
-        });
-    }
-
-    function init() {
-        initNavbar();
-        initSticky();
-        initScrollspy();
-        initMagnificPopup();
-        initContactForm();
-        Waves.init();
-    }
-
-    $(document).ready(function(){
-        init(); 
+function initSticky() {
+    document.querySelector(".sticky").sticky({
+        topSpacing: 0
     });
+}
 
-    // init();
+function initScrollspy() {
+    document.querySelector("#navbarCollapse").scrollspy({
+        offset:20
+    });
+}
 
-})(jQuery)
+function init() {
+    initNavbar();
+    initSticky();
+    initScrollspy();
+}
+
+init()

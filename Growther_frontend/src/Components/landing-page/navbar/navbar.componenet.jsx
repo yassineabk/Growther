@@ -1,42 +1,40 @@
 import React from 'react';
-
+import {Link} from 'react-router-dom'
 
 class Navbar extends React.Component {
   render() {
   	return (
-        <nav className="navbar navbar-expand-lg fixed-top navbar-custom sticky sticky-dark">
-            <div className="container">
-                <a className="navbar-brand logo text-uppercase" href="/home-one">
-                    Did
+        <nav className="navbar pr-6 pt-4 pl-6 is-dark  pb-4" role="navigation" aria-label="main navigation">
+            <div className="navbar-brand ">
+                <Link  className="navbar-item" to="/">
+                    DiD
+                </Link >
+
+                <a role="button" className="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
                 </a>
-                <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-                    <i className="mdi mdi-menu"></i>
-                </button>
-                <div className="collapse navbar-collapse" id="navbarCollapse">
-                    <ul className="navbar-nav navbar-center" id="mySidenav">
-                        <li className="nav-item active">
-                            <a href="#home" className="nav-link">Home</a>
-                        </li>
-                        <li className="nav-item">
-                            <a href="#services" className="nav-link">Why Us</a>
-                        </li>
-                        <li className="nav-item">
-                            <a href="#features" className="nav-link">Testemonials</a>
-                        </li>
-                        <li className="nav-item">
-                            <a href="#pricing" className="nav-link">Pricing</a>
-                        </li>
-                        <li className="nav-item">
-                            <a href="#contact" className="nav-link">Contact</a>
-                        </li>
-                    </ul>
-                    <div className="nav-button ml-auto">
-                        <ul className="nav navbar-nav navbar-right">
-                            <li>
-                                <button type="button" className="btn btn-custom navbar-btn btn-rounded waves-effect waves-light">Try it Free</button>
-                            </li>
-                        </ul>
-                    </div>
+            </div>
+
+            <div id="navbarBasicExample" className="navbar-menu ">
+                <div className="navbar-start is-flex is-justify-content-center ">
+                    <Link  className="navbar-item" to="/">Home</Link >
+                    <Link  className="navbar-item" to="#services">Services</Link >
+                    <Link  className="navbar-item" to="#features">Features</Link >
+                    <Link  className="navbar-item" to="#pricing"> Pricing</Link >
+                    <Link  className="navbar-item" to="#testimonials">Testimonials</Link >
+                    <Link  className="navbar-item" to="#contact"> Contact</Link >
+                </div>
+            </div>
+
+            <div className="navbar-end">
+                <div className="navbar-item ">
+                      
+                        <div className="buttons ">
+                        <Link to="JavaScript:Void(0);" className="btn btn-primary center-cta">Learn More <i className="mdi mdi-arrow-right"></i></Link>
+                        </div>
+                    
                 </div>
             </div>
         </nav>
