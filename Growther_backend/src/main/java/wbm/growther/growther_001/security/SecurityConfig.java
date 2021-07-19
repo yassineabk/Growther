@@ -67,33 +67,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.cors().and().authorizeRequests()
-                .antMatchers("/oauth2/**").permitAll()
-                .antMatchers("/api/**").authenticated()
-                .anyRequest().permitAll()
-                .and()
-                .oauth2Login()
-                    .userInfoEndpoint().userService(cutomOAuth2UserService)
-                    .and()
-                    .successHandler(new AuthenticationSuccessHandler() {
-                        @Override
-                        public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-                                                            Authentication authentication) throws IOException, ServletException {
-                            System.out.println("AuthenticationSuccessHandler invoked");
-                            System.out.println("Authentication name: " + authentication.getName());
-                            //CustomOAuth2User oauthUser = (CustomOAuth2User) authentication.getPrincipal();
-                            Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
-                            String userName = loggedInUser.getName();
-                            CustomOAuth2User oAuth2User = (CustomOAuth2User) authentication.getPrincipal();
-                            String provider= oAuth2User.getClientName();
-                            String email= oAuth2User.getEmail();
-                            userService.processOAuthPostLogin(userName,email,provider);
+        httpSecurity.cors();
 
-                            response.sendRedirect("/api/users");
-                        }
-                    })
-                .and()
-                .logout().permitAll();
     }
 
     @Bean
