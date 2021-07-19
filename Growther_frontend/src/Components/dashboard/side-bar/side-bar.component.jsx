@@ -12,7 +12,10 @@ export const DashboradSideBar = ({profilePicture})=>{
         "/dashboard/My Contests", 
         "/dashboard/My Contests/new", 
         "/dashboard/Templates",
-        "/dashboard/Templates/new"
+        "/dashboard/Templates/new",
+        "/dashboard/My Contests/new/secondStep",
+        "/dashboard/My Contests/new/firstStep",
+        "/dashboard/My Contests/new/thirdStep"
     ]
     var history = useHistory()
     var location = useLocation()

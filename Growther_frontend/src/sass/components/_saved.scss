@@ -1,0 +1,25 @@
+.savedContest{
+    flex: 1;
+    padding: 10px;
+    > div{
+        margin: 0.25em 0;
+    }
+    .bigText{
+        font-size: 25px;
+        font-family: Montserrat-Bold;
+        color: #272D3B;
+    }
+    .subText{
+        color: #707070;
+        font-size: 18px;
+        font-family: Montserrat-Medium;
+    }
+    .contestLink{
+        border: 1px solid $border-color;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-size: 15px;
+        color: #272D3B;
+        text-align: center;
+    }
+}

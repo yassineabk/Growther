@@ -8,7 +8,8 @@ const INITIAL_STATE={
     contestEnd: null,
     contestRunFor: null,
     contestReach: null,
-    prizes: {}
+    prizes: {},
+    actions: [],
 }
 
 const contestReducer=(state=INITIAL_STATE,action)=>{
@@ -31,7 +32,45 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
                 ...action.payload,
                 prizes: {
                     ...state.prizes
-                }
+                },
+                actions:[
+                    ...state.actions
+                ]
+            }
+        case ContestTypes.ADD_ACTION:
+            if(state.actions === undefined) return{
+                ...state,
+                actions: [action.payload]
+            }
+
+            var filtred = state.actions.filter(
+                item => item.name === action.payload.name
+            )
+
+            return {
+                ...state,
+                actions: filtred.length === 0 ?
+                    [...state.actions, action.payload] : [...state.actions]
+            }
+        case ContestTypes.REMOVE_ACTION:  
+            return {
+                ...state,
+                actions: state.actions.filter(item => item.name !== action.payload)
+            }
+        case ContestTypes.UPDATE_ACTION:
+            return {
+                ...state,
+                actions: state.actions.map((item, index)=>{
+                    if(item.name === action.payload.actionName){
+                        return {
+                            ...item,
+                            [action.payload.key]: action.payload.value
+                        }
+                    }
+                    return {
+                        ...item
+                    }
+                })
             }
         default:
             return state;

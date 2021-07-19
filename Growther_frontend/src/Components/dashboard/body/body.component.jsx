@@ -32,6 +32,9 @@ export const DashboardBody = ({contests, templates, todo, recent, brandname, cur
                     />
                 )} />
                 <Route exact path='/dashboard/My Contests/new' render={()=> currentUser ? (<Redirect to='/'/>) : (
+                    <Redirect to={"/dashboard/My Contests/new/firstStep"} />
+                )} />
+                <Route exact path='/dashboard/My Contests/new/:step' render={()=> currentUser ? (<Redirect to='/'/>) : (
                     <NewContest />
                 )} />
             </Switch>
