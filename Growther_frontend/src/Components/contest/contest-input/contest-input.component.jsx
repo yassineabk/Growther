@@ -1,5 +1,5 @@
 import React from "react"
-export const Contest_TextInput = ({type, name, value, placeholder, changeHandler, id, min, label, child, readonly})=>{
+export const ContestInput = ({type, name, value, placeholder, changeHandler, id, min, label, child, readonly, validData})=>{
     return(
         <div className="contest_input is-flex is-flex-direction-column">
             <label for={id ? id : ""}>{label ? label : ""}</label>
@@ -13,6 +13,7 @@ export const Contest_TextInput = ({type, name, value, placeholder, changeHandler
                 readOnly={readonly ? readonly : ""}
                 value={value}
             />
+            {validData !== undefined && validData.isValid === false ? <div className="inputError">{validData.message}</div> : null}
             {Array.isArray(child) ? child :  null}
         </div>
     )

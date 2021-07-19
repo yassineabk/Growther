@@ -1,6 +1,6 @@
 import React from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { useLocation } from "react-router-dom"
+import { useHistory, useLocation } from "react-router-dom"
 import { AddAction, RemoveAction, UpdateAction } from "../../../redux/contest/contest-actions"
 import { ActionsList } from "../actions-list/actions-list.component"
 import { ContestActions } from "../contest-actions/contest-actions.component"
@@ -9,15 +9,18 @@ export const ContestSecondStep = ()=>{
     var dispatch = useDispatch()
     var contest = useSelector(state => state.contest)
     var location = useLocation()
+    var history = useHistory()
     var addAction = (action)=>{
         AddAction(dispatch, action)
     }
-    var updateAction = (actionName, key, value) =>{
-        console.log(actionName, key, value)
-        UpdateAction(dispatch, actionName, key, value)
+    var updateAction = (provider, key, value) =>{
+        UpdateAction(dispatch, provider, key, value)
     }
-    var removeAction = (actionName)=>{
-        RemoveAction(dispatch, actionName)
+    var removeAction = (provider)=>{
+        RemoveAction(dispatch, provider)
+    }
+    var Save = ()=>{
+        history.push("/dashboard/My Contests/new/thirdStep")
     }
     if(location.pathname !== "/dashboard/My Contests/new/secondStep") return null
     return(
@@ -47,7 +50,10 @@ export const ContestSecondStep = ()=>{
             </div>
             <div className="contestButtons is-flex is-flex-direction-row is-justify-content-flex-end">
                 <ContestButton color={"#FF7171"} text={"Save as draft"} />
-                <ContestButton color={"#0880AE"} text={"Save"} url={"/dashboard/My Contests/new/thirdStep"} />
+                <ContestButton 
+                    color={"#0880AE"} 
+                    text={"Save"} 
+                    clickEvent={(event)=> Save()} />
             </div>
         </div>
     )
