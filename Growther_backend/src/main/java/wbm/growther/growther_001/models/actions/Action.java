@@ -1,10 +1,12 @@
-package wbm.growther.growther_001.models;
+package wbm.growther.growther_001.models.actions;
+
+import wbm.growther.growther_001.models.Contest;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name="Prizes")
-public class Prize {
+@Table(name="Actions")
+public class Action {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

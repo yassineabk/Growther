@@ -1,4 +1,4 @@
-package wbm.growther.growther_001.models;
+package wbm.growther.growther_001.models.users;
 
 import javax.persistence.*;
 
@@ -11,12 +11,21 @@ public class User {
     private String name;
     private String email;
     private String password;
+    private String authProvider;
 
     public User(String name, String email, String password) {
         this.name = name;
         this.email = email;
         this.password = password;
     }
+    public User(String name, String email, String password, String authProvider) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.authProvider = authProvider;
+    }
+
+
     public User() {
     }
 
@@ -52,5 +61,12 @@ public class User {
         this.password = password;
     }
 
+    public String getAuthProvider() {
+        return authProvider;
+    }
 
+    public void setAuthProvider(String authProvider) {
+        this.authProvider = authProvider;
+    }
 }
+

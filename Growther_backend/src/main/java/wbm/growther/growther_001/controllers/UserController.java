@@ -2,17 +2,19 @@ package wbm.growther.growther_001.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import wbm.growther.growther_001.exceptions.ResourceNotFoundException;
-import wbm.growther.growther_001.models.User;
+import wbm.growther.growther_001.models.users.User;
 import wbm.growther.growther_001.repository.UserRepository;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("api/")
 public class UserController {
@@ -30,6 +32,12 @@ public class UserController {
     public ResponseEntity<User> getUserById(@PathVariable(value = "id") Long userId) throws ResourceNotFoundException {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found for this id :"+userId));
+        return ResponseEntity.ok().body(user);
+    }
+    //Get oauthUser
+    @GetMapping("user")
+    public ResponseEntity<User> getoauthUser(HttpServletRequest request, HttpServletResponse response) {
+        User user = new User(request.getAttribute("name").toString(),request.getAttribute("email").toString(),null ,request.getAttribute("provider").toString());
         return ResponseEntity.ok().body(user);
     }
 
