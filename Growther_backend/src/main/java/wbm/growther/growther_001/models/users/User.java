@@ -1,7 +1,5 @@
 package wbm.growther.growther_001.models.users;
 
-import wbm.growther.growther_001.security.AuthenticationProvider;
-
 import javax.persistence.*;
 
 @Entity
@@ -20,6 +18,13 @@ public class User {
         this.email = email;
         this.password = password;
     }
+    public User(String name, String email, String password, String authProvider) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.authProvider = authProvider;
+    }
+
 
     public User() {
     }

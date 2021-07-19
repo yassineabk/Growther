@@ -2,25 +2,36 @@ package wbm.growther.growther_001.models;
 
 import wbm.growther.growther_001.models.actions.Action;
 
+import javax.persistence.*;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
+@Entity
+@Table(name="Contests")
 public class Contest {
-    private long id;
-    private String name;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long idContest;
+    private String title;
     private String description;
-    private int nbrPrizes;
-    private int nbrActions;
+    private int winnersNbr;
+    private int actionsNbr;
+    private int maxReach;
     private Date startDate;
     private Date endDate;
-    private List<Action> actions;
-    private List<Prize> prizes;
+    private Long duration;
+    @OneToMany(mappedBy="contest", fetch = FetchType.EAGER)
+    private Set<Action> actions;
+    //JSON field
+    @OneToMany(mappedBy="contest", fetch = FetchType.EAGER)
+    private Set<Prize> prizes;
 
-    public Contest(String name, String description, Date startDate, Date endDate, List<Action> actions, List<Prize> prizes) {
-        this.name = name;
+    public Contest(String name, String description, Date startDate, Date endDate, Set<Action> actions, Set<Prize> prizes) {
+        this.title = name;
         this.description = description;
-        this.nbrPrizes = prizes.size();
-        this.nbrActions = actions.size();
+        this.winnersNbr = prizes.size();
+        this.actionsNbr = actions.size();
         this.startDate = startDate;
         this.endDate = endDate;
         this.actions = actions;
@@ -31,20 +42,20 @@ public class Contest {
 
     }
 
-    public long getId() {
-        return id;
+    public long getIdContest() {
+        return idContest;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setIdContest(long id) {
+        this.idContest = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getDescription() {
@@ -55,21 +66,25 @@ public class Contest {
         this.description = description;
     }
 
-    public int getNbrPrizes() {
+    public int getWinnersNbr() {
         return prizes.size();
     }
 
-    public void setNbrPrizes(int nbrPrizes) {
-        this.nbrPrizes = nbrPrizes;
+    public void setWinnersNbr(int winnersNbr) {
+        this.winnersNbr = winnersNbr;
     }
 
-    public int getNbrActions() {
+    public int getActionsNbr() {
         return actions.size();
     }
 
-    public void setNbrActions(int nbrActions) {
-        this.nbrActions = nbrActions;
+    public void setActionsNbr(int actionsNbr) {
+        this.actionsNbr = actionsNbr;
     }
+
+    public int getMaxReach() { return maxReach; }
+
+    public void setMaxReach(int maxReach) { this.maxReach = maxReach; }
 
     public Date getStartDate() {
         return startDate;
@@ -87,22 +102,25 @@ public class Contest {
         this.endDate = endDate;
     }
 
-    public List<Action> getActions() {
+    public Long getDuration() { return ChronoUnit.DAYS.between(endDate.toInstant(), startDate.toInstant()); }
+
+    public void setDuration(Long duration) { this.duration = duration; }
+
+    public Set<Action> getActions() {
         return actions;
     }
 
-    public void setActions(List<Action> actions) {
+    public void setActions(Set<Action> actions) {
         this.actions = actions;
     }
 
-    public List<Prize> getPrizes() {
+    public Set<Prize> getPrizes() {
         return prizes;
     }
 
-    public void setPrizes(List<Prize> prizes) {
+    public void setPrizes(Set<Prize> prizes) {
         this.prizes = prizes;
     }
-
 
 
 }

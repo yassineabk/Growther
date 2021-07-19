@@ -24,14 +24,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 import java.io.IOException;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    @Autowired
-    private DataSource dataSource;
 
     @Bean
     public UserDetailsService userDetailsService(){
@@ -40,9 +36,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private CutomOAuth2UserService cutomOAuth2UserService;
-
-    @Autowired
-    private OAuth2LoginSuccessHandler loginSuccessHandler;
 
 
     @Bean
@@ -74,15 +67,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                                                             Authentication authentication) throws IOException, ServletException {
                             System.out.println("AuthenticationSuccessHandler invoked");
                             System.out.println("Authentication name: " + authentication.getName());
-                            //CustomOAuth2User oauthUser = (CustomOAuth2User) authentication.getPrincipal();
                             Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
                             String userName = loggedInUser.getName();
                             CustomOAuth2User oAuth2User = (CustomOAuth2User) authentication.getPrincipal();
                             String provider= oAuth2User.getClientName();
                             String email= oAuth2User.getEmail();
                             userService.processOAuthPostLogin(userName,email,provider);
-
-                            response.sendRedirect("/api/users");
+                            request.setAttribute("name",userName);
+                            request.setAttribute("email",email);
+                            request.setAttribute("provider",provider);
+                            //response.sendRedirect("/api/users");
+                            request.getRequestDispatcher("/api/user").forward(request,response);
                         }
                     })
                 .and()
