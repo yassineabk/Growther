@@ -27,16 +27,19 @@ public class Contest {
     @OneToMany(mappedBy="contest", fetch = FetchType.EAGER)
     private Set<Prize> prizes;
 
-    public Contest(String name, String description, Date startDate, Date endDate, Set<Action> actions, Set<Prize> prizes) {
-        this.title = name;
+    public Contest(String title, String description, int winnersNbr, int actionsNbr, int maxReach, Date startDate, Date endDate, Long duration, Set<Action> actions, Set<Prize> prizes) {
+        this.title = title;
         this.description = description;
-        this.winnersNbr = prizes.size();
-        this.actionsNbr = actions.size();
+        this.winnersNbr = winnersNbr;
+        this.actionsNbr = actionsNbr;
+        this.maxReach = maxReach;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.duration = duration;
         this.actions = actions;
         this.prizes = prizes;
     }
+
 
     public Contest() {
 
