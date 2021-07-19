@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react"
-import { Contest_TextInput } from "../contest-input/contest-input.component";
+import { ContestInput } from "../contest-input/contest-input.component";
 export const PrizesInputs = ({dispatch, num, prizesHandler, label})=>{
     var result = []
     for(var i = 0; i < num; i++){
         result.push(
-            <Contest_TextInput 
+            <ContestInput 
                 type={"text"}
                 id={"prize"+i}
                 name={"prize"+i}

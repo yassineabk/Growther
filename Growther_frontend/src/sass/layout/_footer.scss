@@ -1,0 +1,98 @@
+.social-icon {
+    border: 3px solid #dadcdf;
+    border-radius: 50%;
+    color: #dadcdf !important;
+    width: 48px;
+    height: 48px;
+    display: block;
+    font-size: 16px;
+    line-height: 42px;
+    text-align: center;
+}
+
+.cta {
+    padding: 20px 0;
+}
+
+.social-icon:hover i {
+    transition: all 0.5s;
+}
+
+.footer-color {
+    padding: 50px 0;
+    background-color: #272a33;
+}
+
+.footer h4 {
+    color: #ffffff;
+}
+
+.footer-list li a {
+    color: #98a0aa;
+    padding-top: 8px;
+    display: inline-block;
+    font-size: 14px;
+    transition: all .3s ease-in-out;
+}
+
+.footer-list li a:hover {
+    color: #dce6f3;
+}
+
+.contact-title {
+    font-size: 20px;
+}
+
+.contact-detail {
+    padding-left: 25px;
+    font-size: 12px;
+}
+
+.subscribe {
+    position: relative;
+    width: 100%;
+    margin-top: 15px;
+    margin-bottom: 25px;
+}
+
+.subscribe input {
+    height: 40px;
+    background-color: #2e313a !important;
+    box-shadow: none !important;
+    border: none;
+    padding-right: 50px;
+    color: #fff !important;
+}
+
+.subscribe .submit {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 20px;
+    width: 50px;
+    line-height: 45px;
+    text-align: center;
+    color: #acacac !important;
+}
+
+.footer-alt-border {
+    background-color: #f5f5f5;
+    height: 1px;
+    width: 100%;
+}
+
+.footer-alt {
+    padding: 15px 0;
+    background-color: #2e313a;
+}
+
+.copy-rights {
+    margin-bottom: 0;
+    line-height: 36px;
+}
+
+.center-newsletter{
+    display: flex;
+    justify-content: center;
+
+}
