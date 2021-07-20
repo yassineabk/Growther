@@ -7,12 +7,12 @@ import { ContestActions } from "../contest-actions/contest-actions.component"
 import { ContestButton } from "../contest-buttons/contest-buttons.component"
 export const ContestSecondStep = ()=>{
     var dispatch = useDispatch()
-    var {actions, isValidData, isValidActions} = useSelector(state => state.contest)
+    var {actions, isValidData, isValidActions, validActions} = useSelector(state => state.contest)
     var location = useLocation()
     var history = useHistory()
     useEffect(()=>{
         CheckFirstStepData()
-    }, [dispatch])
+    }, [dispatch, isValidActions])
     var CheckFirstStepData = ()=>{
         NextStep(dispatch)
     }
@@ -26,11 +26,12 @@ export const ContestSecondStep = ()=>{
         RemoveAction(dispatch, provider)
     }
     var GoToThirdStep = ()=>{
-        if(isValidData === true){
+        if(isValidData && isValidActions){
             history.push("/dashboard/My Contests/new/thirdStep")
         }
     }
     var Save = ()=>{
+        SaveContest(dispatch)
         NextStep(dispatch)
         GoToThirdStep()
     }
@@ -45,6 +46,7 @@ export const ContestSecondStep = ()=>{
                     removeAction={(actionName)=> removeAction(actionName)}
                     updateAction={(actionName, key, value)=> updateAction(actionName, key, value)}
                     title={"Contest actions"}
+                    validActions={validActions ? validActions : undefined}
                 />
             </div>
             <div className="is-flex is-flex-direction-column">

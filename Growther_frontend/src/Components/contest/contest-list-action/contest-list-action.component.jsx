@@ -5,7 +5,7 @@ export const ListAction = ({element, addAction})=>{
             var actionsObj = {}
             element.actions.map(item =>{
                 actionsObj[item] = {
-                    actionUrl: "", points: 1
+                    link: "", points: 1
                 }
             })
             addAction({provider: element.provider, active: element.actions[0], actions: actionsObj, listOfActions: element.actions})

@@ -198,10 +198,11 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
                             if(typeof(item.actions[key]) === "object"){
                                 res.actions[key] = {}
                                 Object.keys(item.actions[key]).map(key2 =>{
-                                    if(key2 === "actionUrl" && item.actions[key][key2].length === 0){
+                                    res.actions[key][key2] = true
+                                    if(key2 === "link" && !UrlValidation(item.actions[key][key2])){
                                         res.actions[key][key2] = false
                                     }else if(key2 === "points" && item.actions[key][key2] < 1){
-                                        result.actions[key][key2] = false
+                                        res.actions[key][key2] = false
                                     }
                                 })
                             }
@@ -210,10 +211,23 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
                     }
                 })
             }
+            var isValidActions = ()=>{
+                var isValid = true;
+                for(var i = 0; i < result.length; i++){
+                    for(var item in result[i].actions){
+                        if(!result[i].actions[item].link || !result[i].actions[item].points){
+                            isValid = false;
+                            break;
+                        }
+                    }
+                   if(!isValid) break;
+                }
+                return isValid
+            }
             return {
                 ...state,
                 validActions: result,
-                isValidActions: result.length === 0
+                isValidActions: isValidActions()
             }
         case ContestTypes.RESET_VALIDATION:
             return {
@@ -229,4 +243,11 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
 
 }
 
+var UrlValidation = (url)=>{
+    var pattern = new RegExp(/^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$/)
+    if(!pattern.test(url)){
+        return false
+    }
+    return true
+}
 export default contestReducer;

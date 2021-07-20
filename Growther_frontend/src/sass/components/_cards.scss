@@ -1,57 +1,88 @@
 .card{
     background-color: #FFFFFF;
     position: relative;
-    padding: 10px;
     border: 1px solid $border-color;
-    border-radius: 20px;
+    border-radius: 20px !important;
     margin-top: 1.2rem;
     margin-right: 5px;
     margin-left: 5px;
+    padding: 0 !important;
     transition: all 0.5s;
+    max-width: calc(33.33% - 10px) !important;
+    min-width: calc(33.33% - 10px) !important;
+    @media only screen and (max-width: 1195px){
+      max-width: calc(50% - 10px) !important;
+      min-width: calc(50% - 10px) !important;
+    }
+    @media only screen and (max-width: 976px){
+      max-width: calc(100% - 10px) !important;
+      min-width: calc(100% - 10px) !important;
+    }
     > div{
-      margin: 2.5px 0;
       flex-grow: 1;
+      padding: 10px;
     }
-    img{
+    .left-side{
       flex: 1;
-      height: 200px;
-      width: inherit;
-      max-height: 200px;
-      border-radius: 10px;
-    }
-    .card-infos{
-      justify-content: space-between;
+      background-color: $sideBar-color;
+      color: white;
+      border-radius: 20px !important;
+      font-size: 28px;
+      padding: 10px 20px;
+      justify-content: space-around;
       align-items: center;
-      .card-title{
-        font-size: 18px;
-        font-weight: 500;
-      }
-      .card-date{
-        font-size: 12px;
-        font-weight: 400;
-      }
-    }
-    .card-buttons{
-      justify-content: space-between;
-      align-items: center;
+      font-family: Montserrat-Medium;
       > div{
-        flex: 1;
-        text-align: center;
-        padding: 5px;
-        cursor: pointer;
-        border-radius: 5px;
-        border: 2px solid $border-color;
-        font-size: 15px;
+        width: 100%;
       }
-      .details-button{
-        background-color: $button-color2;
-        color: $button-text1;
-        margin-right: 2.5px;
+      &.templateImg{
+        height: 100%;
+        img{
+          width: 100%;
+          height: auto;
+        }
       }
-      .duplicate-button{
-        background-color: $button-color1;
-        color: $button-text2;
-        margin-left: 2.5px;
+      .little-title{
+        font-size: 8px;
+      }
+    }
+    .right-side{
+      flex: 3;
+      .card-infos{
+        justify-content: space-between;
+        .card-title{
+          font-size: 18px;
+          font-weight: 500;
+        }
+        .card-description{
+          margin: 0.25em 0 0.5em 0;
+          font-size: 13px;
+          color: $container-border;
+          font-family: Montserrat-Medium;
+        }
+      }
+      .card-buttons{
+        justify-content: space-between;
+        align-items: center;
+        > div{
+          flex: 1;
+          text-align: center;
+          padding: 10px 15px;
+          cursor: pointer;
+          border-radius: 10px;
+          border: 2px solid $button-border1;
+          font-size: 15px;
+        }
+        .details-button{
+          background-color: $button-color2;
+          color: $button-text1;
+          margin-right: 2.5px;
+        }
+        .duplicate-button{
+          background-color: $button-color1;
+          color: $button-text2;
+          margin-left: 2.5px;
+        }
       }
     }
 }
