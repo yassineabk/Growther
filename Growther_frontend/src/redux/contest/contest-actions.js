@@ -1,5 +1,8 @@
 import { ContestTypes } from "./contest-types";
 
+export const InitState = (dispatch)=>{
+    dispatch({type: ContestTypes.SET_INITIAL_STATE})
+}
 export const StateChange = (dispatch, data)=>{
     dispatch({type: ContestTypes.SET_STATE, payload: data})
 }
@@ -26,4 +29,7 @@ export const SetDuration = (dispatch, type, value)=>{
 }
 export const NextStep = (dispatch)=>{
     dispatch({type: ContestTypes.CHECK_DATA})
+}
+export const SaveContest = (dispatch)=>{
+    dispatch({type: ContestTypes.CHECK_ACTIONS})
 }

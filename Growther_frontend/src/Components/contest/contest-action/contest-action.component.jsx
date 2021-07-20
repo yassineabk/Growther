@@ -8,10 +8,12 @@ export const ContestAction = ({data, removeAction, updateAction, url, points})=>
             <div className="actionTitle">{data.provider}</div>
             <div className="actionSelect">
                 <SelectInput 
-                data={
-                    Array.isArray(data.actions) ? data.actions : ["Like", "View", "Subscribe"]
+                    data={
+                        Array.isArray(data.listOfActions) ? data.listOfActions : []
                     }
-                changeHandler={(event)=> updateAction(data.provider, "action", event.target.value)}/>
+                    changeHandler={(event)=> updateAction(data.provider, "action", event.target.value)}
+                    value={data.active}
+                />
             </div>
             <div className="actionUrl">
                 <ContestInput
@@ -20,7 +22,7 @@ export const ContestAction = ({data, removeAction, updateAction, url, points})=>
                     name="actionUrl"
                     placeholder="Link here"
                     changeHandler={(event)=> updateAction(data.provider, "actionUrl", event.target.value)}
-                    value={url}
+                    value={data.actions[data.active] ? data.actions[data.active].actionUrl : ""}
                 />
             </div>
             <div className="actionPoints">
@@ -29,7 +31,7 @@ export const ContestAction = ({data, removeAction, updateAction, url, points})=>
                     id="actionPoints"
                     name="actionPoints"
                     placeholder="Points"
-                    value={points}
+                    value={data.actions[data.active] ? data.actions[data.active].points : 1}
                     min={1}
                     changeHandler={(event)=> updateAction(data.provider, "points", parseInt(event.target.value))}
                 />

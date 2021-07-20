@@ -22,4 +22,18 @@
         color: #272D3B;
         text-align: center;
     }
+    .copied{
+        background-color: rgba(39, 45, 59, 0.5);
+        color: white;
+        animation: copied 2000ms forwards alternate;
+        @keyframes copied {
+            from{
+                background-color: rgba(39, 45, 59, 0.5);
+                color: white;
+            }to{
+                background-color: transparent;
+                color: #272D3B;
+            }
+        }
+    }
 }
