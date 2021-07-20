@@ -1,86 +1,77 @@
 import React from "react"
 import { CardTitle } from "../card-title/card-title.component"
 import { CardComponent } from "../card/card.component"
-import { ShowMoreButton } from "../show-more/show-more.component"
 const test = [
-    <div className="column is-flex is-flex-direction-column card">
-        <img src={require("../../../assets/icons/datalist.jpg").default} />
-        <div className="card-infos is-flex is-flex-direction-row">
-            <div className="card-title">
-                {"Nothing"}
-            </div>
-            <div className="card-date">
-                {"xx days"}
-            </div>
-        </div>
-        <div className="card-buttons is-flex is-flex-direction-row">
-            <div className="details-button">Details</div>
-            <div className="duplicate-button">Duplicate</div>
-        </div>
-    </div>,
-    <div className="column is-flex is-flex-direction-column card">
-        <img src={require("../../../assets/icons/datalist.jpg").default} />
-        <div className="card-infos is-flex is-flex-direction-row">
-            <div className="card-title">
-                {"Nothing"}
-            </div>
-            <div className="card-date">
-                {"xx days"}
-            </div>
-        </div>
-        <div className="card-buttons is-flex is-flex-direction-row">
-            <div className="details-button">Details</div>
-            <div className="duplicate-button">Duplicate</div>
-        </div>
-    </div>,
-    <div className="column is-flex is-flex-direction-column card">
-        <img src={require("../../../assets/icons/datalist.jpg").default} />
-        <div className="card-infos is-flex is-flex-direction-row">
-            <div className="card-title">
-                {"Nothing"}
-            </div>
-            <div className="card-date">
-                {"xx days"}
-            </div>
-        </div>
-        <div className="card-buttons is-flex is-flex-direction-row">
-            <div className="details-button">Details</div>
-            <div className="duplicate-button">Duplicate</div>
-        </div>
-    </div>,
-    <div className="column is-flex is-flex-direction-column card">
-        <img src={require("../../../assets/icons/datalist.jpg").default} />
-        <div className="card-infos is-flex is-flex-direction-row">
-            <div className="card-title">
-                {"Nothing"}
-            </div>
-            <div className="card-date">
-                {"xx days"}
-            </div>
-        </div>
-        <div className="card-buttons is-flex is-flex-direction-row">
-            <div className="details-button">Details</div>
-            <div className="duplicate-button">Duplicate</div>
-        </div>
-    </div>
+    {
+        title: "Contest title",
+        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        views: 1000,
+        entries: 200,
+        date: "xxxx"
+    },
+    {
+        title: "Contest title",
+        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        views: 1000,
+        entries: 200,
+        date: "xxxx"
+    },
+    {
+        title: "Contest title",
+        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        views: 1000,
+        entries: 200,
+        date: "xxxx"
+    },
+    {
+        title: "Contest title",
+        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        views: 1000,
+        entries: 200,
+        date: "xxxx"
+    },
+    {
+        title: "Contest title",
+        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        views: 1000,
+        entries: 200,
+        date: "xxxx"
+    },
+    {
+        title: "Contest title",
+        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        views: 1000,
+        entries: 200,
+        date: "xxxx"
+    },
 ]
-export const CardsContainer = ({data, title})=>{
+export const CardsContainer = ({data, title, showMore, addNew})=>{
     return(
         <div className="is-flex is-flex-direction-column list-container">
-            <CardTitle title={title} />
+            <CardTitle title={title} addNew={addNew} showMore={showMore} />
             <div className="columns is-multiline is-flex is-flex-row cards">
                 {Array.isArray(data) ? data.map((element, index)=>{
                     return(
                         <CardComponent 
-                            img={element.img} 
                             title={element.title}
                             date={element.date}
-                            button={title}
+                            views={element.views}
+                            description={element.description}
+                            entries={element.entries}
                         />                    
                     )
-                }): test}
+                }): test.map((element, index)=>{
+                    return(
+                        <CardComponent 
+                            title={element.title}
+                            date={element.date}
+                            views={element.views}
+                            description={element.description}
+                            entries={element.entries}
+                        />                    
+                    )
+                })}
             </div>
-            <ShowMoreButton title={title} />
         </div>
     )
 }

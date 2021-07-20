@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React from "react"
 import { ContestInput } from "../contest-input/contest-input.component";
 export const PrizesInputs = ({dispatch, num, prizesHandler, label})=>{
     var result = []
