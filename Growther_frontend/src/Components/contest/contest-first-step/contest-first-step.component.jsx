@@ -1,7 +1,7 @@
-import React from "react"
-import {useDispatch, useSelector} from "react-redux"
+import React, { useEffect } from "react"
+import { useDispatch, useSelector } from "react-redux"
 import { useHistory, useLocation } from "react-router-dom"
-import { NextStep, PrizesChange, RemovePrize, SetDuration, StateChange, WinnersNumChange } from "../../../redux/contest/contest-actions"
+import { InitState, NextStep, PrizesChange, RemovePrize, SetDuration, StateChange, WinnersNumChange } from "../../../redux/contest/contest-actions"
 import { ContestButton } from "../contest-buttons/contest-buttons.component"
 import { ContestInput } from "../contest-input/contest-input.component"
 import { PrizesInputs } from "../prizes-inputs/prizes-inputs.component"
@@ -11,7 +11,11 @@ export const ContestFirstStep = ()=>{
     var location = useLocation()
     var history = useHistory()
     var {information, actions, isValidData, validData} = useSelector(state => state.contest)
-    
+    useEffect(()=>{
+        if(typeof(information) !== "object"){
+            InitState(dispatch)
+        }
+    })
     var changeHandler = (event)=>{
         var id = event.target.id
         console.log(id)
@@ -52,12 +56,16 @@ export const ContestFirstStep = ()=>{
         SetDuration(dispatch, event.target.value, information.duration.value)
     }
     var numWinnersHandler = (event)=>{
-        var newValue = event.target.value
-        var oldValue = information.winnersNbr
+        var newValue = parseInt(event.target.value)
+        var oldValue = parseInt(information.winnersNbr)
         if(oldValue > newValue){
-            RemovePrize(dispatch, "prize"+parseInt(oldValue-1), parseInt(newValue))
+            for(var i = newValue; i < oldValue; i++){
+                RemovePrize(dispatch, "prize"+i, newValue)
+            }
         }else{
-            WinnersNumChange(dispatch, "prize"+parseInt(newValue-1), parseInt(newValue))
+            for(var i = oldValue; i < newValue; i++){
+                WinnersNumChange(dispatch, "prize"+i, newValue)
+            }
         }
     }
     var prizesHandler = (event)=>{
@@ -85,7 +93,7 @@ export const ContestFirstStep = ()=>{
                         placeholder="Your title here"
                         label="Contest Title"
                         changeHandler={(event)=> changeHandler(event)}
-                        value={information.title}
+                        value={information ? information.title : ""}
                         validData={isValidData === false ? 
                             {
                                 isValid: validData.title,
@@ -98,7 +106,7 @@ export const ContestFirstStep = ()=>{
                         placeholder=""
                         label="Desctiption"
                         changeHandler={(event)=> changeHandler(event)}
-                        value={information.description}
+                        value={information ? information.description : ""}
                         validData={isValidData === false ? 
                             {
                                 isValid: validData.description,
@@ -113,7 +121,7 @@ export const ContestFirstStep = ()=>{
                         label="There will be"
                         changeHandler={(event)=> numWinnersHandler(event)}
                         min={1}
-                        value={information.winnersNbr}
+                        value={information ? information.winnersNbr : 1}
                         validData={isValidData === false ? 
                             {
                                 isValid: validData.winnersNbr,
@@ -129,7 +137,7 @@ export const ContestFirstStep = ()=>{
                         placeholder="dd-mm-yyyy"
                         label="Start date"
                         changeHandler={(event)=> dateHandler(event)}
-                        value={information.startDate}
+                        value={information ? information.startDate : ""}
                         validData={isValidData === false ? 
                             {
                                 isValid: validData.startDate,
@@ -144,7 +152,7 @@ export const ContestFirstStep = ()=>{
                         placeholder="dd-mm-yyyy"
                         label="End date"
                         changeHandler={(event)=> dateHandler(event)}
-                        value={information.endDate}
+                        value={information ? information.endDate : ""}
                         validData={isValidData === false ? 
                             {
                                 isValid: validData.endDate,
@@ -162,11 +170,12 @@ export const ContestFirstStep = ()=>{
                         child={[
                             <SelectInput 
                                 data={["days", "weeks", "months"]} 
-                                value={information.duration.type}
+                                value={information ? information.duration.type : "days"}
                                 changeHandler={(event)=> durationTypeHandler(event)}
                             />
                         ]}
-                        value={information.duration.value}
+                        min={1}
+                        value={information ? information.duration.value : 1}
                     />
                     <ContestInput 
                         type={"number"}
@@ -175,7 +184,8 @@ export const ContestFirstStep = ()=>{
                         placeholder="Number of participants"
                         label="Or stop when we reach"
                         changeHandler={(event)=> changeHandler(event)}
-                        value={information.maxParticipants}
+                        min={1}
+                        value={information ? information.maxParticipants : 0}
                     />
                 </div>
             </div>
@@ -184,7 +194,7 @@ export const ContestFirstStep = ()=>{
                 <PrizesInputs 
                     dispatch={dispatch} 
                     label={"Prizes"} 
-                    num={information.winnersNbr} 
+                    num={information ? information.winnersNbr : 1} 
                     prizesHandler={(event)=> prizesHandler(event)} 
                 />
             </div>
