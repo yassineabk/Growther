@@ -12,15 +12,11 @@
 }
 .App{
   min-height: 100vh;
-  &.bgcolor{
-    background-color: $bg-color;
-  }
 }
 .dashboard_Body{
   flex: 1;
   padding: 25px 50px 25px 130px;
   color: $big-text;
-  background-color: $bg-color;
   font-family: Montserrat-SemiBold;
   transition: all 0.5s;
   @media only screen and (max-width: 540px) {
@@ -42,8 +38,10 @@
 .list-container{
   padding: 20px 20px 25px 20px;
   background-color: #FFFFFF;
+  border: 2px solid $border-color;
   border-radius: 15px;
   box-shadow: 3px 3px 6px #272D3B33;
+  position: relative;
   &.recentContests{
     @media only screen and (max-width: 1408px){
       order: 1 !important;
@@ -55,18 +53,22 @@
     }
   }
   .list-title-container{
-    margin-bottom: 0.3em;
+    margin-bottom: 0.5em;
     width: 100%;
     .list-title{
       @extend .list-title;
+      flex: 1;
       margin-bottom: 0;
     }
     .addNew{
       font-size: 15px;
+      a{
+        background-color: $sideBar-color;
+        padding: 12px 20px;
+        border-radius: 25px;
+        color: white;
+      }
     }
-  }
-  .span{
-
   }
   ul{
     &.todolist{
@@ -121,7 +123,7 @@
     }
   }
   .arrow-button-container{
-    width: 100%;
+    margin-left: 0.25em;
     .arrow-button{
       a{
         display: flex;

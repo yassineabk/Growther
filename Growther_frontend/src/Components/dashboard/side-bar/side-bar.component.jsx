@@ -28,7 +28,10 @@ export const DashboradSideBar = ({profilePicture})=>{
                         <img alt="" src={require("../../../assets/icons/home.png").default}/>
                     </div>
                     <div onClick={()=>changeHandler("/dashboard/pie")} className={location.pathname === "/dashboard/pie" ? "sideBar_item active" : "sideBar_item"}>
-                        <img alt="" src={require("../../../assets/icons/pie-chart.png").default}/>
+                        <img alt="" src={require("../../../assets/icons/file.png").default}/>
+                    </div>
+                    <div onClick={()=>changeHandler("/dashboard/trophy")} className={location.pathname === "/dashboard/trophy" ? "sideBar_item active" : "sideBar_item"}>
+                        <img alt="" src={require("../../../assets/icons/trophy.png").default}/>
                     </div>
                     <div onClick={()=>changeHandler("/dashboard/settings")} className={location.pathname === "/dashboard/settings" ? "sideBar_item active" : "sideBar_item"}>
                         <img alt="" src={require("../../../assets/icons/settings.png").default}/>
@@ -36,7 +39,14 @@ export const DashboradSideBar = ({profilePicture})=>{
                 </div>
             </div>
             <div className="profile_picture is-flex is-flex-direction-column">
-                <img alt="" src={profilePicture ? profilePicture : require("../../../assets/icons/pdp.jpg").default} />
+                <div className="tail-buttons is-flex is-flex-direction-column is-justify-content-flex-end">
+                    <div className="tailButton">
+                        <img alt="" src={require("../../../assets/icons/headset.png").default} />
+                    </div>
+                    <div className="tailButton">
+                        <img alt="" src={require("../../../assets/icons/logout.png").default} />
+                    </div>
+                </div>
             </div>
         </div>
     )

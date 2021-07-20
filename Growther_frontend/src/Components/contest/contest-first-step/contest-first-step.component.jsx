@@ -15,7 +15,7 @@ export const ContestFirstStep = ()=>{
         if(typeof(information) !== "object"){
             InitState(dispatch)
         }
-    })
+    }, [dispatch, isValidData])
     var changeHandler = (event)=>{
         var id = event.target.id
         console.log(id)

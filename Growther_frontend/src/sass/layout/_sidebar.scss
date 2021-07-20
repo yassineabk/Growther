@@ -1,9 +1,26 @@
+.sideBar_item{  
+  flex: 1;   
+  width: 100%;
+  display: flex;  
+  flex-direction: column; 
+  align-items: center;
+  border: 3px transparent solid;
+  margin: 12% 0;
+  cursor: pointer;
+  transition: all 0.5s;
+  //padding-left: 7px;
+  &.active{
+    border-left: 3px white solid;
+    border-radius: 0 50% 50% 0;
+  }
+}
 .sideBar{
     position: fixed;
     width: -moz-fit-content;
     width: fit-content;
     width: 80px;
     height: 100vh;
+    background: linear-gradient(180deg, $sideBar-color, $sideBar-color2);
     background-color: $sideBar-color;
     padding: 15px 10px 15px 0;
     justify-content: space-between;
@@ -36,24 +53,12 @@
       .logo-container{
         justify-content: center;
         cursor: pointer;
+        margin-bottom: 20%;
         //padding-left: 10px;
       }
       .screens-buttons{
         .sideBar_item{  
-          flex: 1;   
-          width: 100%;
-          display: flex;  
-          flex-direction: column; 
-          align-items: center;
-          border-left: 3px $sideBar-color solid;
-          margin: 6px 0;
-          cursor: pointer;
-          transition: all 0.5s;
-          //padding-left: 7px;
-          &.active{
-            border-left: 3px white solid;
-            border-radius: 0 50% 50% 0;
-          }
+          @extend .sideBar_item
         }
       }
     }
@@ -61,8 +66,13 @@
       justify-content: flex-end;
       //padding-left: 10px;
       align-items: center;
-      img{
-        border-radius: 100%;
+      .tail-buttons{
+        justify-content: center;
+        align-items: center;
+        .tailButton{
+          @extend .sideBar_item;
+          width: 100%;
+        }
       }
     }
   }

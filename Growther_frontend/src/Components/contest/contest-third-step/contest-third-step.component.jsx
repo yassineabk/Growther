@@ -3,7 +3,7 @@ import { useSelector } from "react-redux"
 import { useLocation } from "react-router"
 import { Redirect } from "react-router-dom"
 export const ContestThirdStep = () =>{
-    var {isValidData} = useSelector(state => state.contest)
+    var {isValidData, isValidActions} = useSelector(state => state.contest)
     var location = useLocation()
     var copyClipoard = ()=>{
         navigator.clipboard.writeText("https://www.did.com/contestId")
@@ -13,6 +13,7 @@ export const ContestThirdStep = () =>{
         }, 2000)
     }
     if(location.pathname !== "/dashboard/My Contests/new/thirdStep") return null
+    if(isValidActions === false) return <Redirect  to="/dashboard/My Contests/new/secondStep"/>
     if(isValidData === false) return <Redirect  to="/dashboard/My Contests/new/firstStep"/>
     return(
         <div className="savedContest is-flex is-flex-direction-column is-justify-content-center is-align-items-center">
