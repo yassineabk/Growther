@@ -18,11 +18,16 @@ const INITIAL_STATE={
     },
     actions: [],
     validData: {},
-    isValidData: false
+    isValidData: false,
+    validActions: [],
+    isValidActions: false,
 }
 
 const contestReducer=(state=INITIAL_STATE,action)=>{
     switch (action.type) {
+        case ContestTypes.SET_INITIAL_STATE:{
+            return INITIAL_STATE
+        }
         case ContestTypes.SET_STATE:
             return {
                 ...state,
@@ -106,10 +111,24 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
                 ...state,
                 actions: state.actions.map((item, index)=>{
                     if(item.provider === action.payload.provider){
-                        return {
-                            ...item,
-                            [action.payload.key]: action.payload.value
+                        if(action.payload.key === "action"){
+                            return {
+                                ...item,
+                                active: action.payload.value
+                            }
+                        }else{
+                            return {
+                                ...item,
+                                actions: {
+                                    ...item.actions,
+                                    [item.active]: {
+                                        ...item.actions[item.active],
+                                        [action.payload.key]: action.payload.value
+                                    }
+                                }
+                            }
                         }
+                        
                     }
                     return {
                         ...item
@@ -168,6 +187,33 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
                 ...state,
                 validData: result,
                 isValidData: Object.keys(result).length === 0
+            }
+        case ContestTypes.CHECK_ACTIONS:
+            var result = []
+            if(Array.isArray(state.actions)){
+                state.actions.map(item =>{
+                    if(typeof(item) === "object" &&  typeof(item.actions) === "object"){
+                        var res = {provider: item.provider, actions: {}}
+                        Object.keys(item.actions).map(key=>{
+                            if(typeof(item.actions[key]) === "object"){
+                                res.actions[key] = {}
+                                Object.keys(item.actions[key]).map(key2 =>{
+                                    if(key2 === "actionUrl" && item.actions[key][key2].length === 0){
+                                        res.actions[key][key2] = false
+                                    }else if(key2 === "points" && item.actions[key][key2] < 1){
+                                        result.actions[key][key2] = false
+                                    }
+                                })
+                            }
+                        })
+                        result = [...result, res]
+                    }
+                })
+            }
+            return {
+                ...state,
+                validActions: result,
+                isValidActions: result.length === 0
             }
         case ContestTypes.RESET_VALIDATION:
             return {
