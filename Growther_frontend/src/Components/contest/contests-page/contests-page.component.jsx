@@ -5,6 +5,10 @@ export const DashboardContestPage = ({contests}) =>{
         //GET Data from API
     })
     return(
-        <CardsContainer data={contests} title={"My Contests"} />
+        <div className="is-flex is-flex-direction-column column is-full">
+            <div className="mb-4">
+                <CardsContainer data={contests} title={"My Contests"} addNew={"/dashboard/My%20Contests/new/firstStep"} />
+            </div>
+        </div>
     )
 }

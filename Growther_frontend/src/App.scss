@@ -19,13 +19,43 @@
   color: $big-text;
   font-family: Montserrat-SemiBold;
   transition: all 0.5s;
+  @media only screen and (max-width: 810px) {
+    padding: 25px 20px 25px 20px;
+  }
   @media only screen and (max-width: 540px) {
     padding: 25px 15px 25px 15px;
+  }
+  @media only screen and (max-width: 400px) {
+    padding: 25px 5px !important;
+  }
+  @media only screen and (max-width: 360px) {
+    padding: 25px 0px !important;
   }
   .big_title{
     font-size: 30px;
     font-weight: bold;
     font-family: Montserrat-Bold;
+    align-items: center;
+    justify-content: space-between;
+    @media only screen and (max-width: 400px) {
+      padding: 0px 15px !important;
+    }
+    @media only screen and (max-width: 359px) {
+      padding: 0px 15px !important;
+    }
+    .burgerIcon{
+      display: none;
+      @media only screen and (max-width: 810px) {
+        display: flex;
+        width: 29px;
+        max-width: 29px;
+        height: auto;
+        margin-right: 5px;
+      }
+      @media only screen and (max-width: 359px) {
+        margin-right: 25px;
+      }
+    }
   }
 }
 .column.recentContests{
@@ -42,19 +72,19 @@
   border-radius: 15px;
   box-shadow: 3px 3px 6px #272D3B33;
   position: relative;
-  &.recentContests{
-    @media only screen and (max-width: 1408px){
-      order: 1 !important;
-    }
-  }
-  &{
-    @media only screen and (max-width: 1408px){
-      order: 2 !important;
-    }
+  @media only screen and (max-width: 375px) {
+    border-radius: 0px;
   }
   .list-title-container{
     margin-bottom: 0.5em;
     width: 100%;
+    
+    #addNewButton{
+        display: none !important;
+        @media only screen and (max-width: 375px) {
+          display: flex !important;
+        }
+    }
     .list-title{
       @extend .list-title;
       flex: 1;
@@ -67,6 +97,10 @@
         padding: 12px 20px;
         border-radius: 25px;
         color: white;
+      }
+      display: flex !important;
+      @media only screen and (max-width: 375px) {
+        display: none !important;
       }
     }
   }
@@ -140,44 +174,54 @@
     }
   }
   &.newContest{
-    @media only screen and (max-width: 1023px){
-      flex-direction: column-reverse;
-    }
-    .actionsContainer{
-      flex: 1.05;
-      .contestButtons{
-        .buttonContainer{
-          @extend .button_container;
-        }
-      }
-    }
-    .newContestFrom{
+    padding: 0 !important;
+    margin-top: 0.5em;
+    flex: 1;
+    .bottomContainer{
       flex: 1;
-      .mainInfos, .prizes, .contestButtons{
-        padding: 10px;
-        flex: 1;
-        flex-wrap: wrap;
-        .textInputs, .otherInputs{
-          @extend .input;
-          flex-wrap: wrap;
-        }
-        .buttonContainer{
-          @extend .button_container;
+      flex-direction: row;
+      @media only screen and (max-width: 1279px){
+        flex-direction: column-reverse;
+      }
+      .actionsContainer{
+        flex: 1 !important;
+        .contestButtons{
+          .buttonContainer{
+            @extend .button_container;
+            margin-bottom: 0.25em !important;
+            margin-top: 0.25em;
+          }
         }
       }
-      .prizes{
-        margin-top: 0.25em;
-        label{
-          font-size: 14px;
+      .newContestFrom{
+        flex: 1;
+        .mainInfos, .prizes, .contestButtons{
+          padding: 10px;
+          flex: 1;
+          flex-wrap: wrap !important;
+          .textInputs, .otherInputs{
+            @extend .input;
+            flex-wrap: wrap;
+          }
+          .buttonContainer{
+            @extend .button_container;
+          }
         }
-        .textInputs, .otherInputs{
-          .contest_input, .input_container{
-            flex: 1;
-            margin: 0px 0.5em 0px 0px;
+        .prizes{
+          margin-top: 0.25em;
+          label{
+            font-size: 14px;
+          }
+          .textInputs, .otherInputs{
+            .contest_input, .input_container{
+              flex: 1;
+              margin: 0px 0.5em 0px 0px;
+            }
           }
         }
       }
     }
+    
   }
 }
 .articles, .cardsContainer{

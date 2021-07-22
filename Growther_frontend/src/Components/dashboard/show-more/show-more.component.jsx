@@ -1,12 +1,12 @@
 import React from "react"
 import { Link } from "react-router-dom"
-export const ShowMoreButton = ({showMore})=>{
+export const ShowMoreButton = ({showMore, icon, id})=>{
     if(!showMore) return null
     return(
-        <div className="arrow-button-container is-flex is-justify-content-flex-end">
+        <div id={id ? id : ""} className="arrow-button-container is-flex is-justify-content-flex-end">
             <div className="arrow-button">
                 <Link to={showMore} >
-                    <img src={require("../../../assets/icons/right-arrow.png").default}/>
+                    <img src={icon ? icon : ""}/>
                 </Link>
             </div>
         </div>

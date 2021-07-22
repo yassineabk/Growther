@@ -9,7 +9,8 @@ export const CardTitle = ({title, addNew, showMore})=>{
                 {addNew ? <div className="addNew">
                     <Link to={addNew}>+ Add New</Link>
                 </div> : null}
-                <ShowMoreButton showMore={showMore} />
+                <ShowMoreButton id="addNewButton" showMore={addNew} icon={require("../../../assets/icons/plus.png").default} />
+                <ShowMoreButton showMore={showMore} icon={require("../../../assets/icons/right-arrow.png").default} />
             </div>
         </div>
     )

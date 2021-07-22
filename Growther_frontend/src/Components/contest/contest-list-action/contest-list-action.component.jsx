@@ -1,4 +1,5 @@
 import React from "react"
+import { ActionIcon } from "../actions-icons/actions-icons.component"
 export const ListAction = ({element, addAction})=>{
     var newAction = ()=>{
         if(Array.isArray(element.actions)){
@@ -16,6 +17,7 @@ export const ListAction = ({element, addAction})=>{
             onClick={()=> newAction()} 
             id={element.provider.toLowerCase()} 
             className="actionsListItem is-flex is-justify-content-center is-align-items-center">
+            <ActionIcon provider={element.provider} />
             <div>{element.provider}</div>
         </div>
     )
