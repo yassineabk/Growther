@@ -27,7 +27,7 @@ export const ContestSecondStep = ()=>{
     }
     var GoToThirdStep = ()=>{
         if(isValidData && isValidActions){
-            history.push("/dashboard/My Contests/new/thirdStep")
+            return history.push("/dashboard/My Contests/new/thirdStep")
         }
     }
     var Save = ()=>{
@@ -57,7 +57,7 @@ export const ContestSecondStep = ()=>{
                         {provider: "Facebook", actions:["Like", "Follow", "Comment"]},
                         {provider: "Instagram", actions:["Like", "Follow", "Comment"]},  
                         {provider: "Twitter", actions: ["Like", "Follow", "Comment"]} ,
-                        {provider: "Pintrest", actions: ["Like", "Follow", "Comment"]} ,
+                        {provider: "Pinterest", actions: ["Like", "Follow", "Comment"]} ,
                         {provider: "Twitch", actions: ["Like", "Follow", "Comment"]}
                     ]} 
                     addAction={(action)=> addAction(action)} 
@@ -65,9 +65,16 @@ export const ContestSecondStep = ()=>{
                 />
             </div>
             <div className="contestButtons is-flex is-flex-direction-row is-justify-content-flex-end">
-                <ContestButton color={"#FF7171"} text={"Save as draft"} />
                 <ContestButton 
-                    color={"#0880AE"} 
+                    color={"#5E2691"} 
+                    bgColor={"#FFFFFF"}
+                    borderColor={"#5E2691"}
+                    text={"Save as draft"}
+                />
+                <ContestButton  
+                    color={"#FFFFFF"}
+                    bgColor={"#5E2691"} 
+                    borderColor={"#5E2691"}
                     text={"Save"} 
                     clickEvent={(event)=> Save()} />
             </div>

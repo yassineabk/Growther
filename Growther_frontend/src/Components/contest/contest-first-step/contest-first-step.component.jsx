@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { useHistory, useLocation } from "react-router-dom"
 import { InitState, NextStep, PrizesChange, RemovePrize, SetDuration, StateChange, WinnersNumChange } from "../../../redux/contest/contest-actions"
 import { ContestButton } from "../contest-buttons/contest-buttons.component"
+import { ContestDescription } from "../contest-description-input/contest-description-input.component"
 import { ContestInput } from "../contest-input/contest-input.component"
 import { PrizesInputs } from "../prizes-inputs/prizes-inputs.component"
 import { SelectInput } from "../select-input/select-input.component"
@@ -100,10 +101,10 @@ export const ContestFirstStep = ()=>{
                                 message: "Please, Enter the title of your contest"
                             } : undefined}
                     />
-                    <ContestInput 
+                    <ContestDescription 
                         id="description"
                         name="description"
-                        placeholder=""
+                        placeholder="Description Here"
                         label="Desctiption"
                         changeHandler={(event)=> changeHandler(event)}
                         value={information ? information.description : ""}
@@ -199,9 +200,15 @@ export const ContestFirstStep = ()=>{
                 />
             </div>
             <div className="contestButtons is-flex is-flex-direction-row is-justify-content-flex-end">
-                <ContestButton color={"#FF7171"} text={"Save as draft"} />
                 <ContestButton 
-                    color={"#0880AE"} 
+                    color={"#5E2691"} 
+                    bgColor={"#FFFFFF"}
+                    borderColor={"#5E2691"}
+                    text={"Save as draft"} />
+                <ContestButton 
+                    color={"#FFFFFF"}
+                    bgColor={"#5E2691"} 
+                    borderColor={"#5E2691"}
                     text={"Next"} 
                     clickEvent={()=> nextStep()}
                 />

@@ -1,7 +1,9 @@
 import React from "react"
+import { useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 
-export const DashboradSideBar = ({profilePicture})=>{
+export const DashboradSideBar = ({activePage})=>{
+    var {activePage} = useSelector(state => state.contest)
     var homeLocations = [
         "/dashboard", 
         "/dashboard/My Contests", 
@@ -15,10 +17,11 @@ export const DashboradSideBar = ({profilePicture})=>{
     var history = useHistory()
     var location = useLocation()
     var changeHandler = (path)=>{
+        if(path === "/dashboard") return history.push(activePage && typeof(activePage) === "string" ? activePage : path)
         history.push(path)
     }
     return(
-        <div className="sideBar is-flex-tablet is-flex-direction-column">
+        <div id="sideBar" className="sideBar">
             <div className="sideBar_Items is-flex is-flex-direction-column">
                 <div onClick={()=> changeHandler("/")} className="is-flex logo-container">
                     <img alt="" src={require("../../../assets/icons/logo.png").default}/>
