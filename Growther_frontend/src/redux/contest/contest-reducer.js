@@ -21,8 +21,8 @@ const INITIAL_STATE={
     isValidData: false,
     validActions: [],
     isValidActions: false,
+    activePage: "/dashboard/My Contests/new/firstStep"
 }
-
 const contestReducer=(state=INITIAL_STATE,action)=>{
     switch (action.type) {
         case ContestTypes.SET_INITIAL_STATE:{
@@ -162,7 +162,7 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
                             var dateStart = new Date(data.startDate)
                             var dateEnd = new Date(data.endDate)
                             var currentDate = new Date()
-                            if(dateStart > dateEnd || dateStart < currentDate){
+                            if(dateStart >= dateEnd || dateStart < currentDate){
                                 result["startDate"] = false
                             }
                         }
@@ -174,7 +174,7 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
                             var dateStart = new Date(data.startDate)
                             var dateEnd = new Date(data.endDate)
                             var currentDate = new Date()
-                            if(dateStart > dateEnd || dateEnd < currentDate){
+                            if(dateStart >= dateEnd || dateEnd < currentDate){
                                 result["endDate"] = false
                             }
                         }
@@ -186,7 +186,8 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
             return{
                 ...state,
                 validData: result,
-                isValidData: Object.keys(result).length === 0
+                isValidData: Object.keys(result).length === 0,
+                activePage: Object.keys(result).length === 0 ? "/dashboard/My Contests/new/secondStep" : state.activePage
             }
         case ContestTypes.CHECK_ACTIONS:
             var result = []
@@ -222,12 +223,14 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
                     }
                    if(!isValid) break;
                 }
+                if(!isValid) alert("Please, Check the data you entred")
                 return isValid
             }
             return {
                 ...state,
                 validActions: result,
-                isValidActions: isValidActions()
+                isValidActions: isValidActions(),
+                activePage: isValidActions() === 0 ? "/dashboard/My Contests/new/thirdStep" : state.activePage
             }
         case ContestTypes.RESET_VALIDATION:
             return {

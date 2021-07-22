@@ -2,7 +2,6 @@ import React from "react"
 import { ContestInput } from "../contest-input/contest-input.component"
 import { SelectInput } from "../select-input/select-input.component"
 export const ContestAction = ({data, removeAction, updateAction, validAction})=>{
-    console.log(data)
     if(typeof(data) !== "object") return null
     return(
         <div className="contestAction is-flex is-flex-direction-row">

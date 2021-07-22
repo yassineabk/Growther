@@ -2,6 +2,7 @@
     flex: 1;
     padding: 10px;
     color: #2B2637;
+    justify-content: space-between;
     .containerTitle{
         font-size: 20px;
         margin-top: 0.25em;
@@ -49,12 +50,11 @@
             .actionPoints{
                 .contest_input{
                     input{
-                        min-width: 100px;
-                        max-width: 100px;
+                        max-width: 150px !important; 
+                        min-width: 150px !important;
                         @media only screen and (max-width: 745px) {
-                            min-width: none;
-                            max-width: none;
-                            width: 100% !important;
+                            max-width: 100% !important; 
+                            min-width: 100% !important;
                         }
                     }
                 }
@@ -62,20 +62,22 @@
                     flex-grow: 0;
                 }
                 @media only screen and (max-width: 745px) {
-                    flex: 0 0 50%;
-                    order: 3;
+                    flex: 0 0 calc(100% - 0.25em);
+                    //order: 3;
                 }
             }
             .actionUrl{
+                flex: 2;
                 @media only screen and (max-width: 867px) {
                     flex-grow: 4;
                 }
                 @media only screen and (max-width: 745px) {
                     flex: 0 0 calc(100% - 0.25em);
-                    order: 4;
+                    //order: 4;
                 }
             }
             .actionSelect{
+                flex: 1;
                 .selectForm{
                     margin-top: 0px !important;
                     width: auto;
@@ -84,9 +86,9 @@
                     flex-grow: 0;
                 }
                 @media only screen and (max-width: 745px) {
-                    flex: 0 0 50%;
+                    flex: 0 0 calc(100% - 0.25em);
                     margin-left: 0.25em;
-                    order: 2;
+                    //order: 2;
                     max-width: none;
                     min-width: none;
                 }
@@ -112,12 +114,20 @@
         align-items: flex-end;
         .actionsListItem{
             font-size: 13px;
-            max-width: 104.01px;
-            padding: 10px 15px;
+            //max-width: 104.01px;
+            padding: 7px 15px;
             margin: 0.25em;
             border-radius: 25px;
             color: white;
             cursor: pointer;
+            font-family: Montserrat-Medium;
+            .actionIcon{
+                margin-right: 0.5em;
+                img{
+                    width: 18px;
+                    height: auto;
+                }
+            }
             &#youtube{
                 background-color: $youtube;
             }
@@ -133,7 +143,7 @@
             &#twitter{
                 background-color: $twitter;
             }
-            &#pintrest{
+            &#pinterest{
                 background-color: $pintrest;
             }
         }

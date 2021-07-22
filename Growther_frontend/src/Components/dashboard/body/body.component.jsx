@@ -5,10 +5,16 @@ import { DashboardHomePage } from "../home-page/home-page.component"
 import { NewContest } from "../../contest/new-contest/new-contest.component"
 import { DashboardTemplatesPage } from "../templates-page/templates-page.component"
 export const DashboardBody = ({contests, templates, todo, recent, brandname, currentUser}) =>{
+    var showSideBar = ()=>{
+        document.getElementById("sideBar").classList.toggle("showSideBar")
+    }
     return(
         <div className="columns is-multiline is-variable is-1-tablet is-2-desktop dashboard_Body">
-            <div className="column is-full big_title">
-                Dashboard
+            <div className="column is-full big_title is-flex is-flex-direction-row">
+                <div>Dashboard</div>
+                <div onClick={()=> showSideBar()} className="burgerIcon">
+                    <img src={require("../../../assets/icons/burger.png").default} />
+                </div>
             </div>
             <Switch>
                 <Route exact path='/dashboard' render={()=> currentUser ? (<Redirect to='/'/>) : (

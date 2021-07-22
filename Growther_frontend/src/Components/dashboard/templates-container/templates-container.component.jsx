@@ -7,8 +7,8 @@ export const TemplatesContainer = ()=>{
                     Templates
                 </span>
             </div>
-            <div className="columns is-multiline is-flex is-flex-row cards">
-                <div className="card column is-flex is-flex-direction-row">
+            <div className="columns is-multiline is-flex is-flex-direction-row cards">
+                <div className="card column is-flex">
                     <div className="templateImg left-side is-flex">
                         <img src={require("../../../assets/icons/email.png").default} />
                     </div>
@@ -27,7 +27,7 @@ export const TemplatesContainer = ()=>{
                         </div>
                     </div>
                 </div>
-                <div className="card column is-flex is-flex-direction-row">
+                <div className="card column is-flex">
                     <div className="templateImg left-side is-flex">
                         <img src={require("../../../assets/icons/friends.png").default} />
                     </div>
@@ -46,11 +46,9 @@ export const TemplatesContainer = ()=>{
                         </div>
                     </div>
                 </div>
-                <div className="card column is-flex is-flex-direction-row">
+                <div className="card column is-flex">
                     <div className="templateImg left-side is-flex">
-                        <div>
-                            <img src={require("../../../assets/icons/google-play.png").default} />
-                        </div>
+                        <img src={require("../../../assets/icons/google-play.png").default} />
                     </div>
                     <div className="right-side">
                         <div className="card-infos is-flex is-flex-direction-column">
