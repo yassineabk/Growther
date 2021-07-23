@@ -4,8 +4,8 @@
     background-color: $sideBar-color;
     border-radius: 15px 15px 0 0;
     flex-wrap: wrap;
-    @media only screen and (max-width: 375px) {
-        border-radius: 0px;
+    @media only screen and (max-width: 376px) {
+        border-radius: 0px !important;
     }
     .NewContestTab{
         flex: 1;

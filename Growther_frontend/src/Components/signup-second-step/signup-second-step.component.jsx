@@ -8,7 +8,6 @@ import TextAreaInput from '../text-area-input/text-area-input.component';
 
 const SingupSecondStep=({handleChange,handleSubmit,BrandFunctions,IndividualFunctions,isBrand,individual,brand})=>{
     return(
-
         <section className="hero is-fullheight Modal">
                 <div className="hero-body ">
                     <div className="container ">
@@ -44,7 +43,7 @@ const SingupSecondStep=({handleChange,handleSubmit,BrandFunctions,IndividualFunc
                                 </div>
                             )
                         }
-                        <SubmitButton className="" type="submit" label="Done"/>
+                        <SubmitButton id="submitButton" className="" type="submit" label="Done"/>
                         </form>
                         </div>
                     </div>

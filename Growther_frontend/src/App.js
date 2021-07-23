@@ -36,7 +36,7 @@ class App extends React.Component {
     return (
       <div className={this.state.currentPath.includes("dashboard") ? "App bgcolor" : "App"}>
         <Switch>
-          <Route exact path='/landing-page' render={()=>this.props.currentUser ? (<Redirect to='/'/>) : (<LandingPage/>) } />
+          <Route exact path='/landing-page' render={()=>this.props.currentUser ? (<Redirect to='/'/>) : (<LandingPage />) } />
           <Route exact path='/login' render={()=>this.props.currentUser ? (<Redirect to='/'/>) : (<LoginPage/>) } />
           <Route exact path='/signup' render={()=>this.props.currentUser ? (<Redirect to='/'/>) : (<SignUpPage/>) } />
           <Route exact path='/dashboard/pie' render={()=> this.props.currentUser ? (<Redirect to='/'/>) : (<Dashboard currentUser={this.props.currentUser} />) } />

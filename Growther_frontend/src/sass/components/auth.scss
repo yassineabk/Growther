@@ -40,14 +40,48 @@
             background-color: unset !important;
         }
         &.details-button{
-            background-color: $button-color2;
-            color: $button-text1;
+            border: 2px solid $button-border1 !important;
+            background-color: $button-color2 !important;
+            color: $button-text1 !important;
             margin-right: 2.5px;
+            &:hover{
+                background-color: $button-color2 !important;
+            }
           }
         &.duplicate-button{
-            background-color: $button-color1;
-            color: $button-text2;
+            border: 2px solid $button-border1 !important;
+            background-color: $button-color1 !important;
+            color: $button-text2 !important;
             margin-left: 2.5px;
+            &:hover{
+                background-color: $button-color1 !important;
+            }
           }
+    }
+}
+.userTypeContainer{
+    flex-direction: row;
+    justify-content: space-evenly;
+    > div{
+        flex: 1;
+        margin: 0 0.25em;
+        color: black;
+        text-align: center;
+        font-size: 18px;
+        > div{
+            margin: 0.25em 0;
+        }
+        .typeIcon{
+            border-radius: 15px;
+            background-color: $sideBar-color;
+            padding: 30px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            img{
+                width: 100px;
+                height: auto;
+            }
+        }
     }
 }
