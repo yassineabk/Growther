@@ -1,4 +1,4 @@
-import loginTypes from './login.types'
+import {loginTypes} from './login.types'
 let user = JSON.parse(localStorage.getItem('user'));
 const initialState = user ? { loggedIn: true, user } : {};
 
