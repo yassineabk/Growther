@@ -2,9 +2,7 @@ import {combineReducers} from 'redux'
 import {persistReducer} from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import contestReducer from './contest/contest-reducer'
-import userReducer from './user/user.reducer'
-import { registrationReducer } from './registration/registration.reducers'
-import { loginReducer } from './login/login.reducers'
+import { authReducer } from './auth/auth.reducers'
 
 const persistConfig={
     key:'root',
@@ -12,10 +10,8 @@ const persistConfig={
 }
 
 const rootReducer=combineReducers({
-    user:userReducer,
     contest: contestReducer,
-    login:loginReducer,
-    registration:registrationReducer
+    auth:authReducer,
 })
 
 

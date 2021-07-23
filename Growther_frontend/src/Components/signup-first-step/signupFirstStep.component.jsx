@@ -22,7 +22,7 @@ const SingupFirstStep=({handleSubmit,SignUpWithGoogle,SignUpWithFacebook,passwor
                         <EmailInput handleBlur={emailFunctions.handleEmailBlur} handleChange={emailFunctions.handleEmailChange} label="Email" isError={email.isEmailError} message={email.EmailMessage} placeholder="Enter Your email"/>
                         <PasswordInput handleChange={passwordFunctions.handlePasswordChange}  label="Password" isError={password.isPasswordError} message={password.PasswordMessage} placeholder="Enter your password"/>
                         <PasswordInput handleBlur={passwordFunctions.handlePasswordConfirmationBlur}  label="Confirm Password" isError={password.isPasswordConfirmationMessage} message={password.PasswordConfirmationMessage} placeholder="confirm your password"/>
-                        <label class="checkbox mb-2"><input type="checkbox" required />  I agree to the <Link to="/terms">terms and conditions</Link></label>
+                        <label className="checkbox mb-2"><input type="checkbox" required />  I agree to the <Link to="/terms">terms and conditions</Link></label>
                         <SubmitButton type="submit" label="Sign Up"/>
                         <SocialMediaButton onClick={SignUpWithGoogle} isGoogle label="Sign Up with Google"/>
                         <SocialMediaButton onClick={SignUpWithFacebook} label="Sign Up with Facebook"/>

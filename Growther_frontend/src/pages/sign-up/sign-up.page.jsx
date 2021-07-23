@@ -1,10 +1,8 @@
 import React from 'react';
-import EmailInput from '../../Components/email-input/email-input.component';
-import PasswordInput from '../../Components/password-input/password-input.component';
-import SubmitButton from '../../Components/submit-button/submit-button.component';
-import SocialMediaButton from '../../Components/social-media-button/social-media-button.component';
+import { connect } from 'react-redux';
 import SingupFirstStep from '../../Components/signup-first-step/signupFirstStep.component';
 import SingupSecondStep from '../../Components/signup-second-step/signup-second-step.component';
+import {registerWithEmailAndPassword} from '../../redux/auth/auth.actions'
 
 class SignUpPage extends React.Component{
     constructor(){
@@ -58,10 +56,16 @@ class SignUpPage extends React.Component{
     }
     handleSubmitSecondStep=async e=>{
       e.preventDefault();
-      console.log(e)
-      console.log(this.state)
-      console.log("done")
-  }
+  
+      const user={
+        email:this.state.email.email,
+        password:this.state.password.password,
+        name:this.state.brand.name,
+        url:this.state.brand.url
+      }
+      this.props.registerWithEmailAndPassword(user)
+      console.log("hhhhh")
+    }
     SignUpWithGoogle=async e=>{
       console.log("Google")
       this.setState(prev=>({
@@ -390,4 +394,16 @@ class SignUpPage extends React.Component{
 
 }
 
-export default SignUpPage;
+
+function mapStateToProps(state) {
+    const { auth } = state
+    return {currentUser : auth.currentUser}
+}
+
+
+const mapStatsToDispatch=dispatch =>({
+  registerWithEmailAndPassword : ()=>dispatch(registerWithEmailAndPassword())
+})
+
+
+export default connect(mapStateToProps,mapStatsToDispatch)(SignUpPage);

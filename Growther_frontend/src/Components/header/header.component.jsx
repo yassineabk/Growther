@@ -2,7 +2,6 @@ import React from 'react'
 import {Link, useLocation} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {createStructuredSelector} from 'reselect'
-import {selectCurrentUser} from '../../redux/user/user.selectors'
 
 
 
@@ -56,9 +55,9 @@ const Header=({currentUser})=>{
         
 )}
 
-const mapStateToProps=createStructuredSelector({
-    currentUser:selectCurrentUser,
-})
-
+function mapStateToProps(state) {
+    const { auth } = state
+    return {currentUser : auth.currentUser}
+}
 export default connect(mapStateToProps)(Header);
 

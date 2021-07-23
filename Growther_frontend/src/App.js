@@ -4,8 +4,6 @@ import './App.scss';
 import {Switch, Route, Redirect, useParams} from 'react-router-dom'
 import Header from './Components/header/header.component'
 import {connect} from 'react-redux'
-import {setCurrentUser} from  './redux/user/user.actions'
-import {selectCurrentUser} from './redux/user/user.selectors'
 import {createStructuredSelector} from 'reselect'
 import SignUpPage from './pages/sign-up/sign-up.page';
 import LoginPage from './pages/login/login.page';
@@ -52,11 +50,9 @@ class App extends React.Component {
 
 
 const mapStateToProps=createStructuredSelector({
-  currentUser:selectCurrentUser
 })
 
 const mapDispatcToProps=dispatch=>({
-   setCurrentUser: user=>dispatch(setCurrentUser(user))
 })
 
 export default connect(mapStateToProps,mapDispatcToProps)(App);

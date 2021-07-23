@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const USERS_REST_API_URL = 'http://localhost:8080/api/users';
+const USERS_REST_API_URL = 'https://staging-backendapp.herokuapp.com/';
 
 export const userService = {
     loginWithEmailAndPassword,
@@ -18,14 +18,14 @@ function loginWithGoogle(){
 
 }
 
-function loginWithEmailAndPassword(mail, password) {
+function loginWithEmailAndPassword(user) {
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ mail, password })
+        body: JSON.stringify(user)
     };
 
-    return fetch(`${USERS_REST_API_URL}/users/authenticate`, requestOptions)
+    return fetch(`${USERS_REST_API_URL}/authentication/login`, requestOptions)
         .then(handleResponse)
         .then(user => {
             // store user details and jwt token in local storage to keep user logged in between page refreshes
@@ -50,7 +50,7 @@ function registerWithEmailAndPassword(user) {
         body: JSON.stringify(user)
     };
 
-    return fetch(`${USERS_REST_API_URL}/users/register`, requestOptions).then(handleResponse);
+    return fetch(`${USERS_REST_API_URL}/authentication/signup`, requestOptions).then(handleResponse);
 }
 
 
@@ -62,13 +62,12 @@ function handleResponse(response) {
             if (response.status === 401) {
                 // auto logout if 401 response returned from api
                 logout();
-                location.reload(true);
             }
 
             const error = (data && data.message) || response.statusText;
             return Promise.reject(error);
         }
-
+        console.log(data)
         return data;
     });
 }

@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import EmailInput from '../../Components/email-input/email-input.component';
 import PasswordInput from '../../Components/password-input/password-input.component';
 import SubmitButton from '../../Components/submit-button/submit-button.component';
@@ -6,7 +7,7 @@ import SocialMediaButton from '../../Components/social-media-button/social-media
 import SingupFirstStep from '../../Components/signup-first-step/signupFirstStep.component';
 import SingupSecondStep from '../../Components/signup-second-step/signup-second-step.component';
 import LoginForm from '../../Components/login-form/login-form.componenet';
-
+import { loginWithEmailAndPassword } from '../../redux/auth/auth.actions';
 class LoginPage extends React.Component{
     constructor(){
         super()
@@ -22,25 +23,7 @@ class LoginPage extends React.Component{
               EmailMessage:'',
               isEmailError:null,
             },
-            brand:{
-              isBrand:true,
-              name:'',
-              isNameError:false,
-              nameErrorMessage:'',
-              url:'',
-              isUrlError:false,
-              urlErrorMessage:'',
-              activities:'',
-              isActivitiesError:false,
-              activitiesErrorMessage:''
-            },
-            individual:{
-              name:'',
-              isNameError:false,
-              nameErrorMessage:''
-            }
-            
-            
+           
         }
     }
     handleLoginWithEmail=async e=>{
@@ -50,7 +33,9 @@ class LoginPage extends React.Component{
           ...prev,
           isInSecondStep:true,
           
-        }));   
+        }));
+        const user={email:this.state.email.email ,password:this.state.password.password}
+        loginWithEmailAndPassword(user)
     }
 
     LoginWithGoogle=async e=>{
@@ -125,5 +110,14 @@ class LoginPage extends React.Component{
 
 
 }
+function mapStateToProps(state) {
+  const { auth } = state
+  return {currentUser : auth.currentUser}
+}
 
-export default LoginPage;
+
+const mapStatsToDispatch=dispatch =>({
+loginWithEmailAndPassword : ()=>dispatch(loginWithEmailAndPassword())
+})
+
+export default connect(mapStateToProps,mapStatsToDispatch)(LoginPage);
