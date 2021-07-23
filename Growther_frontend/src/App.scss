@@ -17,7 +17,7 @@
   flex: 1;
   padding: 25px 50px 25px 130px;
   color: $big-text;
-  font-family: Montserrat-SemiBold;
+  font-family: Poppins-Medium;
   transition: all 0.5s;
   @media only screen and (max-width: 810px) {
     padding: 25px 20px 25px 20px;
@@ -28,13 +28,13 @@
   @media only screen and (max-width: 400px) {
     padding: 25px 5px !important;
   }
-  @media only screen and (max-width: 360px) {
+  @media only screen and (max-width: 375px) {
     padding: 25px 0px !important;
   }
   .big_title{
     font-size: 30px;
     font-weight: bold;
-    font-family: Montserrat-Bold;
+    font-family: Poppins-SemiBold;
     align-items: center;
     justify-content: space-between;
     @media only screen and (max-width: 400px) {
