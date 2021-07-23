@@ -7,9 +7,9 @@ const SubmitButton=({handleChange,label,placeholder})=>{
         history.push("/dashboard")
     } */
     return(
-        <div className="field">
-            <p className="control"/>
-            <button  type="submit" className="button is-success is-fullwidth">{label}</button>
+        <div class="field">
+            <p class="control"/>
+            <button onClick={()=> {}} id="submitButton" type="submit" class="button is-success is-fullwidth">{label}</button>
         </div>
     )
 }

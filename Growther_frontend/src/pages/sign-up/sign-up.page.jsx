@@ -358,34 +358,29 @@ class SignUpPage extends React.Component{
       }
 
         return(
-         
-           this.state.isInSecondStep ? (
+            this.state.isInSecondStep ? (
                 <SingupSecondStep
-                    handleSubmit={this.handleSubmitSecondStep}
-                    handleChange={this.handleUserTypeRadioButton}
-                    individual={this.state.individual}
-                    brand={this.state.brand}
-                    BrandFunctions={BrandFunctions}
-                    IndividualFunctions={IndividualFunctions}
-                    isBrand={this.state.brand.isBrand}
-                />
-           ):(
-              <SingupFirstStep
-                    handleSubmit={this.handleSubmitFirstStep}
-                    SignUpWithGoogle={this.SignUpWithGoogle}
-                    SignUpWithFacebook={this.SignUpWithFacebook}
-                    password={this.state.password}
-                    passwordFunctions={PasswordFunctions}
-                    email={this.state.email}
-                    emailFunctions={emailFunctions}
+                      handleSubmit={this.handleSubmitSecondStep}
+                      handleChange={this.handleUserTypeRadioButton}
+                      individual={this.state.individual}
+                      brand={this.state.brand}
+                      BrandFunctions={BrandFunctions}
+                      IndividualFunctions={IndividualFunctions}
+                      isBrand={this.state.brand.isBrand}
+                  />
+            ):(
+                <SingupFirstStep
+                      handleSubmit={this.handleSubmitFirstStep}
+                      SignUpWithGoogle={this.SignUpWithGoogle}
+                      SignUpWithFacebook={this.SignUpWithFacebook}
+                      password={this.state.password}
+                      passwordFunctions={PasswordFunctions}
+                      email={this.state.email}
+                      emailFunctions={emailFunctions}
+                
+                /> 
               
-              /> 
-            
-           )
-         
-          
-         
-        
+            )
         )
     }
 

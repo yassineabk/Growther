@@ -81,7 +81,7 @@ export const CardsContainer = ({data, title, showMore, addNew})=>{
                             entries={element.entries}
                         />                    
                     )
-                }): test.map((element, index)=>{
+                }): test.slice(0,3).map((element, index)=>{
                     if(typeof(element) !== "object") return null
                     return(
                         <CardComponent 
