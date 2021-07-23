@@ -16,7 +16,7 @@ RUN npm install
 COPY Growther_frontend/ .
 
 #Test the app
-RUN CI=true npm test
+#RUN CI=true npm test
 
 # Build the app
 RUN npm run build
