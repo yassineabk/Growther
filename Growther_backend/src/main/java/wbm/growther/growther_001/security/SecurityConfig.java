@@ -1,28 +1,23 @@
 package wbm.growther.growther_001.security;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-import java.util.Arrays;
-
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import wbm.growther.growther_001.oath.CustomOAuth2User;
 import wbm.growther.growther_001.oath.CutomOAuth2UserService;
-import wbm.growther.growther_001.oath.OAuth2LoginSuccessHandler;
 import wbm.growther.growther_001.services.CustomUserService;
 import wbm.growther.growther_001.services.UserService;
 
@@ -31,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 import java.io.IOException;
+import java.util.Arrays;
 
 
 @Configuration
@@ -66,7 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeRequests()
                 .antMatchers("/oauth2/**").permitAll()
-                .antMatchers("/api/**").authenticated()
+                .antMatchers("/apii/**").authenticated()
                 .anyRequest().permitAll()
                 .and()
                 .oauth2Login()
@@ -93,7 +89,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     })
                 .and()
                 .logout().permitAll();
-        httpSecurity.cors();
+        //httpSecurity.cors();
+        httpSecurity.cors().and().csrf().disable();
 
     }
 

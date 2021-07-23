@@ -20,4 +20,12 @@ public class Prize {
     public Long getId() {
         return id;
     }
+
+    public Contest getContest() {
+        return contest;
+    }
+
+    public void setContest(Contest contest) {
+        this.contest = contest;
+    }
 }
