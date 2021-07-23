@@ -12,4 +12,6 @@ public interface BrandRepository extends JpaRepository<Brand,Long> {
     Brand findBrandById(Long ID);
     Brand findBrandByEmail(String Email) ;
     Brand findBrandByName(String Name);
+    Boolean existsByEmail(String email);
+
 }

@@ -12,7 +12,7 @@ import wbm.growther.growther_001.services.BrandService;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.RejectedExecutionException;
+
 
 @RestController
 @RequestMapping("/api/brands")
@@ -27,13 +27,13 @@ public class BrandController {
         return brandService.getAllBrands();
     }
 
-    @PostMapping("/Createbrand")
+    /*@PostMapping("/Createbrand")
     public BrandDto createBrand(@RequestBody BrandDto brandDto) throws RejectedExecutionException {
 
         Boolean brandCreated = brandService.createNewBrand(brandDto);
         if(brandCreated) return brandDto;
         throw new RejectedExecutionException("A Brand with that email already exist !!");
-    }
+    }*/
 
 
     @GetMapping("/{id}")
