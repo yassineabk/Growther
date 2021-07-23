@@ -69,20 +69,25 @@ export const CardsContainer = ({data, title, showMore, addNew})=>{
             <CardTitle title={title} addNew={addNew} showMore={showMore} />
             <div className="columns is-multiline is-flex is-flex-row cards">
                 {Array.isArray(data) ? data.map((element, index)=>{
+                    if(typeof(element) !== "object") return null
                     return(
                         <CardComponent 
                             title={element.title}
                             date={element.date}
                             views={element.views}
                             description={element.description}
+                            date={element.duration.value}
+                            dateType={element.duration.type}
                             entries={element.entries}
                         />                    
                     )
                 }): test.map((element, index)=>{
+                    if(typeof(element) !== "object") return null
                     return(
                         <CardComponent 
                             title={element.title}
-                            date={element.date}
+                            date={element.duration.value}
+                            dateType={element.duration.type}
                             views={element.views}
                             description={element.description}
                             entries={element.entries}

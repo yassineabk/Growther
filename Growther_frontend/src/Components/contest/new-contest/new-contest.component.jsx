@@ -12,7 +12,7 @@ import { ContestThirdStep } from "../contest-third-step/contest-third-step.compo
 import { NewContestTabs } from "../new-contest-tabs/new-contest-tabs.component"
 import { PreviewContainer } from "../preview-container/preview-container.component"
 export const NewContest = ()=>{
-    var { information, activePage } = useSelector(state => state.contest)
+    var { information, activePage, actions } = useSelector(state => state.contest)
     return(
         <div className="column is-full is-flex is-flex-direction-column list-container newContest is-size-6 mb-4">
             <NewContestTabs 
@@ -33,7 +33,7 @@ export const NewContest = ()=>{
                 ]}
             />
             <div className="is-flex bottomContainer">
-                <PreviewContainer information={information} />
+                <PreviewContainer information={information} actions={actions} />
                 <Router>
                     <Switch>
                         <Route path={"/dashboard/My Contests/new/firstStep"}>

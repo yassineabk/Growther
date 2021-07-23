@@ -24,7 +24,7 @@ export const CardComponent = ({title, description, date, dateType, views, entrie
                         Time left
                     </span>
                     <span>
-                        {date && typeof(date) === "string" ? date : "xx"} <span className="dateType">{dateType && typeof(dateType) === "string"? dateType : "days"}</span>
+                        {(date && typeof(date) === "string") ||  typeof(date) === "number" ? date : "xx"} <span className="dateType">{dateType && typeof(dateType) === "string"? dateType : "days"}</span>
                     </span>
                 </div>
             </div>

@@ -8,7 +8,7 @@ export const NewContestTabs = ({tabs, activePage})=>{
             {tabs.slice(0,3).map(tab =>{
                 if(typeof(tab) !== "object") return null
                 return(
-                    <div className={tab.location === location.pathname || tab.location === activePage ? "NewContestTab active" : "NewContestTab"}>
+                    <div className={tab.location === location.pathname ? "NewContestTab active" : "NewContestTab"}>
                         <div className="tabText">
                             {tab.text}
                         </div>
