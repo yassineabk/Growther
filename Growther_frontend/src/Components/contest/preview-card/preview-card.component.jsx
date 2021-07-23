@@ -1,5 +1,6 @@
 import React from "react"
-export const PreviewCard = ({title, description, date, dateType, views, entries})=>{
+import { PreviewActionsList } from "../preview-actions-list/preview-actions-list.component"
+export const PreviewCard = ({title, description, date, dateType, views, entries, actions})=>{
     return(
         <div className="is-flex previewCard">
             <div className="left-side is-flex is-flex-direction-column">
@@ -37,6 +38,7 @@ export const PreviewCard = ({title, description, date, dateType, views, entries}
                         {description ? description : ""}
                     </div>
                 </div>
+                <PreviewActionsList actions={actions} />
             </div>
         </div>
     )

@@ -37,7 +37,7 @@
             }
             .actionUrl, .actionPoints{
                 @extend .input;
-                flex: 1;
+                //flex: 1;
                 .contest_input {
                     flex: 1;
                     label{
@@ -50,8 +50,8 @@
             .actionPoints{
                 .contest_input{
                     input{
-                        max-width: 150px !important; 
-                        min-width: 150px !important;
+                        max-width: 100px !important; 
+                        min-width: 100px !important;
                         @media only screen and (max-width: 745px) {
                             max-width: 100% !important; 
                             min-width: 100% !important;
@@ -120,7 +120,7 @@
             border-radius: 25px;
             color: white;
             cursor: pointer;
-            font-family: Montserrat-Medium;
+            font-family: Poppins-Medium;
             .actionIcon{
                 margin-right: 0.5em;
                 img{
@@ -128,24 +128,24 @@
                     height: auto;
                 }
             }
-            &#youtube{
-                background-color: $youtube;
-            }
-            &#instagram{
-                background-color: $instagram;
-            }
-            &#facebook{
-                background-color: $facebook;
-            }
-            &#twitch{
-                background-color: $twitch;
-            }
-            &#twitter{
-                background-color: $twitter;
-            }
-            &#pinterest{
-                background-color: $pintrest;
-            }
         }
     }
+}
+#youtube{
+    background-color: $youtube;
+}
+#instagram{
+    background-color: $instagram;
+}
+#facebook{
+    background-color: $facebook;
+}
+#twitch{
+    background-color: $twitch;
+}
+#twitter{
+    background-color: $twitter;
+}
+#pinterest{
+    background-color: $pintrest;
 }

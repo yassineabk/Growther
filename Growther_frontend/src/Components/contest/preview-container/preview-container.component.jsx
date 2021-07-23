@@ -1,6 +1,6 @@
 import React from "react"
 import { PreviewCard } from "../preview-card/preview-card.component"
-export const PreviewContainer = ({information})=>{
+export const PreviewContainer = ({information, actions})=>{
     var timeDiff = (d1, d2)=>{
         var daysDiff = Math.ceil(Math.abs(new Date(d1) - new Date(d2))/(1000*60*60*24))
         var weeksDiff = Math.ceil(Math.abs(new Date(d1) - new Date(d2))/(1000*60*60*24*7))
@@ -22,8 +22,9 @@ export const PreviewContainer = ({information})=>{
                 title={information.title}
                 description={information.description}
                 date={information.startDate && information.endDate ? 
-                 timeDiff(information.startDate, information.endDate).date : ""}
+                    timeDiff(information.startDate, information.endDate).date : ""}
                 dateType={timeDiff(information.startDate, information.endDate).type}
+                actions={actions}
             />
         </div>
     )

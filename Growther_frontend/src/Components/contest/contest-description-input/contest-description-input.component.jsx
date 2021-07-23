@@ -6,6 +6,7 @@ export const ContestDescription = ({changeHandler, value, label, validData, chil
             <textarea
                 value={value ? value : ""}
                 minLength={1}
+                maxLength={250}
                 id={id ? id : ""}
                 name={name ? name : ""}
                 placeholder={placeholder ? placeholder : ""}

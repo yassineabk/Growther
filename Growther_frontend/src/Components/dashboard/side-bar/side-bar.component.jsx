@@ -6,18 +6,22 @@ export const DashboradSideBar = ({activePage})=>{
     var {activePage} = useSelector(state => state.contest)
     var homeLocations = [
         "/dashboard", 
+    ]
+    var contestLocations = [
         "/dashboard/My Contests", 
         "/dashboard/My Contests/new", 
-        "/dashboard/Templates",
-        "/dashboard/Templates/new",
         "/dashboard/My Contests/new/secondStep",
         "/dashboard/My Contests/new/firstStep",
         "/dashboard/My Contests/new/thirdStep"
     ]
+    var templateLocations = [
+        "/dashboard/Templates",
+        "/dashboard/Templates/new",
+    ]
     var history = useHistory()
     var location = useLocation()
     var changeHandler = (path)=>{
-        if(path === "/dashboard") return history.push(activePage && typeof(activePage) === "string" ? activePage : path)
+        //if(path === "/dashboard") return history.push(activePage && typeof(activePage) === "string" ? activePage : path)
         history.push(path)
     }
     return(
@@ -30,11 +34,11 @@ export const DashboradSideBar = ({activePage})=>{
                     <div onClick={()=>changeHandler("/dashboard")} className={homeLocations.includes(location.pathname) ? "sideBar_item active" : "sideBar_item"}>
                         <img alt="" src={require("../../../assets/icons/home.png").default}/>
                     </div>
-                    <div onClick={()=>changeHandler("/dashboard/pie")} className={location.pathname === "/dashboard/pie" ? "sideBar_item active" : "sideBar_item"}>
-                        <img alt="" src={require("../../../assets/icons/file.png").default}/>
-                    </div>
-                    <div onClick={()=>changeHandler("/dashboard/trophy")} className={location.pathname === "/dashboard/trophy" ? "sideBar_item active" : "sideBar_item"}>
+                    <div onClick={()=>changeHandler("/dashboard/My Contests")} className={contestLocations.includes(location.pathname) ? "sideBar_item active" : "sideBar_item"}>
                         <img alt="" src={require("../../../assets/icons/trophy.png").default}/>
+                    </div>
+                    <div onClick={()=>changeHandler("/dashboard/Templates")} className={templateLocations.includes(location.pathname) ? "sideBar_item active" : "sideBar_item"}>
+                        <img alt="" src={require("../../../assets/icons/file.png").default}/>
                     </div>
                     <div onClick={()=>changeHandler("/dashboard/settings")} className={location.pathname === "/dashboard/settings" ? "sideBar_item active" : "sideBar_item"}>
                         <img alt="" src={require("../../../assets/icons/settings.png").default}/>

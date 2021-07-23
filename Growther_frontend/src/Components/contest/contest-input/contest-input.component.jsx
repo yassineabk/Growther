@@ -2,7 +2,7 @@ import React from "react"
 export const ContestInput = ({type, name, value, placeholder, changeHandler, id, min, label, child, readonly, validData})=>{
     return(
         <div className="contest_input is-flex is-flex-direction-column">
-            <label for={id ? id : ""}>{label ? label : ""}</label>
+            {typeof(label) === "string" ? <label for={typeof(id) === "string" ? id : ""}>{label ? label : ""}</label> : null}
             <input 
                 type={type ? type : "text"} 
                 id={id ? id : ""}
