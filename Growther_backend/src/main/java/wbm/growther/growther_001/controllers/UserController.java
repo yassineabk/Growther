@@ -1,4 +1,4 @@
-package wbm.growther.growther_001.controllers;
+/*package wbm.growther.growther_001.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -68,3 +68,4 @@ public class UserController {
         return response;
     }
 }
+*/

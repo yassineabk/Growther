@@ -2,6 +2,9 @@ package wbm.growther.growther_001.models.users;
 
 
 
+import com.sun.istack.NotNull;
+import wbm.growther.growther_001.models.AuthenticationProvider;
+
 import javax.persistence.*;
 
 
@@ -26,13 +29,33 @@ public class Brand   {
     @Column(length = 100)
     private String url;
 
-    @Column(length = 50)
-    private String authProvider;
+    @Column(length = 25)
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private AuthenticationProvider authProvider;
+
+    public AuthenticationProvider getAuthProvider() {
+        return authProvider;
+    }
+
+    private String providerId;
 
 
     //Constructor
 
-    public Brand( String email, String password, String name, String url) {
+    public void setAuthProvider(AuthenticationProvider authProvider) {
+        this.authProvider = authProvider;
+    }
+
+    public String getProviderId() {
+        return providerId;
+    }
+
+    public void setProviderId(String providerId) {
+        this.providerId = providerId;
+    }
+
+    public Brand(String email, String password, String name, String url) {
         this.email = email;
         this.password = password;
         this.name = name;
@@ -86,8 +109,6 @@ public class Brand   {
         this.url = url;
     }
 
-    public String getAuthProvider() { return authProvider; }
-
-    public void setAuthProvider(String authProvider) { this.authProvider = authProvider; }
-
 }
+
+

@@ -8,8 +8,8 @@ import java.util.List;
 public interface BrandService {
 
     List<BrandDto> getAllBrands();
-    BrandDto getBrandByEmailAndPassword(String Email,String Password);
-    Boolean createNewBrand(BrandDto NewBrandDto);
+   /* BrandDto getBrandByEmailAndPassword(String Email,String Password);
+    Boolean createNewBrand(BrandDto NewBrandDto);*/
     BrandDto getBrandById(Long brandID);
     BrandDto getBrandByEmail(String brandEmail);
     BrandDto updateBrandInfos(BrandDto brandDto);
