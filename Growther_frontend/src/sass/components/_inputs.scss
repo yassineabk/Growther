@@ -23,6 +23,11 @@
                 min-width: 150px !important;
             }
         }
+        .icon{
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
         textarea{
             min-height: calc(200px) !important;
             resize: none;

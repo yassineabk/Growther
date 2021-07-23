@@ -1,0 +1,53 @@
+.authInput{
+    @extend .input;
+    input, textarea{
+        margin-right: 0 !important;
+        margin-left: 0 !important;
+        transform: translateX(-0.3em);
+    }
+}
+.field{
+    .socialButton{
+        button{
+            font-family: Poppins-Medium;
+            background-color: transparent !important;
+            border: 2px solid $button-border1 !important;
+            color: $button-color1 !important;
+        }
+        .icon{
+            color: $button-border1 !important;
+            height: 100% !important;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+    button{
+        font-family: Poppins-Medium;
+        flex: 1;
+        text-align: center;
+        padding: 20px;
+        cursor: pointer;
+        border-radius: 10px;
+        border: 2px solid $button-border1;
+        font-size: 15px;
+        &#submitButton{
+            &:hover{
+                background-color: $button-color1 !important;
+            }
+        }
+        &:hover{
+            background-color: unset !important;
+        }
+        &.details-button{
+            background-color: $button-color2;
+            color: $button-text1;
+            margin-right: 2.5px;
+          }
+        &.duplicate-button{
+            background-color: $button-color1;
+            color: $button-text2;
+            margin-left: 2.5px;
+          }
+    }
+}

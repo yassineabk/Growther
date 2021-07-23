@@ -1,0 +1,17 @@
+.Modal{
+    z-index: 1256463;
+    position: absolute;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, .8);
+    .hero-body{
+        padding: 2.5rem 3rem;
+    }
+    > div{
+        width: 100%;
+        flex: 1;
+    }
+}

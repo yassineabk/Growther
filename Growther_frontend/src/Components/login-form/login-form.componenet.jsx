@@ -9,16 +9,16 @@ const LoginForm=({handleSubmit,handleRemeberMe,SignUpWithGoogle,SignUpWithFacebo
     console.log(email)
     return(
 
-    <section className="hero is-fullheight ">
+    <section className="hero is-fullheight Modal">
             <div className="hero-body ">
                 <div className="container ">
                 <div className="columns is-centered ">
                     <div className="column is-5-tablet is-4-desktop is-4-widescreen ">
-                    <div className="column">
-                      <p className="title is-3">Login</p>
-                      <p className="subtitle is6">Welcome back</p>
-                    </div>
                     <form action="" className="box" onSubmit={handleSubmit}>
+                        <div className="column has-text-centered">
+                        <p className="title is-3">Login</p>
+                        <p className="subtitle is6">Welcome back</p>
+                        </div>
                         <EmailInput handleBlur={emailFunctions.handleEmailBlur} handleChange={emailFunctions.handleEmailChange} label="Email" isError={email.isEmailError} message={email.EmailMessage} placeholder="Enter Your email"/>
                         <PasswordInput handleChange={passwordFunctions.handlePasswordChange}  label="Password" isError={password.isPasswordError} message={password.PasswordMessage} placeholder="Enter your password"/>
                         <div class="field is-flex is-flex-direction-row is-justify-content-space-between">

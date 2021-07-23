@@ -1,7 +1,8 @@
 @import "sass/main.scss";
-.App{
+.App, html{
   overflow-y: hidden;
   overflow-x: hidden;
+  background-color: #FFFFFF;
 }
 .d-flex{
   display: flex;

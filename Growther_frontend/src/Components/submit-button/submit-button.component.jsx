@@ -9,7 +9,7 @@ const SubmitButton=({handleChange,label,placeholder})=>{
     return(
         <div class="field">
             <p class="control"/>
-            <button onClick={()=> redirect()} type="submit" class="button is-success is-fullwidth">{label}</button>
+            <button onClick={()=> redirect()} id="submitButton" type="submit" class="button is-success is-fullwidth">{label}</button>
         </div>
     )
 }
