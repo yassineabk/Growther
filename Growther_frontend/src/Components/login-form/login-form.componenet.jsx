@@ -21,8 +21,8 @@ const LoginForm=({handleSubmit,handleRemeberMe,SignUpWithGoogle,SignUpWithFacebo
                         </div>
                         <EmailInput handleBlur={emailFunctions.handleEmailBlur} handleChange={emailFunctions.handleEmailChange} label="Email" isError={email.isEmailError} message={email.EmailMessage} placeholder="Enter Your email"/>
                         <PasswordInput handleChange={passwordFunctions.handlePasswordChange}  label="Password" isError={password.isPasswordError} message={password.PasswordMessage} placeholder="Enter your password"/>
-                        <div className="field is-flex is-flex-direction-row is-justify-content-space-between">
-                            <label for="" className="checkbox">
+                        <div className="field is-flex-desktop is-flex-direction-row is-justify-content-space-between">
+                            <label for="" className="checkbox is-block">
                                 <input onChange={handleRemeberMe} className="mr-3" type="checkbox"/>
                                 Remember me
                             </label>
