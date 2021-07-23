@@ -53,7 +53,8 @@ class SignUpPage extends React.Component{
           ...prev,
           isInSecondStep:true,
           
-        }));   
+        }));
+
     }
     handleSubmitSecondStep=async e=>{
       e.preventDefault();

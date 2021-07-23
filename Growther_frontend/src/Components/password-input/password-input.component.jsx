@@ -5,7 +5,7 @@ const PasswordInput=({handleChange,handleBlur,label,isError,message,placeholder}
     <div className="field">
         <label className="label">{label}</label>
             <div className="control has-icons-left has-icons-right">
-                <input className={`${isError ? 'is-danger' :'is-success'} input`} onBlur={handleBlur} onChange={handleChange} type="password" placeholder={placeholder}/>
+                <input className={`${isError ? 'is-danger' :'form-input-color'} input`} onBlur={handleBlur} onChange={handleChange} type="password" placeholder={placeholder}/>
                 <span className="icon is-small is-left">
                     <i class="fas fa-lock"></i>
                 </span>

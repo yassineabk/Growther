@@ -167,7 +167,7 @@ iframe {
 .btn:hover {
     transform: translateY(-5px);
   }
-  img{vertical-align:middle;border-style:none}
+img{vertical-align:middle;border-style:none}
 
   
 
@@ -183,4 +183,9 @@ iframe {
 .center-cta{
     padding: 8px 12px;
     border-radius: 50px;
+}
+
+
+.form-input-color{
+    border-color: #000000;
 }

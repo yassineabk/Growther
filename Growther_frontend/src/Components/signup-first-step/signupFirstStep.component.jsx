@@ -16,7 +16,7 @@ const SingupFirstStep=({handleSubmit,SignUpWithGoogle,SignUpWithFacebook,passwor
                     <div className="column is-5-tablet is-4-desktop is-4-widescreen ">
                     <div className="column">
                       <p className="title is-3">Create an account</p>
-                      <p className="subtitle is6">Let's get you started</p>
+                      <p className="subtitle ">Let's get you started</p>
                     </div>
                     <form action="" className="box" onSubmit={handleSubmit}>
                         <EmailInput handleBlur={emailFunctions.handleEmailBlur} handleChange={emailFunctions.handleEmailChange} label="Email" isError={email.isEmailError} message={email.EmailMessage} placeholder="Enter Your email"/>

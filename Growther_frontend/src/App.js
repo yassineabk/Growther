@@ -1,4 +1,5 @@
 import React from 'react';
+import 'bulma/css/bulma.min.css';
 import './App.scss';
 import {Switch, Route, Redirect, useParams} from 'react-router-dom'
 import Header from './Components/header/header.component'
