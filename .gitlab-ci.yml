@@ -74,26 +74,26 @@ stages:
 #     - echo "Frontend Deployment Complete!"
 
 
-# Build-Backend:
-  # stage: build
-  # image: maven:3-jdk-8
-  # script:
-  #   - echo "Building Backend..."
-  #   - cd ./Growther_backend
-  #   - mvn clean package -B
-  #   - echo "Backend Build Complete!"
-  # cache:
-  #   key: "$CI_COMMIT_SHA"
-  #   policy: push
-  #   paths:
-  #     - Growther_backend/target
-  # artifacts:
-  #   paths:
-  #     - Growther_backend/target/*.jar
-  #   # expire_in: 1 week
-  # only:
-  #   - master
-  #   - Develop
+Build-Backend:
+  stage: build
+  image: maven:3-jdk-8
+  script:
+    - echo "Building Backend..."
+    - cd ./Growther_backend
+    - mvn clean package -B
+    - echo "Backend Build Complete!"
+  cache:
+    key: "$CI_COMMIT_SHA"
+    policy: push
+    paths:
+      - Growther_backend/target
+  artifacts:
+    paths:
+      - Growther_backend/target/*.jar
+    # expire_in: 1 week
+  only:
+    - master
+    - Develop
 
 # test-backend:
 #   stage: test
