@@ -1,0 +1,87 @@
+.authInput{
+    @extend .input;
+    input, textarea{
+        margin-right: 0 !important;
+        margin-left: 0 !important;
+        transform: translateX(-0.3em);
+    }
+}
+.field{
+    .socialButton{
+        button{
+            font-family: Poppins-Medium;
+            background-color: transparent !important;
+            border: 2px solid $button-border1 !important;
+            color: $button-color1 !important;
+        }
+        .icon{
+            color: $button-border1 !important;
+            height: 100% !important;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+    button{
+        font-family: Poppins-Medium;
+        flex: 1;
+        text-align: center;
+        padding: 20px;
+        cursor: pointer;
+        border-radius: 10px;
+        border: 2px solid $button-border1;
+        font-size: 15px;
+        &#submitButton{
+            &:hover{
+                background-color: $button-color1 !important;
+            }
+        }
+        &:hover{
+            background-color: unset !important;
+        }
+        &.details-button{
+            border: 2px solid $button-border1 !important;
+            background-color: $button-color2 !important;
+            color: $button-text1 !important;
+            margin-right: 2.5px;
+            &:hover{
+                background-color: $button-color2 !important;
+            }
+          }
+        &.duplicate-button{
+            border: 2px solid $button-border1 !important;
+            background-color: $button-color1 !important;
+            color: $button-text2 !important;
+            margin-left: 2.5px;
+            &:hover{
+                background-color: $button-color1 !important;
+            }
+          }
+    }
+}
+.userTypeContainer{
+    flex-direction: row;
+    justify-content: space-evenly;
+    > div{
+        flex: 1;
+        margin: 0 0.25em;
+        color: black;
+        text-align: center;
+        font-size: 18px;
+        > div{
+            margin: 0.25em 0;
+        }
+        .typeIcon{
+            border-radius: 15px;
+            background-color: $sideBar-color;
+            padding: 30px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            img{
+                width: 100px;
+                height: auto;
+            }
+        }
+    }
+}

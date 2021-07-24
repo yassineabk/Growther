@@ -1,0 +1,259 @@
+@import "sass/main.scss";
+.App{
+  overflow-y: hidden;
+  overflow-x: hidden;
+  background-color: #FFFFFF;
+}
+.d-flex{
+  display: flex;
+}
+.list-title{
+  font-size: 20px;
+  margin-bottom: 0.3em;
+}
+.App{
+  min-height: 100vh;
+}
+.dashboard_Body{
+  flex: 1;
+  padding: 25px 50px 25px 130px;
+  color: $big-text;
+  font-family: Poppins-Medium;
+  transition: all 0.5s;
+  @media only screen and (max-width: 810px) {
+    padding: 25px 20px 25px 20px;
+  }
+  @media only screen and (max-width: 540px) {
+    padding: 25px 15px 25px 15px;
+  }
+  @media only screen and (max-width: 400px) {
+    padding: 25px 5px !important;
+  }
+  @media only screen and (max-width: 375px) {
+    padding: 25px 0px !important;
+  }
+  .big_title{
+    font-size: 30px;
+    font-weight: bold;
+    font-family: Poppins-SemiBold;
+    align-items: center;
+    justify-content: space-between;
+    @media only screen and (max-width: 400px) {
+      padding: 0px 15px !important;
+    }
+    @media only screen and (max-width: 359px) {
+      padding: 0px 15px !important;
+    }
+    .burgerIcon{
+      display: none;
+      justify-self: flex-end !important;
+      @media only screen and (max-width: 810px) {
+        display: flex;
+        width: 29px;
+        max-width: 29px;
+        height: auto;
+        //margin-right: 5px;
+      }
+      @media only screen and (max-width: 359px) {
+        //margin-right: 25px;
+      }
+    }
+  }
+}
+.column.recentContests{
+  max-height: 100%;
+  overflow-y: auto;
+  .arrow-button-container{
+    margin-top: 7px;
+  }
+}
+.list-container{
+  padding: 20px 20px 25px 20px;
+  background-color: #FFFFFF;
+  border: 2px solid $border-color;
+  border-radius: 15px;
+  box-shadow: 3px 3px 6px #272D3B33;
+  position: relative;
+  @media only screen and (max-width: 375px) {
+    border-radius: 0px;
+  }
+  .list-title-container{
+    margin-bottom: 0.5em;
+    width: 100%;
+    
+    #addNewButton{
+        display: none !important;
+        @media only screen and (max-width: 375px) {
+          display: flex !important;
+        }
+    }
+    .list-title{
+      @extend .list-title;
+      flex: 1;
+      margin-bottom: 0;
+    }
+    .addNew{
+      font-size: 15px;
+      a{
+        background-color: $sideBar-color;
+        padding: 12px 20px;
+        border-radius: 25px;
+        color: white;
+      }
+      display: flex !important;
+      @media only screen and (max-width: 375px) {
+        display: none !important;
+      }
+    }
+  }
+  ul{
+    &.todolist{
+      list-style: none;
+    }
+    li{
+      display: flex;
+      align-items: center;
+    }
+    li::before {
+      text-align: center;
+      content: "\2022";
+      color: $button-color1; 
+      font-weight: bold; 
+      font-size: 27px;
+      display: inline-block;
+      width: 0.7em; 
+      margin-bottom: 5px;
+    }
+  }
+  .contestContainer{
+    align-items: center;
+    margin: 5px 0;
+    flex: 1;
+    @for $i from 1 through length($contest-bgColors){
+        &:nth-child(#{$i}) .calendarIcon {
+          background-color: nth($contest-bgColors, $i);
+        }
+    }
+    .calendarIcon{
+      display: flex;
+      height: 100%;
+      padding: 10px;
+      margin-right: 10px;
+      align-items: center;
+      border-radius: 50%;
+      img{
+        width: 40px;
+        height: auto;
+      }
+    }
+    .contestInfos{
+      width: 100%;
+      .contestTitle{
+        font-weight: bold;
+        font-size: 18px;
+      }
+      .contestEndingDate{
+        font-size: 15px;
+        justify-content: space-between !important;
+      }
+    }
+  }
+  .arrow-button-container{
+    margin-left: 0.25em;
+    .arrow-button{
+      a{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: $button-color1;
+        border-radius: 50%;
+        padding: 10px;
+        img{
+          width: 22px;
+          height: auto;
+        }
+      }
+    }
+  }
+  &.newContest{
+    padding: 0 !important;
+    margin-top: 0.5em;
+    flex: 1;
+    @media only screen and (max-width: 400px){
+      padding: 5px;
+    }
+    .bottomContainer{
+      flex: 1;
+      flex-direction: row;
+      @media only screen and (max-width: 1279px){
+        flex-direction: column-reverse;
+      }
+      .actionsContainer{
+        flex: 1 !important;
+        .contestButtons{
+          .buttonContainer{
+            @extend .button_container;
+            margin-bottom: 0.25em !important;
+            margin-top: 0.25em;
+          }
+        }
+      }
+      .newContestFrom{
+        flex: 1;
+        .mainInfos, .prizes, .contestButtons{
+          padding: 10px;
+          flex: 1;
+          flex-wrap: wrap !important;
+          .textInputs, .otherInputs{
+            @extend .input;
+            flex-wrap: wrap;
+          }
+          .buttonContainer{
+            @extend .button_container;
+          }
+        }
+        .prizes{
+          margin-top: 0.25em;
+          label{
+            font-size: 14px;
+            margin: 0 0 0.25em 0.25em;
+          }
+          .textInputs, .otherInputs{
+            .contest_input, .input_container{
+              flex: 1;
+              margin: 0px 0.5em 0px 0px;
+              @media only screen and (max-width: 400px){
+                margin: 0 !important;
+              }
+              input{
+                max-width: calc(100% - 0.5em) !important;
+                @media only screen and (max-width: 400px){
+                  margin: 0.25em 0 !important;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    
+  }
+}
+.articles, .cardsContainer{
+  flex-wrap: wrap;
+  align-items: center;
+  position: relative;
+  .article {
+    @extend .article;
+  }
+}
+.article, .card{
+  @extend .card;
+}
+@keyframes slidein-sideBar {
+  from{
+    transform: translateX(-20px);
+  }to{
+    transform: translateX(0px);
+  }
+}

@@ -1,0 +1,159 @@
+.actionsContainer{
+    flex: 1;
+    padding: 10px;
+    color: #2B2637;
+    justify-content: space-between;
+    .containerTitle{
+        font-size: 20px;
+        margin-top: 0.25em;
+        @media only screen and (max-width: 400px){
+            margin-left: 5px !important;
+        }
+    }
+    .contestActions{
+        flex: 1;
+        overflow-y: auto;
+        padding: 5px;
+        .contestAction{
+            position: relative;
+            padding: 5px 10px;
+            margin: 0.5em 0px;
+            border: 1px solid $border-color;
+            border-radius: 10px;
+            flex-wrap: nowrap;
+            align-items: center !important;
+            @media only screen and (max-width: 867px) {
+                flex-wrap: wrap;
+            }
+            > div{
+                margin: 0.25em 0.5em;
+                display: flex;
+                //justify-content: center !important;
+                //text-align: center;
+            }
+            .actionTitle{
+                font-size: 16px;
+                width: 80px;
+                @media only screen and (max-width: 867px) {
+                    flex: 0 0 100%;
+                    order: 0;
+                }
+            }
+            .actionUrl, .actionPoints{
+                @extend .input;
+                //flex: 1;
+                .contest_input {
+                    flex: 1;
+                    label{
+                        display: none !important;
+                        margin-bottom: 0px !important;
+                    }
+                    
+                }
+            }
+            .actionPoints{
+                .contest_input{
+                    input{
+                        max-width: 100px !important; 
+                        min-width: 100px !important;
+                        @media only screen and (max-width: 745px) {
+                            max-width: 100% !important; 
+                            min-width: 100% !important;
+                        }
+                    }
+                }
+                @media only screen and (max-width: 867px) {
+                    flex-grow: 0;
+                }
+                @media only screen and (max-width: 745px) {
+                    flex: 0 0 calc(100% - 0.25em);
+                    //order: 3;
+                }
+            }
+            .actionUrl{
+                flex: 2;
+                @media only screen and (max-width: 867px) {
+                    flex-grow: 4;
+                }
+                @media only screen and (max-width: 745px) {
+                    flex: 0 0 calc(100% - 0.25em);
+                    //order: 4;
+                }
+            }
+            .actionSelect{
+                flex: 1;
+                .selectForm{
+                    margin-top: 0px !important;
+                    width: auto;
+                }
+                @media only screen and (max-width: 867px) {
+                    flex-grow: 0;
+                }
+                @media only screen and (max-width: 745px) {
+                    flex: 0 0 calc(100% - 0.25em);
+                    margin-left: 0.25em;
+                    //order: 2;
+                    max-width: none;
+                    min-width: none;
+                }
+            }
+            .removeAction{
+                justify-self: flex-end;
+                width: 15px;
+                @media only screen and (max-width: 867px) {
+                    position: absolute;
+                    right: 10px;
+                    top: 10px;
+                }
+                img{
+                    cursor: pointer;
+                    width: 15px;
+                    height: auto;
+                }
+            }
+        }
+    }
+    .actionsList{
+        margin: 0.5em 0;
+        align-items: flex-end;
+        justify-content: center;
+        @media only screen and (max-width: 400px){
+            padding: 5px;
+        }
+        .actionsListItem{
+            font-size: 13px;
+            //max-width: 104.01px;
+            padding: 7px 15px;
+            margin: 0.25em;
+            border-radius: 25px;
+            color: white;
+            cursor: pointer;
+            font-family: Poppins-Medium;
+            .actionIcon{
+                margin-right: 0.5em;
+                img{
+                    width: 18px;
+                    height: auto;
+                }
+            }
+        }
+    }
+}
+#youtube{
+    background-color: $youtube;
+}
+#instagram{
+    background-color: $instagram;
+}
+#facebook{
+    background-color: $facebook;
+}
+#twitch{
+    background-color: $twitch;
+}
+#twitter{
+    background-color: $twitter;
+}
+#pinterest{
+    background-color: $pintrest;
+}

@@ -1,0 +1,75 @@
+body {
+    font-family: 'Rubik', sans-serif;
+    overflow-x: hidden !important;
+    position: relative;
+}
+
+a,
+a:hover,
+a:focus,
+button {
+    text-decoration: none !important;
+    outline: none !important;
+}
+
+p {
+    font-size: 15px;
+    line-height: 24px;
+}
+h1,h2,h3,h4,h5,h6 {
+    font-family: 'Poppins', sans-serif;
+}
+
+.h1,
+h1 {
+    font-size: 36px;
+}
+
+.h2,
+h2 {
+    font-size: 30px;
+}
+
+.h3,
+h3 {
+    font-size: 24px;
+}
+
+.h4,
+h4 {
+    font-size: 18px;
+}
+
+.h5,
+h5 {
+    font-size: 14px;
+}
+
+.h6,
+h6 {
+    font-size: 12px;
+}
+
+b {
+    font-weight: 500;
+}
+
+::-moz-selection {
+  background-color: #2e3138;
+  color: #fff; }
+
+::selection {
+  background-color: #2e3138;
+  color: #fff; }
+
+.label {
+      font-weight: 400;
+  }
+
+  .button.is-success{
+      background-color: #5E2691;
+      :hover{
+        background-color: #5E2691;
+      }
+  }
+  

@@ -1,0 +1,39 @@
+@import 'abstracts/variables';
+@import 'abstracts/mixins';
+
+@import 'base/reset';
+@import 'base/typography';
+@import 'base/utilities';
+
+@import 'components/preview.scss';
+@import 'components/inputs.scss';
+@import 'components/buttons.scss';
+@import 'components/select.scss';
+@import 'components/cards.scss';
+@import 'components/actions.scss';
+@import 'components/tabs.scss';
+@import 'components/saved.scss';
+@import 'components/services';
+@import 'components/description';
+@import 'components/features';
+@import 'components/pricing';
+@import 'components/testimonials';
+@import 'components/get-started';
+@import 'components/contact';
+@import 'components/social-media';
+@import 'components/navbar';
+@import 'components/select';
+@import 'components/auth.scss';
+@import 'components/actions.scss';
+@import 'components/saved.scss';
+@import 'components/modal';
+
+
+@import 'layout/header';
+@import 'layout/footer';
+@import 'layout/sidebar';
+@import 'layout/forms';
+@import 'layout/home'
+
+
+

@@ -1,0 +1,37 @@
+.NewContestTabs{
+    display: flex;
+    flex-direction: row;
+    background-color: $sideBar-color;
+    border-radius: 15px 15px 0 0;
+    flex-wrap: wrap;
+    @media only screen and (max-width: 376px) {
+        border-radius: 0px !important;
+    }
+    .NewContestTab{
+        flex: 1;
+        font-size: 18px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        color: white;
+        transition: all .5s;
+        font-family: Poppins-Regular;
+        &.active{
+            .tabText{
+                padding: 20px;
+                //border: 2px solid transparent;
+                color: #00CCF2;
+                @media only screen and (max-width: 650px){
+                    padding: 20px 10px;
+                }
+            }
+        }
+        @media only screen and (max-width: 1060px){
+            font-size: 15px;
+        }
+        @media only screen and (max-width: 650px){
+            font-size: 13px;
+        }
+    }
+}
