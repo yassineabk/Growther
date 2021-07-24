@@ -1,0 +1,14 @@
+.button_container{
+    margin: 0.125em 0.25em !important;
+    border: 1px solid $border-color;
+    outline: none;
+    min-width: 140px;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 15px;
+    font-family: Poppins-Medium;
+    cursor: pointer;
+    @media only screen and (max-width: 539px){
+        width: 100%;
+    }
+}

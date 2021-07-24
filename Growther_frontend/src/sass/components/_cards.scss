@@ -1,0 +1,256 @@
+.card{
+    flex-direction: row;
+    background-color: #FFFFFF;
+    position: relative;
+    border: 1px solid $border-color;
+    border-radius: 20px !important;
+    margin-top: 1.2rem;
+    margin-right: 5px;
+    margin-left: 5px;
+    padding: 0 !important;
+    transition: all 0.5s;
+    max-width: calc(33.33% - 10px) !important;
+    min-width: calc(33.33% - 10px) !important;
+    @media only screen and (max-width: 1420px){
+      flex-direction: column !important;
+    }
+    @media only screen and (max-width: 1195px){
+      flex-direction: row !important;
+      max-width: calc(50% - 10px) !important;
+      min-width: calc(50% - 10px) !important;
+    }
+    @media only screen and (max-width: 976px){
+      max-width: calc(100% - 10px) !important;
+      min-width: calc(100% - 10px) !important;
+    }
+    @media only screen and (max-width: 375px) {
+      flex-direction: column !important;
+      max-width: calc(100% - 10px) !important;
+      min-width: calc(100% - 10px) !important;
+    }
+    @media only screen and (max-width: 359px) {
+      max-width: calc(100% - 30px) !important;
+      min-width: calc(100% - 30px) !important;
+    }
+    > div{
+      flex-grow: 1;
+      padding: 10px;
+    }
+    .left-side{
+      flex: 1;
+      background-color: $sideBar-color;
+      color: white;
+      border-radius: 20px 0 0 20px !important;
+      font-size: 25px;
+      padding: 10px 20px;
+      justify-content: space-evenly;
+      align-items: center;
+      font-family: Poppins-Medium;
+      @media only screen and (max-width: 1420px) {
+        flex-direction: row !important;
+        justify-content: center !important;
+        align-items: center !important;
+        border-radius: 20px 20px 0px 0px !important;
+      }
+      @media only screen and (max-width: 1195px) {
+        flex-direction: column !important;
+        justify-content: space-evenly !important;
+        align-items: center !important;
+        border-radius: 20px 0 0 20px !important;
+      }
+      @media only screen and (max-width: 375px) {
+        flex-direction: row !important;
+        justify-content: center !important;
+        align-items: center !important;
+        border-radius: 20px 20px 0px 0px !important;
+      }
+      > div{
+        width: 100%;
+      }
+      &.templateImg{
+        height: 100%;
+        align-items: center;
+        justify-content: center;
+        img{
+          width: 100%;
+          max-width: 90px;
+          height: auto;
+        }
+      }
+      .dateType{
+        font-size: 15px;
+      }
+      .little-title{
+        font-size: 8px;
+      }
+    }
+    .right-side{
+      flex: 3;
+      justify-content: space-evenly;
+      margin-left: 10px;
+      .card-infos{
+        justify-content: space-between;
+        .card-title{
+          font-size: 18px;
+          font-weight: 500;
+        }
+        .card-description{
+          word-break: break-all;
+          margin: 0.25em 0 0.5em 0;
+          font-size: 13px;
+          color: $container-border;
+          font-family: Poppins-Medium;
+        }
+      }
+      .card-buttons{
+        justify-content: space-between;
+        align-items: center;
+        justify-self: flex-end;
+        > div{
+          flex: 1;
+          text-align: center;
+          padding: 10px 15px;
+          cursor: pointer;
+          border-radius: 10px;
+          border: 2px solid $button-border1;
+          font-size: 15px;
+        }
+        .details-button{
+          background-color: $button-color2;
+          color: $button-text1;
+          margin-right: 2.5px;
+        }
+        .duplicate-button{
+          background-color: $button-color1;
+          color: $button-text2;
+          margin-left: 2.5px;
+        }
+      }
+    }
+}
+.previewCard{
+  flex-direction: row;
+  background-color: #FFFFFF;
+  position: relative;
+  border: 1px solid $border-color;
+  border-radius: 20px !important;
+  margin-top: 1.2rem;
+  margin-right: 5px;
+  margin-left: 5px;
+  padding: 0 !important;
+  transition: all 0.5s;
+  > div{
+    flex-grow: 1;
+    padding: 10px;
+  }
+  .left-side{
+    flex: 1;
+    background-color: $sideBar-color;
+    color: white;
+    border-radius: 20px 0 0 20px !important;
+    font-size: 25px;
+    padding: 10px 20px;
+    justify-content: space-evenly;
+    align-items: center;
+    font-family: Poppins-Medium;
+    @media only screen and (max-width: 375px) {
+      flex-direction: row !important;
+      justify-content: center;
+      align-items: center;
+      border-radius: 20px 20px 0 0  !important;
+    }
+    > div{
+      width: 100%;
+    }
+    &.templateImg{
+      height: 100%;
+      align-items: center;
+      justify-content: center;
+      img{
+        width: 100%;
+        max-width: 90px;
+        height: auto;
+      }
+    }
+    .dateType{
+      font-size: 15px;
+    }
+    .little-title{
+      font-size: 8px;
+    }
+  }
+  .right-side{
+    flex: 3;
+    justify-content: space-evenly;
+    margin-left: 10px;
+    .card-infos{
+      justify-content: space-between;
+      .card-title{
+        font-size: 18px;
+        font-weight: 500;
+      }
+      .card-description{
+        word-break: break-all;
+        justify-self: center;
+        margin: 0.25em 0 0.5em 0;
+        font-size: 13px;
+        color: $container-border;
+        font-family: Poppins-Medium;
+      }
+    }
+    .previewActions{
+      > div{
+        &:not(:last-child){
+          margin-bottom: 0.25em;
+        }
+        .contest_input{
+          flex: 1;
+          input{
+            width: 100%;
+            height: 100%;
+            padding: 0.25em 0.5em;
+            color: #707070;
+            font-family: Poppins-Regular;
+            border: 0px;
+            outline: none;
+          }
+        }
+        > div{
+          display: flex;
+          align-items: center;
+          border: 1px solid $border-color;
+          
+          &:first-child{
+            border-right: 0px;
+          }
+          &:last-child{
+            border-left: 0px;
+          }
+          &.actionUrl{
+            flex: 1;
+            padding: 0.25em 0.5em;
+            color: #707070;
+            font-family: Poppins-Regular;
+          }
+          &.actionPoints{
+            padding: 0.5em;
+            background-color: $sideBar-color;
+            color: white;
+          }
+          &.actionProvider{
+            .actionIcon{
+              padding: 0.5em 0.6em;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              img{
+                width: 18px;
+                height: auto;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

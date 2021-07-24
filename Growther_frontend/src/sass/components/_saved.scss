@@ -1,0 +1,39 @@
+.savedContest{
+    flex: 1;
+    padding: 10px;
+    > div{
+        margin: 0.25em 0;
+    }
+    .bigText{
+        font-size: 25px;
+        font-family: Poppins-Bold;
+        color: #272D3B;
+    }
+    .subText{
+        color: #707070;
+        font-size: 18px;
+        font-family: Poppins-Medium;
+    }
+    .contestLink{
+        border: 1px solid $border-color;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-size: 15px;
+        color: #272D3B;
+        text-align: center;
+    }
+    .copied{
+        background-color: rgba(39, 45, 59, 0.5);
+        color: white;
+        animation: copied 2000ms forwards alternate;
+        @keyframes copied {
+            from{
+                background-color: rgba(39, 45, 59, 0.5);
+                color: white;
+            }to{
+                background-color: transparent;
+                color: #272D3B;
+            }
+        }
+    }
+}

@@ -1,0 +1,86 @@
+.bg-home {
+    background: url("../../assets/images/bg-home.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.home-title {
+    font-size: 46px;
+    line-height: 64px;
+}
+
+.display-table-cell {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.display-table {
+    display: table;
+    width: 100%;
+    height: 100%;
+}
+
+.home-up {
+    z-index: 10;
+    position: relative;
+}
+
+.play-btn {
+    border: 2px solid;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: block;
+    font-size: 30px;
+    margin-right: auto;
+    margin-left: auto;
+    line-height: 60px;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.play-shadow {
+    border-radius: 50%;
+    border: 1px solid transparent;
+    width: 82px;
+    height: 82px;
+    margin: 20px auto;
+}
+
+.home-desc {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 15px;
+    max-width: 600px;
+    margin: auto;
+}
+
+.home-cell-bottom {
+    display: table-cell;
+    vertical-align: bottom;
+}
+
+.home-half {
+    padding-bottom: 150px;
+    padding-top: 220px;
+}
+
+.bg-pattern-effect{
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+}
+
+.frame-border {
+    border: 9px solid rgba(0, 0, 0, 0.3);
+}
+
+.slidero {
+    top: 50%;
+    transform: translateY(-50%);
+    position: absolute;
+    z-index: 100;
+    left: 0;
+    right: 0;
+}
