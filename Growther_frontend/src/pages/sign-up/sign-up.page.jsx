@@ -63,9 +63,11 @@ class SignUpPage extends React.Component{
         name:this.state.brand.name,
         url:this.state.brand.url
       }
+      console.log(user);
       this.props.registerWithEmailAndPassword(user)
       console.log("hhhhh")
     }
+
     SignUpWithGoogle=async e=>{
       console.log("Google")
       this.setState(prev=>({
@@ -396,9 +398,9 @@ function mapStateToProps(state) {
 }
 
 
-const mapStatsToDispatch=dispatch =>({
-  registerWithEmailAndPassword : ()=>dispatch(registerWithEmailAndPassword())
-})
+const mapStatsToDispatch ={
+  registerWithEmailAndPassword :registerWithEmailAndPassword
+}
 
 
 export default connect(mapStateToProps,mapStatsToDispatch)(SignUpPage);
