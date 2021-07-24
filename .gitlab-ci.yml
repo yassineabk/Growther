@@ -38,40 +38,40 @@ stages:
 #     - echo "Frontend test Complete!"
     
 
-Build-Test-Deploy-Frontend-to-Staging:
-  stage: staging
-  image: docker:19.03.15-dind
-  only:
-    - Develop
-  services:
-  - docker:19.03.15-dind
-  environment:
-    name: frontend-staging
-  script:
-    - echo "Deploying reactJS Frontend..."
-    - docker login -u _ -p $HEROKU_API_KEY registry.heroku.com
-    - docker build --file=Growther_frontend/dockerfile --rm=true -t registry.heroku.com/$APP_NAME_FRONTEND_STAGING/web .
-    - docker push registry.heroku.com/$APP_NAME_FRONTEND_STAGING/web
-    - docker run -e HEROKU_API_KEY=$HEROKU_API_KEY wingrunr21/alpine-heroku-cli:latest container:release web -a $APP_NAME_FRONTEND_STAGING
-    - echo "Frontend Deployment Complete!"
+# Build-Test-Deploy-Frontend-to-Staging:
+#   stage: staging
+#   image: docker:19.03.15-dind
+#   only:
+#     - Develop
+#   services:
+#   - docker:19.03.15-dind
+#   environment:
+#     name: frontend-staging
+#   script:
+#     - echo "Deploying reactJS Frontend..."
+#     - docker login -u _ -p $HEROKU_API_KEY registry.heroku.com
+#     - docker build --file=Growther_frontend/dockerfile --rm=true -t registry.heroku.com/$APP_NAME_FRONTEND_STAGING/web .
+#     - docker push registry.heroku.com/$APP_NAME_FRONTEND_STAGING/web
+#     - docker run -e HEROKU_API_KEY=$HEROKU_API_KEY wingrunr21/alpine-heroku-cli:latest container:release web -a $APP_NAME_FRONTEND_STAGING
+#     - echo "Frontend Deployment Complete!"
 
-Build-Test-Deploy-Frontend-to-Heroku:
-  stage: deploy
-  image: docker:19.03.15-dind
-  only:
-    - master
-  services:
-  - docker:19.03.15-dind
-  environment:
-    name: frontend-production
-  when: manual
-  script:
-    - echo "Deploying reactJS Frontend..."
-    - docker login -u _ -p $HEROKU_API_KEY registry.heroku.com
-    - docker build --file=Growther_frontend/dockerfile --rm=true -t registry.heroku.com/$APP_NAME_FRONTEND/web .
-    - docker push registry.heroku.com/$APP_NAME_FRONTEND/web
-    - docker run -e HEROKU_API_KEY=$HEROKU_API_KEY wingrunr21/alpine-heroku-cli:latest container:release web -a $APP_NAME_FRONTEND
-    - echo "Frontend Deployment Complete!"
+# Build-Test-Deploy-Frontend-to-Heroku:
+#   stage: deploy
+#   image: docker:19.03.15-dind
+#   only:
+#     - master
+#   services:
+#   - docker:19.03.15-dind
+#   environment:
+#     name: frontend-production
+#   when: manual
+#   script:
+#     - echo "Deploying reactJS Frontend..."
+#     - docker login -u _ -p $HEROKU_API_KEY registry.heroku.com
+#     - docker build --file=Growther_frontend/dockerfile --rm=true -t registry.heroku.com/$APP_NAME_FRONTEND/web .
+#     - docker push registry.heroku.com/$APP_NAME_FRONTEND/web
+#     - docker run -e HEROKU_API_KEY=$HEROKU_API_KEY wingrunr21/alpine-heroku-cli:latest container:release web -a $APP_NAME_FRONTEND
+#     - echo "Frontend Deployment Complete!"
 
 
 Build-Backend:
@@ -86,26 +86,26 @@ Build-Backend:
     key: "$CI_COMMIT_SHA"
     policy: push
     paths:
-      - backend/target
+      - Growther_backend/target
   artifacts:
     paths:
-      - backend/target/*.jar
+      - Growther_backend/target/*.jar
     # expire_in: 1 week
   only:
     - master
     - Develop
 
-test-backend:
-  stage: test
-  image: maven:3-jdk-8
-  script: 
-    - echo "Testing Backend..."
-    - cd ./Growther_backend
-    - mvn test
-    - echo "Backend test Complete!"
-  artifacts:
-    paths:
-      - backend/target/*.jar
+# test-backend:
+#   stage: test
+#   image: maven:3-jdk-8
+#   script: 
+#     - echo "Testing Backend..."
+#     - cd ./Growther_backend
+#     - mvn test
+#     - echo "Backend test Complete!"
+#   artifacts:
+#     paths:
+#       - Growther_backend/target/*.jar
 
 
 # Deploy-Backend-to-Heroku:

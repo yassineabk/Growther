@@ -1,30 +1,35 @@
 package wbm.growther.growther_001.models.users;
 
+import com.sun.istack.NotNull;
+import wbm.growther.growther_001.models.AuthenticationProvider;
+
 import javax.persistence.*;
 
 @Entity
-@Table(name="Users")
+@Table(name = "Users",uniqueConstraints = {
+        @UniqueConstraint(columnNames = "email")
+})
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String name;
+
+    @NotNull
     private String email;
+
+
     private String password;
-    private String authProvider;
 
-    public User(String name, String email, String password) {
-        this.name = name;
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private AuthenticationProvider authProvider;
+
+    private String providerId;
+
+    public User(String email, String password) {
         this.email = email;
         this.password = password;
     }
-    public User(String name, String email, String password, String authProvider) {
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.authProvider = authProvider;
-    }
-
 
     public User() {
     }
@@ -37,20 +42,28 @@ public class User {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getEmail() {
         return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public AuthenticationProvider getAuthProvider() {
+        return authProvider;
+    }
+
+    public void setAuthProvider(AuthenticationProvider authProvider) {
+        this.authProvider = authProvider;
+    }
+
+    public String getProviderId() {
+        return providerId;
+    }
+
+    public void setProviderId(String providerId) {
+        this.providerId = providerId;
     }
 
     public String getPassword() {
@@ -61,12 +74,4 @@ public class User {
         this.password = password;
     }
 
-    public String getAuthProvider() {
-        return authProvider;
-    }
-
-    public void setAuthProvider(String authProvider) {
-        this.authProvider = authProvider;
-    }
 }
-

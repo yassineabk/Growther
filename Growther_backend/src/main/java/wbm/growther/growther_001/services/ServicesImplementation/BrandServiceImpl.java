@@ -28,7 +28,7 @@ public class BrandServiceImpl implements BrandService {
     }
 
 
-    @Override
+    /*@Override
     public  BrandDto getBrandByEmailAndPassword(String Email, String Password) {
 
         Brand brand= brandRepository.findBrandByEmailAndPassword(Email, Password);
@@ -47,7 +47,7 @@ public class BrandServiceImpl implements BrandService {
         if(brandExist!=null) return false;
         brandRepository.save(NewBrand);
         return true;
-    }
+    }*/
 
     @Override
     public BrandDto getBrandById(Long ID) {

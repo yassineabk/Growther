@@ -5,10 +5,10 @@ import org.springframework.security.core.GrantedAuthority;
 import java.util.Collection;
 
 public class CustomUserDetails implements org.springframework.security.core.userdetails.UserDetails {
-    private User user;
+    private Brand brand;
 
-    public CustomUserDetails(User user) {
-        this.user = user;
+    public CustomUserDetails(Brand brand) {
+        this.brand = brand;
     }
 
     @Override
@@ -18,12 +18,12 @@ public class CustomUserDetails implements org.springframework.security.core.user
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return brand.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return user.getEmail();
+        return brand.getEmail();
     }
 
     @Override
