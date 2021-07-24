@@ -10,7 +10,6 @@ import Contact from '../../Components/landing-page/contact/contact.componenet';
 import SocialMedia from '../../Components/landing-page/social-media/social-media.component';
 import Footer from '../../Components/landing-page/footer/footer.component';
 import Auxi from '../../Components/landing-page/hoc/auxi.componenet';
-
 class LandingPage extends React.Component {
   render() {
 
@@ -24,7 +23,6 @@ class LandingPage extends React.Component {
         <Auxi>
                 {/* Navbar Component*/}
                 <Navbar/>
-                
                 <section className="section section-lg home-half" id="home" style={bkg1} >
                    <div className="bg-overlay"></div>
                        <div className="display-table">

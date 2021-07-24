@@ -1,7 +1,7 @@
 import React from 'react'
 import { Redirect, useHistory } from "react-router-dom";
 
-const SubmitButton=({handleChange,label,placeholder})=>{
+const SubmitButton=({handleChange,label,placeholder, className, id})=>{
     var history = useHistory()
     /* var redirect = ()=>{
         history.push("/dashboard")
@@ -9,7 +9,7 @@ const SubmitButton=({handleChange,label,placeholder})=>{
     return(
         <div class="field">
             <p class="control"/>
-            <button onClick={()=> {}} id="submitButton" type="submit" class="button is-success is-fullwidth">{label}</button>
+            <button onClick={()=> {}} id={`${id ? id : ""}`} type="submit" class={`${className ? className : ""} button is-success is-fullwidth`}>{label}</button>
         </div>
     )
 }

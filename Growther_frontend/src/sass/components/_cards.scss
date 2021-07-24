@@ -56,12 +56,13 @@
         flex-direction: column !important;
         justify-content: space-evenly !important;
         align-items: center !important;
-        border-radius: 20px 20px 0 0 !important;
+        border-radius: 20px 0 0 20px !important;
       }
       @media only screen and (max-width: 375px) {
         flex-direction: row !important;
         justify-content: center !important;
         align-items: center !important;
+        border-radius: 20px 20px 0px 0px !important;
       }
       > div{
         width: 100%;

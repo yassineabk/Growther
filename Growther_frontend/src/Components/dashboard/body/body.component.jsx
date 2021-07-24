@@ -4,6 +4,7 @@ import { DashboardContestPage } from "../../contest/contests-page/contests-page.
 import { DashboardHomePage } from "../home-page/home-page.component"
 import { NewContest } from "../../contest/new-contest/new-contest.component"
 import { DashboardTemplatesPage } from "../templates-page/templates-page.component"
+import { SignupUserType } from '../../../Components/signup-user-type/signup-user-type.component';
 export const DashboardBody = ({contests, templates, todo, recent, brandname, currentUser}) =>{
     var showSideBar = ()=>{
         document.getElementById("sideBar").classList.toggle("showSideBar")

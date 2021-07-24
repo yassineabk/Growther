@@ -29,7 +29,7 @@ const LoginForm=({handleSubmit,handleRemeberMe,SignUpWithGoogle,SignUpWithFacebo
                             <Link className="subtitle is-danger is-6 is-link" to="Reset Password">I forgot my password</Link>
                             </div>
                         <div className="field"></div>
-                        <SubmitButton type="submit" label="Login"/>
+                        <SubmitButton id="submitButton" type="submit" label="Login"/>
                         <SocialMediaButton onClick={SignUpWithGoogle} isGoogle label="Login with Google"/>
                         <SocialMediaButton onClick={SignUpWithFacebook} label="Login with Facebook"/>
                     </form>
