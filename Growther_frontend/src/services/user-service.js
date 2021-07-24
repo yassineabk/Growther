@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const USERS_REST_API_URL = 'https://staging-backendapp.herokuapp.com/';
+const USERS_REST_API_URL = 'http://localhost:8080';
 
 export const userService = {
     loginWithEmailAndPassword,
@@ -47,10 +47,16 @@ function registerWithEmailAndPassword(user) {
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(user)
+        body: JSON.stringify(user)  
     };
+    console.log(requestOptions);
+    console.log(user);
+    console.log("------------------------------");
+    return axios.post(`${USERS_REST_API_URL}/authentication/signup`,user).then(response =>{
+        console.log(response.data);   
 
-    return fetch(`${USERS_REST_API_URL}/authentication/signup`, requestOptions).then(handleResponse);
+    })
+    // return fetch(`${USERS_REST_API_URL}/authentication/signup`, requestOptions).then(handleResponse);
 }
 
 

@@ -1,4 +1,4 @@
-import {userService} from '../../services/user-service';
+import { userService } from "../../Services/user-service";
 import { authTypes } from "./auth.types";
 
 export function registerWithEmailAndPassword(user) {

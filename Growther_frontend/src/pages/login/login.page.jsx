@@ -28,14 +28,16 @@ class LoginPage extends React.Component{
     }
     handleLoginWithEmail=async e=>{
         e.preventDefault();
-        console.log(e)
+        // console.log(e)
         this.setState(prev=>({
           ...prev,
           isInSecondStep:true,
           
         }));
-        const user={email:this.state.email.email ,password:this.state.password.password}
-        loginWithEmailAndPassword(user)
+        const user={email:"hahadsqsdsqdsqha@gmail.com" ,password:"hahahaha"}
+        // console.log(user);
+        console.log("statttt");
+         this.props.loginWithEmailAndPassword(user)
     }
 
     LoginWithGoogle=async e=>{
@@ -116,8 +118,8 @@ function mapStateToProps(state) {
 }
 
 
-const mapStatsToDispatch=dispatch =>({
-loginWithEmailAndPassword : ()=>dispatch(loginWithEmailAndPassword())
-})
+const mapStatsToDispatch={
+loginWithEmailAndPassword : loginWithEmailAndPassword
+}
 
 export default connect(mapStateToProps,mapStatsToDispatch)(LoginPage);
