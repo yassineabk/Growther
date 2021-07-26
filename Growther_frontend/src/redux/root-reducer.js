@@ -1,18 +1,16 @@
 import {combineReducers} from 'redux'
-import {persistReducer} from 'redux-persist'
-import storage from 'redux-persist/lib/storage'
 import contestReducer from './contest/contest-reducer'
 import { authReducer } from './auth/auth.reducers'
+import {registrationReducer } from './registration/registration.reducers'
+import {loginReducer} from './login/login.reducer'
 
-const persistConfig={
-    key:'root',
-    storage,
-}
 
 const rootReducer=combineReducers({
     contest: contestReducer,
     auth:authReducer,
+    registration:registrationReducer,
+    login:loginReducer
 })
 
 
-export default persistReducer(persistConfig,rootReducer)
+export default rootReducer

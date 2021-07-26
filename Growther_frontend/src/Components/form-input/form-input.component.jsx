@@ -1,21 +1,17 @@
 import React from 'react'
 
-const FormInput = ({type, name, value, placeholder, changeHandler, id, min, label, child, readonly, validData})=>{
+const FormInput = ({handleChange,type,value,handleBlur,label,isError,message,placeholder})=>{
     return(
         <div className="contest_input is-flex is-flex-direction-column">
-            <label for={id ? id : ""}>{label ? label : ""}</label>
+            <label >{label ? label : ""}</label>
             <input 
                 type={type ? type : "text"} 
-                id={id ? id : ""}
-                name={name ? name : ""} 
                 placeholder={placeholder ? placeholder : "Type something here"}
-                onChange={changeHandler && {}.toString.call(changeHandler) === '[object Function]' ? (event)=> changeHandler(event) : (event) => false}
-                min={type === "number" ? min : 0}
-                readOnly={readonly ? readonly : ""}
+                onChange={handleChange && {}.toString.call(handleChange) === '[object Function]' ? (event)=> handleChange(event) : (event) => false}
                 value={value}
+                onBlur={handleBlur}
             />
-            {validData !== undefined && validData.isValid === false ? <div className="inputError">{validData.message}</div> : null}
-            {Array.isArray(child) ? child :  null}
+            { isError === true ? <div className="inputError">{message}</div> : null}
         </div>
     )
 }

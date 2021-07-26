@@ -3,345 +3,194 @@ import { connect } from 'react-redux';
 import SingupFirstStep from '../../Components/signup-first-step/signupFirstStep.component';
 import SingupSecondStep from '../../Components/signup-second-step/signup-second-step.component';
 import {registerWithEmailAndPassword} from '../../redux/auth/auth.actions'
+import { SignupUserType } from '../../Components/signup-user-type/signup-user-type.component';
+import {SetEmail, SetPassword,SetConfirmationPassword,SetEmailError,SetEmailErrorMessage,SetPasswordError,SetPasswordErrorMessage,SetPasswordConfirmationError,SetPasswordConfirmationErrorMessage,SetUserType,ToogleSecondStep,ToogleThirddStep,setBrandName,setBrandNameError,setBrandNameErrorMessage,setBrandUrl,setBrandUrlError,setBrandUrlErrorMessage,setBrandActvity,setBrandActvityError,setBrandActvityErrorMessage,setIndividualName,setIndividualNameErrorMessage,setIndividualNameError} from '../../redux/registration/registration.action'
 
 class SignUpPage extends React.Component{
     constructor(){
         super()
-        this.state={
-            displayName:'',
-            password:{
-              password:'',
-              confirmPassword:'',
-              PasswordMessage:'',
-              isPasswordError:null,
-              PasswordConfirmationMessage:'',
-              isPasswordConfirmationMessage:null
-            },
-            email:{
-              email:'',
-              EmailMessage:'',
-              isEmailError:null,
-            },
-            isInSecondStep:false,
-            brand:{
-              isBrand:true,
-              name:'',
-              isNameError:false,
-              nameErrorMessage:'',
-              url:'',
-              isUrlError:false,
-              urlErrorMessage:'',
-              activities:'',
-              isActivitiesError:false,
-              activitiesErrorMessage:''
-            },
-            individual:{
-              name:'',
-              isNameError:false,
-              nameErrorMessage:''
-            }
-            
-            
-        }
     }
     handleSubmitFirstStep=async e=>{
         e.preventDefault();
-        console.log(e)
-        this.setState(prev=>({
-          ...prev,
-          isInSecondStep:true,
-          
-        }));
+        this.props.toogleThirddStep()
 
     }
     handleSubmitSecondStep=async e=>{
       e.preventDefault();
-  
+      this.props.toogleThirddStep(true)
+      this.props.toogleSecondStep(false)
       const user={
-        email:this.state.email.email,
-        password:this.state.password.password,
-        name:this.state.brand.name,
-        url:this.state.brand.url
+        "email":this.props.email,
+        "name":this.props.name,
+        "password":this.props.password,
+        "url":"growther.coms"
       }
+     
       this.props.registerWithEmailAndPassword(user)
-      console.log("hhhhh")
     }
     SignUpWithGoogle=async e=>{
       console.log("Google")
-      this.setState(prev=>({
-        ...prev,
-        isInSecondStep:true,
-        
-      })); 
+      
 
     }
     SignUpWithFacebook=async e=>{
       console.log("Facebook")
-      this.setState(prev=>({
-        ...prev,
-        isInSecondStep:true,
-        
-      })); 
+       
 
     }
 
 
 
-    emailValidation = email => {
-        if (email.trim() === '') {
-            console.log("empty")
-            this.setState(prev=>({
-              ...prev,
-              email:{
-                ...prev.email,
-                EmailMessage:'Email is required',
-                isEmailError:true
-              }
-            }));
-            console.log(this.state.isEmailError)
-          }
-        else if (
-          /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/.test(email,)
-        ) {
-            console.log('get')
-            this.setState(prev=>({
-            ...prev,
-            email:{
-              ...prev.email,
-              email:email,
-              EmailMessage:'',
-              isEmailError:false
-            }
-            
-          }));        }
-          else{
-            this.setState(prev=>({
-                ...prev,
-                email:{
-                  ...prev.email,
-                  EmailMessage:'Please enter a valid email',
-                  isEmailError:true
-                }
-                
-              }));
-          }
-        
-        
-      };
+    
 
       passwordValidation = password=>{
         if (password.trim() === '') {
-            this.setState(prev=>({
-              ...prev,
-              password:{
-                ...prev.password,
-                PasswordMessage:'Password is required',
-                isPasswordError:true
-              }
-              
-            }));
+          this.props.setPasswordError(true)
+          this.props.setPasswordErrorMessage('Password is required')
           }
         else if (password.trim().length < 8) {
-            this.setState(prev=>({
-            ...prev,
-            password:{
-              ...prev.password,
-              PasswordMessage:'Password should be more than 8 characters',
-              isPasswordError:true
-            }
-            
-          }));   
+          this.props.setPasswordError(true)
+          this.props.setPasswordErrorMessage('Password should be more than 8 characters')  
         }else{
-            this.setState(prev=>({
-                ...prev,
-                password:{
-                  ...prev.password,
-                  password:password,
-                  PasswordMessage:'',
-                  isPasswordError:false
-                }
-                
-              }));  
+          this.props.setPasswordError(false)
+          this.props.setPasswordErrorMessage('')
         }
 
 
       }
     handleEmailBlur=e =>{
-        this.emailValidation(e.target.value)
-    }
-    handleEmailChange= e =>{
-        this.emailValidation(e.target.value)
+      this.props.setEmail(e.target.value)
+      this.emailValidation(e.target.value)
         
     }
+    handleEmailChange=e =>{
+    }
+    emailValidation = email => {
+      if (email.trim() === '') {
+          this.props.setEmailError(true)
+          this.props.setEmailErrorMessage('Email is required')
+        }
+      else if (
+        /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/.test(email,)
+      ) {
+        this.props.setEmailError(false)
+        this.props.setEmailErrorMessage('')
+          
+      }
+        else{
+          this.props.setEmailError(true)
+          this.props.setEmailErrorMessage('Please enter a valid email')
+        }
+         
+    };
+
+
+
     handlePasswordChange= e =>{
+        this.props.setPassword(e.target.value)
         this.passwordValidation(e.target.value)
-        console.log(this.state)
         
     }
     handlePasswordConfirmationBlur= e =>{
-        this.passwordValidation(e.target.value)
+      this.props.setConfirmationPassword(e.target.value)
         const confirmedPssword=e.target.value;
-        console.log(this.state.password.password)
-        console.log(confirmedPssword)
-        if(confirmedPssword===this.state.password.password){
-          console.log(true)
-            this.setState(prev=>({
-                ...prev,
-                password:{
-                  ...prev.password,
-                  PasswordConfirmationMessage:'',
-                  isPasswordConfirmationMessage:false
-                }
-                
-              }));  
+        console.log(this.props)
+        if(confirmedPssword===this.props.password){
+            this.props.setPasswordConfirmationError(false)
+            this.props.setPasswordConfirmationErrorMessage('')
+            
         }else{
-            this.setState(prev=>({
-                ...prev,
-                password:{
-                  ...prev.password,
-                  PasswordConfirmationMessage:"password doesn't match",
-                  isPasswordConfirmationMessage:true
-                }
-                
-              }));  
+          this.props.setPasswordConfirmationError(true)
+          this.props.setPasswordConfirmationErrorMessage("password doesn't match")
         }       
     }
 
-    handleUserTypeRadioButton=e=>{
-      const userType=e.target.id
-      if(userType==='brand'){
-        this.setState(prev=>({
-          ...prev,
-          brand:{
-            ...prev.brand,
-            isBrand:true
-          }
-          
-        }));  
-      }else if(userType==='individual'){
-        this.setState(prev=>({
-          ...prev,
-          brand:{
-            ...prev.brand,
-            isBrand:false
-          }
-          
-        }));  
-      } 
-    }
+    
     handleBrandNameBlur=e =>{
       const BrandName=e.target.value
       if(BrandName.trim()===""){
-        this.setState(prev=>({
-          ...prev,
-          brand:{
-            ...prev.brand,
-            isNameError:true,
-            nameErrorMessage:'Brand Name is required'
-          }
-          
-        })); 
+        this.props.setBrandNameError(true)
+        this.props.setBrandNameErrorMessage('Brand Name is required')
+       
       }else{
-        this.setState(prev=>({
-          ...prev,
-          brand:{
-            ...prev.brand,
-            name:BrandName,
-            isNameError:false,
-            nameErrorMessage:''
-          }
-          
-        }));  
+        this.props.setBrandName(BrandName)
+        this.props.setBrandNameError(false)
+        this.props.setBrandNameErrorMessage('')
+
       }
       
     }
     handleBrandUrlBlur=e =>{
       const BrandUrl=e.target.value
       if(BrandUrl.trim()===""){
-        this.setState(prev=>({
-          ...prev,
-          brand:{
-            ...prev.brand,
-            isUrlError:true,
-            urlErrorMessage:'url is required'
-          }
-          
-        }));  
+        this.props.setBrandUrlError(true)
+        this.props.setBrandUrlErrorMessage('url is required')
+        
       }else{
-        this.setState(prev=>({
-          ...prev,
-          brand:{
-            ...prev.brand,
-            url:BrandUrl,
-            isUrlError:false,
-            urlErrorMessage:''
-          }
-          
-        }));  
+        this.props.setBrandUrlError(false)
+        this.props.setBrandUrlErrorMessage('')
+        this.props.setBrandUrl(BrandUrl)
+        
       }
       
     }
     handleBrandActivitiesBlur=e =>{
       const BrandActivities=e.target.value
       if(BrandActivities.trim()===""){
-        this.setState(prev=>({
-          ...prev,
-          brand:{
-            ...prev.brand,
-            isActivitiesError:true,
-            activitiesErrorMessage:'Activitiy is required'
-          }
-          
-        }));  
+        this.props.setBrandActvityError(true)
+        this.props.setBrandActvityErrorMessage('Activitiy is required')
+         
       }else{
-        this.setState(prev=>({
-          ...prev,
-          brand:{
-            ...prev.brand,
-            activities:BrandActivities,
-            isActivitiesError:false,
-            activitiesErrorMessage:''
-          }
-          
-        }));  
+        this.props.setBrandActvityError(false)
+        this.props.setBrandActvityErrorMessage('')
+        this.props.setBrandActvity(BrandActivities)
+         
+        
       }
       
     }
     handleIndividualNameBlur=e =>{
       const IndividualName=e.target.value
       if(IndividualName.trim()===""){
-        this.setState(prev=>({
-          ...prev,
-          individual:{
-            ...prev.brand,
-            isNameError:true,
-            nameErrorMessage:'name is required'
-          }
-          
-        }));  
+        this.props.setIndividualNameError(true)
+        this.props.setIndividualNameErrorMessage('name is required')
+        
       }else{
-        this.setState(prev=>({
-          ...prev,
-          individual:{
-            ...prev.brand,
-            name:IndividualName,
-            isNameError:false,
-            nameErrorMessage:''
-
-          }
-          
-        }));  
+        this.props.setIndividualNameError(false)
+        this.props.setIndividualNameErrorMessage('')
+        this.props.setIndividualName(IndividualName)
+        
+        
+        
       }
       
       console.log(this.state)
 
     }
     
+    handleUserType=e=>{
+     const name=e.target.name
+      if(name==="brand"){
+        this.props.setUserType(true)
+      }else if(name==="individual"){
+        this.props.setUserType(false)
+
+      }
+
+
+    }
+
+    handleUserTypeSubmit=e=>{
+      e.preventDefault()
+      this.props.toogleSecondStep(true)
+    }
+
+
 
     render(){
       const emailFunctions={
         handleEmailBlur:this.handleEmailBlur,
-        handleEmailChange:this.handleEmailChange,
+        handleEmailChange:this.handleEmailChange
       }
       const PasswordFunctions={
         handlePasswordChange:this.handlePasswordChange,
@@ -356,49 +205,89 @@ class SignUpPage extends React.Component{
       const IndividualFunctions={
         handleIndividualNameBlur:this.handleIndividualNameBlur
       }
-
+      if(this.props.isSecondStep){
         return(
-            this.state.isInSecondStep ? (
-                <SingupSecondStep
-                      handleSubmit={this.handleSubmitSecondStep}
-                      handleChange={this.handleUserTypeRadioButton}
-                      individual={this.state.individual}
-                      brand={this.state.brand}
-                      BrandFunctions={BrandFunctions}
-                      IndividualFunctions={IndividualFunctions}
-                      isBrand={this.state.brand.isBrand}
-                  />
-            ):(
-                <SingupFirstStep
-                      handleSubmit={this.handleSubmitFirstStep}
-                      SignUpWithGoogle={this.SignUpWithGoogle}
-                      SignUpWithFacebook={this.SignUpWithFacebook}
-                      password={this.state.password}
-                      passwordFunctions={PasswordFunctions}
-                      email={this.state.email}
-                      emailFunctions={emailFunctions}
-                
-                /> 
-              
-            )
+
+          <SingupSecondStep
+          handleSubmit={this.handleSubmitSecondStep}
+          individual={this.props.individual}
+          brand={this.props.brand}
+          BrandFunctions={BrandFunctions}
+          IndividualFunctions={IndividualFunctions}
+          isBrand={this.props.isBrand}
+        />
+
         )
-    }
-
-
-
-
+         
+      }if(this.props.isThirdStep){
+        return(<SingupFirstStep
+        handleSubmit={this.handleSubmitFirstStep}
+        SignUpWithGoogle={this.SignUpWithGoogle}
+        SignUpWithFacebook={this.SignUpWithFacebook}
+        password={this.props.password}
+        passwordFunctions={PasswordFunctions}
+        email={this.props.email}
+        emailFunctions={emailFunctions}
+        isErrors={this.props.isError}
+        messages={this.props.errorMessages}
+  
+  /> )
+      }else{
+        return(<SignupUserType 
+          handleClick={this.handleUserType} 
+          isBrand={this.props.isBrand} 
+          handleSubmit={this.handleUserTypeSubmit}/>)
+      }
+       
+}
 }
 
 
 function mapStateToProps(state) {
-    const { auth } = state
-    return {currentUser : auth.currentUser}
+    return {currentUser : state.auth.currentUser,
+            email:state.registration.email,
+            password:state.registration.password,
+            isSecondStep:state.registration.isSecondStep,
+            isThirdStep:state.registration.isThirdStep,
+            isBrand:state.registration.isBrand,
+            errorMessages:state.registration.errorMessage,
+            isError:state.registration.isError,
+            individual:state.registration.individual,
+            brand:state.registration.brand
+    }
 }
 
 
-const mapStatsToDispatch=dispatch =>({
-  registerWithEmailAndPassword : ()=>dispatch(registerWithEmailAndPassword())
-})
+const mapStatsToDispatch={
+  registerWithEmailAndPassword : registerWithEmailAndPassword,
+  setEmail:(email)=>SetEmail(email),
+  setPassword:(password)=>SetPassword(password),
+  setConfirmationPassword:(password)=>SetConfirmationPassword(password),
+  setEmailError:(bool)=>SetEmailError(bool),
+  setEmailErrorMessage:(message)=>SetEmailErrorMessage(message),
+  setPasswordError:(bool)=>SetPasswordError(bool),
+  setPasswordErrorMessage:(message)=>SetPasswordErrorMessage(message),
+  setPasswordConfirmationError:(bool)=>SetPasswordConfirmationError(bool),
+  setPasswordConfirmationErrorMessage:(message)=>SetPasswordConfirmationErrorMessage(message),
+  setUserType:(bool)=>SetUserType(bool),
+  toogleSecondStep:(bool)=>ToogleSecondStep(bool),
+  toogleThirddStep:(bool)=>ToogleThirddStep(bool),
+  setBrandName:(name)=>setBrandName(name),
+  setBrandNameError:(bool)=>setBrandNameError(bool),
+  setBrandNameErrorMessage:(message)=>setBrandNameErrorMessage(message),
+  setBrandUrl:(name)=>setBrandUrl(name),
+  setBrandUrlError:(bool)=>setBrandUrlError(bool),
+  setBrandUrlErrorMessage:(message)=>setBrandUrlErrorMessage(message),
+  setBrandActvity:(name)=>setBrandActvity(name),
+  setBrandActvityError:(bool)=>setBrandActvityError(bool),
+  setBrandActvityErrorMessage:(message)=>setBrandActvityErrorMessage(message),
+  setIndividualName:(name)=>setIndividualName(name),
+  setIndividualNameError:(bool)=>setIndividualNameError(bool),
+  setIndividualNameErrorMessage:(message)=>setIndividualNameErrorMessage(message),
+
+
+
+}
 
 
 export default connect(mapStateToProps,mapStatsToDispatch)(SignUpPage);

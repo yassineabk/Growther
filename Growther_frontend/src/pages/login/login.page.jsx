@@ -1,13 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import EmailInput from '../../Components/email-input/email-input.component';
-import PasswordInput from '../../Components/password-input/password-input.component';
-import SubmitButton from '../../Components/submit-button/submit-button.component';
-import SocialMediaButton from '../../Components/social-media-button/social-media-button.component';
-import SingupFirstStep from '../../Components/signup-first-step/signupFirstStep.component';
-import SingupSecondStep from '../../Components/signup-second-step/signup-second-step.component';
 import LoginForm from '../../Components/login-form/login-form.componenet';
 import { loginWithEmailAndPassword } from '../../redux/auth/auth.actions';
+import {setEmail,setPassword,setLoginError,setLoginErrorMessage,setRemember} from '../../redux/login/login.actions'
 class LoginPage extends React.Component{
     constructor(){
         super()
@@ -61,15 +56,15 @@ class LoginPage extends React.Component{
         
     }
     handleEmailChange= e =>{
-        
+        this.props.setEmail(e.target.value)
         
     }
     handlePasswordChange= e =>{
-        console.log(this.state)
-        
+        this.props.setPassword(e.target.value)
     }
     handleRemeberMe=e =>{
-      
+      console.log(e.target.value)
+      this.props.setRemember(!this.props.remember)
     }
     
 
@@ -111,13 +106,21 @@ class LoginPage extends React.Component{
 
 }
 function mapStateToProps(state) {
-  const { auth } = state
-  return {currentUser : auth.currentUser}
+  return {currentUser : state.auth.currentUser,
+          password:state.login.password,
+          email:state.login.email,
+          remember:state.login.remember
+        }
 }
 
 
-const mapStatsToDispatch=dispatch =>({
-loginWithEmailAndPassword : ()=>dispatch(loginWithEmailAndPassword())
-})
+const mapStatsToDispatch={
+    loginWithEmailAndPassword : loginWithEmailAndPassword,
+    setEmail:(email)=>setEmail(email),
+    setPassword:(password)=>setPassword(password),
+    setLoginErrorMessage:(message)=>setLoginErrorMessage(message),
+    setLoginError:(bool)=>setLoginError(bool),
+    setRemember:(bool)=>setRemember(bool)
+}
 
 export default connect(mapStateToProps,mapStatsToDispatch)(LoginPage);
