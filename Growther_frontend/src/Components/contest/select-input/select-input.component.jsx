@@ -7,7 +7,8 @@ export const SelectInput = ({data, value, changeHandler})=>{
             value={value} 
         >
             {Array.isArray(data) ? data.map((element, index)=>{
-                return <option value={typeof(element) === "string" ? element : ""} >{typeof(element) === "string" ? element : ""}</option>
+                if(typeof(element) === "string" && element.length > 0) return <option value={element}>{element}</option>
+                return null
             }) : null}
         </select>
     )

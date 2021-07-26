@@ -32,10 +32,15 @@ export const ContestAction = ({data, removeAction, updateAction, validAction})=>
                     id="actionPoints"
                     name="actionPoints"
                     placeholder="Points"
-                    value={data.actions[data.active] ? data.actions[data.active].points : 1}
+                    value={typeof(data.actions[data.active]) === "object" && data.actions[data.active].points ? data.actions[data.active].points : 1}
                     min={1}
+                    max={5}
                     changeHandler={(event)=> updateAction(data.provider, "points", parseInt(event.target.value))}
-                    validData={validAction && validAction[data.active] ? {isValid: validAction[data.active].points, message: "Please, Enter a number greather than 0"} : false}
+                    validData={validAction && validAction[data.active] ? 
+                        {
+                            isValid: validAction[data.active].points, 
+                            message:"Please, Enter a number between 1 and 5"
+                        } : false}
                 />
             </div>
             <div className="removeAction">

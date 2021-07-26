@@ -1,10 +1,10 @@
 import React, { useEffect } from "react"
-import { CardsContainer } from "../cards-container/cards-container.component"
+import { TemplatesContainer } from "../templates-container/templates-container.component"
 export const DashboardTemplatesPage = ({templates}) =>{
     useEffect(()=>{
         //GET Data from API
     })
     return(
-        <CardsContainer data={templates} title={"Templates"} />
+        <TemplatesContainer data={templates} title={"Templates"}/>
     )
 }
