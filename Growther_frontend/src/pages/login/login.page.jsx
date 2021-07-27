@@ -34,7 +34,7 @@ class LoginPage extends React.Component{
           isInSecondStep:true,
           
         }));
-        const user={email:"hahadsqsdsqdsqha@gmail.com" ,password:"hahahaha"}
+        const user={email:"something@gmail.com" ,password:"hahahaha"}
         // console.log(user);
         console.log("statttt");
          this.props.loginWithEmailAndPassword(user)

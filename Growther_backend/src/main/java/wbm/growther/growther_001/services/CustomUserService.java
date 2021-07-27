@@ -6,29 +6,31 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import wbm.growther.growther_001.models.users.Brand;
+import wbm.growther.growther_001.models.users.User;
 import wbm.growther.growther_001.repository.BrandRepository;
+import wbm.growther.growther_001.repository.UserRepository;
 import wbm.growther.growther_001.security.SecurityModel.SecurityUser;
 
 @Service
 public class CustomUserService implements UserDetailsService {
 
     @Autowired
-    private BrandRepository brandRepository;
+    private UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-        Brand brand = brandRepository.findBrandByEmail(email);
-        if(brand == null)
+        User user = userRepository.findUserByEmail(email);
+        if(user == null)
             throw new UsernameNotFoundException("User not found !");
-        return SecurityUser.Create(brand);
+        return SecurityUser.Create(user);
     }
 
     public UserDetails loadUserByUserId(Long userId) throws UsernameNotFoundException{
 
-        Brand brand= brandRepository.findBrandById(userId);
-        if(brand == null)
+        User user= userRepository.findUserById(userId);
+        if(user == null)
             throw new UsernameNotFoundException("User not found !!");
-        return  SecurityUser.Create(brand);
+        return  SecurityUser.Create(user);
     }
 }

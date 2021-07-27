@@ -86,7 +86,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .failureHandler(failureHandler);
 
         httpSecurity.addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
-
     }
 
     @Override
@@ -127,7 +126,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         configuration.setAllowedHeaders(Arrays.asList("Access-Control-Allow-Headers",
                 "Access-Control-Allow-Origin", "Access-Control-Request-Method",
-                "Access-Control-Request-Headers", "Origin", "Cache-Control", "Content-Type"));
+                "Access-Control-Request-Headers","Accept","Accept-Language","Content-Language",
+                "Origin", "Cache-Control", "Authorization", "Content-Type"));
 
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
