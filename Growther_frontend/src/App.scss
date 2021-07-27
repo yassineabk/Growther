@@ -227,6 +227,7 @@
               }
               input{
                 max-width: calc(100% - 0.5em) !important;
+                max-height: 50px !important;
                 @media only screen and (max-width: 400px){
                   margin: 0.25em 0 !important;
                 }

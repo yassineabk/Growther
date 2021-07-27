@@ -1,18 +1,26 @@
 import React, { useEffect } from "react"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { 
     BrowserRouter as Router,
     Route,
-    Switch, 
+    Switch,
+    useHistory, 
 } 
 from "react-router-dom"
+import { PreviewSelectedAction } from "../../../redux/contest/contest-actions"
 import { ContestFirstStep } from "../contest-first-step/contest-first-step.component"
 import { ContestSecondStep } from "../contest-second-step/contest-second-step.component"
 import { ContestThirdStep } from "../contest-third-step/contest-third-step.component"
 import { NewContestTabs } from "../new-contest-tabs/new-contest-tabs.component"
 import { PreviewContainer } from "../preview-container/preview-container.component"
 export const NewContest = ()=>{
-    var { information, activePage, actions } = useSelector(state => state.contest)
+    var { information, activePage, actions, previewActions } = useSelector(state => state.contest)
+    var dispatch = useDispatch()
+    var history = useHistory()
+    var previewChangeHandler = (event, provider)=>{
+        var index = parseInt(event.target.selectedIndex)
+        PreviewSelectedAction(dispatch, provider, index)
+    }
     return(
         <div className="column is-full is-flex is-flex-direction-column list-container newContest is-size-6 mb-4">
             <NewContestTabs 
@@ -20,7 +28,7 @@ export const NewContest = ()=>{
                 tabs={[
                     {
                         location: "/dashboard/My Contests/new/firstStep", 
-                        text: "Contest Informations"
+                        text: "Contest Informations",
                     },
                     {
                         location: "/dashboard/My Contests/new/secondStep", 
@@ -33,7 +41,11 @@ export const NewContest = ()=>{
                 ]}
             />
             <div className="is-flex bottomContainer">
-                <PreviewContainer information={information} actions={actions} />
+                <PreviewContainer 
+                    previewActions={previewActions} 
+                    information={information} 
+                    actions={actions} 
+                    changeHandler={(event, provider) => previewChangeHandler(event, provider)} />
                 <Router>
                     <Switch>
                         <Route path={"/dashboard/My Contests/new/firstStep"}>

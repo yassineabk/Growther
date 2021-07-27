@@ -1,0 +1,5 @@
+export const Contest_Card_Types = {
+    SET_CONTEST_STATE: "SET_CONTEST_STATE",
+    SELECTED_ACTION: "SELECTED_ACTION",
+    ACTION_DONE: "ACTION_DONE"
+}

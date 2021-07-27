@@ -21,14 +21,18 @@ const INITIAL_STATE={
     isValidData: false,
     validActions: [],
     isValidActions: false,
-    activePage: "/dashboard/My Contests/new/firstStep"
+    isPublished: false,
+    activePage: "/dashboard/My Contests/new/firstStep",
+    previewActions: [],
+    contestLink: "",
+    error: null
 }
 const contestReducer=(state=INITIAL_STATE,action)=>{
     switch (action.type) {
         case ContestTypes.SET_INITIAL_STATE:{
             return INITIAL_STATE
         }
-        case ContestTypes.SET_STATE:
+        case ContestTypes.SET_NEW_CONTEST_STATE:
             return {
                 ...state,
                 information:{
@@ -83,13 +87,16 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
                     duration: {
                         value: action.payload.value,
                         type: action.payload.type
-                    }
+                    },
+                    startDate: action.payload.startDate,
+                    endDate: action.payload.endDate
                 }
             }
         case ContestTypes.ADD_ACTION:
             if(state.actions === undefined) return{
                 ...state,
-                actions: [action.payload]
+                actions: [action.payload],
+                previewActions: [{provider: action.payload.provider, index: 0}]
             }
 
             var filtred = state.actions.filter(
@@ -99,12 +106,16 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
             return {
                 ...state,
                 actions: filtred.length === 0 ?
-                    [...state.actions, action.payload] : [...state.actions]
+                    [...state.actions, action.payload] : [...state.actions],
+                previewActions: filtred.length === 0 ?
+                    [...state.previewActions, {provider: action.payload.provider, index: 0}] : [...state.previewActions]
+                
             }
         case ContestTypes.REMOVE_ACTION:  
             return {
                 ...state,
-                actions: state.actions.filter(item => item.provider !== action.payload)
+                actions: state.actions.filter(item => item.provider !== action.payload),
+                previewActions: state.previewActions.filter(item => item.provider !== action.payload),
             }
         case ContestTypes.UPDATE_ACTION:
             return {
@@ -136,101 +147,16 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
                 })
             }
         case ContestTypes.CHECK_DATA:
-            var data = state.information
-            var result = {}
-            Object.keys(data).map(key=>{
-                switch(key){
-                    case "title":
-                        if(data["title"] === null || (typeof(data["title"]) === "string" && data["title"].length === 0)){
-                            result["title"] = false
-                        }
-                        break
-                    case "description":
-                        if(data["description"] === null || (typeof(data["description"]) === "string" && data["description"].length === 0)){
-                            result["description"] = false
-                        }
-                        break
-                    case "winnersNbr":
-                        if(data["winnersNbr"] === null || data["winnersNbr"] < 1){
-                            result["winnersNbr"] = false
-                        }
-                        break
-                    case "startDate":
-                        if(data["startDate"] === null || (typeof(data["startDate"]) === "string" && data["startDate"].length === 0)){
-                            result["startDate"] = false
-                        }else{
-                            var dateStart = new Date(data.startDate)
-                            var dateEnd = new Date(data.endDate)
-                            var currentDate = new Date()
-                            if(dateStart >= dateEnd || dateStart < currentDate){
-                                result["startDate"] = false
-                            }
-                        }
-                        break
-                    case "endDate":
-                        if(data["endDate"] === null || (typeof(data["endDate"]) === "string" && data["endDate"].length === 0)){
-                            result["endDate"] = false
-                        }else{
-                            var dateStart = new Date(data.startDate)
-                            var dateEnd = new Date(data.endDate)
-                            var currentDate = new Date()
-                            if(dateStart >= dateEnd || dateEnd < currentDate){
-                                result["endDate"] = false
-                            }
-                        }
-                        break
-                    default:
-                        break
-                }
-            })
             return{
                 ...state,
-                validData: result,
-                isValidData: Object.keys(result).length === 0,
-                activePage: Object.keys(result).length === 0 ? "/dashboard/My Contests/new/secondStep" : state.activePage
+                validData: action.payload.validData,
+                isValidData: action.payload.isValidData,
             }
         case ContestTypes.CHECK_ACTIONS:
-            var result = []
-            if(Array.isArray(state.actions)){
-                state.actions.map(item =>{
-                    if(typeof(item) === "object" &&  typeof(item.actions) === "object"){
-                        var res = {provider: item.provider, actions: {}}
-                        Object.keys(item.actions).map(key=>{
-                            if(typeof(item.actions[key]) === "object"){
-                                res.actions[key] = {}
-                                Object.keys(item.actions[key]).map(key2 =>{
-                                    res.actions[key][key2] = true
-                                    if(key2 === "link" && !UrlValidation(item.actions[key][key2])){
-                                        res.actions[key][key2] = false
-                                    }else if(key2 === "points" && item.actions[key][key2] < 1){
-                                        res.actions[key][key2] = false
-                                    }
-                                })
-                            }
-                        })
-                        result = [...result, res]
-                    }
-                })
-            }
-            var isValidActions = ()=>{
-                var isValid = true;
-                for(var i = 0; i < result.length; i++){
-                    for(var item in result[i].actions){
-                        if(!result[i].actions[item].link || !result[i].actions[item].points){
-                            isValid = false;
-                            break;
-                        }
-                    }
-                   if(!isValid) break;
-                }
-                if(!isValid) alert("Please, Check the data you entred")
-                return isValid
-            }
             return {
                 ...state,
-                validActions: result,
-                isValidActions: isValidActions(),
-                activePage: isValidActions() === 0 ? "/dashboard/My Contests/new/thirdStep" : state.activePage
+                validActions: action.payload.validActions,
+                isValidActions: action.payload.isValidActions,
             }
         case ContestTypes.RESET_VALIDATION:
             return {
@@ -238,19 +164,39 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
                 validData: {},
                 isValidData: false
             }
+        case ContestTypes.PREVIEW_SELECTED_ACTIONS:
+            return{
+                ...state,
+                previewActions: state.previewActions.map(item => {
+                    if(item.provider === action.payload.provider){
+                        return{
+                            ...item,
+                            index: action.payload.index
+                        }
+                    }
+                    return{
+                        ...item
+                    }
+                })
+            }
+        case ContestTypes.SAVE_DRAFT:
+            return{
+                ...state
+            }
+        case ContestTypes.PUBLISH_SUCCESS:
+            return{
+                ...state,
+                isPublished: true,
+                contestLink: action.payload.link
+            }
+        case ContestTypes.PUBLISH_FAIL:
+            return{
+                ...state,
+                isPublished: false,
+                error: {isError: true, message: "FAILED TO PUBLISH CONTEST"}
+            }
         default:
             return state;
     }
-
-
-
-}
-
-var UrlValidation = (url)=>{
-    var pattern = new RegExp(/^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$/)
-    if(!pattern.test(url)){
-        return false
-    }
-    return true
 }
 export default contestReducer;

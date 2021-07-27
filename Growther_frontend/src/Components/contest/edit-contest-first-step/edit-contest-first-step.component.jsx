@@ -1,35 +1,74 @@
 import React, { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useHistory, useLocation } from "react-router-dom"
-import { InitState, NextStep, PrizesChange, RemovePrize, SetDuration, StateChange, WinnersNumChange } from "../../../redux/contest/contest-actions"
+import { EditDuration, EditState, SetStateToEdit } from "../../../redux/contest-edit/contest-edit-actions"
 import { ContestButton } from "../contest-buttons/contest-buttons.component"
 import { ContestDescription } from "../contest-description-input/contest-description-input.component"
 import { ContestInput } from "../contest-input/contest-input.component"
 import { PrizesInputs } from "../prizes-inputs/prizes-inputs.component"
 import { SelectInput } from "../select-input/select-input.component"
-export const ContestFirstStep = ()=>{
+export const EditContestFirstStep = ()=>{
     var dispatch = useDispatch()
     var location = useLocation()
-    var history = useHistory()
-    var {information, actions, isValidData, validData} = useSelector(state => state.contest)
+    var {information, actions, isValidData, validData} = useSelector(state => state.contest_edit)
     useEffect(()=>{
-        if(typeof(information) !== "object"){
-            InitState(dispatch)
+        var data = {
+            "information": {
+                "title": "Yassine Hijazi",
+                "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure do",
+                "winnersNbr": 1,
+                "startDate": "2021-07-27",
+                "endDate": "2021-08-13",
+                "duration": {
+                    "value": 17,
+                    "type": "days"
+                },
+                "maxParticipants": 8,
+                "prizes": {
+                    "prize0": "PS5"
+                }
+            },
+            "actions": [
+                {
+                    "provider": "Youtube",
+                    "active": "View",
+                    "actions": {
+                        "View": {
+                            "link": "https://www.youtube.com/id5",
+                            "points": 3
+                        },
+                        "Like": {
+                            "link": "https://www.youtube.com/id221",
+                            "points": 3
+                        },
+                        "Subscribe": {
+                            "link": "https://www.youtube.com/id",
+                            "points": 5
+                        }
+                    },
+                    "listOfActions": [
+                        "View",
+                        "Like",
+                        "Subscribe"
+                    ]
+                }
+            ],
         }
-    }, [dispatch, isValidData])
+        SetStateToEdit(dispatch, data)
+    }, [dispatch])
     var changeHandler = (event)=>{
         var id = event.target.id
         var result = information
-        var numIds = ["winnersNbr", "duration", "maxParticipants"]
+        var numIds = ["duration", "maxParticipants"]
         if(id in result){
             result[id] = numIds.includes(id) ?  parseInt(event.target.value) : event.target.value
-            StateChange(dispatch, result)
+            EditState(dispatch, result)
         }
     }
     var dateHandler = (event)=>{
         if(event !== undefined){
             changeHandler(event)
-            durationHandler()
+            EditDuration()
         }
     }
     var durationHandler = (event)=>{
@@ -43,16 +82,16 @@ export const ContestFirstStep = ()=>{
             var diffWeeks = Math.ceil(diff / (1000*60*60*24*7))
             var diffMonths = Math.ceil(diff / (1000*60*60*24*30))
             if(diffDays % 30 === 0){
-                return SetDuration(dispatch, "months", diffMonths, information.startDate, information.endDate)
+                return EditDuration(dispatch, "months", diffMonths, information.startDate, information.endDate)
             }
             if(diffDays % 7 === 0){
-                return SetDuration(dispatch, "weeks", diffWeeks, information.startDate, information.endDate)
+                return EditDuration(dispatch, "weeks", diffWeeks, information.startDate, information.endDate)
             }
-            SetDuration(dispatch, "days", diffDays, information.startDate, information.endDate)
+            EditDuration(dispatch, "days", diffDays, information.startDate, information.endDate)
         }else{
             var startDate = dateConvert(information.startDate)
             var endDate = addDaystoDate(startDate, parseInt(event.target.value), information.duration.type)
-            SetDuration(dispatch, information.duration.type, parseInt(event.target.value), startDate, endDate)
+            EditDuration(dispatch, information.duration.type, parseInt(event.target.value), startDate, endDate)
         }
         
     }
@@ -87,33 +126,8 @@ export const ContestFirstStep = ()=>{
     var durationTypeHandler = (event) =>{
         var startDate = dateConvert(information.startDate)
         var endDate = addDaystoDate(startDate, information.duration.value, event.target.value)
-        SetDuration(dispatch, event.target.value, information.duration.value, startDate, endDate)
+        EditDuration(dispatch, event.target.value, information.duration.value, startDate, endDate)
     }
-    var numWinnersHandler = (event)=>{
-        var newValue = parseInt(event.target.value)
-        var oldValue = parseInt(information.winnersNbr)
-        if(oldValue > newValue){
-            for(var i = newValue; i < oldValue; i++){
-                RemovePrize(dispatch, "prize"+i, newValue)
-            }
-        }else{
-            for(var i = oldValue; i < newValue; i++){
-                WinnersNumChange(dispatch, "prize"+i, newValue)
-            }
-        }
-    }
-    var prizesHandler = (event)=>{
-        var newValue = event.target.value
-        var id = event.target.id
-        PrizesChange(dispatch, id, newValue)
-    }
-    var nextStep = ()=>{
-        var isValid = NextStep(dispatch, information)
-        if(isValid){
-            history.push("/dashboard/My Contests/new/secondStep")
-        }
-    }
-    if(location.pathname !== "/dashboard/My Contests/new/firstStep") return null
     return(
         <div className="is-flex is-flex-direction-column newContestFrom">
             <div className="mainInfos is-flex">
@@ -144,38 +158,8 @@ export const ContestFirstStep = ()=>{
                                 message: "Please, Describe your contest in few lines"
                             } : undefined}
                     />
-                    <ContestInput 
-                        type={"number"}
-                        id="winnersNbr"
-                        name="winnersNbr"
-                        placeholder="Number of winners"
-                        label="There will be"
-                        changeHandler={(event)=> numWinnersHandler(event)}
-                        min={1}
-                        value={information ? information.winnersNbr : 1}
-                        validData={isValidData === false ? 
-                            {
-                                isValid: validData.winnersNbr,
-                                message: "Please, Your contest should have at least one winner"
-                            }: undefined}
-                    />
                 </div>
                 <div className="otherInputs is-flex is-flex-direction-column">
-                    <ContestInput 
-                        type={"date"}
-                        id="startDate"
-                        name="startDate"
-                        placeholder="dd-mm-yyyy"
-                        label="Start date"
-                        changeHandler={(event)=> dateHandler(event)}
-                        value={information ? information.startDate : ""}
-                        validData={isValidData === false ? 
-                            {
-                                isValid: validData.startDate,
-                                message: "Please, Pick a valid date"
-                            } : undefined
-                        }
-                    />
                     <ContestInput 
                         type={"date"}
                         id="endDate"
@@ -220,29 +204,17 @@ export const ContestFirstStep = ()=>{
                     />
                 </div>
             </div>
-            <div className="prizes is-flex is-flex-direction-column">
-                <label>{"Prizes"}</label>
-                <PrizesInputs 
-                    dispatch={dispatch} 
-                    label={"Prizes"} 
-                    num={information ? information.winnersNbr : 1} 
-                    prizesHandler={(event)=> prizesHandler(event)} 
-                    validData={typeof(validData) === "object"  && Object.keys(validData).includes("prizes") ? validData.prizes : undefined}
-                    data={information && typeof(information) === "object" ? information.prizes : undefined}
-                />
-            </div>
             <div className="contestButtons is-flex is-flex-direction-row is-justify-content-flex-end">
                 <ContestButton 
                     color={"#5E2691"} 
                     bgColor={"#FFFFFF"}
                     borderColor={"#5E2691"}
-                    text={"Save as draft"} />
+                    text={"Cancel"} />
                 <ContestButton 
                     color={"#FFFFFF"}
                     bgColor={"#5E2691"} 
                     borderColor={"#5E2691"}
-                    text={"Next"} 
-                    clickEvent={()=> nextStep()}
+                    text={"Edit"} 
                 />
             </div>
         </div>

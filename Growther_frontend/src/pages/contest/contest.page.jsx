@@ -1,6 +1,17 @@
-import React from "react"
-import { PreviewCard } from "../preview-card/preview-card.component"
-export const PreviewContainer = ({information, actions, previewActions, changeHandler})=>{
+import React, { useEffect } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { PreviewCard } from "../../Components/contest/preview-card/preview-card.component"
+import { SelectAction, SetData } from "../../redux/contest-card/contest-card-actions"
+export const Contest = ()=>{
+    var dispatch = useDispatch()
+    var {information, actions, selected} = useSelector(state => state.contest_card)
+    useEffect(()=>{
+        SetData(dispatch)
+    }, [dispatch])
+    var changeHandler = (event, provider)=>{
+        var index = parseInt(event.target.selectedIndex)
+        SelectAction(dispatch, provider, index)
+    }
     var TimeLeft = (d)=>{
         var currentDate = new Date()
         var daysDiff = Math.ceil(Math.abs(currentDate - new Date(d))/(1000*60*60*24))
@@ -18,16 +29,16 @@ export const PreviewContainer = ({information, actions, previewActions, changeHa
         return {date: daysDiff, type: "day"}
     }
     return(
-        <div className="is-flex is-flex-direction-column preview is-justify-content-center is-align-items-center">
-            <PreviewCard
+        <div className="is-flex is-flex-direction-column contest is-justify-content-center is-align-items-center">
+            {typeof(information) === "object" ? <PreviewCard
                 title={information.title}
                 description={information.description}
                 timeLeft={information.endDate ? TimeLeft(information.endDate).date : ""}
                 dateType={TimeLeft(information.endDate).type}
                 actions={actions}
-                previewActions={previewActions}
-                changeHandler={(event, provider) => changeHandler(event, provider)}
-            />
+                previewActions={selected}
+                changeHandler={(event, provider)=> changeHandler(event, provider)}
+            /> : null}
         </div>
     )
 }

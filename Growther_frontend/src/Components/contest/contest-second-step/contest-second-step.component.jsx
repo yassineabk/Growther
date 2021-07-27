@@ -1,21 +1,21 @@
 import React, { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Redirect, useHistory, useLocation } from "react-router-dom"
-import { AddAction, NextStep, RemoveAction, SaveContest, UpdateAction } from "../../../redux/contest/contest-actions"
+import { AddAction, NextStep, PublishContest, RemoveAction, SaveContest, UpdateAction } from "../../../redux/contest/contest-actions"
 import { ActionsList } from "../actions-list/actions-list.component"
 import { ContestActions } from "../contest-actions/contest-actions.component"
 import { ContestButton } from "../contest-buttons/contest-buttons.component"
 export const ContestSecondStep = ()=>{
     var dispatch = useDispatch()
-    var {actions, isValidData, isValidActions, validActions} = useSelector(state => state.contest)
+    var {actions, isValidData, isValidActions, validActions, information} = useSelector(state => state.contest)
     var location = useLocation()
     var history = useHistory()
-    useEffect(()=>{
+    /*useEffect(()=>{
         CheckFirstStepData()
     }, [dispatch, isValidActions])
     var CheckFirstStepData = ()=>{
-        NextStep(dispatch)
-    }
+        NextStep(dispatch, information)
+    }*/
     var addAction = (action)=>{
         AddAction(dispatch, action)
     }
@@ -25,18 +25,13 @@ export const ContestSecondStep = ()=>{
     var removeAction = (provider)=>{
         RemoveAction(dispatch, provider)
     }
-    var GoToThirdStep = ()=>{
-        if(isValidData && isValidActions){
-            return history.push("/dashboard/My Contests/new/thirdStep")
+    var Save = ()=>{
+        if(PublishContest(dispatch, {information, actions})){
+            history.push("/dashboard/My Contests/new/thirdStep")
         }
     }
-    var Save = ()=>{
-        SaveContest(dispatch)
-        NextStep(dispatch)
-        GoToThirdStep()
-    }
     if(location.pathname !== "/dashboard/My Contests/new/secondStep") return null
-    if(isValidData !== true) return <Redirect to="/dashboard/My Contests/new/firstStep" />
+    //if(isValidData !== true) return <Redirect to="/dashboard/My Contests/new/firstStep" />
     return(
         <div className="actionsContainer is-flex is-flex-direction-column">
             <div className="is-flex is-flex-direction-column">
@@ -75,7 +70,7 @@ export const ContestSecondStep = ()=>{
                     color={"#FFFFFF"}
                     bgColor={"#5E2691"} 
                     borderColor={"#5E2691"}
-                    text={"Save"} 
+                    text={"Publish"} 
                     clickEvent={(event)=> Save()} />
             </div>
         </div>
