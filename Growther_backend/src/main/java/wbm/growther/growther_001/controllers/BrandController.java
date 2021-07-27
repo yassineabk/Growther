@@ -1,4 +1,4 @@
-package wbm.growther.growther_001.controllers;
+/*package wbm.growther.growther_001.controllers;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,13 +27,13 @@ public class BrandController {
         return brandService.getAllBrands();
     }
 
-    /*@PostMapping("/Createbrand")
+    @PostMapping("/Createbrand")
     public BrandDto createBrand(@RequestBody BrandDto brandDto) throws RejectedExecutionException {
 
         Boolean brandCreated = brandService.createNewBrand(brandDto);
         if(brandCreated) return brandDto;
         throw new RejectedExecutionException("A Brand with that email already exist !!");
-    }*/
+    }
 
 
     @GetMapping("/{id}")
@@ -100,3 +100,4 @@ public class BrandController {
 
 
 }
+*/

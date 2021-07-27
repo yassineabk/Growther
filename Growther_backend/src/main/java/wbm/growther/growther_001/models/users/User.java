@@ -10,13 +10,45 @@ import javax.persistence.*;
         @UniqueConstraint(columnNames = "email")
 })
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @NotNull
-    private String email;
+    @Column(length = 50)
+    private String name;
 
+    @Column(length = 100)
+    private String url;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public boolean isBrand() {
+        return isBrand;
+    }
+
+    public void setBrand(boolean brand) {
+        isBrand = brand;
+    }
+
+    @NotNull
+    @Column(length = 50)
+    private String email;
 
     private String password;
 
@@ -24,7 +56,12 @@ public class User {
     @Enumerated(EnumType.STRING)
     private AuthenticationProvider authProvider;
 
+    @NotNull
+    @Column
+    private boolean isBrand;
+
     private String providerId;
+
 
     public User(String email, String password) {
         this.email = email;

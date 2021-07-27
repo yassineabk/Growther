@@ -6,6 +6,7 @@ import wbm.growther.growther_001.models.AuthenticationProvider;
 
 
 public class BrandDto {
+
     private Long id;
     private String name;
     private String url;
