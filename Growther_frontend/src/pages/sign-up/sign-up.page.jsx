@@ -4,13 +4,10 @@ import SingupFirstStep from '../../Components/signup-first-step/signupFirstStep.
 import SingupSecondStep from '../../Components/signup-second-step/signup-second-step.component';
 import {registerWithEmailAndPassword} from '../../redux/registration/registration.action'
 import { SignupUserType } from '../../Components/signup-user-type/signup-user-type.component';
-import {SetEmail,setRegistrationError,setRegistrationErrorMessage, SetPassword,SetConfirmationPassword,SetEmailError,SetEmailErrorMessage,SetPasswordError,SetPasswordErrorMessage,SetPasswordConfirmationError,SetPasswordConfirmationErrorMessage,SetUserType,ToogleSecondStep,ToogleThirddStep,setBrandName,setBrandNameError,setBrandNameErrorMessage,setBrandUrl,setBrandUrlError,setBrandUrlErrorMessage,setBrandActvity,setBrandActvityError,setBrandActvityErrorMessage,setIndividualName,setIndividualNameErrorMessage,setIndividualNameError} from '../../redux/registration/registration.action'
-import { useHistory } from 'react-router-dom';
+import {SetEmail,setRegistrationErrorMessage, SetPassword,SetConfirmationPassword,SetEmailError,SetEmailErrorMessage,SetPasswordError,SetPasswordErrorMessage,SetPasswordConfirmationError,SetPasswordConfirmationErrorMessage,SetUserType,ToogleSecondStep,ToogleThirddStep,setBrandName,setBrandNameError,setBrandNameErrorMessage,setBrandUrl,setBrandUrlError,setBrandUrlErrorMessage,setBrandActvity,setBrandActvityError,setBrandActvityErrorMessage,setIndividualName,setIndividualNameErrorMessage,setIndividualNameError} from '../../redux/registration/registration.action'
 
 class SignUpPage extends React.Component{
-    constructor(){
-        super()
-    }
+    
     handleSubmitFirstStep=async e=>{
         e.preventDefault();
         const email =this.props.email
@@ -29,6 +26,8 @@ class SignUpPage extends React.Component{
               url:this.props.brand.url,
               activities:this.props.brand.activities
             }
+            console.log("---------")
+            console.log(user)
             this.props.setRegistrationError(false)
             
             this.props.registerWithEmailAndPassword(user)

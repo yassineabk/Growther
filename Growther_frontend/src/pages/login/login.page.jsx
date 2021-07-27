@@ -1,6 +1,8 @@
 import userEvent from '@testing-library/user-event';
+import axios from 'axios';
 import React from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import LoginForm from '../../Components/login-form/login-form.componenet';
 import { loginWithEmailAndPassword } from '../../redux/login/login.actions';
 import {setEmail,setPassword,setLoginError,setLoginErrorMessage,setRemember} from '../../redux/login/login.actions'
@@ -27,25 +29,18 @@ class LoginPage extends React.Component{
       
         const user={email:this.props.email ,password:this.props.password}
         console.log(user)
-        loginWithEmailAndPassword(user)
+        this.props.loginWithEmailAndPassword(user)
     }
 
     LoginWithGoogle=async e=>{
-      console.log("Google")
-      this.setState(prev=>({
-        ...prev,
-        isInSecondStep:true,
-        
-      })); 
+      
+      window.open("https://staging-backendapp.herokuapp.com/oauth2/authorize/google?redirect_uri=http://localhost:3000/oauth2/redirect")
 
     }
     LoginWithFacebook=async e=>{
-      console.log("Facebook")
-      this.setState(prev=>({
-        ...prev,
-        isInSecondStep:true,
-        
-      })); 
+      
+      window.open("https://staging-backendapp.herokuapp.com/oauth2/authorize/facebook?redirect_uri=http://localhost:3000/oauth2/redirect")
+
 
     }
 
@@ -108,7 +103,7 @@ class LoginPage extends React.Component{
 }
 function mapStateToProps(state) {
   return {
-    
+
           password:state.login.password,
           email:state.login.email,
           remember:state.login.remember,

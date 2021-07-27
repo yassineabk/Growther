@@ -6,7 +6,7 @@ import SocialMediaButton from '../social-media-button/social-media-button.compon
 import { Link } from 'react-router-dom';
 
 const SingupFirstStep=({handleSubmit,SignUpWithGoogle,SignUpWithFacebook,registrationMessage,errMessage,passwordFunctions,success,emailFunctions,isErrors,messages})=>{
-    console.log("kkkkkkk"+registrationMessage)
+
     return(
 
     <section className="hero is-fullheight Modal">
