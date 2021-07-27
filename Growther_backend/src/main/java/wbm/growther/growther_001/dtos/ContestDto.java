@@ -18,6 +18,7 @@ public class ContestDto {
     private Long duration;
     private Set<Action> actions;
     private Set<Prize> prizes;
+    private String status;
 
     public long getIdContest() {
         return idContest;
@@ -105,5 +106,13 @@ public class ContestDto {
 
     public void setPrizes(Set<Prize> prizes) {
         this.prizes = prizes;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

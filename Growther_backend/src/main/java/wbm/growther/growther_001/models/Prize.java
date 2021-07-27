@@ -1,16 +1,22 @@
 package wbm.growther.growther_001.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name="Prizes")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Prize {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String description;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "idContest")
+    @JsonIgnore
     private Contest contest;
 
     public void setId(Long id) {
@@ -19,6 +25,14 @@ public class Prize {
 
     public Long getId() {
         return id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Contest getContest() {

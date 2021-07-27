@@ -1,11 +1,14 @@
 package wbm.growther.growther_001.models.actions;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import wbm.growther.growther_001.models.Contest;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name="Actions")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Action {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,8 +17,9 @@ public class Action {
     private String type;
     private String url;
     private int points;
-    @ManyToOne
-    @JoinColumn(name = "idContest")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "idContest", nullable = false)
+    @JsonIgnore
     private Contest contest;
 
     public void setId(Long id) {
