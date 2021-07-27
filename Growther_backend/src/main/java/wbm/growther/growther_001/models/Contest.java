@@ -21,7 +21,8 @@ public class Contest {
     private Date startDate;
     private Date endDate;
     private Long duration;
-    @OneToMany(mappedBy="contest", fetch = FetchType.EAGER)
+    private String status;
+    @OneToMany(mappedBy="contest", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Action> actions;
     //JSON field
     @OneToMany(mappedBy="contest", fetch = FetchType.EAGER)
@@ -125,5 +126,13 @@ public class Contest {
 
     public void setPrizes(Set<Prize> prizes) {
         this.prizes = prizes;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

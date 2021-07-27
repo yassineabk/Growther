@@ -35,6 +35,7 @@ public class ContestServiceImpl implements ContestService {
         Contest contestExist = repository.findContestByIdContest(contest.getIdContest());
 
         if(contestExist!=null) return false;
+        contest.setStatus("in_Creation");
         repository.save(contest);
         return true;
     }
@@ -73,6 +74,7 @@ public class ContestServiceImpl implements ContestService {
         ContestDto contestDto = new ContestDto();
         contestDto.setIdContest(contest.getIdContest());
         contestDto.setTitle(contest.getTitle());
+        contestDto.setStatus(contest.getStatus());
         contestDto.setDescription(contest.getDescription());
         contestDto.setWinnersNbr(contest.getWinnersNbr());
         contestDto.setActionsNbr(contest.getActionsNbr());
@@ -96,6 +98,7 @@ public class ContestServiceImpl implements ContestService {
         contest.setIdContest(contestDto.getIdContest());
         contest.setTitle(contestDto.getTitle());
         contest.setDescription(contestDto.getDescription());
+        contest.setStatus(contestDto.getStatus());
         contest.setWinnersNbr(contestDto.getWinnersNbr());
         contest.setActionsNbr(contestDto.getActionsNbr());
         contest.setStartDate(contestDto.getStartDate());
