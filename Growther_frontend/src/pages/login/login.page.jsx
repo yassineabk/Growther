@@ -1,7 +1,8 @@
+import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { connect } from 'react-redux';
 import LoginForm from '../../Components/login-form/login-form.componenet';
-import { loginWithEmailAndPassword } from '../../redux/auth/auth.actions';
+import { loginWithEmailAndPassword } from '../../redux/login/login.actions';
 import {setEmail,setPassword,setLoginError,setLoginErrorMessage,setRemember} from '../../redux/login/login.actions'
 class LoginPage extends React.Component{
     constructor(){
@@ -23,13 +24,9 @@ class LoginPage extends React.Component{
     }
     handleLoginWithEmail=async e=>{
         e.preventDefault();
-        console.log(e)
-        this.setState(prev=>({
-          ...prev,
-          isInSecondStep:true,
-          
-        }));
-        const user={email:this.state.email.email ,password:this.state.password.password}
+      
+        const user={email:this.props.email ,password:this.props.password}
+        console.log(user)
         loginWithEmailAndPassword(user)
     }
 
@@ -86,11 +83,15 @@ class LoginPage extends React.Component{
                     handleSubmit={this.handleLoginWithEmail}
                     SignUpWithGoogle={this.LoginWithGoogle}
                     SignUpWithFacebook={this.LoginWithFacebook}
-                    password={this.state.password}
+                    password={this.props.password}
                     passwordFunctions={PasswordFunctions}
-                    email={this.state.email}
+                    email={this.props.email}
                     emailFunctions={emailFunctions}
                     handleRemeberMe={this.handleRemeberMe}
+                    registrationMessage={this.props.errorMessage}
+                    emailValue={this.props.email}
+                    passwordVlue={this.props.password}
+
                 />
 
             
@@ -106,10 +107,12 @@ class LoginPage extends React.Component{
 
 }
 function mapStateToProps(state) {
-  return {currentUser : state.auth.currentUser,
+  return {
+    
           password:state.login.password,
           email:state.login.email,
-          remember:state.login.remember
+          remember:state.login.remember,
+          errorMessage:state.login.errorMessage
         }
 }
 
@@ -120,7 +123,8 @@ const mapStatsToDispatch={
     setPassword:(password)=>setPassword(password),
     setLoginErrorMessage:(message)=>setLoginErrorMessage(message),
     setLoginError:(bool)=>setLoginError(bool),
-    setRemember:(bool)=>setRemember(bool)
+    setRemember:(bool)=>setRemember(bool),
+
 }
 
 export default connect(mapStateToProps,mapStatsToDispatch)(LoginPage);

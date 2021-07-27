@@ -1,6 +1,8 @@
 import {registrationType} from './registration.types';
 
+
 const INITIAL_STATE={
+    success:false,
     isSecondStep:false,
     isThirdStep:false,
     isBrand:true,
@@ -11,12 +13,15 @@ const INITIAL_STATE={
     isError:{
         password:false,
         email:false,
-        confiremed_password:false
+        confiremed_password:false,
+        registration:false,
     },
     errorMessage:{
         password:'',
         email:'',
-        confiremed_password:''
+        confiremed_password:'',
+        registration:''
+
     },
     brand:{
         name:'',
@@ -257,6 +262,15 @@ export const registrationReducer=(state=INITIAL_STATE,action)=>{
 
                     }
                         }    
+        case registrationType.SET_REGISTRATION_ERROR:
+            return {
+                ...state,
+                isError:{
+                    ...state.isError,
+                    registration:action.payload
+
+                }
+                    } 
         case registrationType.SET_INDIVIDUAL_NAME_ERROR_MESSAGE:
             return {
                 ...state,
@@ -269,6 +283,27 @@ export const registrationReducer=(state=INITIAL_STATE,action)=>{
 
                 }
                     }    
+        case registrationType.SET_REGISTRATION_ERROR_MESSAGE:
+            return {
+                ...state,
+                errorMessage:{
+                    ...state.errorMessage,
+                   registration:action.payload
+
+                }
+                    }
+        case registrationType.REGISTER_SUCCESS:
+            return {
+                ...state,
+                success:true
+                
+                    }
+        case registrationType.REGISTER_REQUEST:
+            return {
+                ...state,                
+                    }
+        
+            
 
 
         default:

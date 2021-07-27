@@ -1,3 +1,4 @@
+import { userService } from "../../services/user-service";
 import { registrationType } from "./registration.types";
 
 
@@ -96,4 +97,33 @@ export const setIndividualNameError =(bool) =>{
 }
 export const setIndividualNameErrorMessage =(message) =>{
     return ({type: registrationType.SET_INDIVIDUAL_NAME_ERROR_MESSAGE ,payload:message})
+}
+export const setRegistrationError=(bool)=>{
+    return({type:registrationType.SET_REGISTRATION_ERROR,payload:bool})
+}
+
+export const setRegistrationErrorMessage=(message)=>{
+    return({type:registrationType.SET_REGISTRATION_ERROR_MESSAGE,payload:message})
+}
+
+export function registerWithEmailAndPassword(user) {
+    return dispatch => {
+        dispatch(request(user));
+
+        userService.registerWithEmailAndPassword(user)
+            .then(
+                user => { 
+                    dispatch(success());
+                },
+                error => {
+                    dispatch(failure(error.toString()));
+
+                }
+            );
+    };
+
+    function request(user) { return { type: registrationType.REGISTER_REQUEST, payload:user } }
+    function success(user) { return { type: registrationType.REGISTER_SUCCESS, payload: user } }
+    function failure(error) { return { type: registrationType.SET_REGISTRATION_ERROR_MESSAGE, payload:error } }
+
 }

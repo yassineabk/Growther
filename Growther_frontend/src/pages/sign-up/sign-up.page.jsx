@@ -2,9 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import SingupFirstStep from '../../Components/signup-first-step/signupFirstStep.component';
 import SingupSecondStep from '../../Components/signup-second-step/signup-second-step.component';
-import {registerWithEmailAndPassword} from '../../redux/auth/auth.actions'
+import {registerWithEmailAndPassword} from '../../redux/registration/registration.action'
 import { SignupUserType } from '../../Components/signup-user-type/signup-user-type.component';
-import {SetEmail, SetPassword,SetConfirmationPassword,SetEmailError,SetEmailErrorMessage,SetPasswordError,SetPasswordErrorMessage,SetPasswordConfirmationError,SetPasswordConfirmationErrorMessage,SetUserType,ToogleSecondStep,ToogleThirddStep,setBrandName,setBrandNameError,setBrandNameErrorMessage,setBrandUrl,setBrandUrlError,setBrandUrlErrorMessage,setBrandActvity,setBrandActvityError,setBrandActvityErrorMessage,setIndividualName,setIndividualNameErrorMessage,setIndividualNameError} from '../../redux/registration/registration.action'
+import {SetEmail,setRegistrationError,setRegistrationErrorMessage, SetPassword,SetConfirmationPassword,SetEmailError,SetEmailErrorMessage,SetPasswordError,SetPasswordErrorMessage,SetPasswordConfirmationError,SetPasswordConfirmationErrorMessage,SetUserType,ToogleSecondStep,ToogleThirddStep,setBrandName,setBrandNameError,setBrandNameErrorMessage,setBrandUrl,setBrandUrlError,setBrandUrlErrorMessage,setBrandActvity,setBrandActvityError,setBrandActvityErrorMessage,setIndividualName,setIndividualNameErrorMessage,setIndividualNameError} from '../../redux/registration/registration.action'
+import { useHistory } from 'react-router-dom';
 
 class SignUpPage extends React.Component{
     constructor(){
@@ -12,21 +13,54 @@ class SignUpPage extends React.Component{
     }
     handleSubmitFirstStep=async e=>{
         e.preventDefault();
-        this.props.toogleThirddStep()
+        const email =this.props.email
+        const password= this.props.password
+        const confiremedPassword=this.props.confiremedPassword
+        this.emailValidation(email)
+        this.passwordValidation(password)
+        this.confirmedPsswordValidation(confiremedPassword)
+        
+        
+      if(this.props.isBrand){
+            const user={
+              email:email,
+              password:password,
+              name:this.props.brand.name,
+              url:this.props.brand.url,
+              activities:this.props.brand.activities
+            }
+            this.props.setRegistrationError(false)
+            
+            this.props.registerWithEmailAndPassword(user)
+          }else{
+            const user={
+              email:email,
+              password:password,
+              name:this.props.individual.name,
+            }
+            this.props.setRegistrationError(false)
+            this.props.registerWithEmailAndPassword(user)
+          }
+          
+          if(this.props.success){
+            this.handleClickLogin()
+          } 
+
+       
+
 
     }
+
+  handleClickLogin() {
+   
+    this.props.history.push("/login");
+          }
+
     handleSubmitSecondStep=async e=>{
       e.preventDefault();
       this.props.toogleThirddStep(true)
       this.props.toogleSecondStep(false)
-      const user={
-        "email":this.props.email,
-        "name":this.props.name,
-        "password":this.props.password,
-        "url":"growther.coms"
-      }
-     
-      this.props.registerWithEmailAndPassword(user)
+      
     }
     SignUpWithGoogle=async e=>{
       console.log("Google")
@@ -84,7 +118,16 @@ class SignUpPage extends React.Component{
          
     };
 
-
+    confirmedPsswordValidation=(confirmedPssword)=>{
+      if(confirmedPssword===this.props.password){
+        this.props.setPasswordConfirmationError(false)
+        this.props.setPasswordConfirmationErrorMessage('')
+        
+    }else{
+      this.props.setPasswordConfirmationError(true)
+      this.props.setPasswordConfirmationErrorMessage("password doesn't match")
+    }     
+    }
 
     handlePasswordChange= e =>{
         this.props.setPassword(e.target.value)
@@ -93,16 +136,7 @@ class SignUpPage extends React.Component{
     }
     handlePasswordConfirmationBlur= e =>{
       this.props.setConfirmationPassword(e.target.value)
-        const confirmedPssword=e.target.value;
-        console.log(this.props)
-        if(confirmedPssword===this.props.password){
-            this.props.setPasswordConfirmationError(false)
-            this.props.setPasswordConfirmationErrorMessage('')
-            
-        }else{
-          this.props.setPasswordConfirmationError(true)
-          this.props.setPasswordConfirmationErrorMessage("password doesn't match")
-        }       
+      this.confirmedPsswordValidation(e.target.value)
     }
 
     
@@ -230,6 +264,7 @@ class SignUpPage extends React.Component{
         emailFunctions={emailFunctions}
         isErrors={this.props.isError}
         messages={this.props.errorMessages}
+        errMessage={this.props.errorMessages.registration}
   
   /> )
       }else{
@@ -244,16 +279,19 @@ class SignUpPage extends React.Component{
 
 
 function mapStateToProps(state) {
-    return {currentUser : state.auth.currentUser,
+    return {
+      
             email:state.registration.email,
             password:state.registration.password,
+            confiremedPassword:state.registration.confiremed_password,
             isSecondStep:state.registration.isSecondStep,
             isThirdStep:state.registration.isThirdStep,
             isBrand:state.registration.isBrand,
             errorMessages:state.registration.errorMessage,
             isError:state.registration.isError,
             individual:state.registration.individual,
-            brand:state.registration.brand
+            brand:state.registration.brand,
+            success:state.registration.success
     }
 }
 
@@ -284,7 +322,8 @@ const mapStatsToDispatch={
   setIndividualName:(name)=>setIndividualName(name),
   setIndividualNameError:(bool)=>setIndividualNameError(bool),
   setIndividualNameErrorMessage:(message)=>setIndividualNameErrorMessage(message),
-
+  setRegistrationError:(bool)=>setRegistrationErrorMessage(bool),
+  setRegistrationErrorMessage:(message)=>setRegistrationErrorMessage(message)
 
 
 }

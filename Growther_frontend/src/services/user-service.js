@@ -19,6 +19,8 @@ function loginWithGoogle(){
 }
 
 function loginWithEmailAndPassword(user) {
+    console.log("called")
+
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
