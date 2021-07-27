@@ -149,11 +149,12 @@
     justify-content: space-evenly;
     align-items: center;
     font-family: Poppins-Medium;
-    @media only screen and (max-width: 375px) {
+    @media only screen and (max-width: 451px) {
       flex-direction: row !important;
       justify-content: center;
       align-items: center;
       border-radius: 20px 20px 0 0  !important;
+      font-size: 17px;
     }
     > div{
       width: 100%;
@@ -176,7 +177,7 @@
     }
   }
   .right-side{
-    flex: 3;
+    flex: 4;
     justify-content: space-evenly;
     margin-left: 10px;
     .card-infos{

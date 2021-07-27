@@ -32,7 +32,7 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
         case ContestTypes.SET_INITIAL_STATE:{
             return INITIAL_STATE
         }
-        case ContestTypes.SET_STATE:
+        case ContestTypes.SET_NEW_CONTEST_STATE:
             return {
                 ...state,
                 information:{

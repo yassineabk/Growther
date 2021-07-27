@@ -7,12 +7,12 @@ const INITIAL_STATE = {
 }
 const ContestCard = (state = INITIAL_STATE, action)=>{
     switch(action.type){
-        case Contest_Card_Types.SET_STATE:
+        case Contest_Card_Types.SET_CONTEST_STATE:
             return{
                 ...action.payload,
-                selected: action.payload.actions.map(item =>{
+                selected: Array.isArray(action.payload.actions) ? action.payload.actions.map(item =>{
                     return {provider: item.provider, index: 0}
-                })
+                }) : []
             }
         case Contest_Card_Types.SELECTED_ACTION:
             return {

@@ -5,7 +5,9 @@ import { SelectAction, SetData } from "../../redux/contest-card/contest-card-act
 export const Contest = ()=>{
     var dispatch = useDispatch()
     var {information, actions, selected} = useSelector(state => state.contest_card)
-    
+    useEffect(()=>{
+        SetData(dispatch)
+    }, [dispatch])
     var changeHandler = (event, provider)=>{
         var index = parseInt(event.target.selectedIndex)
         SelectAction(dispatch, provider, index)
@@ -28,7 +30,7 @@ export const Contest = ()=>{
     }
     return(
         <div className="is-flex is-flex-direction-column contest is-justify-content-center is-align-items-center">
-            <PreviewCard
+            {typeof(information) === "object" ? <PreviewCard
                 title={information.title}
                 description={information.description}
                 timeLeft={information.endDate ? TimeLeft(information.endDate).date : ""}
@@ -36,7 +38,7 @@ export const Contest = ()=>{
                 actions={actions}
                 previewActions={selected}
                 changeHandler={(event, provider)=> changeHandler(event, provider)}
-            />
+            /> : null}
         </div>
     )
 }

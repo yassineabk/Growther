@@ -4,6 +4,7 @@ import storage from 'redux-persist/lib/storage'
 import contestReducer from './contest/contest-reducer'
 import { authReducer } from './auth/auth.reducers'
 import ContestCard from './contest-card/contest-card-reducer'
+import EditReducer from './contest-edit/contest-edit-reducer'
 
 const persistConfig={
     key:'root',
@@ -13,7 +14,8 @@ const persistConfig={
 const rootReducer=combineReducers({
     contest: contestReducer,
     auth: authReducer,
-    //contest_card: ContestCard,
+    contest_card: ContestCard,
+    contest_edit: EditReducer,
 })
 
 

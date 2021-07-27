@@ -10,11 +10,11 @@ var data2 = [
             },
             "Follow": {
                 "link": "https://www.instagram.com/id1",
-                "points": 1
+                "points": 2
             },
             "Comment": {
                 "link": "https://www.instagram.com/id2",
-                "points": 1
+                "points": 5
             }
         },
         "listOfActions": [
@@ -42,7 +42,7 @@ var data1 = {
 export const SetData = (dispatch, information, actions) =>{
     information = typeof(information) === "object" ? information : data1
     actions = Array.isArray(actions) ? actions : data2
-    dispatch({type: Contest_Card_Types.SET_STATE, payload: {information, actions}})
+    dispatch({type: Contest_Card_Types.SET_CONTEST_STATE, payload: {information, actions}})
 }
 export const SelectAction = (dispatch, provider, index)=>{
     dispatch({type: Contest_Card_Types.SELECTED_ACTION, payload: {provider, index}})

@@ -28,14 +28,15 @@
             max-width: 90% !important;
             min-width: 90% !important;
         }
-        @media only screen and (max-width: 375px) {
+        @media only screen and (max-width: 451px) {
             flex-direction: column !important;
         }
         .left-side{
-            @media only screen and (max-width: 375px) {
+            @media only screen and (max-width: 451px) {
                 flex-direction: row !important;
                 justify-content: center;
                 align-items: center;
+                font-size: 17px;
             }
         }
     }

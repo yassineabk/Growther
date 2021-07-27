@@ -4,7 +4,7 @@ export const InitState = (dispatch)=>{
     dispatch({type: ContestTypes.SET_INITIAL_STATE})
 }
 export const StateChange = (dispatch, data)=>{
-    dispatch({type: ContestTypes.SET_STATE, payload: data})
+    dispatch({type: ContestTypes.SET_NEW_CONTEST_STATE, payload: data})
 }
 export const PrizesChange = (dispatch, key, value)=>{
     dispatch({type: ContestTypes.SET_PRIZES, payload: {key, value}})

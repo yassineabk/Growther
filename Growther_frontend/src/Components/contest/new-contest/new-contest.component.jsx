@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from "react-redux"
 import { 
     BrowserRouter as Router,
     Route,
-    Switch, 
+    Switch,
+    useHistory, 
 } 
 from "react-router-dom"
 import { PreviewSelectedAction } from "../../../redux/contest/contest-actions"
@@ -15,6 +16,7 @@ import { PreviewContainer } from "../preview-container/preview-container.compone
 export const NewContest = ()=>{
     var { information, activePage, actions, previewActions } = useSelector(state => state.contest)
     var dispatch = useDispatch()
+    var history = useHistory()
     var previewChangeHandler = (event, provider)=>{
         var index = parseInt(event.target.selectedIndex)
         PreviewSelectedAction(dispatch, provider, index)
@@ -26,7 +28,7 @@ export const NewContest = ()=>{
                 tabs={[
                     {
                         location: "/dashboard/My Contests/new/firstStep", 
-                        text: "Contest Informations"
+                        text: "Contest Informations",
                     },
                     {
                         location: "/dashboard/My Contests/new/secondStep", 
@@ -39,7 +41,11 @@ export const NewContest = ()=>{
                 ]}
             />
             <div className="is-flex bottomContainer">
-                <PreviewContainer previewActions={previewActions} information={information} actions={actions} changeHandler={(event, provider) => previewChangeHandler(event, provider)} />
+                <PreviewContainer 
+                    previewActions={previewActions} 
+                    information={information} 
+                    actions={actions} 
+                    changeHandler={(event, provider) => previewChangeHandler(event, provider)} />
                 <Router>
                     <Switch>
                         <Route path={"/dashboard/My Contests/new/firstStep"}>
