@@ -41,7 +41,6 @@ class LoginPage extends React.Component{
     }
     LoginWithFacebook=async e=>{
       
-      window.open("https://staging-backendapp.herokuapp.com/oauth2/authorize/facebook?redirect_uri=http://localhost:3000/oauth2/redirect")
 
 
     }
