@@ -3,15 +3,18 @@ import { ContestInput } from "../contest-input/contest-input.component";
 export const PrizesInputs = ({dispatch, num, prizesHandler, label, data, validData})=>{
     var result = []
     for(var i = 0; i < num; i++){
+        const j = i
         result.push(
             <ContestInput 
                 type={"text"}
                 id={"prize"+i}
                 name={"prize"+i}
-                validData={validData && typeof(validData) === "object" && Object.keys(validData).includes("prize"+i) ? {isValid: validData["prize"+i], message: "Please, Enter a valid Prize"} : undefined}
+                validData={validData && Array.isArray(validData) && typeof(validData[j]) === "object"  ? {isValid: validData[j].description, message: "Please, Enter a valid Prize"} : undefined}
                 placeholder={"Prize " + parseInt(i+1)}
-                changeHandler={(event)=> prizesHandler(event)}
-                value={data  && typeof(data) === "object" ? data["prize"+i] : ""}
+                changeHandler={(event)=> {
+                    prizesHandler(event, j)
+                }}
+                value={data && typeof(data) === "object" ? data[i].description : ""}
             />
         )
     }

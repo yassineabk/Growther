@@ -1,7 +1,7 @@
 import React, { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useHistory, useLocation } from "react-router-dom"
-import { EditDuration, EditState, SetStateToEdit } from "../../../redux/contest-edit/contest-edit-actions"
+import { CheckEdits, EditDuration, EditState, SetStateToEdit } from "../../../redux/contest-edit/contest-edit-actions"
 import { ContestButton } from "../contest-buttons/contest-buttons.component"
 import { ContestDescription } from "../contest-description-input/contest-description-input.component"
 import { ContestInput } from "../contest-input/contest-input.component"
@@ -23,36 +23,49 @@ export const EditContestFirstStep = ()=>{
                     "value": 17,
                     "type": "days"
                 },
-                "maxParticipants": 8,
-                "prizes": {
-                    "prize0": "PS5"
-                }
-            },
-            "actions": [
-                {
-                    "provider": "Youtube",
-                    "active": "View",
-                    "actions": {
-                        "View": {
-                            "link": "https://www.youtube.com/id5",
-                            "points": 3
-                        },
-                        "Like": {
-                            "link": "https://www.youtube.com/id221",
-                            "points": 3
-                        },
-                        "Subscribe": {
-                            "link": "https://www.youtube.com/id",
-                            "points": 5
-                        }
+                "maxReach": 8,
+                "actions": [
+                    {
+                        "provider": "Youtube",
+                        "type": "View",
+                        "url": "https://www.youtube.com/id5",
+                        "points": 3,
+                        "listOfActions": [
+                            "View",
+                            "Like",
+                            "Subscribe"
+                        ]
                     },
-                    "listOfActions": [
-                        "View",
-                        "Like",
-                        "Subscribe"
-                    ]
-                }
-            ],
+                    {
+                        "provider": "Youtube",
+                        "type": "View",
+                        "url": "https://www.youtube.com/id6",
+                        "points": 1,
+                        "listOfActions": [
+                            "View",
+                            "Like",
+                            "Subscribe"
+                        ]
+                    },
+                    {
+                        "provider": "Youtube",
+                        "type": "View",
+                        "url": "https://www.youtube.com/id8",
+                        "points": 5,
+                        "listOfActions": [
+                            "View",
+                            "Like",
+                            "Subscribe"
+                        ]
+                    }
+                ],
+                "prizes": [
+                    {
+                        id: 1,
+                        description: "PS5"
+                    }
+                ]
+            },
         }
         SetStateToEdit(dispatch, data)
     }, [dispatch])
@@ -120,7 +133,6 @@ export const EditContestFirstStep = ()=>{
         var month = date.getMonth()+1 === 13 ? 1 : date.getMonth()+1
         month = ("0" + month).slice(-2)
         var year = date.getFullYear()
-        console.log(date)
         return year + "-" + month + "-" + day
     }
     var durationTypeHandler = (event) =>{
@@ -194,13 +206,13 @@ export const EditContestFirstStep = ()=>{
                     />
                     <ContestInput 
                         type={"number"}
-                        id="maxParticipants"
-                        name="maxParticipants"
+                        id="maxReach"
+                        name="maxReach"
                         placeholder="Number of participants"
                         label="Or stop when we reach"
                         changeHandler={(event)=> changeHandler(event)}
                         min={1}
-                        value={information ? information.maxParticipants : 0}
+                        value={information ? information.maxReach : 0}
                     />
                 </div>
             </div>
@@ -215,6 +227,7 @@ export const EditContestFirstStep = ()=>{
                     bgColor={"#5E2691"} 
                     borderColor={"#5E2691"}
                     text={"Edit"} 
+                    clickEvent={()=> CheckEdits(dispatch, information)}
                 />
             </div>
         </div>

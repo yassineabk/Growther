@@ -5,25 +5,25 @@ const INITIAL_STATE={
         title: "",
         description: "",
         winnersNbr: 1,
+        actionsNbr: 0,
         startDate: "",
         endDate: "",
         duration: {
             type: "days",
             value: 1
         },
-        maxParticipants: 0,
-        prizes: {
-            prize0: ""
-        },
+        maxReach: 0,
+        prizes: [
+            {id: 1, description: ""}
+        ],
+        actions: [],
     },
-    actions: [],
     validData: {},
     isValidData: false,
     validActions: [],
     isValidActions: false,
     isPublished: false,
     activePage: "/dashboard/My Contests/new/firstStep",
-    previewActions: [],
     contestLink: "",
     error: null
 }
@@ -38,9 +38,7 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
                 information:{
                     ...action.payload,
                 },
-                actions:[
-                    ...state.actions
-                ]
+                error: null
             }
         case ContestTypes.SET_WINNERS_NUM:
             return{
@@ -48,22 +46,29 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
                 information:{
                     ...state.information,
                     winnersNbr: action.payload.value,
-                    prizes: {
+                    prizes: [
                         ...state.information.prizes,
-                        [action.payload.key]: ""
-                    }
-                }
+                        {
+                            id: action.payload.id + 1,
+                            description: ""
+                        }
+                    ]
+                },
+                error: null
             }
         case ContestTypes.SET_PRIZES:
             return{
                 ...state,
                 information:{
                     ...state.information,
-                    prizes: {
-                        ...state.information.prizes,
-                        [action.payload.key]: action.payload.value
-                    }
-                }
+                    prizes: state.information.prizes.map((item, index)=> {
+                        if(index === action.payload.id){
+                            return {...item, description: action.payload.value}
+                        }
+                        return {...item}
+                    })
+                },
+                error: null
             }
         case ContestTypes.REMOVE_PRIZE:
             return{
@@ -71,13 +76,14 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
                 information: {
                     ...state.information,
                     winnersNbr: action.payload.value,
-                    prizes: Object.keys(state.information.prizes).reduce((object, key)=>{
-                        if(key !== action.payload.key){
-                            object[key] = state.information.prizes[key]
+                    prizes: state.information.prizes.filter((item, index)=>{
+                        if(index === action.payload.id){
+                            return false
                         }
-                        return object
-                    }, {})
-                }
+                        return true
+                    })
+                },
+                error: null
             }
         case ContestTypes.SET_DURATION:
             return {
@@ -90,79 +96,104 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
                     },
                     startDate: action.payload.startDate,
                     endDate: action.payload.endDate
-                }
+                },
+                error: null
             }
         case ContestTypes.ADD_ACTION:
-            if(state.actions === undefined) return{
+            if(state.information.actions === undefined) return{
                 ...state,
-                actions: [action.payload],
-                previewActions: [{provider: action.payload.provider, index: 0}]
+                information:{
+                    ...state.information,
+                    actions: [action.payload],
+                    actionsNbr: 1
+                },
+                error: null
             }
-
-            var filtred = state.actions.filter(
-                item => item.provider === action.payload.provider
-            )
 
             return {
                 ...state,
-                actions: filtred.length === 0 ?
-                    [...state.actions, action.payload] : [...state.actions],
-                previewActions: filtred.length === 0 ?
-                    [...state.previewActions, {provider: action.payload.provider, index: 0}] : [...state.previewActions]
-                
+                information:{
+                    ...state.information,
+                    actions: [...state.information.actions, action.payload],
+                    actionsNbr: state.information.actions.length + 1
+                },
+                error: null
             }
         case ContestTypes.REMOVE_ACTION:  
             return {
                 ...state,
-                actions: state.actions.filter(item => item.provider !== action.payload),
-                previewActions: state.previewActions.filter(item => item.provider !== action.payload),
+                information:{
+                    ...state.information,
+                    actions: state.information.actions.filter((item, index) => {
+                        if(item.provider === action.payload.actionName && index === action.payload.index){
+                            return false
+                        }
+                        return true
+                    }),
+                    actionsNbr: state.information.actionsNbr === 0 ?  0 : state.information.actionsNbr - 1 
+                },
+                validActions: state.validActions.filter((item, index) => {
+                    if(item.provider === action.payload.actionName && index === action.payload.index){
+                        return false
+                    }
+                    return true
+                }),
+                error: null
             }
         case ContestTypes.UPDATE_ACTION:
             return {
                 ...state,
-                actions: state.actions.map((item, index)=>{
-                    if(item.provider === action.payload.provider){
-                        if(action.payload.key === "action"){
-                            return {
-                                ...item,
-                                active: action.payload.value
-                            }
-                        }else{
-                            return {
-                                ...item,
-                                actions: {
-                                    ...item.actions,
-                                    [item.active]: {
-                                        ...item.actions[item.active],
-                                        [action.payload.key]: action.payload.value
-                                    }
+                information: {
+                    ...state.information,
+                    actions: state.information.actions.map((item, index)=>{
+                        if(item.provider === action.payload.provider && index === action.payload.index){
+                            if(action.payload.key === "type"){
+                                return {
+                                    ...item,
+                                    type: action.payload.value,
                                 }
+                            }else if(action.payload.key === "url"){
+                                return{
+                                    ...item,
+                                    [action.payload.key]: action.payload.value
+                                }
+                            }else if(action.payload.key === "points"){
+                                return {
+                                    ...item,
+                                    [action.payload.key]: action.payload.value > 5 || action.payload.value < 1  ? 1 : action.payload.value
+                                }
+                            }else{
+                                return {...item}
                             }
+                            
                         }
-                        
-                    }
-                    return {
-                        ...item
-                    }
-                })
+                        return {
+                            ...item
+                        }
+                    })
+                },
+                error: null
             }
         case ContestTypes.CHECK_DATA:
             return{
                 ...state,
                 validData: action.payload.validData,
                 isValidData: action.payload.isValidData,
+                error: null
             }
         case ContestTypes.CHECK_ACTIONS:
             return {
                 ...state,
                 validActions: action.payload.validActions,
                 isValidActions: action.payload.isValidActions,
+                error: null,
             }
         case ContestTypes.RESET_VALIDATION:
             return {
                 ...state,
                 validData: {},
-                isValidData: false
+                isValidData: false,
+                error: null
             }
         case ContestTypes.PREVIEW_SELECTED_ACTIONS:
             return{
@@ -177,7 +208,8 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
                     return{
                         ...item
                     }
-                })
+                }),
+                error: null
             }
         case ContestTypes.SAVE_DRAFT:
             return{
@@ -187,7 +219,8 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
             return{
                 ...state,
                 isPublished: true,
-                contestLink: action.payload.link
+                contestLink: action.payload.link,
+                error: null
             }
         case ContestTypes.PUBLISH_FAIL:
             return{

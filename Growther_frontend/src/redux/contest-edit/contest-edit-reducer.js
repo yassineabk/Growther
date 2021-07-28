@@ -5,12 +5,14 @@ const INITIAL_STATE={
         description: "",
         endDate: "",
         duration: {},
-        maxParticipants: 0,
+        maxReach: 0,
+        actions: [],
+        prizes: []
     },
-    actions: [],
     selected: [],
     validData: {},
     isValidData: false,
+    edited: false,
     error: null
 }
 const EditReducer = (state = INITIAL_STATE, action)=>{
@@ -32,7 +34,8 @@ const EditReducer = (state = INITIAL_STATE, action)=>{
                 ...state,
                 information: {
                     ...action.payload
-                }
+                },
+                error: false
             }
         case CONTEST_EDIT_TYPES.EDIT_DURATION:
             return{
@@ -44,28 +47,21 @@ const EditReducer = (state = INITIAL_STATE, action)=>{
                         type: action.payload.type
                     },
                     endDate: action.payload.endDate
-                }
-            }
-        case CONTEST_EDIT_TYPES.EDIT_PREVIEW_SELECTED_ACTION:
-            return{
-                ...state,
-                selected: state.selected.map(item =>{
-                    if(item.provider === action.payload.provider){
-                        return {
-                            ...item,
-                            index: action.payload.index
-                        }
-                    }
-                    return {
-                        ...item
-                    }
-                })
+                },
+                error: false
             }
         case CONTEST_EDIT_TYPES.CHECK_EDITS:
             return{
                 ...state,
                 validDate: action.payload.validData,
-                isValidData: action.payload.isValidData
+                isValidData: action.payload.isValidData,
+                error: false
+            }
+        case CONTEST_EDIT_TYPES.EDIT_SUCCESS:
+            return{
+                ...state,
+                edited: true,
+                error: false
             }
         default:
             return state

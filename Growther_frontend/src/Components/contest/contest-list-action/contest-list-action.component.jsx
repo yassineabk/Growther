@@ -1,15 +1,9 @@
 import React from "react"
 import { ActionIcon } from "../actions-icons/actions-icons.component"
-export const ListAction = ({element, addAction})=>{
+export const ListAction = ({element, addAction, index})=>{
     var newAction = ()=>{
         if(Array.isArray(element.actions)){
-            var actionsObj = {}
-            element.actions.map(item =>{
-                actionsObj[item] = {
-                    link: "", points: 1
-                }
-            })
-            addAction({provider: element.provider, active: element.actions[0], actions: actionsObj, listOfActions: element.actions})
+            addAction({provider: element.provider, url: "", points: 1, type: element.actions[0], listOfActions: element.actions, id:index+1})
         }
     }
     return(

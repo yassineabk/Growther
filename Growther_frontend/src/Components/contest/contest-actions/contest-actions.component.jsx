@@ -7,9 +7,9 @@ export const ContestActions = ({data, removeAction, updateAction, validActions})
                 return(
                     <ContestAction 
                         data={element} 
-                        removeAction={(provider)=> removeAction(provider)} 
-                        updateAction={(provider, key, value)=> updateAction(provider, key, value)}
-                        validAction={validActions && validActions[index] && validActions[index].actions ? validActions[index].actions : undefined}
+                        removeAction={(provider)=> removeAction(provider, index)} 
+                        updateAction={(provider, key, value)=> updateAction(provider, key, value, index)}
+                        validAction={validActions && validActions[index] && validActions[index] ? validActions[index]: undefined}
                     />
             )}) : null}
         </div>
