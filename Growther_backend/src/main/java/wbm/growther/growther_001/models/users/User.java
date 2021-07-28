@@ -22,6 +22,17 @@ public class User {
     @Column(length = 100)
     private String url;
 
+    @Column
+    private String activities;
+
+    public String getActivities() {
+        return activities;
+    }
+
+    public void setActivities(String activities) {
+        this.activities = activities;
+    }
+
     public String getName() {
         return name;
     }

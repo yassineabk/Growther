@@ -13,6 +13,15 @@ public class UserDto {
     private String password;
     private AuthenticationProvider authProvider;
     private boolean isBrand;
+    private String activities;
+
+    public String getActivities() {
+        return activities;
+    }
+
+    public void setActivities(String activities) {
+        this.activities = activities;
+    }
 
     public boolean isBrand() {
         return isBrand;
