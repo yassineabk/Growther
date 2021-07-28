@@ -18,28 +18,16 @@ const SingupSecondStep=({handleChange,handleSubmit,BrandFunctions,IndividualFunc
                                 <p className="title is-3">Your information</p>
                                 <p className="subtitle is6">Let's know you better</p>
                             </div>
-                        <label className="label">You are </label>
-                        <div className="control pb-4 is-center" onChange={handleChange}>
-                                <label className="radio ml-5">
-                                    <input className="mr-2" type="radio" name="answer" id="individual"/>
-                                    An individual
-                                </label>
-                                <label className="radio">
-                                    <input className="mr-2" type="radio" name="answer" defaultChecked  id="brand"/>
-                                    A brand
-                                </label>
-                        </div>
-
                         {
                             isBrand ? (
                                 <div className="authInput">
-                                    <FormInput label="Brand Name" handleBlur={BrandFunctions.handleBrandNameBlur} isError={brand.isNameError} message={brand.nameErrorMessage} placeholder="Enter Brand Name"/>
-                                    <FormInput label="Brand Url" handleBlur={BrandFunctions.handleBrandUrlBlur} isError={brand.isUrlError} message={brand.urlErrorMessage} placeholder="Enter Brand Url"/>
-                                    <TextAreaInput className="" label="Brand Activities" handleBlur={BrandFunctions.handleBrandActivitiesBlur} isError={brand.isActivitiesError} message={brand.activitiesErrorMessage} placeholder="Enter your brand Activities"/>
+                                    <FormInput label="Brand Name" handleBlur={BrandFunctions.handleBrandNameBlur} isError={brand.isError.name} message={brand.errorMessage.name} placeholder="Enter Brand Name"/>
+                                    <FormInput label="Brand Url" handleBlur={BrandFunctions.handleBrandUrlBlur} isError={brand.isError.url} message={brand.errorMessage.url} placeholder="Enter Brand Url"/>
+                                    <TextAreaInput className="" label="Brand Activities" handleBlur={BrandFunctions.handleBrandActivitiesBlur} isError={brand.isError.activities} message={brand.errorMessage.activities} placeholder="Enter your brand Activities"/>
                                 </div>
                             ):(
                                 <div className="authInput mb-4">
-                                    <FormInput  label="Your Name" isError={individual.isNameError} message={individual.nameErrorMessage} handleBlur={IndividualFunctions.handleIndividualNameBlur} placeholder="Enter Your Name"/>
+                                    <FormInput  label="Your Name" isError={individual.isError.name} message={individual.errorMessage.name} handleBlur={IndividualFunctions.handleIndividualNameBlur} placeholder="Enter Your Name"/>
                                 </div>
                             )
                         }

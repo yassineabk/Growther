@@ -17,13 +17,22 @@
         color: white;
         transition: all .5s;
         font-family: Poppins-Regular;
+        .tabText{
+            padding: 20px;
+            //border: 2px solid transparent;
+            @media only screen and (max-width: 650px){
+                padding: 20px 10px;
+            }
+        }
+        a{
+           color: white;
+           text-decoration: none;
+        } 
         &.active{
             .tabText{
-                padding: 20px;
-                //border: 2px solid transparent;
                 color: #00CCF2;
-                @media only screen and (max-width: 650px){
-                    padding: 20px 10px;
+                a{
+                    color: #00CCF2;
                 }
             }
         }

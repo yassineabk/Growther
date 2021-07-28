@@ -5,8 +5,8 @@ import SubmitButton from '../submit-button/submit-button.component';
 import SocialMediaButton from '../social-media-button/social-media-button.component';
 import { Link } from 'react-router-dom';
 
-const SingupFirstStep=({handleSubmit,SignUpWithGoogle,SignUpWithFacebook,password,passwordFunctions,email,emailFunctions})=>{
-    console.log(email)
+const SingupFirstStep=({handleSubmit,SignUpWithGoogle,SignUpWithFacebook,registrationMessage,errMessage,passwordFunctions,success,emailFunctions,isErrors,messages})=>{
+
     return(
 
     <section className="hero is-fullheight Modal">
@@ -19,11 +19,12 @@ const SingupFirstStep=({handleSubmit,SignUpWithGoogle,SignUpWithFacebook,passwor
                                 <p className="title is-3">Create an account</p>
                                 <p className="subtitle ">Let's get you started</p>
                             </div>
-                            <EmailInput handleBlur={emailFunctions.handleEmailBlur} handleChange={emailFunctions.handleEmailChange} label="Email" isError={email.isEmailError} message={email.EmailMessage} placeholder="Enter Your email"/>
-                            <PasswordInput handleChange={passwordFunctions.handlePasswordChange}  label="Password" isError={password.isPasswordError} message={password.PasswordMessage} placeholder="Enter your password"/>
-                            <PasswordInput handleBlur={passwordFunctions.handlePasswordConfirmationBlur}  label="Confirm Password" isError={password.isPasswordConfirmationMessage} message={password.PasswordConfirmationMessage} placeholder="confirm your password"/>
-                            <label class=" column mb-2 "><input type="checkbox" required />  I agree to the <Link to="/terms">terms and conditions</Link></label>
-                            <SubmitButton type="submit" label="Sign Up"/>
+                            <EmailInput handleBlur={emailFunctions.handleEmailBlur} handleChange={emailFunctions.handleEmailChange} label="Email" isError={isErrors.email} message={messages.email} placeholder="Enter Your email"/>
+                            <PasswordInput handleChange={passwordFunctions.handlePasswordChange}  label="Password" isError={isErrors.password} message={messages.password} placeholder="Enter your password"/>
+                            <PasswordInput handleBlur={passwordFunctions.handlePasswordConfirmationBlur}  label="Confirm Password" isError={isErrors.confiremed_password} message={messages.confiremed_password} placeholder="confirm your password"/>
+                            <label className=" column mb-2 "><input type="checkbox" required />  I agree to the <Link to="/terms">terms and conditions</Link></label>
+                            <SubmitButton message={errMessage} id="submitButton" type="submit" label="Sign Up"/>
+
                             <SocialMediaButton onClick={SignUpWithGoogle} isGoogle label="Sign Up with Google"/>
                             <SocialMediaButton onClick={SignUpWithFacebook} label="Sign Up with Facebook"/>
                         </form>

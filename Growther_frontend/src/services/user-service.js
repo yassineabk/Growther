@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const USERS_REST_API_URL = 'http://localhost:8080';
+const USERS_REST_API_URL = 'https://staging-backendapp.herokuapp.com';
 
 export const userService = {
     loginWithEmailAndPassword,
@@ -19,6 +19,8 @@ function loginWithGoogle(){
 }
 
 function loginWithEmailAndPassword(user) {
+    console.log("called")
+
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -49,14 +51,9 @@ function registerWithEmailAndPassword(user) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(user)  
     };
-    console.log(requestOptions);
-    console.log(user);
-    console.log("------------------------------");
-    return axios.post(`${USERS_REST_API_URL}/authentication/signup`,user).then(response =>{
-        console.log(response.data);   
+    console.log(user)
 
-    })
-    // return fetch(`${USERS_REST_API_URL}/authentication/signup`, requestOptions).then(handleResponse);
+    return axios.post(`${USERS_REST_API_URL}/authentication/signup`, requestOptions).then(handleResponse);
 }
 
 
@@ -77,3 +74,4 @@ function handleResponse(response) {
         return data;
     });
 }
+

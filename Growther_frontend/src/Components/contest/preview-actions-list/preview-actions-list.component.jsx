@@ -1,14 +1,14 @@
 import React from "react"
 import { PreviewAction } from "../preview-action/preview-action.component"
-export const PreviewActionsList = ({actions})=>{
+export const PreviewActionsList = ({actions, previewActions, changeHandler})=>{
     var action = (data)=>{
-        var somme = 0
+        var points = []
         var links = []
-        if(typeof(data === "object")){
+        if(typeof(data) === "object"){
             Object.keys(data).map(key =>{
                 if(typeof(data[key]) === "object") {
                     if(typeof(data[key].points) === "number" || typeof(data[key].points) === "string"){
-                        somme += parseInt(data[key].points)
+                        points.push(parseInt(data[key].points))
                     }
                     if(typeof(data[key].link) === "string"){
                         links.push(data[key].link)
@@ -16,17 +16,19 @@ export const PreviewActionsList = ({actions})=>{
                 }
             })
         }
-        return {somme, links}
+        return {points, links}
     }
     return(
         <div className="is-flex is-flex-direction-column previewActions">
-            {Array.isArray(actions) ? actions.map(element =>{
+            {Array.isArray(actions) ? actions.map((element, index) =>{
                 if(typeof(element) !== "object") return null
                 return(
                     <PreviewAction
                         provider={element.provider}
-                        link={action(element.actions).links[0]}
-                        points={action(element.actions).somme}
+                        links={element.url}
+                        //selected={Array.isArray(previewActions) ? previewActions[index] : undefined}
+                        points={element.points}
+                        changeHandler={changeHandler && {}.toString.call(changeHandler) === '[object Function]' ? (event, provider) => changeHandler(event, provider) : ()=> false}
                     />
                 )
             }) : null}
