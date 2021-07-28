@@ -36,7 +36,7 @@ public class SecurityUser implements UserDetails {
 
     public static SecurityUser Create(User user){
         List<GrantedAuthority> authorities;
-        if(user.isBrand())
+        if(user.getIsBrand().equalsIgnoreCase("true"))
             authorities = Collections.
                 singletonList(new SimpleGrantedAuthority("ROLE_BRAND"));
         else

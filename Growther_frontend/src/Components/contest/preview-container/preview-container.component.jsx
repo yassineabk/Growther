@@ -25,6 +25,7 @@ export const PreviewContainer = ({information, actions, previewActions, changeHa
                 timeLeft={information.endDate ? TimeLeft(information.endDate).date : ""}
                 dateType={TimeLeft(information.endDate).type}
                 actions={actions}
+                prizes={information.prizes}
                 previewActions={previewActions}
                 changeHandler={(event, provider) => changeHandler(event, provider)}
             />

@@ -12,6 +12,8 @@ import LandingPage from './pages/landing-page/landing-page.page';
 import { Contest } from "./pages/contest/contest.page"
 import { EditContest } from './Components/contest/edit-contest/edit-contest.component';
 import OAuth2RedirectHandler from './services/OAuth2-redirect-handler';
+import { BrowserRouter } from 'react-router-dom';
+
 class App extends React.Component {
  
   unsubscribeFromAuth=null
@@ -35,18 +37,19 @@ class App extends React.Component {
   }
 
   render(){
+    console.log(this.props.currentUser);
     return (
       <div className={this.state.currentPath.includes("dashboard") ? "App bgcolor" : "App"}>
         <Switch>
           <Route path="/oauth2/redirect" component={OAuth2RedirectHandler}></Route> 
           <Route exact path='/landing-page' render={()=>this.props.currentUser ? (<Redirect to='/'/>) : (<LandingPage />) } />
-          <Route exact path='/login' render={()=>this.props.currentUser ? (<Redirect to='/'/>) : (<LoginPage/>) } />
+          <Route exact path='/login' render={()=>(this.props.currentUser) ? (<Redirect to='/dashboard'/>) : (<LoginPage/>) } />
           <Route exact path='/signup' render={()=>this.props.currentUser ? (<Redirect to='/'/>) : (<SignUpPage/>) } />
           <Route exact path='/contest/:id' render={()=>this.props.currentUser ? (<Redirect to='/'/>) : (<Contest />) }/>
           <Route exact path='/contest/:id/edit' render={()=>this.props.currentUser ? (<Redirect to='/'/>) : (<EditContest />) }/>
           <Route exact path='/dashboard/pie' render={()=> this.props.currentUser ? (<Redirect to='/'/>) : (<Dashboard currentUser={this.props.currentUser} />) } />
           <Route exact path='/dashboard/settings' render={()=> this.props.currentUser ? (<Redirect to='/'/>) : (<Dashboard currentUser={this.props.currentUser} />) } />
-          <Route path='/dashboard' render={()=> this.props.currentUser ? (<Redirect to='/'/>) : (<Dashboard currentUser={this.props.currentUser} />) } />
+          <Route exact path='/dashboard'  render={()=> (this.props.currentUser) ? (<Dashboard/>):(<Redirect to='/'/>) } />
         </Switch>
       </div>
     );

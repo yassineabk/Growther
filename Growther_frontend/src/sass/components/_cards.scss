@@ -134,7 +134,26 @@
   margin-right: 5px;
   margin-left: 5px;
   padding: 0 !important;
-  transition: all 0.5s;
+  transition: all 0.5s, transform 1s;
+  backface-visibility: visible;
+  -webkit-backface-visibility: visible;
+  -moz-backface-visibility: visible;
+  transform: rotateY(0deg);
+  .left-side, .right-side{
+    display: flex !important;
+  }
+  .back{
+    display: none !important;
+  }
+  &.backface{
+    transform: rotateY(360deg);
+    .left-side, .right-side{
+      display: none !important;
+    }
+    .back{
+      display: flex !important;
+    }
+  }
   > div{
     flex-grow: 1;
     padding: 10px;
@@ -254,6 +273,46 @@
           }
         }
       }
+    }
+  }
+  .previewPrizes{
+    padding: 15px !important;
+    flex: 1;
+    flex-wrap: wrap;
+    justify-content: center;
+    position: relative;
+    overflow-x: auto;
+    @extend .scroll;
+    .backButton{
+      position: absolute;
+      top: 0.25em;
+      left: 0.5em;
+    }
+    .previewPrize{
+      flex: 1;
+      min-width: 33.33%;
+      max-width: 33.33%;
+      font-size: 15px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .prizeOrder{
+        font-size: 18px;
+        color: black;
+      }
+      @media only screen and (max-width: 560px) {
+        min-width: 50%;
+        max-width: 50%;
+      }
+      @media only screen and (max-width: 382px) {
+        min-width: 100%;
+        max-width: 100%;
+      }
+      /*&:nth-child(3n+0){
+        border: 1px solid black;
+        border-bottom: 0;
+        border-top: 0;
+      }*/
     }
   }
 }
