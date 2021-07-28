@@ -2,6 +2,7 @@ import { CONTEST_EDIT_TYPES } from "./contest-edit-types";
 import axios from "axios"
 var data = {
     "information": {
+        "id": "ID",
         "title": "Yassine Hijazi",
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure do",
         "winnersNbr": 1,

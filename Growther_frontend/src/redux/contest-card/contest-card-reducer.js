@@ -1,5 +1,6 @@
 import { Contest_Card_Types } from "./contest-card-types";
 const INITIAL_STATE = {
+    id: "",
     information: {},
     actions: [],
     selected: [],
