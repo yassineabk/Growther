@@ -51,9 +51,9 @@ export const loginReducer=(state=INITIAL_STATE,action)=>{
         case loginType.LOGIN_SUCCESS:
             return {
                     ...state,
-                    currentUser:action.payload
+                    currentUser:localStorage.getItem("accessToken")
 
-                                        }
+            }
        
         
 

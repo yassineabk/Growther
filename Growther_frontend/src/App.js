@@ -39,7 +39,7 @@ class App extends React.Component {
   render(){
     console.log(this.props.currentUser);
     return (
-      <div className={this.state.currentPath.includes("dashboard") ? "App bgcolor" : "App"}>
+      <div className={"App"}>
         <Switch>
           <Route path="/oauth2/redirect" component={OAuth2RedirectHandler}></Route> 
           <Route exact path='/landing-page' render={()=>this.props.currentUser ? (<Redirect to='/'/>) : (<LandingPage />) } />

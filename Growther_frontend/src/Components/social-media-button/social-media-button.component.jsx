@@ -1,8 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 
-const SocialMediaButton=({handleChange,onClick,uri,isGoogle,label,placeholder})=>(
-
+const SocialMediaButton=({handleChange,onClick,uri,isGoogle,label,placeholder})=>{
+    return(
     <div className="field">
         <p className="control"/>
         <div className="control has-icons-left socialButton">
@@ -18,8 +18,5 @@ const SocialMediaButton=({handleChange,onClick,uri,isGoogle,label,placeholder})=
                 </span>
             </div>
     </div>
-
-
-
-)
+)}
 export default SocialMediaButton;

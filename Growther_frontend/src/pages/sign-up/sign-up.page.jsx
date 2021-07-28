@@ -55,9 +55,9 @@ class SignUpPage extends React.Component{
     }
 
   handleClickLogin() {
-   
-    this.props.history.push("/login");
-          }
+    console.log(this.props, "here")
+    //this.props.history.push("/login");
+  }
 
     handleSubmitSecondStep=async e=>{
       e.preventDefault();
