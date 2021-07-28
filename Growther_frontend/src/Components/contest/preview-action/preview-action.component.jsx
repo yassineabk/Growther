@@ -1,5 +1,7 @@
 import React from "react"
+import { Contest } from "../../../pages/contest/contest.page"
 import { ActionIcon } from "../actions-icons/actions-icons.component"
+import { ContestInput } from "../contest-input/contest-input.component"
 import { SelectInput } from "../select-input/select-input.component"
 export const PreviewAction = ({provider, links, points, selected, changeHandler})=>{
     return(
@@ -11,16 +13,16 @@ export const PreviewAction = ({provider, links, points, selected, changeHandler}
                     />
                 </div> : null
             }
-            <SelectInput 
-                data={links}
-                value={links[typeof(selected) === "object" && typeof(selected.index) === "number" ? selected.index : 0]} 
+            <ContestInput 
+                value={links} 
                 placeholder={"Action Link"} 
                 min={1}
+                readonly={"readonly"}
                 changeHandler={changeHandler && {}.toString.call(changeHandler) === '[object Function]' ? (event) => changeHandler(event, provider) : ()=> false}
             />
-            {points && Array.isArray(points) && typeof(selected) === "object" && typeof(selected.index) === "number" ? 
+            {typeof(parseInt(points)) === "number" ? 
                 <div className="actionPoints">
-                    +{points[selected.index]}
+                    +{points}
                 </div> : null
             }
         </div>

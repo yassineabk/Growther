@@ -4,7 +4,7 @@ export const PreviewActionsList = ({actions, previewActions, changeHandler})=>{
     var action = (data)=>{
         var points = []
         var links = []
-        if(typeof(data === "object")){
+        if(typeof(data) === "object"){
             Object.keys(data).map(key =>{
                 if(typeof(data[key]) === "object") {
                     if(typeof(data[key].points) === "number" || typeof(data[key].points) === "string"){
@@ -25,9 +25,9 @@ export const PreviewActionsList = ({actions, previewActions, changeHandler})=>{
                 return(
                     <PreviewAction
                         provider={element.provider}
-                        links={action(element.actions).links}
-                        selected={Array.isArray(previewActions) ? previewActions[index] : undefined}
-                        points={action(element.actions).points}
+                        links={element.url}
+                        //selected={Array.isArray(previewActions) ? previewActions[index] : undefined}
+                        points={element.points}
                         changeHandler={changeHandler && {}.toString.call(changeHandler) === '[object Function]' ? (event, provider) => changeHandler(event, provider) : ()=> false}
                     />
                 )

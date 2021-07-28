@@ -12,7 +12,8 @@ export const DashboradSideBar = ({activePage})=>{
         "/dashboard/My Contests/new", 
         "/dashboard/My Contests/new/secondStep",
         "/dashboard/My Contests/new/firstStep",
-        "/dashboard/My Contests/new/thirdStep"
+        "/dashboard/My Contests/new/thirdStep",
+        "/dashboard/My Contests/"
     ]
     var templateLocations = [
         "/dashboard/Templates",
@@ -31,10 +32,10 @@ export const DashboradSideBar = ({activePage})=>{
                     <img alt="" src={require("../../../assets/icons/logo.png").default}/>
                 </div>
                 <div className="screens-buttons is-flex is-flex-direction-column">
-                    <div onClick={()=>changeHandler("/dashboard")} className={homeLocations.includes(location.pathname) ? "sideBar_item active" : "sideBar_item"}>
+                    <div onClick={()=> changeHandler("/dashboard")} className={homeLocations.includes(location.pathname) ? "sideBar_item active" : "sideBar_item"}>
                         <img alt="" src={require("../../../assets/icons/home.png").default}/>
                     </div>
-                    <div onClick={()=>changeHandler("/dashboard/My Contests")} className={contestLocations.includes(location.pathname) ? "sideBar_item active" : "sideBar_item"}>
+                    <div onClick={()=>changeHandler("/dashboard/My Contests")} className={location.pathname.includes("/dashboard/My Contests") ? "sideBar_item active" : "sideBar_item"}>
                         <img alt="" src={require("../../../assets/icons/trophy.png").default}/>
                     </div>
                     <div onClick={()=>changeHandler("/dashboard/Templates")} className={templateLocations.includes(location.pathname) ? "sideBar_item active" : "sideBar_item"}>

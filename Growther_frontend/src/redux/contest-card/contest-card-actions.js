@@ -1,22 +1,22 @@
+import axios from "axios"
 import { Contest_Card_Types } from "./contest-card-types"
 var data2 = [
     {
         "provider": "Instagram",
-        "active": "Comment",
-        "actions": {
-            "Like": {
-                "link": "https://www.instagram.com",
-                "points": 1
-            },
-            "Follow": {
-                "link": "https://www.instagram.com/id1",
-                "points": 2
-            },
-            "Comment": {
-                "link": "https://www.instagram.com/id2",
-                "points": 5
-            }
-        },
+        "type": "Like",
+        "url": "https://www.instagram.com",
+        "points": 5,
+        "listOfActions": [
+            "Like",
+            "Follow",
+            "Comment"
+        ]
+    },
+    {
+        "provider": "Facebook",
+        "type": "Comment",
+        "url": "https://www.facebook.com",
+        "points": 1,
         "listOfActions": [
             "Like",
             "Follow",
@@ -34,15 +34,18 @@ var data1 = {
         "value": 3,
         "type": "weeks"
     },
-    "maxParticipants": 0,
-    "prizes": {
-        "prize0": "PS5"
-    }
+    "maxReach": 0,
+    "prizes": [
+        {id: 1, description: "PS5"}
+    ]
 }
-export const SetData = (dispatch, information, actions) =>{
-    information = typeof(information) === "object" ? information : data1
-    actions = Array.isArray(actions) ? actions : data2
-    dispatch({type: Contest_Card_Types.SET_CONTEST_STATE, payload: {information, actions}})
+export const SetData = (dispatch, id) =>{
+    axios.get(`/api/contests/${id}`).then(response =>{
+        dispatch({type: Contest_Card_Types.SET_CONTEST_STATE, payload: response})
+    }).catch(err =>{
+        dispatch({type: Contest_Card_Types.SET_CONTEST_STATE, payload: {information: data1, actions: data2}})
+        dispatch({type: Contest_Card_Types.CONTEST_CARD_ERROR})
+    })
 }
 export const SelectAction = (dispatch, provider, index)=>{
     dispatch({type: Contest_Card_Types.SELECTED_ACTION, payload: {provider, index}})

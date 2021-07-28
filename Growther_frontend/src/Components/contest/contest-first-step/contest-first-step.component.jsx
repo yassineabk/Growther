@@ -11,7 +11,7 @@ export const ContestFirstStep = ()=>{
     var dispatch = useDispatch()
     var location = useLocation()
     var history = useHistory()
-    var {information, actions, isValidData, validData} = useSelector(state => state.contest)
+    var {information, isValidData, validData} = useSelector(state => state.contest)
     useEffect(()=>{
         if(typeof(information) !== "object"){
             InitState(dispatch)
@@ -94,17 +94,16 @@ export const ContestFirstStep = ()=>{
         var oldValue = parseInt(information.winnersNbr)
         if(oldValue > newValue){
             for(var i = newValue; i < oldValue; i++){
-                RemovePrize(dispatch, "prize"+i, newValue)
+                RemovePrize(dispatch, i, newValue)
             }
         }else{
             for(var i = oldValue; i < newValue; i++){
-                WinnersNumChange(dispatch, "prize"+i, newValue)
+                WinnersNumChange(dispatch, i, newValue)
             }
         }
     }
-    var prizesHandler = (event)=>{
+    var prizesHandler = (event, id)=>{
         var newValue = event.target.value
-        var id = event.target.id
         PrizesChange(dispatch, id, newValue)
     }
     var nextStep = ()=>{
@@ -135,7 +134,7 @@ export const ContestFirstStep = ()=>{
                         id="description"
                         name="description"
                         placeholder="Description Here"
-                        label="Desctiption"
+                        label="Description"
                         changeHandler={(event)=> changeHandler(event)}
                         value={information ? information.description : ""}
                         validData={isValidData === false ? 
@@ -210,23 +209,21 @@ export const ContestFirstStep = ()=>{
                     />
                     <ContestInput 
                         type={"number"}
-                        id="maxParticipants"
-                        name="maxParticipants"
+                        id="maxReach"
+                        name="maxReach"
                         placeholder="Number of participants"
                         label="Or stop when we reach"
                         changeHandler={(event)=> changeHandler(event)}
                         min={1}
-                        value={information ? information.maxParticipants : 0}
+                        value={typeof(information) === "object" ? information.maxReach : 0}
                     />
                 </div>
             </div>
             <div className="prizes is-flex is-flex-direction-column">
                 <label>{"Prizes"}</label>
-                <PrizesInputs 
-                    dispatch={dispatch} 
-                    label={"Prizes"} 
+                <PrizesInputs  
                     num={information ? information.winnersNbr : 1} 
-                    prizesHandler={(event)=> prizesHandler(event)} 
+                    prizesHandler={(event, id)=> prizesHandler(event, id)} 
                     validData={typeof(validData) === "object"  && Object.keys(validData).includes("prizes") ? validData.prizes : undefined}
                     data={information && typeof(information) === "object" ? information.prizes : undefined}
                 />
