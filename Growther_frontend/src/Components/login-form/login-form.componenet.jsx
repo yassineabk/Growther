@@ -4,7 +4,7 @@ import PasswordInput from '../password-input/password-input.component';
 import SubmitButton from '../submit-button/submit-button.component';
 import SocialMediaButton from '../social-media-button/social-media-button.component';
 import {Link, useHistory} from 'react-router-dom'
-
+import { googleUri } from './login_uri';
 const LoginForm=({handleSubmit,handleRemeberMe,SignUpWithGoogle,SignUpWithFacebook,registrationMessage,passwordVlue,passwordFunctions,emailValue,email,password,emailFunctions})=>{
     const history = useHistory();
 
@@ -34,7 +34,7 @@ const LoginForm=({handleSubmit,handleRemeberMe,SignUpWithGoogle,SignUpWithFacebo
                             </div>
                         <div className="field"></div>
                         <SubmitButton message={registrationMessage} id="submitButton" type="submit" label="Login"/>
-                        <SocialMediaButton onClick={SignUpWithGoogle} isGoogle label="Login with Google"/>
+                        <SocialMediaButton uri={googleUri} onClick={SignUpWithGoogle} isGoogle label="Login with Google"/>
                         <SocialMediaButton onClick={SignUpWithFacebook} label="Login with Facebook"/>
                         <SubmitButton onClick={handleClickRegister} className="details-button" type="button" label="Sign up"/>
                     </form>

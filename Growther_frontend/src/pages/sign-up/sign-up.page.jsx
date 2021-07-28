@@ -24,7 +24,8 @@ class SignUpPage extends React.Component{
               password:password,
               name:this.props.brand.name,
               url:this.props.brand.url,
-              activities:this.props.brand.activities
+              activities:this.props.brand.activities,
+              isBrand:this.props.isBrand
             }
             console.log("---------")
             console.log(user)
@@ -36,6 +37,7 @@ class SignUpPage extends React.Component{
               email:email,
               password:password,
               name:this.props.individual.name,
+              isBrand:this.props.isBrand
             }
             this.props.setRegistrationError(false)
             this.props.registerWithEmailAndPassword(user)

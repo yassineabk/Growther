@@ -1,5 +1,5 @@
 import {loginType} from './login.types';
-let user = JSON.parse(localStorage.getItem('user'));
+let user = JSON.parse(localStorage.getItem('accessToken'));
 const currentUser = user ? { currentUser: user } : {currentUser : null};
 
 const INITIAL_STATE={
@@ -24,6 +24,7 @@ export const loginReducer=(state=INITIAL_STATE,action)=>{
                 ...state,
                 email:action.payload
             }
+            
         case loginType.SET_PASSWORD:
             return {
                 ...state,
