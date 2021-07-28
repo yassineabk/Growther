@@ -3,15 +3,14 @@ package wbm.growther.growther_001.security.SecurityModel;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.oauth2.core.user.OAuth2User;
-import wbm.growther.growther_001.models.users.Brand;
+import wbm.growther.growther_001.models.users.User;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public class SecurityUser implements UserDetails, OAuth2User {
+public class SecurityUser implements UserDetails {
 
     private Long id;
 
@@ -35,28 +34,22 @@ public class SecurityUser implements UserDetails, OAuth2User {
         this.authorities = authorities;
     }
 
-    public static SecurityUser Create(Brand brand){
-
-        List<GrantedAuthority> authorities = Collections.
-                singletonList(new SimpleGrantedAuthority("ROLE_USER"));
+    public static SecurityUser Create(User user){
+        List<GrantedAuthority> authorities;
+        if(user.isBrand())
+            authorities = Collections.
+                singletonList(new SimpleGrantedAuthority("ROLE_BRAND"));
+        else
+            authorities = Collections.
+                    singletonList(new SimpleGrantedAuthority("ROLE_CLIENT"));
 
         return  new SecurityUser(
-                brand.getId(),
-                brand.getEmail(),
-                brand.getPassword(),
+                user.getId(),
+                user.getEmail(),
+                user.getPassword(),
                         authorities
         );
     }
-
-    public static SecurityUser Create(Brand brand,Map<String,Object> attributes){
-
-        SecurityUser securityUser=SecurityUser.Create(brand);
-        securityUser.setAttributes(attributes);
-        return securityUser;
-
-    }
-
-
 
 
     public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
@@ -64,16 +57,6 @@ public class SecurityUser implements UserDetails, OAuth2User {
     }
 
 
-
-    public void setAttributes(Map<String, Object> attributes) {
-        this.attributes = attributes;
-    }
-
-
-    @Override
-    public Map<String, Object> getAttributes() {
-        return attributes;
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -111,8 +94,4 @@ public class SecurityUser implements UserDetails, OAuth2User {
         return true;
     }
 
-    @Override
-    public String getName() {
-        return String.valueOf(id) ;
-    }
 }

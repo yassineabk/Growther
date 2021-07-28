@@ -49,7 +49,7 @@ function registerWithEmailAndPassword(user) {
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(user)
+        body: JSON.stringify(user)  
     };
     console.log(user)
 

@@ -63,6 +63,7 @@ class SignUpPage extends React.Component{
       this.props.toogleSecondStep(false)
       
     }
+
     SignUpWithGoogle=async e=>{
       console.log("Google")
       

@@ -1,6 +1,9 @@
 package wbm.growther.growther_001.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import wbm.growther.growther_001.models.actions.Action;
+import wbm.growther.growther_001.models.users.Brand;
 
 import javax.persistence.*;
 import java.time.temporal.ChronoUnit;
@@ -9,6 +12,8 @@ import java.util.Set;
 
 @Entity
 @Table(name="Contests")
+@PrimaryKeyJoinColumn(name="idContest", referencedColumnName="id")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Contest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,11 +26,16 @@ public class Contest {
     private Date startDate;
     private Date endDate;
     private Long duration;
-    @OneToMany(mappedBy="contest", fetch = FetchType.EAGER)
+    private String status;
+    @OneToMany(mappedBy="contest", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Action> actions;
     //JSON field
     @OneToMany(mappedBy="contest", fetch = FetchType.EAGER)
     private Set<Prize> prizes;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idBrand",nullable = true,insertable = false,updatable = false)
+    @JsonIgnore
+    private Brand brand;
 
     public Contest(String title, String description, int winnersNbr, int actionsNbr,
                    int maxReach, Date startDate, Date endDate, Long duration,
@@ -69,6 +79,14 @@ public class Contest {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Brand getBrand() {
+        return brand;
+    }
+
+    public void setBrand(Brand brand) {
+        this.brand = brand;
     }
 
     public int getWinnersNbr() {
@@ -125,5 +143,13 @@ public class Contest {
 
     public void setPrizes(Set<Prize> prizes) {
         this.prizes = prizes;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
