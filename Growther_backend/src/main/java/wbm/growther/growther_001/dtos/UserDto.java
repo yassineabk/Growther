@@ -12,8 +12,18 @@ public class UserDto {
     private String email;
     private String password;
     private AuthenticationProvider authProvider;
-    private boolean isBrand;
+    private String isBrand;
+
+    public String getIsBrand() {
+        return isBrand;
+    }
+
+    public void setIsBrand(String isBrand) {
+        this.isBrand = isBrand;
+    }
+
     private String activities;
+
 
     public String getActivities() {
         return activities;
@@ -23,13 +33,7 @@ public class UserDto {
         this.activities = activities;
     }
 
-    public boolean isBrand() {
-        return isBrand;
-    }
 
-    public void setBrand(boolean brand) {
-        isBrand = brand;
-    }
 
     public Long getId() {
         return id;
@@ -81,3 +85,4 @@ public class UserDto {
         this.authProvider = authProvider;
     }
 }
+

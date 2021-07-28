@@ -2,12 +2,15 @@ package wbm.growther.growther_001.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import wbm.growther.growther_001.dtos.ContestDto;
 import wbm.growther.growther_001.exceptions.ResourceNotFoundException;
 import wbm.growther.growther_001.services.ContestService;
+import wbm.growther.growther_001.utils.JwtUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,8 +19,22 @@ import java.util.concurrent.RejectedExecutionException;
 @RestController
 @RequestMapping("api/contests")
 public class ContestController {
+
     @Autowired
     private ContestService contestService;
+
+    @Autowired
+    private JwtUtils jwtUtils;
+
+
+    private String getJwtTokenFromRequest(HttpServletRequest request) {
+        String bearerToken = request.getHeader("Authorization");
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+            return bearerToken.substring(7, bearerToken.length());
+        }
+        return null;
+    }
+
 
     //Get All Contests
     @GetMapping("/GetContests")
@@ -33,10 +50,17 @@ public class ContestController {
         return ResponseEntity.ok().body(contestDto);
     }
 
+
     //Create new contest
     @PostMapping("/create")
-    public ContestDto createContest(@RequestBody ContestDto contestDto) throws RejectedExecutionException{
-        Boolean contestCreated = contestService.createNewContest(contestDto);
+    public ContestDto createContest(@RequestBody ContestDto contestDto
+            ,HttpServletRequest request) throws RejectedExecutionException{
+
+        //get the email from the JWT token
+        String token = getJwtTokenFromRequest(request);
+        String email= jwtUtils.getUserEmailFromToken(token);
+
+        Boolean contestCreated = contestService.createNewContest(contestDto,email);
         if(contestCreated) return contestDto;
         throw new RejectedExecutionException("A Contest with that ID already exist !!");
     }
