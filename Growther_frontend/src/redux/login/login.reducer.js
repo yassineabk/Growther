@@ -1,6 +1,6 @@
 import {loginType} from './login.types';
-let user = JSON.parse(localStorage.getItem('user'));
-const currentUser = user ? { currentUser: user } : {currentUser : null};
+let user = JSON.parse(localStorage.getItem('accessToken'));
+const currentUser = user ? user  :  null
 
 const INITIAL_STATE={
     currentUser:currentUser,

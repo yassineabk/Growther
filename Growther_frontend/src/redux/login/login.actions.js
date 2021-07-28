@@ -6,6 +6,10 @@ export const InitState = (dispatch)=>{
     dispatch({type: loginType.SET_INITIAL_STATE})
 }
 
+export const setCurrentUser=(user)=>{ 
+    return ({ type: loginType.LOGIN_SUCCESS, payload: user })
+}
+
 export const setEmail =(email) =>{
     return ({type: loginType.SET_EMAIL ,payload:email})
 }

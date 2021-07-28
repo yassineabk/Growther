@@ -11,6 +11,7 @@ import Dashboard from './pages/dashboard/dashborad.page';
 import LandingPage from './pages/landing-page/landing-page.page';
 import { Contest } from "./pages/contest/contest.page"
 import { EditContest } from './Components/contest/edit-contest/edit-contest.component';
+import OAuth2RedirectHandler from './services/OAuth2-redirect-handler';
 class App extends React.Component {
  
   unsubscribeFromAuth=null
@@ -37,6 +38,7 @@ class App extends React.Component {
     return (
       <div className={this.state.currentPath.includes("dashboard") ? "App bgcolor" : "App"}>
         <Switch>
+          <Route path="/oauth2/redirect" component={OAuth2RedirectHandler}></Route> 
           <Route exact path='/landing-page' render={()=>this.props.currentUser ? (<Redirect to='/'/>) : (<LandingPage />) } />
           <Route exact path='/login' render={()=>this.props.currentUser ? (<Redirect to='/'/>) : (<LoginPage/>) } />
           <Route exact path='/signup' render={()=>this.props.currentUser ? (<Redirect to='/'/>) : (<SignUpPage/>) } />
@@ -52,8 +54,12 @@ class App extends React.Component {
 }
 
 
-const mapStateToProps=createStructuredSelector({
-})
+const mapStateToProps=(state)=>{
+  console.log(state.login)
+  return({
+    currentUser:state.login.currentUser
+  })
+}
 
 const mapDispatcToProps=dispatch=>({
 })

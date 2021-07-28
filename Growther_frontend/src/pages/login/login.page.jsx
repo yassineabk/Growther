@@ -6,6 +6,8 @@ import { Redirect } from 'react-router-dom';
 import LoginForm from '../../Components/login-form/login-form.componenet';
 import { loginWithEmailAndPassword } from '../../redux/login/login.actions';
 import {setEmail,setPassword,setLoginError,setLoginErrorMessage,setRemember} from '../../redux/login/login.actions'
+import OAuth2RedirectHandler from '../../services/OAuth2-redirect-handler';
+
 class LoginPage extends React.Component{
     constructor(){
         super()
@@ -34,12 +36,11 @@ class LoginPage extends React.Component{
 
     LoginWithGoogle=async e=>{
       
-      window.open("https://staging-backendapp.herokuapp.com/oauth2/authorize/google?redirect_uri=http://localhost:3000/oauth2/redirect")
+      console.log(e)
 
     }
     LoginWithFacebook=async e=>{
       
-      window.open("https://staging-backendapp.herokuapp.com/oauth2/authorize/facebook?redirect_uri=http://localhost:3000/oauth2/redirect")
 
 
     }
