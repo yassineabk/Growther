@@ -1,4 +1,7 @@
 @import "sass/main.scss";
+html, body{
+  @extend .scroll;
+}
 .App{
   overflow-y: hidden;
   overflow-x: hidden;

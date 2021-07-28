@@ -1,6 +1,7 @@
 import { CONTEST_EDIT_TYPES } from "./contest-edit-types"
 const INITIAL_STATE={
     information:{
+        id: "",
         title: "",
         description: "",
         endDate: "",
@@ -53,7 +54,7 @@ const EditReducer = (state = INITIAL_STATE, action)=>{
         case CONTEST_EDIT_TYPES.CHECK_EDITS:
             return{
                 ...state,
-                validDate: action.payload.validData,
+                validData: action.payload.validData,
                 isValidData: action.payload.isValidData,
                 error: false
             }

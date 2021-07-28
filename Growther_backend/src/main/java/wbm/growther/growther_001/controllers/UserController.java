@@ -1,70 +1,99 @@
 package wbm.growther.growther_001.controllers;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import wbm.growther.growther_001.dtos.UserDto;
 import wbm.growther.growther_001.exceptions.ResourceNotFoundException;
-import wbm.growther.growther_001.models.users.User;
-import wbm.growther.growther_001.repository.UserRepository;
+import wbm.growther.growther_001.services.UserService;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("api/")
+@RequestMapping("api/users")
 public class UserController {
+
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
-    //Get All Users
-    @GetMapping("users")
-    public List<User> getUsers(){
-        return this.userRepository.findAll();
+
+    @GetMapping("/Getusers")
+    public List<UserDto> getUsers(){
+        return userService.getAllUsers();
     }
 
-    //Get user by id
-    @GetMapping("users/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable(value = "id") Long userId) throws ResourceNotFoundException {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found for this id :"+userId));
-        return ResponseEntity.ok().body(user);
-    }
-    //Get oauthUser
-    @GetMapping("user")
-    public ResponseEntity<User> getoauthUser(HttpServletRequest request, HttpServletResponse response) {
-        User user = new User(request.getAttribute("name").toString(),request.getAttribute("email").toString(),null ,request.getAttribute("provider").toString());
-        return ResponseEntity.ok().body(user);
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UserDto> getUserById(@PathVariable(value = "id") Long userId)
+            throws ResourceNotFoundException {
+        UserDto userDto = userService.getUserById(userId);
+        if(userDto==null)
+            throw new ResourceNotFoundException("No brand exist with ID : "+userId.toString());
+        return ResponseEntity.ok().body(userDto);
     }
 
-    //Create user
-    @PostMapping("users")
-    public User createUser(@RequestBody User user){
-        return this.userRepository.save(user);
+
+    @GetMapping("/email/{email}")
+    public ResponseEntity<UserDto> getUserByEmail(@PathVariable(value = "email") String userEmail)
+            throws ResourceNotFoundException{
+
+        UserDto userDto = userService.getUserByEmail(userEmail);
+        if(userDto==null)
+            throw new ResourceNotFoundException("No user exist with email: "+userEmail);
+
+        return ResponseEntity.ok().body(userDto);
     }
 
-    //Update user
-    @PutMapping("users/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable(value = "id") Long userId,@Validated @RequestBody User userDetails) throws ResourceNotFoundException {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found for this id :"+userId));
-        user.setName(userDetails.getName());
-        user.setEmail(userDetails.getEmail());
-        return ResponseEntity.ok(this.userRepository.save(user));
+    @GetMapping("/name/{name}")
+    public ResponseEntity<UserDto> getUserByName(@PathVariable(value = "name") String userName)
+            throws ResourceNotFoundException{
+
+        UserDto userDto = userService.getUserByName(userName);
+        if(userDto==null) throw new ResourceNotFoundException("No user exist with name: "+userName);
+        return ResponseEntity.ok().body(userDto);
     }
 
-    //Delete user
-    @DeleteMapping("users/{id}")
-    public Map<String, Boolean> deleteUser(@PathVariable(value = "id") Long userId) throws ResourceNotFoundException {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found for this id :"+userId));
-        this.userRepository.delete(user);
+
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<UserDto> updateBrand(@PathVariable (value = "id") Long userId,
+                                                @Validated @RequestBody UserDto userInfos) throws
+            ResourceNotFoundException{
+
+        UserDto userDto=userService.getUserById(userId);
+
+        // if the user does not exist, throw an exception
+        if(userDto==null)
+            throw new ResourceNotFoundException("No user exist with  ID : "+userId.toString());
+
+        //update informations
+        userDto.setEmail(userInfos.getEmail());
+        userDto.setName(userInfos.getName());
+
+        if(userDto.isBrand())
+        userDto.setUrl(userInfos.getUrl());
+
+        UserDto userDtoUpdated=userService.updateUserInfos(userDto);
+        return  ResponseEntity.ok().body(userDtoUpdated);
+    }
+
+
+    @DeleteMapping("/delete/{id}")
+    public Map<String , Boolean> deleteUser(@PathVariable(value = "id")Long userId)
+            throws ResourceNotFoundException{
+
+        UserDto userDto=userService.getUserById(userId);
+        if(userDto==null)
+            throw new ResourceNotFoundException("No user exist with  ID : "+userId);
+
+        userService.deleteUser(userDto);
         Map<String, Boolean> response = new HashMap<>();
-        response.put("deleted",Boolean.TRUE);
-        return response;
+        response.put("Brand Deleted successfully",Boolean.TRUE);
+        return  response;
     }
+
 }

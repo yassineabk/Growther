@@ -4,68 +4,75 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import wbm.growther.growther_001.dtos.ContestDto;
 import wbm.growther.growther_001.exceptions.ResourceNotFoundException;
-import wbm.growther.growther_001.models.Contest;
-import wbm.growther.growther_001.repository.ContestRepository;
+import wbm.growther.growther_001.services.ContestService;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.RejectedExecutionException;
 
 @RestController
-@RequestMapping("api/")
+@RequestMapping("api/contests")
 public class ContestController {
     @Autowired
-    private ContestRepository repository;
+    private ContestService contestService;
 
-    //Get All Users
-    @GetMapping("contests")
-    public List<Contest> getUsers(){
-        return this.repository.findAll();
+    //Get All Contests
+    @GetMapping("/GetContests")
+    public List<ContestDto> getContests(){
+        return contestService.getAllContests();
     }
 
-    //Get user by id
-    @GetMapping("contests/{id}")
-    public ResponseEntity<Contest> getContestById(@PathVariable(value = "id") Long contestId) throws ResourceNotFoundException {
-        Contest user = repository.findById(contestId)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found for this id :"+contestId));
-        return ResponseEntity.ok().body(user);
+    //Get contest by id
+    @GetMapping("/{id}")
+    public ResponseEntity<ContestDto> getContestById(@PathVariable(value = "id") Long contestId) throws ResourceNotFoundException {
+        ContestDto contestDto = contestService.getContestById(contestId);
+        if(contestDto==null) throw new ResourceNotFoundException("No contest exist with ID : "+contestId.toString());
+        return ResponseEntity.ok().body(contestDto);
     }
 
-    //Create user
-    @PostMapping("contests")
-    public Contest createContest(@RequestBody Contest contest){
-        return this.repository.save(contest);
+    //Create new contest
+    @PostMapping("/create")
+    public ContestDto createContest(@RequestBody ContestDto contestDto) throws RejectedExecutionException{
+        Boolean contestCreated = contestService.createNewContest(contestDto);
+        if(contestCreated) return contestDto;
+        throw new RejectedExecutionException("A Contest with that ID already exist !!");
     }
 
-    //Update user
-    @PutMapping("contests/{id}")
-    public ResponseEntity<Contest> updateContest(@PathVariable(value = "id") Long contestId,@Validated @RequestBody Contest contestDetails) throws ResourceNotFoundException {
-        Contest contest = repository.findById(contestId)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found for this id : "+contestId));
+    //Update contest
+    @PutMapping("/update/{id}")
+    public ResponseEntity<ContestDto> updateContest(@PathVariable(value = "id") Long contestId
+            ,@Validated @RequestBody ContestDto contestDetails) throws ResourceNotFoundException {
+        ContestDto contestDto=contestService.getContestById(contestId);
 
-        contest.setTitle(contestDetails.getTitle());
-        contest.setDescription(contestDetails.getDescription());
-        contest.setActions(contestDetails.getActions());
-        contest.setActionsNbr(contestDetails.getActionsNbr());
-        contest.setStartDate(contestDetails.getStartDate());
-        contest.setEndDate(contestDetails.getEndDate());
-        contest.setMaxReach(contestDetails.getMaxReach());
-        contest.setPrizes(contestDetails.getPrizes());
-        contest.setWinnersNbr(contestDetails.getWinnersNbr());
-        contest.setDuration(contestDetails.getDuration());
+        // if the contest does not exist, throw an exception
+        if(contestDto==null) throw new ResourceNotFoundException("No Contest exist with  ID : "+contestId.toString());
 
-        return ResponseEntity.ok(this.repository.save(contest));
+        //update informations
+
+        contestDto.setTitle(contestDetails.getTitle());
+        contestDto.setDescription(contestDetails.getDescription());
+        contestDto.setEndDate(contestDetails.getEndDate());
+        contestDto.setMaxReach(contestDetails.getMaxReach());
+        contestDto.setPrizes(contestDetails.getPrizes());
+        contestDto.setDuration(contestDetails.getDuration());
+
+        ContestDto contestDtoUpdated=contestService.updateContestInfos(contestDetails);
+        return  ResponseEntity.ok().body(contestDtoUpdated);
     }
 
-    //Delete user
-    @DeleteMapping("contests/{id}")
-    public Map<String, Boolean> deleteContest(@PathVariable(value = "id") Long contestId) throws ResourceNotFoundException {
-        Contest contest = repository.findById(contestId)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found for this id : "+contestId));
-        this.repository.delete(contest);
+    //Delete contest
+    @DeleteMapping("/delete/{id}")
+    public Map<String, Boolean> deleteContest(@PathVariable(value = "id") Long contestId)
+            throws ResourceNotFoundException {
+        ContestDto contestDto = contestService.getContestById(contestId);
+        if (contestDto==null) throw new ResourceNotFoundException("Contest not found for this id : "+contestId);
+
+        contestService.deleteContest(contestDto);
         Map<String, Boolean> response = new HashMap<>();
-        response.put("deleted",Boolean.TRUE);
-        return response;
+        response.put("Contest Deleted successfully",Boolean.TRUE);
+        return  response;
     }
 }

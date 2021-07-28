@@ -38,6 +38,7 @@ export const Contest = ()=>{
                 timeLeft={information.endDate ? TimeLeft(information.endDate).date : ""}
                 dateType={TimeLeft(information.endDate).type}
                 actions={actions}
+                prizes={information.prizes}
                 previewActions={selected}
                 changeHandler={(event, provider)=> changeHandler(event, provider)}
             /> : null}

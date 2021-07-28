@@ -23,25 +23,7 @@
             padding-right: 0.25em;
             max-height: 200px !important;
             overflow-y: auto;
-            &::-webkit-scrollbar {
-                width: 5px;
-            }
-            
-            /* Track */
-            &::-webkit-scrollbar-track {
-                background: white; 
-            }
-            
-            /* Handle */
-            &::-webkit-scrollbar-thumb {
-                background: $sideBar-color; 
-                border-radius: 5px !important;
-            }
-            
-            /* Handle on hover */
-            &::-webkit-scrollbar-thumb:hover {
-                background: $sideBar-color2; 
-            }
+            @extend .scroll;
         }
         @media only screen and (max-width: 1279px){
             min-width: 50% !important;

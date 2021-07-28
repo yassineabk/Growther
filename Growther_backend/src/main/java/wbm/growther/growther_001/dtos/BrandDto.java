@@ -2,14 +2,17 @@ package wbm.growther.growther_001.dtos;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import wbm.growther.growther_001.models.AuthenticationProvider;
 
 
 public class BrandDto {
+
     private Long id;
     private String name;
     private String url;
     private String email;
     private String password;
+    private AuthenticationProvider authProvider;
 
     public Long getId() {
         return id;
@@ -17,6 +20,14 @@ public class BrandDto {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public AuthenticationProvider getAuthProvider() {
+        return authProvider;
+    }
+
+    public void setAuthProvider(AuthenticationProvider authProvider) {
+        this.authProvider = authProvider;
     }
 
     public String getName() {

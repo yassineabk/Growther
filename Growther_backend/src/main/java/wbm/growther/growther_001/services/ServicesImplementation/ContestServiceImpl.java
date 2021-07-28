@@ -1,0 +1,122 @@
+package wbm.growther.growther_001.services.ServicesImplementation;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import wbm.growther.growther_001.dtos.ContestDto;
+import wbm.growther.growther_001.models.Contest;
+import wbm.growther.growther_001.repository.ContestRepository;
+import wbm.growther.growther_001.services.ContestService;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+@Service
+public class ContestServiceImpl implements ContestService {
+    @Autowired
+    private ContestRepository repository;
+
+    @Autowired
+    private ModelMapper modelMapper;
+
+
+    @Override
+    public List<ContestDto> getAllContests() {
+        List<Contest> contests = repository.findAll();
+        return getContestsDto(contests);
+    }
+
+    @Override
+    public Boolean createNewContest(ContestDto NewContestDto) {
+        Contest contest = mapToContest(NewContestDto);
+
+        //check if a contest with the same id exist
+        Contest contestExist = repository.findContestByIdContest(contest.getIdContest());
+
+        if(contestExist!=null) return false;
+        contest.setStatus("in_Creation");
+        repository.save(contest);
+        return true;
+    }
+
+    @Override
+    public ContestDto getContestById(Long contestID) {
+        Contest contest = repository.findContestByIdContest(contestID);
+        return (contest==null)? null :  toDto(contest);
+    }
+
+    @Override
+    public ContestDto updateContestInfos(ContestDto contestDto) {
+        Contest contest=toContest(contestDto);
+        repository.save(contest);
+        return mapToDto(repository.save(contest));
+    }
+
+    @Override
+    public void deleteContest(ContestDto contestDto) {
+        Contest contest=toContest(contestDto);
+        repository.delete(contest);
+    }
+
+    @Override
+    public ContestDto getContestByTitle(String title) {
+        Contest contest = repository.findContestByTitle(title);
+        return (contest==null)? null :  toDto(contest);
+    }
+    //convert model to DTO
+    private ContestDto mapToDto(Contest contest){
+        ContestDto contestDto = modelMapper.map(contest,ContestDto.class);
+        return contestDto;
+    }
+
+    private ContestDto toDto(Contest contest){
+        ContestDto contestDto = new ContestDto();
+        contestDto.setIdContest(contest.getIdContest());
+        contestDto.setTitle(contest.getTitle());
+        contestDto.setStatus(contest.getStatus());
+        contestDto.setDescription(contest.getDescription());
+        contestDto.setWinnersNbr(contest.getWinnersNbr());
+        contestDto.setActionsNbr(contest.getActionsNbr());
+        contestDto.setStartDate(contest.getStartDate());
+        contestDto.setEndDate(contest.getEndDate());
+        contestDto.setDuration(contest.getDuration());
+        contestDto.setMaxReach(contest.getMaxReach());
+        contestDto.setActions(contest.getActions());
+        contestDto.setPrizes(contest.getPrizes());
+        return contestDto;
+    }
+
+    //convert Dto to model
+    private Contest mapToContest(ContestDto contestDto){
+        Contest contest = modelMapper.map(contestDto,Contest.class);
+        return contest;
+    }
+
+    private Contest toContest(ContestDto contestDto){
+        Contest contest = new Contest();
+        contest.setIdContest(contestDto.getIdContest());
+        contest.setTitle(contestDto.getTitle());
+        contest.setDescription(contestDto.getDescription());
+        contest.setStatus(contestDto.getStatus());
+        contest.setWinnersNbr(contestDto.getWinnersNbr());
+        contest.setActionsNbr(contestDto.getActionsNbr());
+        contest.setStartDate(contestDto.getStartDate());
+        contest.setEndDate(contestDto.getEndDate());
+        contest.setDuration(contestDto.getDuration());
+        contest.setMaxReach(contestDto.getMaxReach());
+        contest.setActions(contestDto.getActions());
+        contest.setPrizes(contestDto.getPrizes());
+        return contest;
+    }
+    // returns a list of brands DTO
+    private List<ContestDto> getContestsDto(List<Contest> contests){
+        List<ContestDto> contestDtos = new ArrayList<>();
+
+        contests.forEach( contest -> {
+            ContestDto contestDto= toDto(contest);
+            contestDtos.add(contestDto);
+        });
+        return contestDtos;
+    }
+}

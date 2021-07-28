@@ -6,4 +6,6 @@ import wbm.growther.growther_001.models.Contest;
 @Repository
 
 public interface ContestRepository extends JpaRepository<Contest,Long> {
+    Contest findContestByIdContest(Long ID);
+    Contest findContestByTitle(String Title);
 }
