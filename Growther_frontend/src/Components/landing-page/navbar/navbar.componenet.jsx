@@ -2,6 +2,9 @@ import React from 'react';
 import {Link} from 'react-router-dom'
 
 class Navbar extends React.Component {
+    scroll = (id)=>{
+        document.getElementById(id).scrollIntoView({behavior: "smooth"})
+    }
   render() {
   	return (
         <nav className="navbar pr-6 pt-4 pl-6 is-dark  pb-4" role="navigation" aria-label="main navigation">
@@ -19,12 +22,12 @@ class Navbar extends React.Component {
 
             <div id="navbarBasicExample" className="navbar-menu ">
                 <div className="navbar-start is-flex is-justify-content-center ">
-                    <Link  className="navbar-item" to="/">Home</Link >
-                    <Link  className="navbar-item" to="#services">Services</Link >
-                    <Link  className="navbar-item" to="#features">Features</Link >
-                    <Link  className="navbar-item" to="#pricing"> Pricing</Link >
-                    <Link  className="navbar-item" to="#testimonials">Testimonials</Link >
-                    <Link  className="navbar-item" to="#contact"> Contact</Link >
+                    <Link className="navbar-item" to="/">Home</Link >
+                    <Link onClick={()=> this.scroll("services")} className="navbar-item" to="#services">Services</Link >
+                    <Link onClick={()=> this.scroll("features")} className="navbar-item" to="#features">Features</Link >
+                    <Link onClick={()=> this.scroll("pricing")} className="navbar-item" to="#pricing"> Pricing</Link >
+                    <Link onClick={()=> this.scroll("testimonials")} className="navbar-item" to="#testimonials">Testimonials</Link >
+                    <Link onClick={()=> this.scroll("contact")} className="navbar-item" to="#contact"> Contact</Link >
                 </div>
             </div>
 

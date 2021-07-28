@@ -13,7 +13,7 @@ import { ContestSecondStep } from "../contest-second-step/contest-second-step.co
 import { ContestThirdStep } from "../contest-third-step/contest-third-step.component"
 import { NewContestTabs } from "../new-contest-tabs/new-contest-tabs.component"
 import { PreviewContainer } from "../preview-container/preview-container.component"
-export const NewContest = ()=>{
+export const NewContest = ({child})=>{
     var { information, activePage, actions, previewActions } = useSelector(state => state.contest)
     var dispatch = useDispatch()
     var history = useHistory()
@@ -28,11 +28,13 @@ export const NewContest = ()=>{
                 tabs={[
                     {
                         location: "/dashboard/My Contests/new/firstStep", 
+                        nex: "/dashboard/My Contests/new/secondStep",
                         text: "Contest Informations",
                     },
                     {
                         location: "/dashboard/My Contests/new/secondStep", 
-                        text: "Compose Contest"
+                        text: "Compose Contest",
+                        next: "/dashboard/My Contests/new/thirdStep"
                     },
                     {
                         location: "/dashboard/My Contests/new/thirdStep", 
@@ -46,19 +48,7 @@ export const NewContest = ()=>{
                     information={information} 
                     actions={information.actions} 
                     changeHandler={(event, provider) => previewChangeHandler(event, provider)} />
-                <Router>
-                    <Switch>
-                        <Route path={"/dashboard/My Contests/new/firstStep"}>
-                            <ContestFirstStep />
-                        </Route> 
-                        <Route path={"/dashboard/My Contests/new/secondStep"}>
-                            <ContestSecondStep />
-                        </Route>
-                        <Route path={"/dashboard/My Contests/new/thirdStep"}>
-                            <ContestThirdStep />
-                        </Route>
-                    </Switch>
-                </Router>
+                {child}
             </div>
         </div>
     )
