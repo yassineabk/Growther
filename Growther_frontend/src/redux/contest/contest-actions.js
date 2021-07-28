@@ -161,7 +161,7 @@ export const SaveDraft = (dispatch, data)=>{
 export const PublishContest = (dispatch, data)=>{
     var validInfos = NextStep(dispatch, data.information)
     var validActions = SaveContest(dispatch, data.actions)
-    var token = "eyJhbGciOiJIUzUxMiJ9.eyJlbWFpbCI6Inlhc3NpbmVAZ21haWwuY29tIiwic3ViIjoiMiIsImlhdCI6MTYyNzQ4MjQ3NywiZXhwIjoxNjI4MzQ2NDc3fQ.fmKcwkcuELJ95IP3I_FHhSOOSbkaCBCxRlRvEI--lc1xtEQRtk-Rh9O198kv-gkFS-tIrBpAKqMa48TII_gE_Q"
+    var token = localStorage.getItem("accessToken")
     var config = {
         headers: {"Authorization" : `Bearer ${token}`} 
     }

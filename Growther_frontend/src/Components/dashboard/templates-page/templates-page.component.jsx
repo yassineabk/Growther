@@ -5,6 +5,6 @@ export const DashboardTemplatesPage = ({templates}) =>{
         //GET Data from API
     })
     return(
-        <TemplatesContainer data={templates} title={"Templates"}/>
+        <TemplatesContainer title={"Templates"}/>
     )
 }

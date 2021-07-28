@@ -1,7 +1,13 @@
 import React from "react"
-import {useLocation} from "react-router-dom"
+import {useHistory, useLocation} from "react-router-dom"
 export const NewContestTabs = ({tabs, activePage})=>{
     var location = useLocation()
+    var history = useHistory()
+    var openLink =(url)=>{
+        if(url){
+            history.push(url)
+        }
+    }
     if(!Array.isArray(tabs)) return null
     return(
         <div className="is-flex NewContestTabs">
@@ -9,7 +15,7 @@ export const NewContestTabs = ({tabs, activePage})=>{
                 if(typeof(tab) !== "object") return null
                 return(
                     <div className={tab.location === location.pathname ? "NewContestTab active" : "NewContestTab"}>
-                        <div className="tabText">
+                        <div onClick={()=> openLink(tab.location)} className="tabText">
                             {tab.text}
                         </div>
                     </div>
