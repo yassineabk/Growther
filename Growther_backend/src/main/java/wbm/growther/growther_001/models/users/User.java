@@ -49,11 +49,11 @@ public class User {
         this.url = url;
     }
 
-    public boolean isBrand() {
+    public Boolean isBrand() {
         return isBrand;
     }
 
-    public void setBrand(boolean brand) {
+    public void setBrand(Boolean brand) {
         isBrand = brand;
     }
 
@@ -69,7 +69,7 @@ public class User {
 
     @NotNull
     @Column
-    private boolean isBrand;
+    private Boolean isBrand;
 
     private String providerId;
 

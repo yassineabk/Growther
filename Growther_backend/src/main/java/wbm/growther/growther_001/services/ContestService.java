@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ContestService {
     List<ContestDto> getAllContests();
-    Boolean createNewContest(ContestDto contestDto);
+    Boolean createNewContest(ContestDto contestDto,String email);
     ContestDto getContestById(Long contestID);
     ContestDto updateContestInfos(ContestDto contestDto);
     void deleteContest(ContestDto contestDto);

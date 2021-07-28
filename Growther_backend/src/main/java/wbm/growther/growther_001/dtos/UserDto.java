@@ -12,7 +12,7 @@ public class UserDto {
     private String email;
     private String password;
     private AuthenticationProvider authProvider;
-    private boolean isBrand;
+    private Boolean isBrand;
     private String activities;
 
     public String getActivities() {
@@ -23,11 +23,11 @@ public class UserDto {
         this.activities = activities;
     }
 
-    public boolean isBrand() {
+    public Boolean isBrand() {
         return isBrand;
     }
 
-    public void setBrand(boolean brand) {
+    public void setBrand(Boolean brand) {
         isBrand = brand;
     }
 

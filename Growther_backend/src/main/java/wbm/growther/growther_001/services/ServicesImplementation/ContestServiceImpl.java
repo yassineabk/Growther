@@ -5,7 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import wbm.growther.growther_001.dtos.ContestDto;
 import wbm.growther.growther_001.models.Contest;
+import wbm.growther.growther_001.models.users.User;
 import wbm.growther.growther_001.repository.ContestRepository;
+import wbm.growther.growther_001.repository.UserRepository;
 import wbm.growther.growther_001.services.ContestService;
 
 import java.util.ArrayList;
@@ -14,8 +16,12 @@ import java.util.List;
 
 @Service
 public class ContestServiceImpl implements ContestService {
+
     @Autowired
     private ContestRepository repository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -28,9 +34,15 @@ public class ContestServiceImpl implements ContestService {
     }
 
     @Override
-    public Boolean createNewContest(ContestDto NewContestDto) {
-        Contest contest = mapToContest(NewContestDto);
+    public Boolean createNewContest(ContestDto NewContestDto,String email) {
 
+        User user = userRepository.findUserByEmail(email);
+        if(!user.isBrand()) return false;
+
+        Long userId=user.getId();
+        //TODO : add userId to the contest obj ...
+
+        Contest contest = mapToContest(NewContestDto);
         //check if a contest with the same id exist
         Contest contestExist = repository.findContestByIdContest(contest.getIdContest());
 
