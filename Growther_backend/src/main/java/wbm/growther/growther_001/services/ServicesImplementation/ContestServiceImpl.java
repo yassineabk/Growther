@@ -37,7 +37,7 @@ public class ContestServiceImpl implements ContestService {
     public Boolean createNewContest(ContestDto NewContestDto,String email) {
 
         User user = userRepository.findUserByEmail(email);
-        if(!user.isBrand()) return false;
+        if(!user.getIsBrand().equalsIgnoreCase("true")) return false;
 
         Long userId=user.getId();
         //TODO : add userId to the contest obj ...

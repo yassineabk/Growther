@@ -69,16 +69,17 @@ public class AuthenticationController {
 
         // Creating user's account
         User user =new  User();
+        System.out.println(signUpRequest.toString());
         user.setName(signUpRequest.getName());
         user.setEmail(signUpRequest.getEmail());
         user.setPassword(signUpRequest.getPassword());
         user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
         user.setAuthProvider(AuthenticationProvider.LOCAL);
-        if(signUpRequest.isBrand()){
+        if(signUpRequest.getIsBrand().equalsIgnoreCase("true")){
             user.setUrl(signUpRequest.getUrl());
-            user.setBrand(true);
+            user.setIsBrand("true");
         }
-        else user.setBrand(false);
+        else user.setIsBrand("false");
 
         User result = userRepository.save(user);
 

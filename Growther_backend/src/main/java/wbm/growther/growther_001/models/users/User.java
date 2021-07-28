@@ -24,6 +24,22 @@ public class User {
 
     @Column
     private String activities;
+    @NotNull
+    @Column(length = 50)
+    private String email;
+
+    private String password;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private AuthenticationProvider authProvider;
+
+
+    @Column(length = 10)
+    private String isBrand;
+
+    private String providerId;
+
 
     public String getActivities() {
         return activities;
@@ -49,30 +65,14 @@ public class User {
         this.url = url;
     }
 
-    public Boolean isBrand() {
+
+    public String getIsBrand() {
         return isBrand;
     }
 
-    public void setBrand(Boolean brand) {
-        isBrand = brand;
+    public void setIsBrand(String isBrand) {
+        this.isBrand = isBrand;
     }
-
-    @NotNull
-    @Column(length = 50)
-    private String email;
-
-    private String password;
-
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    private AuthenticationProvider authProvider;
-
-    @NotNull
-    @Column
-    private Boolean isBrand;
-
-    private String providerId;
-
 
     public User(String email, String password) {
         this.email = email;
