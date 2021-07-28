@@ -50,6 +50,16 @@ public class ContestController {
         return ResponseEntity.ok().body(contestDto);
     }
 
+    //Get contest by id and infos
+    @GetMapping("/{title}/{description}/{id}")
+    public ResponseEntity<ContestDto> getContestByInfos(@PathVariable(value = "id") Long contestId,
+                                                        @PathVariable(value = "title") String contestTitle,
+                                                        @PathVariable(value = "description") String contestDescription) throws ResourceNotFoundException {
+        ContestDto contestDto = contestService.getContestByInfos(contestTitle,contestDescription,contestId);
+        if(contestDto==null) throw new ResourceNotFoundException("No contest exist with ID : "+contestId.toString());
+        return ResponseEntity.ok().body(contestDto);
+    }
+
 
     //Create new contest
     @PostMapping("/create")

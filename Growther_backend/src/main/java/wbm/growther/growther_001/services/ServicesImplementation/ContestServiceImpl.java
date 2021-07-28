@@ -47,6 +47,7 @@ public class ContestServiceImpl implements ContestService {
         Contest contestExist = repository.findContestByIdContest(contest.getIdContest());
 
         if(contestExist!=null) return false;
+        contest.setUser(user);
         contest.setStatus("in_Creation");
         repository.save(contest);
         return true;
@@ -76,6 +77,13 @@ public class ContestServiceImpl implements ContestService {
         Contest contest = repository.findContestByTitle(title);
         return (contest==null)? null :  toDto(contest);
     }
+
+    @Override
+    public ContestDto getContestByInfos(String title, String description, Long id) {
+        Contest contest = repository.findContestByTitleAndDescriptionAndIdContest(title,description,id);
+        return (contest==null)? null :  toDto(contest);
+    }
+
     //convert model to DTO
     private ContestDto mapToDto(Contest contest){
         ContestDto contestDto = modelMapper.map(contest,ContestDto.class);

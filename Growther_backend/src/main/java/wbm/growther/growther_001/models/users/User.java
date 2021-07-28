@@ -2,8 +2,10 @@ package wbm.growther.growther_001.models.users;
 
 import com.sun.istack.NotNull;
 import wbm.growther.growther_001.models.AuthenticationProvider;
+import wbm.growther.growther_001.models.Contest;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "Users",uniqueConstraints = {
@@ -73,6 +75,8 @@ public class User {
 
     private String providerId;
 
+    @OneToMany(mappedBy="user", fetch = FetchType.LAZY)
+    private Set<Contest> contests;
 
     public User(String email, String password) {
         this.email = email;
@@ -112,6 +116,18 @@ public class User {
 
     public void setProviderId(String providerId) {
         this.providerId = providerId;
+    }
+
+    public Boolean getBrand() {
+        return isBrand;
+    }
+
+    public Set<Contest> getContests() {
+        return contests;
+    }
+
+    public void setContests(Set<Contest> contests) {
+        this.contests = contests;
     }
 
     public String getPassword() {
