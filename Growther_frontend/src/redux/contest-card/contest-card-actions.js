@@ -25,6 +25,7 @@ var data2 = [
     }
 ]
 var data1 = {
+    "id": "ID",
     "title": "Contest Title",
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure do",
     "winnersNbr": 1,
@@ -36,7 +37,14 @@ var data1 = {
     },
     "maxReach": 0,
     "prizes": [
-        {id: 1, description: "PS5"}
+        {id: 1, description: "PC Gamer"},
+        {id: 2, description: "Iphone 12 Pro Max"},
+        {id: 3, description: "PS5"},
+        {id: 4, description: "2500DH"},
+        {id: 5, description: "2000DH"},
+        {id: 6, description: "1500DH"},
+        {id: 7, description: "1000DH"},
+        {id: 8, description: "500DH"},
     ]
 }
 export const SetData = (dispatch, id) =>{

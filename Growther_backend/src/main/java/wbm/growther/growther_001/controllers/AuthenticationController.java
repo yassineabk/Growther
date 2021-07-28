@@ -69,7 +69,7 @@ public class AuthenticationController {
 
         // Creating user's account
         User user =new  User();
-        System.out.println(signUpRequest.toString());
+        System.out.println(signUpRequest.getEmail());
         user.setName(signUpRequest.getName());
         user.setEmail(signUpRequest.getEmail());
         user.setPassword(signUpRequest.getPassword());

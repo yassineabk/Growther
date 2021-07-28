@@ -78,7 +78,6 @@ export const NextStep = (dispatch, information)=>{
                     if(Array.isArray(information.prizes)){
                         var res = []
                         information.prizes.map(item =>{
-                            console.log(item.description === "")
                             if(typeof(item) === "object" && typeof(item.description) === "string" && item.description === ""){
                                 res = [...res, {id: item.id, description: false}]
                             }else{
@@ -103,11 +102,13 @@ export const NextStep = (dispatch, information)=>{
                         break
                     }
                 }
+            }else{
+                isValid = false
             }
             return isValid
             
         }
-        isValidData = Object.keys(result).length === 0 || isValidPrizes()
+        isValidData = Object.keys(result).length === 1 && isValidPrizes()
         dispatch({type: ContestTypes.CHECK_DATA, payload: {validData, isValidData}})
         return isValidData
     }
@@ -115,7 +116,7 @@ export const NextStep = (dispatch, information)=>{
 }
 export const SaveContest = (dispatch, actions)=>{
     var result = []
-    if(Array.isArray(actions)){
+    if(Array.isArray(actions) && actions.length > 0){
         actions.map((item, index) =>{
             if(typeof(item) === "object"){
                 var res = {isValid: true, provider: item.provider, index: index}
@@ -133,14 +134,14 @@ export const SaveContest = (dispatch, actions)=>{
         var validActions = ()=>{
             var IsValid = true
             for(var i = 0; i < result.length; i++){
-                if(!result[i]){
+                if(!result[i].isValid){
                     IsValid = false
                     break
                 }
             }
             return IsValid
         }
-        var isValid = result.length === 0 || validActions()
+        var isValid = validActions()
         dispatch({type: ContestTypes.CHECK_ACTIONS, payload: {validActions: result, isValidActions: isValid}})
         return isValid
     }
@@ -159,9 +160,13 @@ export const SaveDraft = (dispatch, data)=>{
 }
 export const PublishContest = (dispatch, data)=>{
     var validInfos = NextStep(dispatch, data.information)
-    var validActions = SaveContest(dispatch, data.information.actions)
+    var validActions = SaveContest(dispatch, data.actions)
+    var token = "eyJhbGciOiJIUzUxMiJ9.eyJlbWFpbCI6Inlhc3NpbmVAZ21haWwuY29tIiwic3ViIjoiMiIsImlhdCI6MTYyNzQ4MjQ3NywiZXhwIjoxNjI4MzQ2NDc3fQ.fmKcwkcuELJ95IP3I_FHhSOOSbkaCBCxRlRvEI--lc1xtEQRtk-Rh9O198kv-gkFS-tIrBpAKqMa48TII_gE_Q"
+    var config = {
+        headers: {"Authorization" : `Bearer ${token}`} 
+    }
     if(validInfos && validActions){
-        axios.post("/api/contests/create", data.information)
+        axios.post("http://localhost:5000/api/contests/create", data.information, config)
             .then(response =>{
                 console.log(response)
                 dispatch({type: ContestTypes.PUBLISH_SUCCESS})
@@ -172,6 +177,7 @@ export const PublishContest = (dispatch, data)=>{
                 return false
             })
     }
+    dispatch({type: ContestTypes.PUBLISH_FAIL})
     return false
 }
 

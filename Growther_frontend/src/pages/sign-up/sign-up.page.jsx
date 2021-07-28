@@ -25,7 +25,9 @@ class SignUpPage extends React.Component{
               name:this.props.brand.name,
               url:this.props.brand.url,
               activities:this.props.brand.activities,
+
               isBrand:"true"
+
             }
             console.log("---------")
             console.log(user)
