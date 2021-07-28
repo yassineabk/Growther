@@ -7,7 +7,7 @@ import { ContestActions } from "../contest-actions/contest-actions.component"
 import { ContestButton } from "../contest-buttons/contest-buttons.component"
 export const ContestSecondStep = ()=>{
     var dispatch = useDispatch()
-    var {actions, isValidData, isValidActions, validActions, information} = useSelector(state => state.contest)
+    var {information, isValidData, isValidActions, validActions, information} = useSelector(state => state.contest)
     var location = useLocation()
     var history = useHistory()
     /*useEffect(()=>{
@@ -19,27 +19,27 @@ export const ContestSecondStep = ()=>{
     var addAction = (action)=>{
         AddAction(dispatch, action)
     }
-    var updateAction = (provider, key, value) =>{
-        UpdateAction(dispatch, provider, key, value)
+    var updateAction = (provider, key, value, index) =>{
+        UpdateAction(dispatch, provider, key, value, index)
     }
-    var removeAction = (provider)=>{
-        RemoveAction(dispatch, provider)
+    var removeAction = (provider, index)=>{
+        RemoveAction(dispatch, provider, index)
     }
     var Save = ()=>{
-        if(PublishContest(dispatch, {information, actions})){
+        if(PublishContest(dispatch, {information, actions: information.actions})){
             history.push("/dashboard/My Contests/new/thirdStep")
         }
     }
     if(location.pathname !== "/dashboard/My Contests/new/secondStep") return null
-    //if(isValidData !== true) return <Redirect to="/dashboard/My Contests/new/firstStep" />
+    if(isValidData !== true) return <Redirect to="/dashboard/My Contests/new/firstStep" />
     return(
         <div className="actionsContainer is-flex is-flex-direction-column">
             <div className="is-flex is-flex-direction-column">
                 <div className="containerTitle">{"Contest actions"}</div>
                 <ContestActions 
-                    data={actions} 
-                    removeAction={(actionName)=> removeAction(actionName)}
-                    updateAction={(actionName, key, value)=> updateAction(actionName, key, value)}
+                    data={information.actions} 
+                    removeAction={(actionName, index)=> removeAction(actionName, index)}
+                    updateAction={(actionName, key, value, index)=> updateAction(actionName, key, value, index)}
                     title={"Contest actions"}
                     validActions={validActions ? validActions : undefined}
                 />

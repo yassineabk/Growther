@@ -5,6 +5,7 @@ import contestReducer from './contest/contest-reducer'
 import { authReducer } from './auth/auth.reducers'
 import ContestCard from './contest-card/contest-card-reducer'
 import EditReducer from './contest-edit/contest-edit-reducer'
+import DashboardReducer from './dashboard/dashboard-reducer'
 
 const persistConfig={
     key:'root',
@@ -16,6 +17,7 @@ const rootReducer=combineReducers({
     auth: authReducer,
     contest_card: ContestCard,
     contest_edit: EditReducer,
+    dashboard: DashboardReducer,
 })
 
 

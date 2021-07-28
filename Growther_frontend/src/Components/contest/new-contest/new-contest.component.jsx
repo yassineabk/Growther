@@ -44,7 +44,7 @@ export const NewContest = ()=>{
                 <PreviewContainer 
                     previewActions={previewActions} 
                     information={information} 
-                    actions={actions} 
+                    actions={information.actions} 
                     changeHandler={(event, provider) => previewChangeHandler(event, provider)} />
                 <Router>
                     <Switch>

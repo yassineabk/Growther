@@ -6,23 +6,23 @@ export const InitState = (dispatch)=>{
 export const StateChange = (dispatch, data)=>{
     dispatch({type: ContestTypes.SET_NEW_CONTEST_STATE, payload: data})
 }
-export const PrizesChange = (dispatch, key, value)=>{
-    dispatch({type: ContestTypes.SET_PRIZES, payload: {key, value}})
+export const PrizesChange = (dispatch, id, value)=>{
+    dispatch({type: ContestTypes.SET_PRIZES, payload: {id, value}})
 }
-export const WinnersNumChange = (dispatch, key, value)=>{
-    dispatch({type: ContestTypes.SET_WINNERS_NUM, payload: {key, value}})
+export const WinnersNumChange = (dispatch, id, value)=>{
+    dispatch({type: ContestTypes.SET_WINNERS_NUM, payload: {id, value}})
 }
-export const RemovePrize = (dispatch, key, value)=>{
-    dispatch({type: ContestTypes.REMOVE_PRIZE, payload: {key, value}})
+export const RemovePrize = (dispatch, id, value)=>{
+    dispatch({type: ContestTypes.REMOVE_PRIZE, payload: {id, value}})
 }
 export const AddAction = (dispatch, action)=>{
     dispatch({type: ContestTypes.ADD_ACTION, payload: action})
 }
-export const RemoveAction = (dispatch, actionName)=>{
-    dispatch({type: ContestTypes.REMOVE_ACTION, payload: actionName})
+export const RemoveAction = (dispatch, actionName, index)=>{
+    dispatch({type: ContestTypes.REMOVE_ACTION, payload: {actionName, index}})
 }
-export const UpdateAction = (dispatch, provider, key, value)=>{
-    dispatch({type: ContestTypes.UPDATE_ACTION, payload: {provider, key, value}})
+export const UpdateAction = (dispatch, provider, key, value, index)=>{
+    dispatch({type: ContestTypes.UPDATE_ACTION, payload: {provider, key, value, index}})
 }
 export const SetDuration = (dispatch, type, value, startDate, endDate)=>{
     dispatch({type: ContestTypes.SET_DURATION, payload: {value, type, startDate, endDate}})
@@ -75,14 +75,17 @@ export const NextStep = (dispatch, information)=>{
                     }
                     break
                 case "prizes":
-                    if(typeof(information.prizes) === "object"){
-                        var res = {}
-                        Object.keys(information.prizes).map(key =>{
-                            if(typeof(information.prizes[key]) === "string" && information.prizes[key].length === 0){
-                                res[key] = false
+                    if(Array.isArray(information.prizes)){
+                        var res = []
+                        information.prizes.map(item =>{
+                            console.log(item.description === "")
+                            if(typeof(item) === "object" && typeof(item.description) === "string" && item.description === ""){
+                                res = [...res, {id: item.id, description: false}]
+                            }else{
+                                res = [...res, {id: item.id, description: true}]
                             }
                         })
-                        if(Object.keys(res).length > 0){
+                        if(res.length > 0){
                             result.prizes = res
                         }
                     }
@@ -91,7 +94,20 @@ export const NextStep = (dispatch, information)=>{
             }
         })
         validData = result
-        isValidData = Object.keys(result).length === 0
+        var isValidPrizes = ()=>{
+            var isValid = true
+            if(Array.isArray(result.prizes)){
+                for(var i = 0; i < result.prizes.length; i++){
+                    if(!result.prizes[i].description){
+                        isValid = false
+                        break
+                    }
+                }
+            }
+            return isValid
+            
+        }
+        isValidData = Object.keys(result).length === 0 || isValidPrizes()
         dispatch({type: ContestTypes.CHECK_DATA, payload: {validData, isValidData}})
         return isValidData
     }
@@ -100,40 +116,31 @@ export const NextStep = (dispatch, information)=>{
 export const SaveContest = (dispatch, actions)=>{
     var result = []
     if(Array.isArray(actions)){
-        actions.map(item =>{
-            if(typeof(item) === "object" &&  typeof(item.actions) === "object"){
-                var res = {provider: item.provider, actions: {}}
-                Object.keys(item.actions).map(key=>{
-                    if(typeof(item.actions[key]) === "object"){
-                        res.actions[key] = {}
-                        Object.keys(item.actions[key]).map(key2 =>{
-                            res.actions[key][key2] = true
-                            if(key2 === "link" && !UrlValidation(item.actions[key][key2]) && item.actions[key][key2] !== ""){
-                                res.actions[key][key2] = false
-                            }else if(key2 === "points" && (item.actions[key][key2] < 1 || item.actions[key][key2] > 5)){
-                                res.actions[key][key2] = false
-                            }
-                        })
+        actions.map((item, index) =>{
+            if(typeof(item) === "object"){
+                var res = {isValid: true, provider: item.provider, index: index}
+                Object.keys(item).map(key=>{
+                    if(key === "url" && !UrlValidation(item[key])){
+                        res = {...res, [key]: false, isValid: false}
+                    }
+                    if(key === "points" && (item[key] < 1 || item[key] > 5)){
+                        res = {...res, [key]: false, isValid: false}
                     }
                 })
                 result = [...result, res]
             }
         })
-        var isValidActions = ()=>{
-            var isValid = true;
+        var validActions = ()=>{
+            var IsValid = true
             for(var i = 0; i < result.length; i++){
-                for(var item in result[i].actions){
-                    if(!result[i].actions[item].link || !result[i].actions[item].points){
-                        isValid = false;
-                        break;
-                    }
+                if(!result[i]){
+                    IsValid = false
+                    break
                 }
-                if(!isValid) break;
             }
-            if(!isValid) alert("Please, Check the data you entred")
-            return isValid
+            return IsValid
         }
-        var isValid = isValidActions()
+        var isValid = result.length === 0 || validActions()
         dispatch({type: ContestTypes.CHECK_ACTIONS, payload: {validActions: result, isValidActions: isValid}})
         return isValid
     }
@@ -152,19 +159,20 @@ export const SaveDraft = (dispatch, data)=>{
 }
 export const PublishContest = (dispatch, data)=>{
     var validInfos = NextStep(dispatch, data.information)
-    var validActions = SaveContest(dispatch, data.actions)
-    var published = false
+    var validActions = SaveContest(dispatch, data.information.actions)
     if(validInfos && validActions){
-        axios.post("PUBLISH_URL", data)
-        .then(response =>{
-            dispatch({type: ContestTypes.PUBLISH_SUCCESS})
-            published = true
-        }).catch(err => {
-            dispatch({type: ContestTypes.PUBLISH_FAIL})
-            published = false
-        })
+        axios.post("/api/contests/create", data.information)
+            .then(response =>{
+                console.log(response)
+                dispatch({type: ContestTypes.PUBLISH_SUCCESS})
+                return true
+            }).catch(err => {
+                dispatch({type: ContestTypes.PUBLISH_FAIL})
+                console.log(err)
+                return false
+            })
     }
-    return published
+    return false
 }
 
 
