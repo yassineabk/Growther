@@ -3,10 +3,15 @@ import EmailInput from '../email-input/email-input.component';
 import PasswordInput from '../password-input/password-input.component';
 import SubmitButton from '../submit-button/submit-button.component';
 import SocialMediaButton from '../social-media-button/social-media-button.component';
-import {Link} from 'react-router-dom'
+import {Link, useHistory} from 'react-router-dom'
+import { googleUri } from './login_uri';
+import { facebookUri } from './login_uri';
+const LoginForm=({handleSubmit,handleRemeberMe,SignUpWithGoogle,SignUpWithFacebook,registrationMessage,passwordVlue,passwordFunctions,emailValue,email,password,emailFunctions})=>{
+    const history = useHistory();
 
-const LoginForm=({handleSubmit,handleRemeberMe,SignUpWithGoogle,SignUpWithFacebook,password,passwordFunctions,email,emailFunctions})=>{
-    console.log(email)
+  function handleClickRegister() {
+    history.push("/signup");
+  }
     return(
 
     <section className="hero is-fullheight Modal">
@@ -19,8 +24,8 @@ const LoginForm=({handleSubmit,handleRemeberMe,SignUpWithGoogle,SignUpWithFacebo
                         <p className="title is-3">Login</p>
                         <p className="subtitle is6">Welcome back</p>
                         </div>
-                        <EmailInput handleBlur={emailFunctions.handleEmailBlur} handleChange={emailFunctions.handleEmailChange} label="Email" isError={email.isEmailError} message={email.EmailMessage} placeholder="Enter Your email"/>
-                        <PasswordInput handleChange={passwordFunctions.handlePasswordChange}  label="Password" isError={password.isPasswordError} message={password.PasswordMessage} placeholder="Enter your password"/>
+                        <EmailInput value={emailValue} handleBlur={emailFunctions.handleEmailBlur} handleChange={emailFunctions.handleEmailChange} label="Email" isError={email.isEmailError} message={email.EmailMessage} placeholder="Enter Your email"/>
+                        <PasswordInput value={passwordVlue} handleChange={passwordFunctions.handlePasswordChange}  label="Password" isError={password.isPasswordError} message={password.PasswordMessage} placeholder="Enter your password"/>
                         <div className="field is-flex-desktop is-flex-direction-row is-justify-content-space-between">
                             <label for="" className="checkbox is-block">
                                 <input onChange={handleRemeberMe} className="mr-3" type="checkbox"/>
@@ -29,9 +34,10 @@ const LoginForm=({handleSubmit,handleRemeberMe,SignUpWithGoogle,SignUpWithFacebo
                             <Link className="subtitle is-danger is-6 is-link" to="Reset Password">I forgot my password</Link>
                             </div>
                         <div className="field"></div>
-                        <SubmitButton id="submitButton" type="submit" label="Login"/>
-                        <SocialMediaButton onClick={SignUpWithGoogle} isGoogle label="Login with Google"/>
-                        <SocialMediaButton onClick={SignUpWithFacebook} label="Login with Facebook"/>
+                        <SubmitButton message={registrationMessage} id="submitButton" type="submit" label="Login"/>
+                        <SocialMediaButton uri={googleUri} onClick={SignUpWithGoogle} isGoogle label="Login with Google"/>
+                        <SocialMediaButton uri={facebookUri} onClick={SignUpWithFacebook} label="Login with Facebook"/>
+                        <SubmitButton onClick={handleClickRegister} className="details-button" type="button" label="Sign up"/>
                     </form>
                     </div>
                 </div>

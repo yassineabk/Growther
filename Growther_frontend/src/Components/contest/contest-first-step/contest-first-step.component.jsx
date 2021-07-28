@@ -11,7 +11,7 @@ export const ContestFirstStep = ()=>{
     var dispatch = useDispatch()
     var location = useLocation()
     var history = useHistory()
-    var {information, actions, isValidData, validData} = useSelector(state => state.contest)
+    var {information, isValidData, validData} = useSelector(state => state.contest)
     useEffect(()=>{
         if(typeof(information) !== "object"){
             InitState(dispatch)
@@ -19,7 +19,6 @@ export const ContestFirstStep = ()=>{
     }, [dispatch, isValidData])
     var changeHandler = (event)=>{
         var id = event.target.id
-        console.log(id)
         var result = information
         var numIds = ["winnersNbr", "duration", "maxParticipants"]
         if(id in result){
@@ -28,8 +27,10 @@ export const ContestFirstStep = ()=>{
         }
     }
     var dateHandler = (event)=>{
-        changeHandler(event)
-        durationHandler()
+        if(event !== undefined){
+            changeHandler(event)
+            durationHandler()
+        }
     }
     var durationHandler = (event)=>{
         if(event === undefined){
@@ -42,46 +43,74 @@ export const ContestFirstStep = ()=>{
             var diffWeeks = Math.ceil(diff / (1000*60*60*24*7))
             var diffMonths = Math.ceil(diff / (1000*60*60*24*30))
             if(diffDays % 30 === 0){
-                return SetDuration(dispatch, "months", diffMonths)
+                return SetDuration(dispatch, "months", diffMonths, information.startDate, information.endDate)
             }
             if(diffDays % 7 === 0){
-                return SetDuration(dispatch, "weeks", diffWeeks)
+                return SetDuration(dispatch, "weeks", diffWeeks, information.startDate, information.endDate)
             }
-            SetDuration(dispatch, "days", diffDays)
+            SetDuration(dispatch, "days", diffDays, information.startDate, information.endDate)
         }else{
-            SetDuration(dispatch, information.duration.type, parseInt(event.target.value))
+            var startDate = dateConvert(information.startDate)
+            var endDate = addDaystoDate(startDate, parseInt(event.target.value), information.duration.type)
+            SetDuration(dispatch, information.duration.type, parseInt(event.target.value), startDate, endDate)
         }
         
     }
+    var dateConvert = (date)=>{
+        var day, month, year = ""
+        if(typeof(date) === "string" && date.length > 0){
+            date = new Date(date)
+        }else{
+            date = new Date()
+        }
+        day = ("0" + date.getDate()).slice(-2)
+        month = date.getMonth()+1 === 13 ? 1 : date.getMonth()+1
+        month = ("0" + month).slice(-2)
+        year = date.getFullYear()
+        return year + "-" + month + "-" + day
+    }
+    var addDaystoDate = (date, days, type)=>{
+        if(type === "months"){
+            days = 30*days
+        }
+        if(type === "weeks"){
+            days = 7*days
+        }
+        date = new Date(new Date().setDate(new Date(date).getDate() + days))
+        var day = ("0" + date.getDate()).slice(-2)
+        var month = date.getMonth()+1 === 13 ? 1 : date.getMonth()+1
+        month = ("0" + month).slice(-2)
+        var year = date.getFullYear()
+        console.log(date)
+        return year + "-" + month + "-" + day
+    }
     var durationTypeHandler = (event) =>{
-        SetDuration(dispatch, event.target.value, information.duration.value)
+        var startDate = dateConvert(information.startDate)
+        var endDate = addDaystoDate(startDate, information.duration.value, event.target.value)
+        SetDuration(dispatch, event.target.value, information.duration.value, startDate, endDate)
     }
     var numWinnersHandler = (event)=>{
         var newValue = parseInt(event.target.value)
         var oldValue = parseInt(information.winnersNbr)
         if(oldValue > newValue){
             for(var i = newValue; i < oldValue; i++){
-                RemovePrize(dispatch, "prize"+i, newValue)
+                RemovePrize(dispatch, i, newValue)
             }
         }else{
             for(var i = oldValue; i < newValue; i++){
-                WinnersNumChange(dispatch, "prize"+i, newValue)
+                WinnersNumChange(dispatch, i, newValue)
             }
         }
     }
-    var prizesHandler = (event)=>{
+    var prizesHandler = (event, id)=>{
         var newValue = event.target.value
-        var id = event.target.id
         PrizesChange(dispatch, id, newValue)
     }
-    var GoToSecondStep = ()=>{
-        if(isValidData === true){
+    var nextStep = ()=>{
+        var isValid = NextStep(dispatch, information)
+        if(isValid){
             history.push("/dashboard/My Contests/new/secondStep")
         }
-    }
-    var nextStep = ()=>{
-        NextStep(dispatch)
-        GoToSecondStep()
     }
     if(location.pathname !== "/dashboard/My Contests/new/firstStep") return null
     return(
@@ -105,7 +134,7 @@ export const ContestFirstStep = ()=>{
                         id="description"
                         name="description"
                         placeholder="Description Here"
-                        label="Desctiption"
+                        label="Description"
                         changeHandler={(event)=> changeHandler(event)}
                         value={information ? information.description : ""}
                         validData={isValidData === false ? 
@@ -171,7 +200,7 @@ export const ContestFirstStep = ()=>{
                         child={[
                             <SelectInput 
                                 data={["days", "weeks", "months"]} 
-                                value={information ? information.duration.type : "days"}
+                                value={typeof(information) === "object" && typeof(information.duration) === "object" && typeof(information.duration.type) === "string" ? information.duration.type : "days"}
                                 changeHandler={(event)=> durationTypeHandler(event)}
                             />
                         ]}
@@ -180,23 +209,23 @@ export const ContestFirstStep = ()=>{
                     />
                     <ContestInput 
                         type={"number"}
-                        id="maxParticipants"
-                        name="maxParticipants"
+                        id="maxReach"
+                        name="maxReach"
                         placeholder="Number of participants"
                         label="Or stop when we reach"
                         changeHandler={(event)=> changeHandler(event)}
                         min={1}
-                        value={information ? information.maxParticipants : 0}
+                        value={typeof(information) === "object" ? information.maxReach : 0}
                     />
                 </div>
             </div>
             <div className="prizes is-flex is-flex-direction-column">
                 <label>{"Prizes"}</label>
-                <PrizesInputs 
-                    dispatch={dispatch} 
-                    label={"Prizes"} 
+                <PrizesInputs  
                     num={information ? information.winnersNbr : 1} 
-                    prizesHandler={(event)=> prizesHandler(event)} 
+                    prizesHandler={(event, id)=> prizesHandler(event, id)} 
+                    validData={typeof(validData) === "object"  && Object.keys(validData).includes("prizes") ? validData.prizes : undefined}
+                    data={information && typeof(information) === "object" ? information.prizes : undefined}
                 />
             </div>
             <div className="contestButtons is-flex is-flex-direction-row is-justify-content-flex-end">

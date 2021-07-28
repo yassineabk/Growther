@@ -3,7 +3,7 @@
     min-width: 30%;
     border-right: 2px solid $border-color;
     border-radius: 0 0 0 15px;
-    background-color: $previewBg;
+    background-color: $previewBg !important;
     padding: 10px 10px 30px 10px;
     @media only screen and (max-width: 1279px){
         border-top: 2px solid $border-color;
@@ -16,6 +16,33 @@
     .previewCard{
         min-width: 80% !important;
         min-height: 300px;
+        .card-infos{
+            margin-bottom: 0.25em;
+        }
+        .previewActions{
+            padding-right: 0.25em;
+            max-height: 200px !important;
+            overflow-y: auto;
+            &::-webkit-scrollbar {
+                width: 5px;
+            }
+            
+            /* Track */
+            &::-webkit-scrollbar-track {
+                background: white; 
+            }
+            
+            /* Handle */
+            &::-webkit-scrollbar-thumb {
+                background: $sideBar-color; 
+                border-radius: 5px !important;
+            }
+            
+            /* Handle on hover */
+            &::-webkit-scrollbar-thumb:hover {
+                background: $sideBar-color2; 
+            }
+        }
         @media only screen and (max-width: 1279px){
             min-width: 50% !important;
             max-width: 50% !important;
@@ -28,14 +55,15 @@
             max-width: 90% !important;
             min-width: 90% !important;
         }
-        @media only screen and (max-width: 375px) {
+        @media only screen and (max-width: 451px) {
             flex-direction: column !important;
         }
         .left-side{
-            @media only screen and (max-width: 375px) {
+            @media only screen and (max-width: 451px) {
                 flex-direction: row !important;
                 justify-content: center;
                 align-items: center;
+                font-size: 17px;
             }
         }
     }

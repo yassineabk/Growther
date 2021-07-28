@@ -11,8 +11,8 @@ export const ContestAction = ({data, removeAction, updateAction, validAction})=>
                     data={
                         Array.isArray(data.listOfActions) ? data.listOfActions : []
                     }
-                    changeHandler={(event)=> updateAction(data.provider, "action", event.target.value)}
-                    value={data.active}
+                    changeHandler={(event)=> updateAction(data.provider, "type", event.target.value)}
+                    value={data.type}
                 />
             </div>
             <div className="actionUrl">
@@ -21,9 +21,9 @@ export const ContestAction = ({data, removeAction, updateAction, validAction})=>
                     id="actionUrl"
                     name="actionUrl"
                     placeholder="Link here"
-                    changeHandler={(event)=> updateAction(data.provider, "link", event.target.value)}
-                    value={data.actions[data.active] ? data.actions[data.active].link : ""}
-                    validData={validAction && validAction[data.active] ? {isValid: validAction[data.active].link, message: "Please, Enter a valid link"} : false}
+                    changeHandler={(event)=> updateAction(data.provider, "url", event.target.value)}
+                    value={typeof(data) === "object" && typeof(data.url) === "string" ? data.url : ""}
+                    validData={typeof(validAction) === "object" ? {isValid: validAction.url, message: "Please, Enter a valid link"} : false}
                 />
             </div>
             <div className="actionPoints">
@@ -32,10 +32,15 @@ export const ContestAction = ({data, removeAction, updateAction, validAction})=>
                     id="actionPoints"
                     name="actionPoints"
                     placeholder="Points"
-                    value={data.actions[data.active] ? data.actions[data.active].points : 1}
+                    value={typeof(data) === "object" && typeof(data.points) === "number" ? data.points : 1}
                     min={1}
+                    max={5}
                     changeHandler={(event)=> updateAction(data.provider, "points", parseInt(event.target.value))}
-                    validData={validAction && validAction[data.active] ? {isValid: validAction[data.active].points, message: "Please, Enter a number greather than 0"} : false}
+                    validData={typeof(validAction) === "object" ? 
+                        {
+                            isValid: validAction.points, 
+                            message:"Please, Enter a number between 1 and 5"
+                        } : false}
                 />
             </div>
             <div className="removeAction">

@@ -1,0 +1,19 @@
+.contest{
+    @extend .preview;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    border-radius: 0 !important;
+    flex: 1;
+    .previewCard{
+        @media only screen and (min-width: 1279px){
+            min-width: 50% !important;
+            max-width: 50% !important;
+        }
+        .left-side{
+            @media only screen and (max-width: 511px) {
+                font-size: 17px;
+              }
+        }
+    }
+}

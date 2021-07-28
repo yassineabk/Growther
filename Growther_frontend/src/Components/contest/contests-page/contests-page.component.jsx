@@ -4,6 +4,7 @@ export const DashboardContestPage = ({contests}) =>{
     useEffect(()=>{
         //GET Data from API
     })
+    console.log(contests)
     return(
         <div className="is-flex is-flex-direction-column column is-full">
             <div className="mb-4">

@@ -1,6 +1,7 @@
 import React from "react"
 import { PreviewActionsList } from "../preview-actions-list/preview-actions-list.component"
-export const PreviewCard = ({title, description, date, dateType, views, entries, actions})=>{
+export const PreviewCard = ({title, description, timeLeft, dateType, views, entries, actions, previewActions, changeHandler})=>{
+    var loremText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
     return(
         <div className="is-flex previewCard">
             <div className="left-side is-flex is-flex-direction-column">
@@ -25,20 +26,20 @@ export const PreviewCard = ({title, description, date, dateType, views, entries,
                         Time left
                     </span>
                     <span>
-                        {date ? date : "xx"} <span className="dateType">{dateType ? dateType : " days"}</span>
+                        {timeLeft ? timeLeft : "xx"} <span className="dateType">{dateType ? dateType : " days"}</span>
                     </span>
                 </div>
             </div>
             <div className="right-side is-flex is-flex-direction-column">
                 <div className="card-infos is-flex is-flex-direction-column">
                     <div className="card-title">
-                        {title ? title : "Nothing"}
+                        {title ? title : "Contest Title"}
                     </div>
                     <div className="card-description">
-                        {description ? description : ""}
+                        {description ? description : loremText.slice(0,250)}
                     </div>
                 </div>
-                <PreviewActionsList actions={actions} />
+                <PreviewActionsList previewActions={previewActions} actions={actions} changeHandler={changeHandler && {}.toString.call(changeHandler) === '[object Function]' ? (event, provider) => changeHandler(event, provider) : ()=> false}/>
             </div>
         </div>
     )

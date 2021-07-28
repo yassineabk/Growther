@@ -1,10 +1,11 @@
 import React from "react"
 import { PreviewCard } from "../preview-card/preview-card.component"
-export const PreviewContainer = ({information, actions})=>{
-    var timeDiff = (d1, d2)=>{
-        var daysDiff = Math.ceil(Math.abs(new Date(d1) - new Date(d2))/(1000*60*60*24))
-        var weeksDiff = Math.ceil(Math.abs(new Date(d1) - new Date(d2))/(1000*60*60*24*7))
-        var monthsDiff = Math.ceil(Math.abs(new Date(d1) - new Date(d2))/(1000*60*60*24*30))
+export const PreviewContainer = ({information, actions, previewActions, changeHandler})=>{
+    var TimeLeft = (d)=>{
+        var currentDate = new Date()
+        var daysDiff = Math.ceil(Math.abs(currentDate - new Date(d))/(1000*60*60*24))
+        var weeksDiff = Math.ceil(Math.abs(currentDate - new Date(d))/(1000*60*60*24*7))
+        var monthsDiff = Math.ceil(Math.abs(currentDate - new Date(d))/(1000*60*60*24*30))
         if(daysDiff % 30 === 0){
             if(monthsDiff > 1) return {date: monthsDiff, type: "months"}
             return {date: monthsDiff, type: "month"}
@@ -21,10 +22,11 @@ export const PreviewContainer = ({information, actions})=>{
             <PreviewCard
                 title={information.title}
                 description={information.description}
-                date={information.startDate && information.endDate ? 
-                    timeDiff(information.startDate, information.endDate).date : ""}
-                dateType={timeDiff(information.startDate, information.endDate).type}
+                timeLeft={information.endDate ? TimeLeft(information.endDate).date : ""}
+                dateType={TimeLeft(information.endDate).type}
                 actions={actions}
+                previewActions={previewActions}
+                changeHandler={(event, provider) => changeHandler(event, provider)}
             />
         </div>
     )
