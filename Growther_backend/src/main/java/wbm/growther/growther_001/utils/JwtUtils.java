@@ -84,6 +84,19 @@ public class JwtUtils {
         return Long.parseLong(claims.getSubject());
     }
 
+    public String getUserEmailFromToken(String token){
+        Claims claims=Jwts.parser()
+                .setSigningKey(appConfiguration.getAuth().getTokenSecret())
+                .parseClaimsJws(token)
+                .getBody();
+        System.out.println(claims);
+        System.out.println(claims.get("email"));
+        return (String) claims.get("email");
+
+    }
+
+
+
     public boolean validateToken(String authToken) {
         try {
             Jwts.parser().setSigningKey(appConfiguration.getAuth().getTokenSecret()).parseClaimsJws(authToken);

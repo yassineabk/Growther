@@ -25,7 +25,9 @@ class SignUpPage extends React.Component{
               name:this.props.brand.name,
               url:this.props.brand.url,
               activities:this.props.brand.activities,
-              isBrand:this.props.isBrand
+
+              isBrand:"true"
+
             }
             console.log("---------")
             console.log(user)
@@ -37,7 +39,7 @@ class SignUpPage extends React.Component{
               email:email,
               password:password,
               name:this.props.individual.name,
-              isBrand:this.props.isBrand
+              isBrand:"false"
             }
             this.props.setRegistrationError(false)
             this.props.registerWithEmailAndPassword(user)
@@ -53,9 +55,9 @@ class SignUpPage extends React.Component{
     }
 
   handleClickLogin() {
-   
-    this.props.history.push("/login");
-          }
+    console.log(this.props, "here")
+    //this.props.history.push("/login");
+  }
 
     handleSubmitSecondStep=async e=>{
       e.preventDefault();

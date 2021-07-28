@@ -9,23 +9,7 @@ import {setEmail,setPassword,setLoginError,setLoginErrorMessage,setRemember} fro
 import OAuth2RedirectHandler from '../../services/OAuth2-redirect-handler';
 
 class LoginPage extends React.Component{
-    constructor(){
-        super()
-        this.state={
-            displayName:'',
-            password:{
-              password:'',
-              PasswordMessage:'',
-              isPasswordError:null
-            },
-            email:{
-              email:'',
-              EmailMessage:'',
-              isEmailError:null,
-            },
-           
-        }
-    }
+   
     handleLoginWithEmail=async e=>{
         e.preventDefault();
       

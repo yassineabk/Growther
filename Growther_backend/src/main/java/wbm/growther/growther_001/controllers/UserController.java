@@ -30,6 +30,7 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<UserDto> getUserById(@PathVariable(value = "id") Long userId)
             throws ResourceNotFoundException {
+
         UserDto userDto = userService.getUserById(userId);
         if(userDto==null)
             throw new ResourceNotFoundException("No brand exist with ID : "+userId.toString());
@@ -40,7 +41,6 @@ public class UserController {
     @GetMapping("/email/{email}")
     public ResponseEntity<UserDto> getUserByEmail(@PathVariable(value = "email") String userEmail)
             throws ResourceNotFoundException{
-
         UserDto userDto = userService.getUserByEmail(userEmail);
         if(userDto==null)
             throw new ResourceNotFoundException("No user exist with email: "+userEmail);
@@ -74,7 +74,7 @@ public class UserController {
         userDto.setEmail(userInfos.getEmail());
         userDto.setName(userInfos.getName());
 
-        if(userDto.isBrand())
+        if(userDto.getIsBrand().equalsIgnoreCase("true"))
         userDto.setUrl(userInfos.getUrl());
 
         UserDto userDtoUpdated=userService.updateUserInfos(userDto);

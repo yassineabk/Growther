@@ -1,9 +1,9 @@
 import {loginType} from './login.types';
-let user = JSON.parse(localStorage.getItem('accessToken'));
-const currentUser = user ? user  :  null
+// let user = JSON.parse(localStorage.getItem('accessToken'));
+// const currentUser = user ? user  :  null
 
 const INITIAL_STATE={
-    currentUser:currentUser,
+    currentUser:localStorage.getItem('accessToken'),
     email:'',
     password:'',
     remember:false,
@@ -51,9 +51,9 @@ export const loginReducer=(state=INITIAL_STATE,action)=>{
         case loginType.LOGIN_SUCCESS:
             return {
                     ...state,
-                    currentUser:action.payload
+                    currentUser:localStorage.getItem("accessToken")
 
-                                        }
+            }
        
         
 

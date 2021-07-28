@@ -32,6 +32,7 @@ public class Contest {
     //JSON field
     @OneToMany(mappedBy="contest", fetch = FetchType.EAGER)
     private Set<Prize> prizes;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idBrand",nullable = true,insertable = false,updatable = false)
     @JsonIgnore
