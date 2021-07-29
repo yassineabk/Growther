@@ -25,7 +25,10 @@ public class Contest {
     private int maxReach;
     private Date startDate;
     private Date endDate;
-    private Long duration;
+    @OneToOne(mappedBy = "contest", cascade = CascadeType.ALL)
+    @JsonIgnore
+    //@PrimaryKeyJoinColumn
+    private Duration duration;
     private String status;
     @OneToMany(mappedBy="contest", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Action> actions;
@@ -39,7 +42,7 @@ public class Contest {
     private User user;
 
     public Contest(String title, String description, int winnersNbr, int actionsNbr,
-                   int maxReach, Date startDate, Date endDate, Long duration,
+                   int maxReach, Date startDate, Date endDate, Duration duration,
                    Set<Action> actions, Set<Prize> prizes) {
         this.title = title;
         this.description = description;
@@ -126,9 +129,18 @@ public class Contest {
         this.endDate = endDate;
     }
 
-    public Long getDuration() { return ChronoUnit.DAYS.between(startDate.toInstant(), endDate.toInstant()); }
+//    public Long getDuration() { return ChronoUnit.DAYS.between(startDate.toInstant(), endDate.toInstant()); }
+//
+//    public void setDuration(Long duration) { this.duration = duration; }
 
-    public void setDuration(Long duration) { this.duration = duration; }
+
+    public Duration getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Duration duration) {
+        this.duration = duration;
+    }
 
     public Set<Action> getActions() {
         return actions;
