@@ -1,10 +1,13 @@
 import React, { useEffect } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { GetContests } from "../../../redux/contests/contests-actions"
 import { CardsContainer } from "../../dashboard/cards-container/cards-container.component"
-export const DashboardContestPage = ({contests}) =>{
+export const DashboardContestPage = () =>{
+    var dispatch = useDispatch()
+    var {contests} = useSelector(state => state.get_contests)
     useEffect(()=>{
-        //GET Data from API
+        GetContests(dispatch)
     })
-    console.log(contests)
     return(
         <div className="is-flex is-flex-direction-column column is-full">
             <div className="mb-4">

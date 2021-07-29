@@ -1,5 +1,5 @@
 import React from "react"
-export const CardComponent = ({title, description, date, dateType, views, entries})=>{
+export const CardComponent = ({title, description, date, dateType, views, entries, id})=>{
     return(
         <div className="is-flex card column">
             <div className="left-side is-flex is-flex-direction-column">

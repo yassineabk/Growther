@@ -29,6 +29,7 @@ export const PreviewActionsList = ({actions, previewActions, changeHandler})=>{
                         //selected={Array.isArray(previewActions) ? previewActions[index] : undefined}
                         points={element.points}
                         changeHandler={changeHandler && {}.toString.call(changeHandler) === '[object Function]' ? (event, provider) => changeHandler(event, provider) : ()=> false}
+                        key={`action${index}`}
                     />
                 )
             }) : null}

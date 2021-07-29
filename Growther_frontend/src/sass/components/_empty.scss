@@ -1,0 +1,17 @@
+.emptyList{
+    flex: 1;
+    height: 245px;
+    font-size: 20px;
+}
+.page404{
+    flex: 1;
+    min-height: 100vh;
+    width: 100%;
+    font-size: 25px;
+    > div{
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
