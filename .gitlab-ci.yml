@@ -95,17 +95,17 @@ Build-Backend:
     - master
     - Develop
 
-test-backend:
-  stage: test
-  image: maven:3-jdk-8
-  script: 
-    - echo "Testing Backend..."
-    - cd ./Growther_backend
-    - mvn test
-    - echo "Backend test Complete!"
-  artifacts:
-    paths:
-      - Growther_backend/target/*.jar
+# test-backend:
+#   stage: test
+#   image: maven:3-jdk-8
+#   script: 
+#     - echo "Testing Backend..."
+#     - cd ./Growther_backend
+#     - mvn test
+#     - echo "Backend test Complete!"
+#   artifacts:
+#     paths:
+#       - Growther_backend/target/*.jar
 
 
 # Deploy-Backend-to-Heroku:
