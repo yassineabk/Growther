@@ -21,6 +21,7 @@ import { DashboardTemplatesPage } from './Components/dashboard/templates-page/te
 import { DashboardGetData } from './redux/dashboard/dashboard-actions';
 import { DashboardContestPage } from './Components/contest/contests-page/contests-page.component';
 import { DashboardHomePage } from './Components/dashboard/home-page/home-page.component';
+import { Page404 } from './pages/404-page/404.page';
 
 const App = ()=> {
   var { contests, error } = useSelector(state => state.dashboard)
@@ -65,6 +66,7 @@ const App = ()=> {
             contests={Array.isArray(contests) ? contests.slice(0,3) : contests} 
           />
         }/>):(<Redirect to='/'/>) } />
+        <Route render={()=> (<Page404 />)} />
       </Switch>
     </div>
   );
