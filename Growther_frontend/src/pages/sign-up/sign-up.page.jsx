@@ -66,11 +66,7 @@ class SignUpPage extends React.Component{
       
     }
 
-    SignUpWithGoogle=async e=>{
-      console.log("Google")
-      
 
-    }
     SignUpWithFacebook=async e=>{
       console.log("Facebook")
        
@@ -295,7 +291,7 @@ function mapStateToProps(state) {
             isError:state.registration.isError,
             individual:state.registration.individual,
             brand:state.registration.brand,
-            success:state.registration.success
+            success:state.registration.success,
     }
 }
 

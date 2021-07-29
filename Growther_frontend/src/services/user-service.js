@@ -4,22 +4,28 @@ const USERS_REST_API_URL = 'https://staging-backendapp.herokuapp.com';
 
 export const userService = {
     loginWithEmailAndPassword,
-    loginWithFacebook,
-    loginWithGoogle,
+    loginWithFacebookAndGoogle,
     logout,
     registerWithEmailAndPassword,
 };
 
-function loginWithFacebook(){
+function loginWithFacebookAndGoogle(user){
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(user)
+    };
 
+    return fetch(`${USERS_REST_API_URL}/authentication/login`, requestOptions)
+            .then(response => {
+            // store user details and jwt token in local storage to keep user logged in between page refreshes
+            // localStorage.setItem('user', JSON.stringify(user));
+            console.log("updating info when login with fb and google")
+        });
 }
 
-function loginWithGoogle(){
-
-}
 
 function loginWithEmailAndPassword(user) {
-    console.log("called")
 
     const requestOptions = {
         method: 'POST',
