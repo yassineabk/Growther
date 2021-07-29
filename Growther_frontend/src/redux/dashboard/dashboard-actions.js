@@ -63,10 +63,9 @@ const test = [
     }
 ]
 export const DashboardGetData = (dispatch)=>{
-    axios.get("/api/contests/GetContests").then(response =>{
-        dispatch({type: DASHBOARD_TYPES.DASHBOARD_GET_DATA, payload: response})
+    axios.get("http://localhost:5000/api/contests/GetContests").then(response =>{
+        dispatch({type: DASHBOARD_TYPES.DASHBOARD_GET_DATA, payload: response.data})
     }).catch(err =>{
-        dispatch({type: DASHBOARD_TYPES.DASHBOARD_GET_DATA, payload: test})
         dispatch({type: DASHBOARD_TYPES.DASHBOARD_GET_DATA_FAIL})
     })
 }
