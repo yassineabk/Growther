@@ -1,6 +1,7 @@
 import React from "react"
 import { useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
+import { logout } from "../../../redux/login/login.actions";
 
 export const DashboradSideBar = ({activePage})=>{
     var {activePage} = useSelector(state => state.contest)
@@ -52,7 +53,7 @@ export const DashboradSideBar = ({activePage})=>{
                         <img alt="" src={require("../../../assets/icons/headset.png").default} />
                     </div>
                     <div className="tailButton">
-                        <img alt="" src={require("../../../assets/icons/logout.png").default} />
+                        <img onClick={()=>{logout()}} alt="" src={require("../../../assets/icons/logout.png").default} />
                     </div>
                 </div>
             </div>

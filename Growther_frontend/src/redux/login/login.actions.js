@@ -53,6 +53,7 @@ export function loginWithEmailAndPassword(user) {
 }
 
 export function logout() {
+    console.log('logout clicked')
     userService.logout();
     return { type: loginType.LOGOUT };
 }
