@@ -13,7 +13,6 @@ import java.util.Set;
 
 @Entity
 @Table(name="Contests")
-//@PrimaryKeyJoinColumn(name="idContest", referencedColumnName="id")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Contest {
     @Id
@@ -34,8 +33,8 @@ public class Contest {
     @OneToMany(mappedBy="contest", fetch = FetchType.EAGER)
     private Set<Prize> prizes;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idUser",nullable = true,insertable = false,updatable = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "id",nullable = true,updatable = false)
     @JsonIgnore
     private User user;
 

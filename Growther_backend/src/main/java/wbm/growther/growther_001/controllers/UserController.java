@@ -74,7 +74,7 @@ public class UserController {
         userDto.setEmail(userInfos.getEmail());
         userDto.setName(userInfos.getName());
 
-        if(userDto.isBrand())
+        if(userDto.getIsBrand().equalsIgnoreCase("true"))
         userDto.setUrl(userInfos.getUrl());
 
         UserDto userDtoUpdated=userService.updateUserInfos(userDto);

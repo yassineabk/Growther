@@ -13,6 +13,7 @@ import wbm.growther.growther_001.services.ContestService;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class ContestServiceImpl implements ContestService {
@@ -37,19 +38,19 @@ public class ContestServiceImpl implements ContestService {
     public Boolean createNewContest(ContestDto NewContestDto,String email) {
 
         User user = userRepository.findUserByEmail(email);
-        if(!user.isBrand()) return false;
+        if(!user.getIsBrand().equalsIgnoreCase("true")) return false;
 
-        Long userId=user.getId();
-        //TODO : add userId to the contest obj ...
 
-        Contest contest = mapToContest(NewContestDto);
+        Contest contest = toContest(NewContestDto);
         //check if a contest with the same id exist
         Contest contestExist = repository.findContestByIdContest(contest.getIdContest());
 
         if(contestExist!=null) return false;
-        contest.setUser(user);
+
         contest.setStatus("in_Creation");
+        contest.setUser(user);
         repository.save(contest);
+
         return true;
     }
 
@@ -95,6 +96,7 @@ public class ContestServiceImpl implements ContestService {
         contestDto.setIdContest(contest.getIdContest());
         contestDto.setTitle(contest.getTitle());
         contestDto.setStatus(contest.getStatus());
+        contestDto.setUser(contest.getUser());
         contestDto.setDescription(contest.getDescription());
         contestDto.setWinnersNbr(contest.getWinnersNbr());
         contestDto.setActionsNbr(contest.getActionsNbr());
@@ -119,6 +121,7 @@ public class ContestServiceImpl implements ContestService {
         contest.setTitle(contestDto.getTitle());
         contest.setDescription(contestDto.getDescription());
         contest.setStatus(contestDto.getStatus());
+        contest.setUser(contestDto.getUser());
         contest.setWinnersNbr(contestDto.getWinnersNbr());
         contest.setActionsNbr(contestDto.getActionsNbr());
         contest.setStartDate(contestDto.getStartDate());

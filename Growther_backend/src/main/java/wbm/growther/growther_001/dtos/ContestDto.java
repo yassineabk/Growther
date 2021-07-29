@@ -2,6 +2,7 @@ package wbm.growther.growther_001.dtos;
 
 import wbm.growther.growther_001.models.Prize;
 import wbm.growther.growther_001.models.actions.Action;
+import wbm.growther.growther_001.models.users.User;
 
 import java.util.Date;
 import java.util.Set;
@@ -18,6 +19,7 @@ public class ContestDto {
     private Long duration;
     private Set<Action> actions;
     private Set<Prize> prizes;
+    private User user;
     private String status;
 
     public long getIdContest() {
@@ -114,5 +116,13 @@ public class ContestDto {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
