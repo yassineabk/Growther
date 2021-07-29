@@ -11,9 +11,7 @@ import wbm.growther.growther_001.repository.UserRepository;
 import wbm.growther.growther_001.services.ContestService;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class ContestServiceImpl implements ContestService {
@@ -35,23 +33,23 @@ public class ContestServiceImpl implements ContestService {
     }
 
     @Override
-    public Boolean createNewContest(ContestDto NewContestDto,String email) {
+    public Long createNewContest(ContestDto NewContestDto, String email) {
 
         User user = userRepository.findUserByEmail(email);
-        if(!user.getIsBrand().equalsIgnoreCase("true")) return false;
+        if(!user.getIsBrand().equalsIgnoreCase("true")) Long.decode("0");
 
 
         Contest contest = toContest(NewContestDto);
         //check if a contest with the same id exist
         Contest contestExist = repository.findContestByIdContest(contest.getIdContest());
 
-        if(contestExist!=null) return false;
+        if(contestExist!=null) return Long.decode("0");
 
         contest.setStatus("in_Creation");
         contest.setUser(user);
         repository.save(contest);
-
-        return true;
+        System.out.println(contest.getIdContest());
+        return contest.getIdContest();
     }
 
     @Override
@@ -82,6 +80,12 @@ public class ContestServiceImpl implements ContestService {
     @Override
     public ContestDto getContestByInfos(String title, String description, Long id) {
         Contest contest = repository.findContestByTitleAndDescriptionAndIdContest(title,description,id);
+        return (contest==null)? null :  toDto(contest);
+    }
+
+    @Override
+    public ContestDto getLastContest() {
+        Contest contest = repository.findTopByOrderByIdContestDesc();
         return (contest==null)? null :  toDto(contest);
     }
 

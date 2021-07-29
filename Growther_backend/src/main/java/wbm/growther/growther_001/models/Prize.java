@@ -15,7 +15,7 @@ public class Prize {
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "idContest")
+    @JoinColumn(name = "idContest", nullable = false)
     @JsonIgnore
     private Contest contest;
 
