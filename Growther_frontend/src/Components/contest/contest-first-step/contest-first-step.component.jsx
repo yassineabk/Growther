@@ -1,7 +1,7 @@
 import React, { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useHistory, useLocation } from "react-router-dom"
-import { InitState, NextStep, PrizesChange, RemovePrize, SaveContestFirstStep, SetDuration, StateChange, WinnersNumChange } from "../../../redux/contest/contest-actions"
+import { InitState, NextStep, PrizesChange, RemovePrize, SaveContestFirstStep, SaveContestPrizes, SetDuration, StateChange, WinnersNumChange } from "../../../redux/contest/contest-actions"
 import { ContestButton } from "../contest-buttons/contest-buttons.component"
 import { ContestDescription } from "../contest-description-input/contest-description-input.component"
 import { ContestInput } from "../contest-input/contest-input.component"
@@ -109,9 +109,13 @@ export const ContestFirstStep = ()=>{
     var nextStep = ()=>{
         var isValid = NextStep(dispatch, information)
         if(isValid){
-            SaveContestFirstStep(dispatch, information, isValid).then(value =>{
-                if(value){
-                    history.push("/dashboard/My Contests/new/secondStep")
+            SaveContestFirstStep(dispatch, information, isValid).then(id =>{
+                if(typeof(id) === "number"){
+                    SaveContestPrizes(dispatch, information.prizes, isValid, id).then(value =>{
+                        if(value){
+                            history.push("/dashboard/My Contests/new/secondStep")
+                        }
+                    })
                 }
             })
         }

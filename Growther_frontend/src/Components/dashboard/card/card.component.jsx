@@ -1,5 +1,12 @@
 import React from "react"
-export const CardComponent = ({title, description, date, dateType, views, entries, id})=>{
+import { useHistory } from "react-router-dom"
+export const CardComponent = ({element, title, description, date, dateType, views, entries, id})=>{
+    var history = useHistory()
+    var openContest = ()=>{
+        if(typeof(id) === "number" || typeof(id) === "string"){
+            history.push(`/contest/${id}`, element)
+        }
+    }
     return(
         <div className="is-flex card column">
             <div className="left-side is-flex is-flex-direction-column">
@@ -38,7 +45,7 @@ export const CardComponent = ({title, description, date, dateType, views, entrie
                     </div>
                 </div>
                 <div className="card-buttons is-flex is-flex-direction-row">
-                    <div className="details-button">Details</div>
+                    <div className="details-button" onClick={()=> openContest()}>Details</div>
                     <div className="duplicate-button">Duplicate</div>
                 </div>
             </div>

@@ -17,9 +17,7 @@ const INITIAL_STATE={
             {id: 1, description: ""}
         ],
         actions: [],
-        user: {
-            
-        }
+        user: null
     },
     validData: {},
     isValidData: false,

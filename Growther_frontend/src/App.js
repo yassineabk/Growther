@@ -24,12 +24,8 @@ import { DashboardHomePage } from './Components/dashboard/home-page/home-page.co
 import { Page404 } from './pages/404-page/404.page';
 
 const App = ()=> {
-  var { contests, error } = useSelector(state => state.dashboard)
   var { currentUser } = useSelector(state => state.login)
-  var dispatch = useDispatch()
-  useEffect(()=>{
-    DashboardGetData(dispatch)
-  }, [dispatch])
+  
   return (
     <div className={"App"}>
       <Switch>
@@ -39,7 +35,6 @@ const App = ()=> {
         <Route exact path='/login' render={()=>(currentUser) ? (<Redirect to='/dashboard'/>) : (<LoginPage/>) } />
         <Route exact path='/signup' render={()=>currentUser ? (<Redirect to='/'/>) : (<SignUpPage/>) } />
         <Route exact path='/contest/:id' render={()=>currentUser ? (<Contest />) : (<Redirect to='/'/>)}/>
-        <Route exact path='/contest/:id/edit' render={()=>currentUser ? (<EditContest />) : (<Redirect to='/'/>)  }/>
         <Route exact path='/dashboard/pie' render={()=> currentUser ? (<Dashboard />) : (<Redirect to='/'/>)} />
         <Route exact path='/dashboard/settings' render={()=> currentUser ?  (<Dashboard />) : (<Redirect to='/'/>)} />
         <Route exact path="/dashboard/My Contests/new" render={()=> (
@@ -62,9 +57,7 @@ const App = ()=> {
         )}/>
         <Route exact path='/dashboard/Templates' render={()=>(currentUser) ? (<Dashboard child={<DashboardTemplatesPage />} />):(<Redirect to='/'/>)}/>
         <Route exact path='/dashboard' render={()=> (currentUser) ? (<Dashboard child={
-          <DashboardHomePage
-            contests={Array.isArray(contests) ? contests.slice(0,3) : contests} 
-          />
+          <DashboardHomePage />
         }/>):(<Redirect to='/'/>) } />
         <Route render={()=> (<Page404 />)} />
       </Switch>
