@@ -69,7 +69,7 @@ public class ContestController {
 
 
     //Create new contest
-    @PostMapping("/create")
+    /*@PostMapping("/create")
     public ContestDto createContest(@RequestBody ContestDto contestDto
             ,HttpServletRequest request) throws RejectedExecutionException{
 
@@ -80,8 +80,19 @@ public class ContestController {
         Boolean contestCreated = contestService.createNewContest(contestDto,email);
         if(contestCreated) return contestDto;
         throw new RejectedExecutionException("A Contest with that ID already exist !!");
-    }
+    }*/
+    @PostMapping("/create")
+    public Long createContest(@RequestBody ContestDto contestDto
+            ,HttpServletRequest request) throws RejectedExecutionException{
 
+        //get the email from the JWT token
+        String token = getJwtTokenFromRequest(request);
+        String email= jwtUtils.getUserEmailFromToken(token);
+
+        Boolean contestCreated = contestService.createNewContest(contestDto,email);
+        if(contestCreated) return contestDto.getIdContest();
+        throw new RejectedExecutionException("A Contest with that ID already exist !!");
+    }
     //Update contest
     @PutMapping("/update/{id}")
     public ResponseEntity<ContestDto> updateContest(@PathVariable(value = "id") Long contestId
