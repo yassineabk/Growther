@@ -23,13 +23,12 @@ class OAuth2RedirectHandler extends Component {
                   name:this.props.brand.name,
                   url:this.props.brand.url,
                   activities:this.props.brand.activities,
-    
                   isBrand:"true"
-    
                 }
                 
                 console.log(user)
-                this.props.registerWithEmailAndPassword(user)
+                // console.log(this.props);
+                this.props.registerWithFacebookAndGoogle(user)
               }else{
                 const user={
                   name:this.props.individual.name,

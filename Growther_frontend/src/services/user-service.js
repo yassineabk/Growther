@@ -1,6 +1,7 @@
 import axios from "axios";
+import { decode } from "jsonwebtoken";
 
-const USERS_REST_API_URL = 'https://staging-backendapp.herokuapp.com';
+const USERS_REST_API_URL = 'http://localhost:5000';
 
 export const userService = {
     loginWithEmailAndPassword,
@@ -10,18 +11,32 @@ export const userService = {
 };
 
 function loginWithFacebookAndGoogle(user){
+
+
+    // get the id from the jwt token 
+    let token = localStorage.getItem("accessToken");   
+    let decodedToken = decode(token);
+    console.log(decodedToken);
+    let id = decodedToken.sub
+    console.log(id);
+    console.log(JSON.stringify(user))
+
     const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json',
+                    'Authorization': 'Bearer '+token
+        },
         body: JSON.stringify(user)
     };
 
-    return fetch(`${USERS_REST_API_URL}/authentication/login`, requestOptions)
+
+
+    return fetch(`${USERS_REST_API_URL}/api/users/update/${id}`, requestOptions)
             .then(response => {
             // store user details and jwt token in local storage to keep user logged in between page refreshes
             // localStorage.setItem('user', JSON.stringify(user));
             console.log("updating info when login with fb and google")
-        });
+        }).catch(error => console.log(error));
 }
 
 

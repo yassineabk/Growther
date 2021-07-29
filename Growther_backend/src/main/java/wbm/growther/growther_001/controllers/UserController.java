@@ -64,6 +64,9 @@ public class UserController {
                                                 @Validated @RequestBody UserDto userInfos) throws
             ResourceNotFoundException{
 
+        System.out.println(userId);
+        System.out.println(userInfos.getActivities());
+
         UserDto userDto=userService.getUserById(userId);
 
         // if the user does not exist, throw an exception
@@ -78,6 +81,7 @@ public class UserController {
         userDto.setUrl(userInfos.getUrl());
 
         UserDto userDtoUpdated=userService.updateUserInfos(userDto);
+        System.out.println(userDtoUpdated.getActivities());
         return  ResponseEntity.ok().body(userDtoUpdated);
     }
 
