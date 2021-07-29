@@ -36,8 +36,8 @@ public class Brand   {
     @NotNull
     @Enumerated(EnumType.STRING)
     private AuthenticationProvider authProvider;
-    @OneToMany(mappedBy="brand", fetch = FetchType.LAZY)
-    private Set<Contest> contests;
+//    @OneToMany(mappedBy="brand", fetch = FetchType.LAZY)
+//    private Set<Contest> contests;
     public AuthenticationProvider getAuthProvider() {
         return authProvider;
     }
@@ -113,13 +113,13 @@ public class Brand   {
         this.url = url;
     }
 
-    public Set<Contest> getContests() {
-        return contests;
-    }
-
-    public void setContests(Set<Contest> contests) {
-        this.contests = contests;
-    }
+//    public Set<Contest> getContests() {
+//        return contests;
+//    }
+//
+//    public void setContests(Set<Contest> contests) {
+//        this.contests = contests;
+//    }
 }
 
 

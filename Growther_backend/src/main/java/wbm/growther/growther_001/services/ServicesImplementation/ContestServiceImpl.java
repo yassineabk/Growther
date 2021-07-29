@@ -11,7 +11,6 @@ import wbm.growther.growther_001.repository.UserRepository;
 import wbm.growther.growther_001.services.ContestService;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -34,22 +33,23 @@ public class ContestServiceImpl implements ContestService {
     }
 
     @Override
-    public Boolean createNewContest(ContestDto NewContestDto,String email) {
+    public Long createNewContest(ContestDto NewContestDto, String email) {
 
         User user = userRepository.findUserByEmail(email);
-        if(!user.getIsBrand().equalsIgnoreCase("true")) return false;
+        if(!user.getIsBrand().equalsIgnoreCase("true")) Long.decode("0");
 
-        Long userId=user.getId();
-        //TODO : add userId to the contest obj ...
 
-        Contest contest = mapToContest(NewContestDto);
+        Contest contest = toContest(NewContestDto);
         //check if a contest with the same id exist
         Contest contestExist = repository.findContestByIdContest(contest.getIdContest());
 
-        if(contestExist!=null) return false;
+        if(contestExist!=null) return Long.decode("0");
+
         contest.setStatus("in_Creation");
+        contest.setUser(user);
         repository.save(contest);
-        return true;
+        System.out.println(contest.getIdContest());
+        return contest.getIdContest();
     }
 
     @Override
@@ -76,6 +76,19 @@ public class ContestServiceImpl implements ContestService {
         Contest contest = repository.findContestByTitle(title);
         return (contest==null)? null :  toDto(contest);
     }
+
+    @Override
+    public ContestDto getContestByInfos(String title, String description, Long id) {
+        Contest contest = repository.findContestByTitleAndDescriptionAndIdContest(title,description,id);
+        return (contest==null)? null :  toDto(contest);
+    }
+
+    @Override
+    public ContestDto getLastContest() {
+        Contest contest = repository.findTopByOrderByIdContestDesc();
+        return (contest==null)? null :  toDto(contest);
+    }
+
     //convert model to DTO
     private ContestDto mapToDto(Contest contest){
         ContestDto contestDto = modelMapper.map(contest,ContestDto.class);
@@ -87,6 +100,7 @@ public class ContestServiceImpl implements ContestService {
         contestDto.setIdContest(contest.getIdContest());
         contestDto.setTitle(contest.getTitle());
         contestDto.setStatus(contest.getStatus());
+        contestDto.setUser(contest.getUser());
         contestDto.setDescription(contest.getDescription());
         contestDto.setWinnersNbr(contest.getWinnersNbr());
         contestDto.setActionsNbr(contest.getActionsNbr());
@@ -111,6 +125,7 @@ public class ContestServiceImpl implements ContestService {
         contest.setTitle(contestDto.getTitle());
         contest.setDescription(contestDto.getDescription());
         contest.setStatus(contestDto.getStatus());
+        contest.setUser(contestDto.getUser());
         contest.setWinnersNbr(contestDto.getWinnersNbr());
         contest.setActionsNbr(contestDto.getActionsNbr());
         contest.setStartDate(contestDto.getStartDate());
