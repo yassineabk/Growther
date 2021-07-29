@@ -49,6 +49,23 @@ public class ContestController {
         if(contestDto==null) throw new ResourceNotFoundException("No contest exist with ID : "+contestId.toString());
         return ResponseEntity.ok().body(contestDto);
     }
+    //Get contest by id
+    @GetMapping("/{id}/user")
+    public ResponseEntity<String> getUserContestById(@PathVariable(value = "id") Long contestId) throws ResourceNotFoundException {
+        ContestDto contestDto = contestService.getContestById(contestId);
+        if(contestDto==null) throw new ResourceNotFoundException("No contest exist with ID : "+contestId.toString());
+        return ResponseEntity.ok().body(contestDto.getUser().getEmail());
+    }
+
+    //Get contest by id and infos
+    @GetMapping("/{title}/{description}/{id}")
+    public ResponseEntity<ContestDto> getContestByInfos(@PathVariable(value = "id") Long contestId,
+                                                        @PathVariable(value = "title") String contestTitle,
+                                                        @PathVariable(value = "description") String contestDescription) throws ResourceNotFoundException {
+        ContestDto contestDto = contestService.getContestByInfos(contestTitle,contestDescription,contestId);
+        if(contestDto==null) throw new ResourceNotFoundException("No contest exist with ID : "+contestId.toString());
+        return ResponseEntity.ok().body(contestDto);
+    }
 
 
     //Create new contest
@@ -79,6 +96,8 @@ public class ContestController {
         contestDto.setTitle(contestDetails.getTitle());
         contestDto.setDescription(contestDetails.getDescription());
         contestDto.setEndDate(contestDetails.getEndDate());
+        contestDto.setActionsNbr(contestDetails.getActionsNbr());
+        contestDto.setWinnersNbr(contestDetails.getWinnersNbr());
         contestDto.setMaxReach(contestDetails.getMaxReach());
         contestDto.setPrizes(contestDetails.getPrizes());
         contestDto.setDuration(contestDetails.getDuration());
