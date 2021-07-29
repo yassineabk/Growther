@@ -1,5 +1,5 @@
-import React, { useEffect } from "react"
-import { useHistory, useLocation } from "react-router-dom"
+import React from "react"
+import {useLocation} from "react-router-dom"
 export const NewContestTabs = ({tabs, activePage})=>{
     var location = useLocation()
     if(!Array.isArray(tabs)) return null

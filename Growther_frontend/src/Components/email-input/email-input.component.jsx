@@ -1,11 +1,11 @@
 import React from 'react'
 
-const EmailInput=({handleChange,handleBlur,label,isError,message,placeholder})=>(
+const EmailInput=({handleChange,handleBlur,label,isError,value,message,placeholder})=>(
 
     <div className="field authInput">
         <label className="label">{label}</label>
         <div className="control has-icons-left has-icons-right input_container">
-            <input className={`${isError ? 'is-danger' :'form-input-color'} input`} onBlur={handleBlur} onChange={handleChange} type="email" placeholder={placeholder}/>
+            <input className={`${isError ? 'is-danger' :'form-input-color'} input`} value={value} onBlur={handleBlur} onChange={handleChange} type="email" placeholder={placeholder}/>
             <span className="icon is-small is-left">
                 <i className="fas fa-envelope"></i>
             </span>

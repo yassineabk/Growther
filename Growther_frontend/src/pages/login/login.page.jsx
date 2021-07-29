@@ -1,61 +1,31 @@
+import userEvent from '@testing-library/user-event';
+import axios from 'axios';
 import React from 'react';
 import { connect } from 'react-redux';
-import EmailInput from '../../Components/email-input/email-input.component';
-import PasswordInput from '../../Components/password-input/password-input.component';
-import SubmitButton from '../../Components/submit-button/submit-button.component';
-import SocialMediaButton from '../../Components/social-media-button/social-media-button.component';
-import SingupFirstStep from '../../Components/signup-first-step/signupFirstStep.component';
-import SingupSecondStep from '../../Components/signup-second-step/signup-second-step.component';
+import { Redirect } from 'react-router-dom';
 import LoginForm from '../../Components/login-form/login-form.componenet';
-import { loginWithEmailAndPassword } from '../../redux/auth/auth.actions';
+import { loginWithEmailAndPassword } from '../../redux/login/login.actions';
+import {setEmail,setPassword,setLoginError,setLoginErrorMessage,setRemember} from '../../redux/login/login.actions'
+import OAuth2RedirectHandler from '../../services/OAuth2-redirect-handler';
+
 class LoginPage extends React.Component{
-    constructor(){
-        super()
-        this.state={
-            displayName:'',
-            password:{
-              password:'',
-              PasswordMessage:'',
-              isPasswordError:null
-            },
-            email:{
-              email:'',
-              EmailMessage:'',
-              isEmailError:null,
-            },
-           
-        }
-    }
+   
     handleLoginWithEmail=async e=>{
         e.preventDefault();
-        // console.log(e)
-        this.setState(prev=>({
-          ...prev,
-          isInSecondStep:true,
-          
-        }));
-        const user={email:"something@gmail.com" ,password:"hahahaha"}
-        // console.log(user);
-        console.log("statttt");
-         this.props.loginWithEmailAndPassword(user)
+      
+        const user={email:this.props.email ,password:this.props.password}
+        console.log(user)
+        this.props.loginWithEmailAndPassword(user)
     }
 
     LoginWithGoogle=async e=>{
-      console.log("Google")
-      this.setState(prev=>({
-        ...prev,
-        isInSecondStep:true,
-        
-      })); 
+      
+      console.log(e)
 
     }
     LoginWithFacebook=async e=>{
-      console.log("Facebook")
-      this.setState(prev=>({
-        ...prev,
-        isInSecondStep:true,
-        
-      })); 
+      
+
 
     }
 
@@ -63,15 +33,15 @@ class LoginPage extends React.Component{
         
     }
     handleEmailChange= e =>{
-        
+        this.props.setEmail(e.target.value)
         
     }
     handlePasswordChange= e =>{
-        console.log(this.state)
-        
+        this.props.setPassword(e.target.value)
     }
     handleRemeberMe=e =>{
-      
+      console.log(e.target.value)
+      this.props.setRemember(!this.props.remember)
     }
     
 
@@ -93,11 +63,15 @@ class LoginPage extends React.Component{
                     handleSubmit={this.handleLoginWithEmail}
                     SignUpWithGoogle={this.LoginWithGoogle}
                     SignUpWithFacebook={this.LoginWithFacebook}
-                    password={this.state.password}
+                    password={this.props.password}
                     passwordFunctions={PasswordFunctions}
-                    email={this.state.email}
+                    email={this.props.email}
                     emailFunctions={emailFunctions}
                     handleRemeberMe={this.handleRemeberMe}
+                    registrationMessage={this.props.errorMessage}
+                    emailValue={this.props.email}
+                    passwordVlue={this.props.password}
+
                 />
 
             
@@ -113,13 +87,24 @@ class LoginPage extends React.Component{
 
 }
 function mapStateToProps(state) {
-  const { auth } = state
-  return {currentUser : auth.currentUser}
+  return {
+
+          password:state.login.password,
+          email:state.login.email,
+          remember:state.login.remember,
+          errorMessage:state.login.errorMessage
+        }
 }
 
 
 const mapStatsToDispatch={
-loginWithEmailAndPassword : loginWithEmailAndPassword
+    loginWithEmailAndPassword : loginWithEmailAndPassword,
+    setEmail:(email)=>setEmail(email),
+    setPassword:(password)=>setPassword(password),
+    setLoginErrorMessage:(message)=>setLoginErrorMessage(message),
+    setLoginError:(bool)=>setLoginError(bool),
+    setRemember:(bool)=>setRemember(bool),
+
 }
 
 export default connect(mapStateToProps,mapStatsToDispatch)(LoginPage);

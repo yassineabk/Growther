@@ -36,4 +36,10 @@
             }
         }
     }
+    .socialIcons{
+        > div{
+            margin: 0 0.25em;
+            cursor: pointer;
+        }
+    }
 }
