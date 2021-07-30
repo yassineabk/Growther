@@ -4,6 +4,8 @@ import PasswordInput from '../password-input/password-input.component';
 import SubmitButton from '../submit-button/submit-button.component';
 import SocialMediaButton from '../social-media-button/social-media-button.component';
 import { Link } from 'react-router-dom';
+import { googleUri } from '../login-form/login_uri';
+import { facebookUri } from '../login-form/login_uri';
 
 const SingupFirstStep=({handleSubmit,SignUpWithGoogle,SignUpWithFacebook,registrationMessage,errMessage,passwordFunctions,success,emailFunctions,isErrors,messages})=>{
 
@@ -25,8 +27,8 @@ const SingupFirstStep=({handleSubmit,SignUpWithGoogle,SignUpWithFacebook,registr
                             <label className=" column mb-2 "><input type="checkbox" required />  I agree to the <Link to="/terms">terms and conditions</Link></label>
                             <SubmitButton message={errMessage} id="submitButton" type="submit" label="Sign Up"/>
 
-                            <SocialMediaButton onClick={SignUpWithGoogle} isGoogle label="Sign Up with Google"/>
-                            <SocialMediaButton onClick={SignUpWithFacebook} label="Sign Up with Facebook"/>
+                            <SocialMediaButton uri={googleUri} onClick={SignUpWithGoogle} isGoogle label="Sign Up with Google"/>
+                            <SocialMediaButton uri={facebookUri} onClick={SignUpWithFacebook} label="Sign Up with Facebook"/>
                         </form>
                     </div>
                 </div>

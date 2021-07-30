@@ -127,3 +127,25 @@ export function registerWithEmailAndPassword(user) {
     function failure(error) { return { type: registrationType.SET_REGISTRATION_ERROR_MESSAGE, payload:error } }
 
 }
+
+export function registerWithFacebookAndGoogle(user) {
+    return dispatch => {
+        dispatch(request(user));
+
+        userService.registerWithFacebookAndGoogle(user)
+            .then(
+                user => { 
+                    dispatch(success());
+                },
+                error => {
+                    dispatch(failure(error.toString()));
+
+                }
+            );
+    };
+
+    function request(user) { return { type: registrationType.REGISTER_REQUEST, payload:user } }
+    function success(user) { return { type: registrationType.REGISTER_SUCCESS, payload: user } }
+    function failure(error) { return { type: registrationType.SET_REGISTRATION_ERROR_MESSAGE, payload:error } }
+
+}

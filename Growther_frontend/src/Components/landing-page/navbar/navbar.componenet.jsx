@@ -35,7 +35,7 @@ class Navbar extends React.Component {
                 <div className="navbar-item ">
                       
                         <div className="buttons ">
-                        <Link to="JavaScript:Void(0);" className="btn btn-primary center-cta">Learn More <i className="mdi mdi-arrow-right"></i></Link>
+                        <Link to="/signup" className="btn btn-primary center-cta">Learn More <i className="mdi mdi-arrow-right"></i></Link>
                         </div>
                     
                 </div>
