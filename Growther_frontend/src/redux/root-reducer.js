@@ -6,6 +6,7 @@ import ContestCard from './contest-card/contest-card-reducer'
 import EditReducer from './contest-edit/contest-edit-reducer'
 import DashboardReducer from './dashboard/dashboard-reducer'
 import ContestsReducer from './contests/contests-reducer'
+import LoadingReducer from './loading/loading-reducer'
 
 
 const rootReducer=combineReducers({
@@ -15,7 +16,8 @@ const rootReducer=combineReducers({
     contest_card: ContestCard,
     contest_edit: EditReducer,
     dashboard: DashboardReducer,
-    get_contests: ContestsReducer
+    get_contests: ContestsReducer,
+    isLoading: LoadingReducer
 })
 
 

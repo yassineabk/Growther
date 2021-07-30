@@ -20,10 +20,10 @@ import { DashboardTemplatesPage } from './Components/dashboard/templates-page/te
 import { DashboardContestPage } from './Components/contest/contests-page/contests-page.component';
 import { DashboardHomePage } from './Components/dashboard/home-page/home-page.component';
 import { Page404 } from './pages/404-page/404.page';
+import { Spinner } from './Components/spinner/spinner.component';
 
 const App = ()=> {
   var { currentUser } = useSelector(state => state.login)
-  
   return (
     <div className={"App"}>
       <Switch>

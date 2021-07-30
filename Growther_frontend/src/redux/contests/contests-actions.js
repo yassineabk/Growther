@@ -6,6 +6,7 @@ export const GetContests = (dispatch)=>{
     var config = {
         headers: {"Authorization" : `Bearer ${token}`} 
     }
+    dispatch({type: CONTESTS_TYPES.GET_CONTESTS_LOADING})
     axios.get("http://localhost:5000/api/contests/GetContests", config)
         .then(response =>{
             dispatch({type: CONTESTS_TYPES.GET_CONTESTS, payload: response.data})

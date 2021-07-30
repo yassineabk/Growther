@@ -18,3 +18,21 @@
         }
     }
 }
+/*.list-container{
+  .cards{
+    @for $i from 1 to 20 {
+      .card:nth-child(#){
+        opacity: 0;
+        animation: fadein 0.25s ($i * 0.25s) alternate forwards;
+        @keyframes fadein {
+          from{
+            opacity: 0;
+          }to{
+            opacity: 1;
+          }
+        }
+      }
+    }
+  }
+  
+}*/

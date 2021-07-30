@@ -4,7 +4,7 @@ export const CardComponent = ({element, title, description, date, dateType, view
     var history = useHistory()
     var openContest = ()=>{
         if(typeof(id) === "number" || typeof(id) === "string"){
-            history.push(`/contest/${id}`, element)
+            history.push(`/contest/${title}/${description}/${id}`, element)
         }
     }
     return(

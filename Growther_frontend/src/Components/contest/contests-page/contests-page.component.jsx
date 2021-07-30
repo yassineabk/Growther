@@ -4,7 +4,7 @@ import { GetContests } from "../../../redux/contests/contests-actions"
 import { CardsContainer } from "../../dashboard/cards-container/cards-container.component"
 export const DashboardContestPage = () =>{
     var dispatch = useDispatch()
-    var {contests} = useSelector(state => state.get_contests)
+    var {contests, isLoading} = useSelector(state => state.get_contests)
     useEffect(()=>{
         if((Array.isArray(contests) && contests.length === 0) || !Array.isArray(contests)){
             GetContests(dispatch)
