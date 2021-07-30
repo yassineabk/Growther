@@ -14,14 +14,17 @@ const INITIAL_STATE={
         },
         maxReach: 0,
         prizes: [
-            {id: 1, description: ""}
+            {description: ""}
         ],
         actions: [],
+        user: null
     },
     validData: {},
     isValidData: false,
     validActions: [],
     isValidActions: false,
+    savedInfos: false,
+    savedPrizes: false,
     isPublished: false,
     activePage: "/dashboard/My Contests/new/firstStep",
     contestLink: "",
@@ -40,6 +43,13 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
                 },
                 error: null
             }
+        case ContestTypes.SET_NEW_CONTEST_USER:
+            return {
+                ...state,
+                user: action.payload,
+                savedInfos: true,
+                error: false
+            }
         case ContestTypes.SET_WINNERS_NUM:
             return{
                 ...state,
@@ -49,7 +59,6 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
                     prizes: [
                         ...state.information.prizes,
                         {
-                            id: action.payload.id + 1,
                             description: ""
                         }
                     ]
@@ -215,18 +224,37 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
             return{
                 ...state
             }
+        case ContestTypes.INFOS_STEP_SAVED:
+            return{
+                ...state,
+                savedInfos: true,
+            }
+        case ContestTypes.INFOS_STEP_FAIL:
+            return {
+                ...state,
+                savedInfos: false,
+            }
+        case ContestTypes.PRIZES_STEP_SAVED:
+            return{
+                ...state,
+                savedPrizes: true
+            }
+        case ContestTypes.PRIZES_STEP_FAIL:
+            return{
+                ...state,
+                savedPrizes: false
+            }
         case ContestTypes.PUBLISH_SUCCESS:
             return{
                 ...state,
                 isPublished: true,
-                contestLink: action.payload.link,
                 error: null
             }
         case ContestTypes.PUBLISH_FAIL:
             return{
                 ...state,
                 isPublished: false,
-                error: {isError: true, message: "FAILED TO PUBLISH CONTEST"}
+                error: {isError: true, message: "FAILED TO PUBLISH CONTEST"},
             }
         default:
             return state;

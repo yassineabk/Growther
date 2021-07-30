@@ -114,6 +114,64 @@ export const NextStep = (dispatch, information)=>{
     }
     return false
 }
+export const SaveContestPrizes = async (dispatch, prizes, isValidData, id)=>{
+    var token = localStorage.getItem("accessToken")
+    var config = {
+        headers: {
+            "Content-Type" : "application/json",
+            "Authorization" : `Bearer ${token}`
+        } 
+    }
+    if(isValidData){
+        return axios.post(`http://localhost:5000/api/contests/${id}/prizes`, prizes, config)
+            .then(response =>{
+                dispatch({type: ContestTypes.PRIZES_STEP_SAVED})
+                return true
+            }).catch(err =>{
+                dispatch({type: ContestTypes.PRIZES_STEP_FAIL})
+                return false
+            })
+    }
+    dispatch({type: ContestTypes.PRIZES_STEP_FAIL})
+    return false
+}
+
+export const SaveContestFirstStep = async (dispatch, information, isValidData)=>{
+    if(isValidData){
+        var token = localStorage.getItem("accessToken")
+        var config = {
+            headers: {
+                "Content-Type" : "application/json",
+                "Authorization" : `Bearer ${token}`
+            },
+        }
+        var Data = {}
+        Object.keys(information).map((key, index) =>{
+            if(key !== "prizes" && key !== "actions"){
+                Data[key] = information[key]
+            }
+        })
+        return axios.post("http://localhost:5000/api/contests/create", Data, config)
+            .then(response =>{
+                dispatch({type: ContestTypes.SET_NEW_CONTEST_USER, payload: response.data})
+                return response.data
+            })/*.then(id =>{
+                if(typeof(id) === "number"){
+                    SaveContestPrizes(dispatch, information.prizes, isValidData, id).then(value =>{
+                        console.log(value, "here")
+                        return value
+                    })
+                    return true
+                }
+                return false
+            })*/.catch(err =>{
+                    dispatch({type: ContestTypes.INFOS_STEP_FAIL})
+                    return false
+                })
+    }
+    dispatch({type: ContestTypes.INFOS_STEP_FAIL})
+    return false
+}
 export const SaveContest = (dispatch, actions)=>{
     var result = []
     if(Array.isArray(actions) && actions.length > 0){
@@ -158,18 +216,23 @@ export const SaveDraft = (dispatch, data)=>{
             dispatch({type: ContestTypes.PUBLISH_FAIL})
         })
 }
-export const PublishContest = (dispatch, data)=>{
+export const PublishContest = async (dispatch, data)=>{
     var validInfos = NextStep(dispatch, data.information)
     var validActions = SaveContest(dispatch, data.actions)
     var token = localStorage.getItem("accessToken")
     var config = {
-        headers: {"Authorization" : `Bearer ${token}`} 
+        headers: {
+            "Accept" : 'application/json',
+            "Content-Type" : "application/json",
+            "Authorization" : `Bearer ${token}`
+        } 
     }
     if(validInfos && validActions){
-        axios.post("http://localhost:5000/api/contests/create", data.information, config)
+        console.log(data.information)
+        return axios.post(`http://localhost:5000/api/contests/create`, data.information ,config)
             .then(response =>{
-                console.log(response)
                 dispatch({type: ContestTypes.PUBLISH_SUCCESS})
+                console.log(response.data)
                 return true
             }).catch(err => {
                 dispatch({type: ContestTypes.PUBLISH_FAIL})

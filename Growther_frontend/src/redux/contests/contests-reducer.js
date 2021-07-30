@@ -11,7 +11,7 @@ const ContestsReducer = (state = INITIAL_STATE, action)=>{
         case CONTESTS_TYPES.GET_CONTESTS:
             return {
                 ...state,
-                contests: action.payload,
+                contests: action.payload.reverse(),
                 error: null
             }
         case CONTESTS_TYPES.GET_CONTESTS_FAIL:

@@ -1,12 +1,4 @@
-import React, { useEffect } from "react"
-import { Route, Switch, Redirect } from "react-router-dom"
-import { DashboardContestPage } from "../../contest/contests-page/contests-page.component"
-import { DashboardHomePage } from "../home-page/home-page.component"
-import { NewContest } from "../../contest/new-contest/new-contest.component"
-import { DashboardTemplatesPage } from "../templates-page/templates-page.component"
-import { EditContest } from "../../contest/edit-contest/edit-contest.component"
-import { useDispatch, useSelector } from "react-redux"
-import { DashboardGetData } from "../../../redux/dashboard/dashboard-actions"
+import React from "react"
 export const DashboardBody = ({templates, todo, recent, brandname, child}) =>{
     var showSideBar = ()=>{
         document.getElementById("sideBar").classList.toggle("showSideBar")

@@ -11,25 +11,19 @@ export const userService = {
 };
 
 function loginWithFacebookAndGoogle(user){
-
-
-    // get the id from the jwt token 
-    let token = localStorage.getItem("accessToken");   
+    let token = localStorage.getItem("accessToken");
     let decodedToken = decode(token);
-    console.log(decodedToken);
     let id = decodedToken.sub
-    console.log(id);
-    console.log(JSON.stringify(user))
-
     const requestOptions = {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json',
-                    'Authorization': 'Bearer '+token
+        headers: {
+            'Accept' : 'application/json',
+            'Content-Type' : 'application/json',
+            'Authorization' : 'Bearer '+token 
         },
         body: JSON.stringify(user)
     };
-
-
+    console.log(requestOptions)
 
     return fetch(`${USERS_REST_API_URL}/api/users/update/${id}`, requestOptions)
             .then(response => {
@@ -37,6 +31,7 @@ function loginWithFacebookAndGoogle(user){
             // localStorage.setItem('user', JSON.stringify(user));
             console.log("updating info when login with fb and google")
         }).catch(error => console.log(error));
+
 }
 
 

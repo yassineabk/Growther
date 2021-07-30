@@ -15,27 +15,10 @@ class OAuth2RedirectHandler extends Component {
         // console.log(token);
         const error = this.getUrlParameter('error');
         if(token) {
-            console.log(token)
             localStorage.setItem('accessToken', token);
+            var user = localStorage.getItem("user")
+            this.props.registerWithFacebookAndGoogle(JSON.parse(user))
             setCurrentUser(token)
-            if(this.props.isBrand){
-                const user={
-                  name:this.props.brand.name,
-                  url:this.props.brand.url,
-                  activities:this.props.brand.activities,
-                  isBrand:"true"
-                }
-                
-                console.log(user)
-                // console.log(this.props);
-                this.props.registerWithFacebookAndGoogle(user)
-              }else{
-                const user={
-                  name:this.props.individual.name,
-                  isBrand:"false"
-                }
-                this.props.registerWithFacebookAndGoogle(user)
-              }
 
             return <Redirect to={{
                 pathname: "/dashboard",
@@ -56,7 +39,7 @@ const mapStateToProps=(state)=>{
         brand:state.registration.brand,
         isBrand:state.registration.isBrand,
 
-        })
+    })
 
 }
 const mapDispatcToProps={

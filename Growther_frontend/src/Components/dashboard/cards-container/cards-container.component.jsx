@@ -73,14 +73,15 @@ export const CardsContainer = ({data, title, showMore, addNew})=>{
                     if(typeof(element) !== "object") return null
                     return(
                         <CardComponent 
+                            element={element}
                             title={element.title}
                             date={element.date}
                             views={element.views}
                             description={element.description}
-                            date={element.duration.value}
-                            dateType={element.duration.type}
+                            date={typeof(element.duration) === "object" && element.duration !== null ? element.duration.value : 1}
+                            dateType={typeof(element.duration) === "object" && element.duration !== null ? element.duration.type : "days"}
                             entries={element.entries}
-                            id={element.idContest ? element.idContest : `card${index}`}
+                            id={element.idContest ? element.idContest : undefined}
                             key={element.idContest ? `card${element.idContest}` : `card${index}`}
                         />                    
                     )
