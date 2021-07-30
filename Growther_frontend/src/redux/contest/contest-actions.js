@@ -151,8 +151,6 @@ export const SaveContestFirstStep = async (dispatch, information, isValidData)=>
                 Data[key] = information[key]
             }
         })
-        Data.duration = 5
-        console.log(JSON.stringify(Data))
         return axios.post("http://localhost:5000/api/contests/create", Data, config)
             .then(response =>{
                 dispatch({type: ContestTypes.SET_NEW_CONTEST_USER, payload: response.data})

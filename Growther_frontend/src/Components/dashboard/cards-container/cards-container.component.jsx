@@ -78,8 +78,8 @@ export const CardsContainer = ({data, title, showMore, addNew})=>{
                             date={element.date}
                             views={element.views}
                             description={element.description}
-                            date={element.duration.value}
-                            dateType={element.duration.type}
+                            date={typeof(element.duration) === "number" ? element.duration.value : 1}
+                            dateType={typeof(element.duration) === "string" ? element.duration.type : "days"}
                             entries={element.entries}
                             id={element.idContest ? element.idContest : undefined}
                             key={element.idContest ? `card${element.idContest}` : `card${index}`}

@@ -1,5 +1,6 @@
 package wbm.growther.growther_001.dtos;
 
+import wbm.growther.growther_001.models.Duration;
 import wbm.growther.growther_001.models.Prize;
 import wbm.growther.growther_001.models.actions.Action;
 import wbm.growther.growther_001.models.users.User;
@@ -16,7 +17,7 @@ public class ContestDto {
     private int maxReach;
     private Date startDate;
     private Date endDate;
-    private Long duration;
+    private Duration duration;
     private Set<Action> actions;
     private Set<Prize> prizes;
     private User user;
@@ -105,11 +106,11 @@ public class ContestDto {
         this.endDate = endDate;
     }
 
-    public Long getDuration() {
+    public Duration getDuration() {
         return duration;
     }
 
-    public void setDuration(Long duration) {
+    public void setDuration(Duration duration) {
         this.duration = duration;
     }
 
