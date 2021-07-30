@@ -1,5 +1,6 @@
 .contest{
     @extend .preview;
+    position: relative;
     justify-content: center;
     align-items: center;
     min-height: 100vh;

@@ -2,17 +2,18 @@ import React, { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useHistory, useLocation, useParams } from "react-router-dom"
 import { PreviewCard } from "../../Components/contest/preview-card/preview-card.component"
+import { Spinner } from "../../Components/spinner/spinner.component"
 import { SelectAction, SetData, SetDataFromLocation } from "../../redux/contest-card/contest-card-actions"
 export const Contest = ()=>{
     var dispatch = useDispatch()
     var params = useParams()
     var location = useLocation()
-    var {information, actions, selected} = useSelector(state => state.contest_card)
+    var {information, actions, selected, isLoading} = useSelector(state => state.contest_card)
     useEffect(()=>{
         if(location.state){
             SetDataFromLocation(dispatch, location.state)
         }else{
-            SetData(dispatch, params.id)
+            SetData(dispatch, params.title, params.description, params.id)
         }
     }, [dispatch, location])
     var changeHandler = (event, provider)=>{
@@ -37,7 +38,8 @@ export const Contest = ()=>{
     }
     return(
         <div className="is-flex is-flex-direction-column contest is-justify-content-center is-align-items-center">
-            {typeof(information) === "object" ? <PreviewCard
+            <Spinner show={isLoading} />
+            {typeof(information) === "object" && !isLoading ? <PreviewCard
                 title={information.title}
                 description={information.description}
                 timeLeft={information.endDate ? TimeLeft(information.endDate).date : ""}

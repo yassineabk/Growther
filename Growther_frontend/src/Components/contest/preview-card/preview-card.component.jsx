@@ -14,7 +14,7 @@ export const PreviewCard = ({title, description, timeLeft, dateType, views, entr
                         Total views
                     </span>
                     <span>
-                        {views ? views : "xxxx"}
+                        {views ? views : ""}
                     </span>
                 </div>
                 <div className="card-entries is-flex is-flex-direction-column">
@@ -22,7 +22,7 @@ export const PreviewCard = ({title, description, timeLeft, dateType, views, entr
                         Total entries
                     </span>
                     <span>
-                        {entries ? entries : "xxxx"}
+                        {entries ? entries : ""}
                     </span>
                 </div>
                 <div className="card-date is-flex is-flex-direction-column">
@@ -30,20 +30,20 @@ export const PreviewCard = ({title, description, timeLeft, dateType, views, entr
                         Time left
                     </span>
                     <span>
-                        {timeLeft ? timeLeft : "xx"} <span className="dateType">{dateType ? dateType : " days"}</span>
+                        {timeLeft ? timeLeft : ""} <span className="dateType">{dateType ? dateType : ""}</span>
                     </span>
                 </div>
             </div>
             <div className="right-side is-flex is-flex-direction-column">
                 <div className="card-infos is-flex is-flex-direction-column">
                     <div className="card-title is-flex is-justify-content-space-between">
-                        <div>{title ? title : "Contest Title"}</div>
+                        <div>{title ? title : ""}</div>
                         <div>
                             <img onClick={()=> hoverCard()} src={require("../../../assets/icons/trophy2.png").default} width={"20px"} />
                         </div>
                     </div>
                     <div className="card-description">
-                        {description ? description : loremText.slice(0,250)}
+                        {description ? description : ""}
                     </div>
                 </div>
                 <PreviewActionsList previewActions={previewActions} actions={actions} changeHandler={changeHandler && {}.toString.call(changeHandler) === '[object Function]' ? (event, provider) => changeHandler(event, provider) : ()=> false}/>

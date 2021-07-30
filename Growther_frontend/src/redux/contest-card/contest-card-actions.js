@@ -47,9 +47,16 @@ var data1 = {
         {id: 8, description: "500DH"},
     ]
 }
-export const SetData = (dispatch, id) =>{
-    axios.get(`http://localhost:5000/api/contests/${id}`).then(response =>{
-        dispatch({type: Contest_Card_Types.SET_CONTEST_STATE, payload: response})
+export const SetData = (dispatch, title, description, id) =>{
+    var token = localStorage.getItem("accessToken")
+    var config = {
+        headers: {
+            "Content-Type" : "application/json",
+            "Authorization" : `Bearer ${token}`
+        } 
+    }
+    axios.get(`http://localhost:5000/api/contests/${title}/${description}/${id}`, config).then(response =>{
+        dispatch({type: Contest_Card_Types.SET_CONTEST_STATE, payload: response.data})
     }).catch(err =>{
         dispatch({type: Contest_Card_Types.CONTEST_CARD_ERROR})
     })

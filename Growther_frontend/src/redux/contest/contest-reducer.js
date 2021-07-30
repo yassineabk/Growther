@@ -248,7 +248,7 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
             return{
                 ...state,
                 isPublished: true,
-                contestLink: action.payload.link,
+                contestLink: action.payload,
                 error: null
             }
         case ContestTypes.PUBLISH_FAIL:

@@ -222,21 +222,17 @@ export const PublishContest = async (dispatch, data)=>{
     var token = localStorage.getItem("accessToken")
     var config = {
         headers: {
-            "Accept" : 'application/json',
             "Content-Type" : "application/json",
             "Authorization" : `Bearer ${token}`
         } 
     }
     if(validInfos && validActions){
-        console.log(data.information)
         return axios.post(`http://localhost:5000/api/contests/create`, data.information ,config)
             .then(response =>{
-                dispatch({type: ContestTypes.PUBLISH_SUCCESS})
-                console.log(response.data)
+                dispatch({type: ContestTypes.PUBLISH_SUCCESS, payload: `http://localhost:3000/contest/${data.information.title}/${data.information.description}/${response.data}`})
                 return true
             }).catch(err => {
                 dispatch({type: ContestTypes.PUBLISH_FAIL})
-                console.log(err)
                 return false
             })
     }
