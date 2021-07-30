@@ -26,14 +26,14 @@ export const ContestSecondStep = ()=>{
         RemoveAction(dispatch, provider, index)
     }
     var Save = ()=>{
-        PublishContest(dispatch, {information, actions: information.actions, id: user.idContest, savedInfos, savedPrizes}).then(value =>{
+        PublishContest(dispatch, {information, actions: information.actions}).then(value =>{
             if(value){
                 history.push("/dashboard/My Contests/new/thirdStep")
             }
         })
     }
     if(location.pathname !== "/dashboard/My Contests/new/secondStep") return null
-    if(!isValidData || !savedInfos || !savedPrizes) return <Redirect to="/dashboard/My Contests/new/firstStep" />
+    if(!isValidData) return <Redirect to="/dashboard/My Contests/new/firstStep" />
     return(
         <div className="actionsContainer is-flex is-flex-direction-column">
             <div className="is-flex is-flex-direction-column">

@@ -52,7 +52,7 @@ export function loginWithEmailAndPassword(user) {
     function failure(error) { return { type: loginType.SET_LOGIN_ERROR_MESSAGE, payload: error } }
 }
 
-export function logout() {
+export async function logout() {
     console.log('logout clicked')
     userService.logout();
     return { type: loginType.LOGOUT };

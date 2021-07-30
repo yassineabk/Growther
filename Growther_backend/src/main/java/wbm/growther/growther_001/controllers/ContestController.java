@@ -81,13 +81,15 @@ public class ContestController {
         if(contestCreated) return contestDto;
         throw new RejectedExecutionException("A Contest with that ID already exist !!");
     }*/
+
     @PostMapping("/create")
     public Long createContest(@RequestBody ContestDto contestDto
             ,HttpServletRequest request) throws RejectedExecutionException{
+
         //get the email from the JWT token
-        System.out.println(contestDto.toString());
         String token = getJwtTokenFromRequest(request);
         String email= jwtUtils.getUserEmailFromToken(token);
+
         Long contestCreated = contestService.createNewContest(contestDto,email);
         if(contestCreated != Long.decode("0")) return contestCreated;
         System.out.println(contestCreated);

@@ -4,14 +4,18 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import wbm.growther.growther_001.dtos.ContestDto;
+import wbm.growther.growther_001.exceptions.NotFoundException;
 import wbm.growther.growther_001.models.Contest;
+import wbm.growther.growther_001.models.Duration;
+import wbm.growther.growther_001.models.Prize;
+import wbm.growther.growther_001.models.actions.Action;
 import wbm.growther.growther_001.models.users.User;
-import wbm.growther.growther_001.repository.ContestRepository;
-import wbm.growther.growther_001.repository.UserRepository;
+import wbm.growther.growther_001.repository.*;
 import wbm.growther.growther_001.services.ContestService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class ContestServiceImpl implements ContestService {
@@ -21,6 +25,15 @@ public class ContestServiceImpl implements ContestService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private DurationRepository durationRepository;
+
+    @Autowired
+    private PrizeRepository prizeRepository;
+
+    @Autowired
+    private ActionRepository actionRepository;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -47,8 +60,37 @@ public class ContestServiceImpl implements ContestService {
 
         contest.setStatus("in_Creation");
         contest.setUser(user);
-        repository.save(contest);
+
+        Duration duration = contest.getDuration();
+        Set<Prize> prizes = contest.getPrizes();
+        Set<Action> actions = contest.getActions();
+
+        actions.forEach( action -> {
+            action.setContest(contest);
+        });
+
+        prizes.forEach( prize -> {
+            prize.setContest(contest);
+        });
+
+        System.out.println(contest.getDuration().getType()+"---"+contest.getDuration().getValue());
         System.out.println(contest.getIdContest());
+
+                    duration.setContest(contest);
+                    durationRepository.save(duration);
+
+        repository.save(contest);
+
+        prizes.forEach( prize -> {
+            prizeRepository.save(prize);
+        });
+        actions.forEach( action -> {
+            actionRepository.save(action);
+        });
+
+        System.out.println(contest.getIdContest());
+
+
         return contest.getIdContest();
     }
 

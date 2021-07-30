@@ -14,7 +14,7 @@ const INITIAL_STATE={
         },
         maxReach: 0,
         prizes: [
-            {id: 1, description: ""}
+            {description: ""}
         ],
         actions: [],
         user: null
@@ -59,7 +59,6 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
                     prizes: [
                         ...state.information.prizes,
                         {
-                            id: action.payload.id + 1,
                             description: ""
                         }
                     ]

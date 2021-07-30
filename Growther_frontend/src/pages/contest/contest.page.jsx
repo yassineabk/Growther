@@ -42,7 +42,7 @@ export const Contest = ()=>{
                 description={information.description}
                 timeLeft={information.endDate ? TimeLeft(information.endDate).date : ""}
                 dateType={TimeLeft(information.endDate).type}
-                actions={actions}
+                actions={Array.isArray(information.actions) ? information.actions : []}
                 prizes={information.prizes}
                 previewActions={selected}
                 changeHandler={(event, provider)=> changeHandler(event, provider)}
