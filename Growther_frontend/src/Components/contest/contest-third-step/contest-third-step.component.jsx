@@ -3,10 +3,10 @@ import { useSelector } from "react-redux"
 import { useLocation } from "react-router"
 import { Redirect } from "react-router-dom"
 export const ContestThirdStep = () =>{
-    var {isValidData, isValidActions, isPublished} = useSelector(state => state.contest)
+    var {isValidData, isValidActions, isPublished, contestLink} = useSelector(state => state.contest)
     var location = useLocation()
     var copyClipoard = ()=>{
-        navigator.clipboard.writeText("https://www.did.com/contestId")
+        navigator.clipboard.writeText(contestLink)
         document.getElementById("contestLink").classList.add("copied")
         setTimeout(()=>{
             document.getElementById("contestLink").classList.remove("copied")

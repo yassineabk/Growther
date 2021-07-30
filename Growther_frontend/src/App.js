@@ -12,13 +12,11 @@ import LandingPage from './pages/landing-page/landing-page.page';
 import { Contest } from "./pages/contest/contest.page"
 import { EditContest } from './Components/contest/edit-contest/edit-contest.component';
 import OAuth2RedirectHandler from './services/OAuth2-redirect-handler';
-import { BrowserRouter } from 'react-router-dom';
 import { NewContest } from './Components/contest/new-contest/new-contest.component';
 import { ContestFirstStep } from './Components/contest/contest-first-step/contest-first-step.component';
 import { ContestSecondStep } from './Components/contest/contest-second-step/contest-second-step.component';
 import { ContestThirdStep } from './Components/contest/contest-third-step/contest-third-step.component';
 import { DashboardTemplatesPage } from './Components/dashboard/templates-page/templates-page.component';
-import { DashboardGetData } from './redux/dashboard/dashboard-actions';
 import { DashboardContestPage } from './Components/contest/contests-page/contests-page.component';
 import { DashboardHomePage } from './Components/dashboard/home-page/home-page.component';
 import { Page404 } from './pages/404-page/404.page';
@@ -34,7 +32,7 @@ const App = ()=> {
         <Route exact path='/landing-page' render={()=> (<LandingPage />) } />
         <Route exact path='/login' render={()=>(currentUser) ? (<Redirect to='/dashboard'/>) : (<LoginPage/>) } />
         <Route exact path='/signup' render={()=>currentUser ? (<Redirect to='/'/>) : (<SignUpPage/>) } />
-        <Route exact path='/contest/:id' render={()=>currentUser ? (<Contest />) : (<Redirect to='/'/>)}/>
+        <Route exact path='/contest/:title/:description/:id' render={()=>currentUser ? (<Contest />) : (<Redirect to='/'/>)}/>
         <Route exact path='/dashboard/pie' render={()=> currentUser ? (<Dashboard />) : (<Redirect to='/'/>)} />
         <Route exact path='/dashboard/settings' render={()=> currentUser ?  (<Dashboard />) : (<Redirect to='/'/>)} />
         <Route exact path="/dashboard/My Contests/new" render={()=> (

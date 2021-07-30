@@ -63,7 +63,6 @@ public class UserController {
     public ResponseEntity<UserDto> updateBrand(@PathVariable (value = "id") Long userId,
                                                 @Validated @RequestBody UserDto userInfos) throws
             ResourceNotFoundException{
-
         UserDto userDto=userService.getUserById(userId);
 
         // if the user does not exist, throw an exception

@@ -6,7 +6,7 @@ export const PreviewPrizesList = ({prizes})=>{
             return (
                 <div key={`prize${index}`} className="previewPrize">
                     <div>
-                        <span className="prizeOrder">{`${item.id}.`}</span> {`${item.description}`}
+                        <span className="prizeOrder">{`${index + 1}.`}</span> {`${item.description}`}
                     </div>
                 </div>
             )
