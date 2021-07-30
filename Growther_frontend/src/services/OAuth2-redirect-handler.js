@@ -19,7 +19,7 @@ class OAuth2RedirectHandler extends Component {
             var user = localStorage.getItem("user")
             this.props.registerWithFacebookAndGoogle(JSON.parse(user))
             setCurrentUser(token)
-            
+
             return <Redirect to={{
                 pathname: "/dashboard",
                 
