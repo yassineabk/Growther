@@ -120,8 +120,8 @@ public class ContestServiceImpl implements ContestService {
     }
 
     @Override
-    public ContestDto getContestByInfos(String title, String description, Long id) {
-        Contest contest = repository.findContestByTitleAndDescriptionAndIdContest(title,description,id);
+    public ContestDto getContestByInfos(String title, Long id) {
+        Contest contest = repository.findContestByTitleAndIdContest(title,id);
         return (contest==null)? null :  toDto(contest);
     }
 

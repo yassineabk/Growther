@@ -11,6 +11,6 @@ public interface ContestService {
     ContestDto updateContestInfos(ContestDto contestDto);
     void deleteContest(ContestDto contestDto);
     ContestDto getContestByTitle(String title);
-    ContestDto getContestByInfos(String title,String description,Long id);
+    ContestDto getContestByInfos(String title,Long id);
     ContestDto getLastContest();
 }

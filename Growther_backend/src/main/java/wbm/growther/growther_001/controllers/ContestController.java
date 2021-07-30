@@ -58,29 +58,14 @@ public class ContestController {
     }
 
     //Get contest by id and infos
-    @GetMapping("/{title}/{description}/{id}")
+    @GetMapping("/{title}/{id}")
     public ResponseEntity<ContestDto> getContestByInfos(@PathVariable(value = "id") Long contestId,
-                                                        @PathVariable(value = "title") String contestTitle,
-                                                        @PathVariable(value = "description") String contestDescription) throws ResourceNotFoundException {
-        ContestDto contestDto = contestService.getContestByInfos(contestTitle,contestDescription,contestId);
+                                                        @PathVariable(value = "title") String contestTitle)
+            throws ResourceNotFoundException {
+        ContestDto contestDto = contestService.getContestByInfos(contestTitle,contestId);
         if(contestDto==null) throw new ResourceNotFoundException("No contest exist with ID : "+contestId.toString());
         return ResponseEntity.ok().body(contestDto);
     }
-
-
-    //Create new contest
-    /*@PostMapping("/create")
-    public ContestDto createContest(@RequestBody ContestDto contestDto
-            ,HttpServletRequest request) throws RejectedExecutionException{
-
-        //get the email from the JWT token
-        String token = getJwtTokenFromRequest(request);
-        String email= jwtUtils.getUserEmailFromToken(token);
-
-        Boolean contestCreated = contestService.createNewContest(contestDto,email);
-        if(contestCreated) return contestDto;
-        throw new RejectedExecutionException("A Contest with that ID already exist !!");
-    }*/
 
     @PostMapping("/create")
     public Long createContest(@RequestBody ContestDto contestDto
