@@ -295,13 +295,12 @@ export const registrationReducer=(state=INITIAL_STATE,action)=>{
         case registrationType.REGISTER_SUCCESS:
             return {
                 ...state,
-                success:true
-                
-                    }
+                success: true
+            }
         case registrationType.REGISTER_REQUEST:
             return {
                 ...state,                
-                    }
+            }
         
             
 

@@ -80,7 +80,6 @@ public class ContestController {
         System.out.println(contestCreated);
         throw new RejectedExecutionException("A Contest with that ID already exist !!");
     }
-
     //Update contest
     @PutMapping("/update/{id}")
     public ResponseEntity<ContestDto> updateContest(@PathVariable(value = "id") Long contestId

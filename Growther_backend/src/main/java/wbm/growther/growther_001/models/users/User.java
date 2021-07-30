@@ -38,7 +38,7 @@ public class User {
 
 
     @Column(length = 10)
-    private String isBrand;
+    private String isBrand="false";
 
     private String providerId;
 

@@ -48,12 +48,14 @@ var data1 = {
     ]
 }
 export const SetData = (dispatch, id) =>{
-    axios.get(`/api/contests/${id}`).then(response =>{
+    axios.get(`http://localhost:5000/api/contests/${id}`).then(response =>{
         dispatch({type: Contest_Card_Types.SET_CONTEST_STATE, payload: response})
     }).catch(err =>{
-        dispatch({type: Contest_Card_Types.SET_CONTEST_STATE, payload: {information: data1, actions: data2}})
         dispatch({type: Contest_Card_Types.CONTEST_CARD_ERROR})
     })
+}
+export const SetDataFromLocation = (dispatch, data)=>{
+    dispatch({type: Contest_Card_Types.SET_CONTEST_STATE, payload: data})
 }
 export const SelectAction = (dispatch, provider, index)=>{
     dispatch({type: Contest_Card_Types.SELECTED_ACTION, payload: {provider, index}})

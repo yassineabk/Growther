@@ -6,7 +6,8 @@ import { Redirect } from 'react-router-dom';
 import LoginForm from '../../Components/login-form/login-form.componenet';
 import { loginWithEmailAndPassword } from '../../redux/login/login.actions';
 import {setEmail,setPassword,setLoginError,setLoginErrorMessage,setRemember} from '../../redux/login/login.actions'
-import OAuth2RedirectHandler from '../../services/OAuth2-redirect-handler';
+import { registerWithFacebookAndGoogle } from '../../redux/registration/registration.action';
+
 
 class LoginPage extends React.Component{
    
@@ -18,16 +19,6 @@ class LoginPage extends React.Component{
         this.props.loginWithEmailAndPassword(user)
     }
 
-    LoginWithGoogle=async e=>{
-      
-      console.log(e)
-
-    }
-    LoginWithFacebook=async e=>{
-      
-
-
-    }
 
     handleEmailBlur=e =>{
         
@@ -104,6 +95,7 @@ const mapStatsToDispatch={
     setLoginErrorMessage:(message)=>setLoginErrorMessage(message),
     setLoginError:(bool)=>setLoginError(bool),
     setRemember:(bool)=>setRemember(bool),
+    registerWithFacebookAndGoogle:registerWithFacebookAndGoogle
 
 }
 

@@ -1,4 +1,5 @@
 import React from "react"
+import { EmptyList } from "../../contest/empty-list/empty-list.component"
 import { CardTitle } from "../card-title/card-title.component"
 import { CardComponent } from "../card/card.component"
 const test = [
@@ -68,20 +69,23 @@ export const CardsContainer = ({data, title, showMore, addNew})=>{
         <div className="is-flex is-flex-direction-column list-container">
             <CardTitle title={title} addNew={addNew} showMore={showMore} />
             <div className="columns is-multiline is-flex is-flex-row cards">
-                {Array.isArray(data) ? data.map((element, index)=>{
+                {Array.isArray(data) && data.length > 0 ? data.map((element, index)=>{
                     if(typeof(element) !== "object") return null
                     return(
                         <CardComponent 
+                            element={element}
                             title={element.title}
                             date={element.date}
                             views={element.views}
                             description={element.description}
-                            date={element.duration.value}
-                            dateType={element.duration.type}
+                            date={typeof(element.duration) === "object" && element.duration !== null ? element.duration.value : 1}
+                            dateType={typeof(element.duration) === "object" && element.duration !== null ? element.duration.type : "days"}
                             entries={element.entries}
+                            id={element.idContest ? element.idContest : undefined}
+                            key={element.idContest ? `card${element.idContest}` : `card${index}`}
                         />                    
                     )
-                }): test.slice(0,3).map((element, index)=>{
+                }): <EmptyList /> /*test.slice(0,3).map((element, index)=>{
                     if(typeof(element) !== "object") return null
                     return(
                         <CardComponent 
@@ -91,9 +95,10 @@ export const CardsContainer = ({data, title, showMore, addNew})=>{
                             views={element.views}
                             description={element.description}
                             entries={element.entries}
+                            id={`card${index}`}
                         />                    
                     )
-                })}
+                })*/}
             </div>
         </div>
     )
