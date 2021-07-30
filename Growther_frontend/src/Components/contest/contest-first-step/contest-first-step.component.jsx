@@ -108,8 +108,11 @@ export const ContestFirstStep = ()=>{
     }
     var nextStep = ()=>{
         var isValid = NextStep(dispatch, information)
+        console.log(isValid)
         if(isValid){
-            SaveContestFirstStep(dispatch, information, isValid).then(id =>{
+            history.push("/dashboard/My Contests/new/secondStep")
+
+            /*SaveContestFirstStep(dispatch, information, isValid).then(id =>{
                 if(typeof(id) === "number"){
                     SaveContestPrizes(dispatch, information.prizes, isValid, id).then(value =>{
                         if(value){
@@ -117,7 +120,7 @@ export const ContestFirstStep = ()=>{
                         }
                     })
                 }
-            })
+            })*/
         }
     }
     if(location.pathname !== "/dashboard/My Contests/new/firstStep") return null

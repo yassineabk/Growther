@@ -6,7 +6,7 @@ const SocialMediaButton=({handleChange,onClick,uri,isGoogle,label,placeholder})=
     <div className="field">
         <p className="control"/>
         <div className="control has-icons-left socialButton">
-            <a href={uri}>
+            <a href={uri} >
                 <button type="button"  onClick={onClick} className={`${isGoogle ? 'is-danger' :'is-info'} button  is-fullwidth is-outlined`}>{label}</button>
             </a>    
 

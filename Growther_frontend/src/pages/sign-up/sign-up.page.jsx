@@ -7,7 +7,31 @@ import { SignupUserType } from '../../Components/signup-user-type/signup-user-ty
 import {SetEmail,setRegistrationErrorMessage, SetPassword,SetConfirmationPassword,SetEmailError,SetEmailErrorMessage,SetPasswordError,SetPasswordErrorMessage,SetPasswordConfirmationError,SetPasswordConfirmationErrorMessage,SetUserType,ToogleSecondStep,ToogleThirddStep,setBrandName,setBrandNameError,setBrandNameErrorMessage,setBrandUrl,setBrandUrlError,setBrandUrlErrorMessage,setBrandActvity,setBrandActvityError,setBrandActvityErrorMessage,setIndividualName,setIndividualNameErrorMessage,setIndividualNameError} from '../../redux/registration/registration.action'
 
 class SignUpPage extends React.Component{
-    
+    SignUpWithGoogle = e =>{
+      if(this.props.isBrand){
+            const user={
+              name:this.props.brand.name,
+              url:this.props.brand.url,
+              activities:this.props.brand.activities,
+
+              isBrand:"true"
+
+            }
+            console.log("---------")
+            console.log(user)
+            localStorage.setItem("user", JSON.stringify(user))
+            //this.props.setRegistrationError(false)
+            //this.props.registerWithEmailAndPassword(user)
+          }else{
+            const user={
+              name:this.props.individual.name,
+              isBrand:"false"
+            }
+            localStorage.setItem("user", JSON.stringify(user))
+            //this.props.setRegistrationError(false)
+            //this.props.registerWithEmailAndPassword(user)
+          }
+    }
     handleSubmitFirstStep=async e=>{
         e.preventDefault();
         const email =this.props.email

@@ -132,7 +132,7 @@ export function registerWithFacebookAndGoogle(user) {
     return dispatch => {
         dispatch(request(user));
 
-        userService.registerWithFacebookAndGoogle(user)
+        userService.loginWithFacebookAndGoogle(user)
             .then(
                 user => { 
                     dispatch(success());

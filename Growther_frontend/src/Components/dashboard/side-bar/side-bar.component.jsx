@@ -26,6 +26,11 @@ export const DashboradSideBar = ({activePage})=>{
         //if(path === "/dashboard") return history.push(activePage && typeof(activePage) === "string" ? activePage : path)
         history.push(path)
     }
+    var Logout = ()=>{
+        logout().then(value =>{
+            history.push("/landing-page")
+        })
+    }
     return(
         <div id="sideBar" className="sideBar">
             <div className="sideBar_Items is-flex is-flex-direction-column">
@@ -53,7 +58,9 @@ export const DashboradSideBar = ({activePage})=>{
                         <img alt="" src={require("../../../assets/icons/headset.png").default} />
                     </div>
                     <div className="tailButton">
-                        <img onClick={()=>{logout()}} alt="" src={require("../../../assets/icons/logout.png").default} />
+                        <img onClick={()=>{
+                            Logout()
+                        }} alt="" src={require("../../../assets/icons/logout.png").default} />
                     </div>
                 </div>
             </div>

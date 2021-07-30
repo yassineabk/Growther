@@ -1,4 +1,5 @@
 import axios from "axios";
+import { decode } from "jsonwebtoken";
 
 const USERS_REST_API_URL = 'http://localhost:5000';
 
@@ -10,18 +11,27 @@ export const userService = {
 };
 
 function loginWithFacebookAndGoogle(user){
+    let token = localStorage.getItem("accessToken");   
+    let decodedToken = decode(token);
+    let id = decodedToken.sub
     const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(user)
+        method: 'PUT',
+        headers: { 
+            'Accept' : 'application/json',
+            'Content-Type' : 'application/json',
+            'Authorization' : `Bearer ${token}`
+        },
+        body: user
     };
+    console.log(requestOptions)
 
-    return fetch(`${USERS_REST_API_URL}/authentication/login`, requestOptions)
+    return fetch(`${USERS_REST_API_URL}/api/users/update/${id}`, requestOptions)
             .then(response => {
             // store user details and jwt token in local storage to keep user logged in between page refreshes
             // localStorage.setItem('user', JSON.stringify(user));
             console.log("updating info when login with fb and google")
-        });
+        }).catch(error => console.log(error));
+
 }
 
 
