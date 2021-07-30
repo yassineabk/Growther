@@ -30,7 +30,7 @@ public class Contest {
     @OneToMany(mappedBy="contest", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Action> actions;
     //JSON field
-    @OneToMany(mappedBy="contest", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy="contest", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Prize> prizes;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

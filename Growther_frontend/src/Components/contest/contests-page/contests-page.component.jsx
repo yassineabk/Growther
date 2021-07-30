@@ -6,12 +6,14 @@ export const DashboardContestPage = () =>{
     var dispatch = useDispatch()
     var {contests} = useSelector(state => state.get_contests)
     useEffect(()=>{
-        GetContests(dispatch)
-    })
+        if((Array.isArray(contests) && contests.length === 0) || !Array.isArray(contests)){
+            GetContests(dispatch)
+        }
+    }, [dispatch])
     return(
         <div className="is-flex is-flex-direction-column column is-full">
             <div className="mb-4">
-                <CardsContainer data={contests} title={"My Contests"} addNew={"/dashboard/My%20Contests/new/firstStep"} />
+                <CardsContainer data={Array.isArray(contests) ? contests.reverse() : []} title={"My Contests"} addNew={"/dashboard/My%20Contests/new/firstStep"} />
             </div>
         </div>
     )

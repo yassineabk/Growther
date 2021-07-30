@@ -33,7 +33,7 @@ export const ContestSecondStep = ()=>{
         })
     }
     if(location.pathname !== "/dashboard/My Contests/new/secondStep") return null
-    if(isValidData !== true) return <Redirect to="/dashboard/My Contests/new/firstStep" />
+    if(!isValidData || !savedInfos || !savedPrizes) return <Redirect to="/dashboard/My Contests/new/firstStep" />
     return(
         <div className="actionsContainer is-flex is-flex-direction-column">
             <div className="is-flex is-flex-direction-column">

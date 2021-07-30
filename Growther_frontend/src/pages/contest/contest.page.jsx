@@ -1,15 +1,20 @@
 import React, { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { useParams } from "react-router-dom"
+import { useHistory, useLocation, useParams } from "react-router-dom"
 import { PreviewCard } from "../../Components/contest/preview-card/preview-card.component"
-import { SelectAction, SetData } from "../../redux/contest-card/contest-card-actions"
+import { SelectAction, SetData, SetDataFromLocation } from "../../redux/contest-card/contest-card-actions"
 export const Contest = ()=>{
     var dispatch = useDispatch()
     var params = useParams()
+    var location = useLocation()
     var {information, actions, selected} = useSelector(state => state.contest_card)
     useEffect(()=>{
-        SetData(dispatch)
-    }, [dispatch])
+        if(location.state){
+            SetDataFromLocation(dispatch, location.state)
+        }else{
+            SetData(dispatch, params.id)
+        }
+    }, [dispatch, location])
     var changeHandler = (event, provider)=>{
         var index = parseInt(event.target.selectedIndex)
         SelectAction(dispatch, provider, index)
