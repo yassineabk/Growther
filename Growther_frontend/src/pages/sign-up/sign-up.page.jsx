@@ -81,6 +81,7 @@ class SignUpPage extends React.Component{
   handleClickLogin() {
     console.log(this.props, "here")
     //this.props.history.push("/login");
+    window.location.href="http://localhost:3000/login"
   }
 
     handleSubmitSecondStep=async e=>{

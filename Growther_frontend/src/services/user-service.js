@@ -11,17 +11,17 @@ export const userService = {
 };
 
 function loginWithFacebookAndGoogle(user){
-    let token = localStorage.getItem("accessToken");   
+    let token = localStorage.getItem("accessToken");
     let decodedToken = decode(token);
     let id = decodedToken.sub
     const requestOptions = {
         method: 'PUT',
-        headers: { 
+        headers: {
             'Accept' : 'application/json',
             'Content-Type' : 'application/json',
-            'Authorization' : `Bearer ${token}`
+            'Authorization' : 'Bearer '+token 
         },
-        body: user
+        body: JSON.stringify(user)
     };
     console.log(requestOptions)
 

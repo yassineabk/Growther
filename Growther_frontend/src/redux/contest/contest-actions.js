@@ -226,6 +226,7 @@ export const PublishContest = async (dispatch, data)=>{
             "Authorization" : `Bearer ${token}`
         } 
     }
+    dispatch({type: ContestTypes.NEW_CONTEST_LOADING})
     if(validInfos && validActions){
         return axios.post(`http://localhost:5000/api/contests/create`, data.information ,config)
             .then(response =>{

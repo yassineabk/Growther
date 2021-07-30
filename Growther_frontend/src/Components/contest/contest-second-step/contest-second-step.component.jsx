@@ -27,9 +27,7 @@ export const ContestSecondStep = ()=>{
     }
     var Save = ()=>{
         PublishContest(dispatch, {information, actions: information.actions}).then(value =>{
-            console.log(value, "here")
             if(value){
-                console.log("heere")
                 history.push("/dashboard/My Contests/new/thirdStep")
             }
         })
