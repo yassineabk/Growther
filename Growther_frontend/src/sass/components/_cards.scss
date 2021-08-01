@@ -209,6 +209,14 @@
       .card-title{
         font-size: 18px;
         font-weight: 500;
+        .headButtons{
+          & > div{
+            margin: 0 0.125em !important;
+            img{
+              cursor: pointer;
+            }
+          }
+        }
       }
       .card-description{
         word-break: break-all;

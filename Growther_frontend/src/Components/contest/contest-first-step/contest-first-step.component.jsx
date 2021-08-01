@@ -81,7 +81,6 @@ export const ContestFirstStep = ()=>{
         var month = date.getMonth()+1 === 13 ? 1 : date.getMonth()+1
         month = ("0" + month).slice(-2)
         var year = date.getFullYear()
-        console.log(date)
         return year + "-" + month + "-" + day
     }
     var durationTypeHandler = (event) =>{

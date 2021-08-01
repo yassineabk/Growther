@@ -34,7 +34,14 @@ const INITIAL_STATE={
 const contestReducer=(state=INITIAL_STATE,action)=>{
     switch (action.type) {
         case ContestTypes.SET_INITIAL_STATE:{
-            return INITIAL_STATE
+            return {
+                ...INITIAL_STATE,
+                information:{
+                    ...INITIAL_STATE.information,
+                    startDate: action.payload.startDate,
+                    endDate: action.payload.endDate,
+                }
+            }
         }
         case ContestTypes.SET_NEW_CONTEST_STATE:
             return {

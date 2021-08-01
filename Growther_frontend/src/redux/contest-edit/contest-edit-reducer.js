@@ -1,16 +1,16 @@
 import { CONTEST_EDIT_TYPES } from "./contest-edit-types"
 const INITIAL_STATE={
     information:{
-        id: "",
+        idContest: "",
         title: "",
         description: "",
         endDate: "",
         duration: {},
         maxReach: 0,
         actions: [],
-        prizes: []
+        prizes: [],
+        user: {}
     },
-    selected: [],
     validData: {},
     isValidData: false,
     edited: false,
@@ -22,12 +22,12 @@ const EditReducer = (state = INITIAL_STATE, action)=>{
             return INITIAL_STATE
         case CONTEST_EDIT_TYPES.SET_STATE_TO_EDIT:
             return{
-                ...action.payload,
+                ...state,
+                information: {
+                    ...action.payload,
+                },
                 validData: {},
                 isValidData: false,
-                selected: Array.isArray(action.payload.actions) ? action.payload.actions.map(item =>{
-                    return {provider: item.provider, index: 0}
-                }) : [],
                 error: null
             }
         case CONTEST_EDIT_TYPES.EDIT_STATE:

@@ -50,7 +50,7 @@ const App = ()=> {
         <Route exact path='/dashboard/My Contests' render={()=>
           (currentUser) ? (<Dashboard child={<DashboardContestPage/>} />) : (<Redirect to="/" />)
         }/>
-        <Route exact path='/dashboard/My Contests/:id/edit' render={()=> (
+        <Route exact path='/dashboard/My Contests/edit/:id' render={()=> (
             (currentUser) ? (<Dashboard child={<EditContest />} />):(<Redirect to='/'/>)
         )}/>
         <Route exact path='/dashboard/Templates' render={()=>(currentUser) ? (<Dashboard child={<DashboardTemplatesPage />} />):(<Redirect to='/'/>)}/>

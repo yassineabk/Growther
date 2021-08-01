@@ -7,7 +7,7 @@ import { ContestActions } from "../contest-actions/contest-actions.component"
 import { ContestButton } from "../contest-buttons/contest-buttons.component"
 export const ContestSecondStep = ()=>{
     var dispatch = useDispatch()
-    var {information, isValidData, isValidActions, validActions, savedInfos, savedPrizes, user} = useSelector(state => state.contest)
+    var {information, isValidData, validActions, isPublished} = useSelector(state => state.contest)
     var location = useLocation()
     var history = useHistory()
     /*useEffect(()=>{

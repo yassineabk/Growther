@@ -1,74 +1,13 @@
 import React, { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { useHistory, useLocation } from "react-router-dom"
-import { CheckEdits, EditDuration, EditState, SetStateToEdit } from "../../../redux/contest-edit/contest-edit-actions"
+import { Redirect, useHistory, useLocation, useParams } from "react-router-dom"
+import { CheckEdits, Edit, EditDuration, EditState, SetStateToEdit, SetStateToEditFromLocation } from "../../../redux/contest-edit/contest-edit-actions"
 import { ContestButton } from "../contest-buttons/contest-buttons.component"
 import { ContestDescription } from "../contest-description-input/contest-description-input.component"
 import { ContestInput } from "../contest-input/contest-input.component"
-import { PrizesInputs } from "../prizes-inputs/prizes-inputs.component"
 import { SelectInput } from "../select-input/select-input.component"
-export const EditContestFirstStep = ()=>{
+export const EditContestFirstStep = ({information, isValidData, validData, userId})=>{
     var dispatch = useDispatch()
-    var location = useLocation()
-    var {information, actions, isValidData, validData} = useSelector(state => state.contest_edit)
-    useEffect(()=>{
-        var data = {
-            "information": {
-                "title": "Yassine Hijazi",
-                "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure do",
-                "winnersNbr": 1,
-                "startDate": "2021-07-27",
-                "endDate": "2021-08-13",
-                "duration": {
-                    "value": 17,
-                    "type": "days"
-                },
-                "maxReach": 8,
-                "actions": [
-                    {
-                        "provider": "Youtube",
-                        "type": "View",
-                        "url": "https://www.youtube.com/id5",
-                        "points": 3,
-                        "listOfActions": [
-                            "View",
-                            "Like",
-                            "Subscribe"
-                        ]
-                    },
-                    {
-                        "provider": "Youtube",
-                        "type": "View",
-                        "url": "https://www.youtube.com/id6",
-                        "points": 1,
-                        "listOfActions": [
-                            "View",
-                            "Like",
-                            "Subscribe"
-                        ]
-                    },
-                    {
-                        "provider": "Youtube",
-                        "type": "View",
-                        "url": "https://www.youtube.com/id8",
-                        "points": 5,
-                        "listOfActions": [
-                            "View",
-                            "Like",
-                            "Subscribe"
-                        ]
-                    }
-                ],
-                "prizes": [
-                    {
-                        id: 1,
-                        description: "PS5"
-                    }
-                ]
-            },
-        }
-        SetStateToEdit(dispatch, data)
-    }, [dispatch])
     var changeHandler = (event)=>{
         var id = event.target.id
         var result = information
@@ -81,13 +20,14 @@ export const EditContestFirstStep = ()=>{
     var dateHandler = (event)=>{
         if(event !== undefined){
             changeHandler(event)
-            EditDuration()
+            durationHandler()
+            //EditDuration(dispatch, information.duration.type, event.target.value, information.startDate.split("T")[0], information.endDate.split("T")[0]^!mlp845)
         }
     }
     var durationHandler = (event)=>{
         if(event === undefined){
-            var startDate = information.startDate
-            var endDate = information.endDate
+            var startDate = information.startDate.split("T")[0]
+            var endDate = information.endDate.split("T")[0]
             var date1 = new Date(startDate)
             var date2 = new Date(endDate)
             var diff = Math.abs(date1 - date2)
@@ -102,8 +42,8 @@ export const EditContestFirstStep = ()=>{
             }
             EditDuration(dispatch, "days", diffDays, information.startDate, information.endDate)
         }else{
-            var startDate = dateConvert(information.startDate)
-            var endDate = addDaystoDate(startDate, parseInt(event.target.value), information.duration.type)
+            var startDate = dateConvert(information.startDate.split("T")[0])
+            var endDate = addDaystoDate(startDate, information.endDate.split("T")[0], parseInt(event.target.value), information.duration.type)
             EditDuration(dispatch, information.duration.type, parseInt(event.target.value), startDate, endDate)
         }
         
@@ -121,7 +61,7 @@ export const EditContestFirstStep = ()=>{
         year = date.getFullYear()
         return year + "-" + month + "-" + day
     }
-    var addDaystoDate = (date, days, type)=>{
+    var addDaystoDate = (date, date2, days, type)=>{
         if(type === "months"){
             days = 30*days
         }
@@ -129,17 +69,25 @@ export const EditContestFirstStep = ()=>{
             days = 7*days
         }
         date = new Date(new Date().setDate(new Date(date).getDate() + days))
+        date2 = new Date(new Date().setDate(new Date(date2).getDate() + days))
         var day = ("0" + date.getDate()).slice(-2)
-        var month = date.getMonth()+1 === 13 ? 1 : date.getMonth()+1
+        var month = date.getMonth() + 1 === 13 ? 1 : date.getMonth() + 1
         month = ("0" + month).slice(-2)
         var year = date.getFullYear()
         return year + "-" + month + "-" + day
     }
     var durationTypeHandler = (event) =>{
-        var startDate = dateConvert(information.startDate)
-        var endDate = addDaystoDate(startDate, information.duration.value, event.target.value)
+        var startDate = dateConvert(information.startDate.split("T")[0])
+        var endDate = addDaystoDate(startDate, information.endDate.split("T")[0], information.duration.value, event.target.value)
         EditDuration(dispatch, event.target.value, information.duration.value, startDate, endDate)
     }
+    var checkEdits = ()=>{
+        var validEdits = CheckEdits(dispatch, information)
+        if(validEdits){
+            Edit(dispatch, information, information.idContest, userId)
+        }
+    }
+    if(typeof(information) !== "object") return <Redirect to={"/dashboard"} />
     return(
         <div className="is-flex is-flex-direction-column newContestFrom">
             <div className="mainInfos is-flex">
@@ -179,7 +127,7 @@ export const EditContestFirstStep = ()=>{
                         placeholder="dd-mm-yyyy"
                         label="End date"
                         changeHandler={(event)=> dateHandler(event)}
-                        value={information ? information.endDate : ""}
+                        value={typeof(information.endDate) === "string" ? information.endDate.split("T")[0] : ""}
                         validData={isValidData === false ? 
                             {
                                 isValid: validData.endDate,
@@ -227,7 +175,7 @@ export const EditContestFirstStep = ()=>{
                     bgColor={"#5E2691"} 
                     borderColor={"#5E2691"}
                     text={"Edit"} 
-                    clickEvent={()=> CheckEdits(dispatch, information)}
+                    clickEvent={()=> checkEdits()}
                 />
             </div>
         </div>
