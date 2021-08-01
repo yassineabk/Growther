@@ -1,11 +1,20 @@
-import React from "react"
+import { decode } from "jsonwebtoken"
+import React, { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import { EmptyList } from "../../contest/empty-list/empty-list.component"
 import { Spinner } from "../../spinner/spinner.component"
 import { CardTitle } from "../card-title/card-title.component"
 import { CardComponent } from "../card/card.component"
 export const CardsContainer = ({data, title, showMore, addNew})=>{
-    var {isLoading} = useSelector(state => state.get_contests)
+    var { isLoading } = useSelector(state => state.get_contests)
+    var [userId, setId] = useState("")
+    useEffect(()=>{
+        var token = decode(localStorage.getItem("accessToken"))
+        if(typeof(token) === "object"){
+            var sub = token.sub
+            setId(sub)
+        }
+    })
     return(
         <div className="is-flex is-flex-direction-column list-container">
             <Spinner show={isLoading} />
@@ -24,6 +33,7 @@ export const CardsContainer = ({data, title, showMore, addNew})=>{
                             dateType={typeof(element.duration) === "object" && element.duration !== null ? element.duration.type : "days"}
                             entries={element.entries}
                             id={element.idContest ? element.idContest : undefined}
+                            userId={userId}
                             key={element.idContest ? `card${element.idContest}` : `card${index}`}
                         />                    
                     )

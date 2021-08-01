@@ -10,7 +10,7 @@ export const Contest = ({currentUser})=>{
     var params = useParams()
     var location = useLocation()
     var [userId, setId] = useState("")
-    var {information, actions, selected, isLoading} = useSelector(state => state.contest_card)
+    var {information, actions, selected, isLoading, error} = useSelector(state => state.contest_card)
     useEffect(()=>{
         var token = localStorage.getItem("accessToken")
         token = decode(token)
@@ -51,7 +51,7 @@ export const Contest = ({currentUser})=>{
     return(
         <div className="is-flex is-flex-direction-column contest is-justify-content-center is-align-items-center">
             <Spinner show={isLoading} />
-            {typeof(information) === "object" && !isLoading && typeof(information.user === "object") ? <PreviewCard
+            {typeof(information) === "object" && !error && !isLoading && typeof(information.user) === "object" ? <PreviewCard
                 element={information}
                 title={information.title}
                 id={information.idContest}
@@ -63,7 +63,8 @@ export const Contest = ({currentUser})=>{
                 previewActions={selected}
                 changeHandler={(event, provider)=> changeHandler(event, provider)}
                 buttons={typeof(information.user) === "object" && information.user.isBrand === "true" ? userId.toString() === information.user.id.toString() : false}
-                hasStarted={hasStarted(information.startDate.split("T")[0])}
+                hasStarted={typeof(information.startDate) === "string" ? hasStarted(information.startDate.split("T")[0]) : false}
+                user_id={typeof(information.user) === "object" ? information.user.id.toString() : ""}
             /> : null}
         </div>
     )

@@ -1,6 +1,6 @@
 import React from "react"
 import { PreviewCard } from "../preview-card/preview-card.component"
-export const PreviewContainer = ({information, actions, previewActions, changeHandler})=>{
+export const PreviewContainer = ({information, actions, previewActions, changeHandler, isPreview})=>{
     var TimeLeft = (d)=>{
         var currentDate = new Date()
         var currentDay = ("0"+currentDate.getDate()).slice(-2)
@@ -33,6 +33,7 @@ export const PreviewContainer = ({information, actions, previewActions, changeHa
                 prizes={information.prizes}
                 previewActions={previewActions}
                 changeHandler={(event, provider) => changeHandler(event, provider)}
+                isPreview={isPreview}
             />
         </div>
     )

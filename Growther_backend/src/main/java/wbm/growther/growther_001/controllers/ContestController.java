@@ -103,7 +103,7 @@ public class ContestController {
 
         // if the contest does not exist, throw an exception
         if(contestDto==null) throw new ResourceNotFoundException("No Contest exist with  ID : "+contestId.toString());
-
+        System.out.println(contestId.toString());
         //update informations
 
         contestDto.setTitle(contestDetails.getTitle());
@@ -112,7 +112,7 @@ public class ContestController {
         contestDto.setActionsNbr(contestDetails.getActionsNbr());
         contestDto.setWinnersNbr(contestDetails.getWinnersNbr());
         contestDto.setMaxReach(contestDetails.getMaxReach());
-        contestDto.setPrizes(contestDetails.getPrizes());
+        //contestDto.setPrizes(contestDetails.getPrizes());
         contestDto.setDuration(contestDetails.getDuration());
 
         ContestDto contestDtoUpdated=contestService.updateContestInfos(contestDetails);

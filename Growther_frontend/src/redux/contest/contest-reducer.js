@@ -108,6 +108,11 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
                 error: null
             }
         case ContestTypes.SET_DURATION:
+            if(action.payload.value < 0){
+                return {
+                    ...state
+                }
+            }
             return {
                 ...state,
                 information:{

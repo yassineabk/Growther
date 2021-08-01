@@ -1,35 +1,57 @@
-import React from "react"
+import { decode } from "jsonwebtoken"
+import React, { useEffect, useState } from "react"
 import { Redirect, useHistory } from "react-router-dom"
 import { PreviewActionsList } from "../preview-actions-list/preview-actions-list.component"
 import { PreviewPrizesList } from "../preview-prizes-list/preview-prizes-list.component"
-export const PreviewCard = ({title, description, timeLeft, dateType, views, entries, actions, previewActions, changeHandler, prizes, buttons, hasStarted, id, element})=>{
+export const PreviewCard = ({title, description, timeLeft, dateType, views, points, entries, actions, previewActions, changeHandler, prizes, buttons, hasStarted, id, element, isPreview, user_id})=>{
     var history = useHistory()
     var hoverCard = (event)=>{
         document.getElementById("card").classList.toggle("backface")
     }
     var editContest = (event)=>{
         if(buttons && id !== undefined){
-            history.push(`/dashboard/My contests/edit/${id}`, element)
+            history.push(`/dashboard/My Contests/edit/${id}`, element)
         }
     }
-    if(hasStarted || buttons){
+    var [userId, setId] = useState(true)
+    useEffect(()=>{
+        if(!buttons && !isPreview){
+            var token = decode(localStorage.getItem("accessToken"))
+            if(typeof(token) === "object"){
+                var sub = token.sub
+                if(sub.toString() === user_id){
+                    setId(true)
+                }else{
+                    setId(false)
+                }
+                
+            }
+        }
+    })
+    if(hasStarted || buttons || isPreview || userId){
         return(
             <div id="card" className="is-flex previewCard">
                 <div className="left-side is-flex is-flex-direction-column">
                     <div className="card-views is-flex is-flex-direction-column">
-                        <span className="little-title">
+                        {userId ? [<span className="little-title">
                             Total views
-                        </span>
+                        </span>, 
                         <span>
-                            {views ? views : ""}
-                        </span>
+                            {views ? views : "0"}
+                        </span>]
+                        : [<span className="little-title">
+                            Your Points
+                        </span>,
+                        <span >
+                            {points ? points : "0"}
+                        </span> ]}
                     </div>
                     <div className="card-entries is-flex is-flex-direction-column">
                         <span className="little-title">
                             Total entries
                         </span>
                         <span>
-                            {entries ? entries : ""}
+                            {entries ? entries : "0"}
                         </span>
                     </div>
                     <div className="card-date is-flex is-flex-direction-column">
@@ -74,6 +96,6 @@ export const PreviewCard = ({title, description, timeLeft, dateType, views, entr
             </div>
         )
     }else{
-        return <Redirect to="/landing-page"/>
+        return <Redirect to="/dashboard"/>
     }
 }

@@ -53,6 +53,7 @@ export const NewContest = ({child})=>{
                     <PreviewContainer 
                         previewActions={previewActions} 
                         information={information} 
+                        isPreview={true}
                         actions={information.actions} 
                         changeHandler={(event, provider) => previewChangeHandler(event, provider)} />
                     {child}

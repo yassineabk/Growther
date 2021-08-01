@@ -97,7 +97,14 @@ export const Edit = async (dispatch, information, id, userId)=>{
         } 
     }
     if(typeof(information) === "object" && information.user.id.toString() === userId.toString()){
-        return axios.put(`http://localhost:5000/api/contests/update/${id}`, information, config)
+        var Data = {}
+        Object.keys(information).map(key => {
+            if(key !== "actions"){
+                Data[key] = information[key] 
+            }
+        })
+        dispatch({type: CONTEST_EDIT_TYPES.EDIT_LOADING})
+        return axios.put(`http://localhost:5000/api/contests/update/${id}`, Data, config)
         .then(response =>{
             dispatch({type: CONTEST_EDIT_TYPES.EDIT_SUCCESS})
             return true

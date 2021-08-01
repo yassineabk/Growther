@@ -14,75 +14,35 @@ import { EditSelectedAction, SetStateToEdit, SetStateToEditFromLocation } from "
 import { EditContestFirstStep } from "../edit-contest-first-step/edit-contest-first-step.component"
 import { NewContestTabs } from "../new-contest-tabs/new-contest-tabs.component"
 import { PreviewContainer } from "../preview-container/preview-container.component"
-export const EditContest = ()=>{
-    var dispatch = useDispatch()
-    var location = useLocation()
+export const EditContest = ({child})=>{
     var params = useParams()
-    var history = useHistory()
-    var [userId, setId] = useState("")
-    var { information, actions, isValidData, validData } = useSelector(state => state.contest_edit)
-    useEffect(()=>{
-        var id = decode(localStorage.getItem("accessToken")).sub
-        setId(id)
-        if(typeof(location.state) === "object"){
-            SetStateToEditFromLocation(dispatch, location.state, id).then(value =>{
-                if(!value){
-                    history.push("/landing-page")
-                }
-            })
-        }else{
-            SetStateToEdit(dispatch, params.id, id).then(value=>{
-                if(!value){
-                    history.push("/landing-page")
-                }
-            })
-        }
-    }, [dispatch])
+    var dispatch = useDispatch()
     var previewChangeHandler = (event, provider)=>{
         var index = parseInt(event.target.selectedIndex)
         EditSelectedAction(dispatch, provider, index)
     }
+    var { information, actions, isValidData, validData, isLoading } = useSelector(state => state.contest_edit)
     if(typeof(information) !== "object") return null
     return(
         <div className="column is-full is-flex is-flex-direction-column list-container newContest is-size-6 mb-4">
             <NewContestTabs 
                 tabs={[
                     {
-                        location: "/contest/id/edit", 
+                        location: `/dashboard/My Contests/edit/${params.id}`, 
                         text: "Edit Contest",
                     },
                     {
-                        location: "/contest/id/result", 
+                        location: `/dashboard/My Contests/result/${params.id}`, 
                         text: "Contest Result"
                     },
                     {
-                        location: "/contest/id/winners", 
+                        location: `/dashboard/My Contests/winners/${params.id}`, 
                         text: "Contest Winners"
                     }
                 ]}
             />
             <div className="is-flex bottomContainer">
-                <PreviewContainer 
-                    information={information} 
-                    actions={information.actions} 
-                    changeHandler={(event, provider) => previewChangeHandler(event, provider)} 
-                />
-                <Router>
-                    <Switch>
-                        <EditContestFirstStep 
-                            information={information}
-                            validData={validData}
-                            isValidData={isValidData}
-                            userId={userId}
-                        />
-                        {/*<Route path={"/dashboard/My Contests/new/secondStep"}>
-                            <ContestSecondStep />
-                        </Route>
-                        <Route path={"/dashboard/My Contests/new/thirdStep"}>
-                            <ContestThirdStep />
-                        </Route>*/}
-                    </Switch>
-                </Router>
+                {child}
             </div>
         </div>
     )

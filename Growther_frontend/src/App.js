@@ -21,6 +21,8 @@ import { DashboardContestPage } from './Components/contest/contests-page/contest
 import { DashboardHomePage } from './Components/dashboard/home-page/home-page.component';
 import { Page404 } from './pages/404-page/404.page';
 import { Spinner } from './Components/spinner/spinner.component';
+import { EditContestFirstStep } from './Components/contest/edit-contest-first-step/edit-contest-first-step.component';
+import { EditContestSecondStep } from './Components/contest/edit-contest-second-step/edit-contest-second-step.component';
 
 const App = ()=> {
   var { currentUser } = useSelector(state => state.login)
@@ -51,7 +53,10 @@ const App = ()=> {
           (currentUser) ? (<Dashboard child={<DashboardContestPage/>} />) : (<Redirect to="/" />)
         }/>
         <Route exact path='/dashboard/My Contests/edit/:id' render={()=> (
-            (currentUser) ? (<Dashboard child={<EditContest />} />):(<Redirect to='/'/>)
+            (currentUser) ? (<Dashboard child={<EditContest child={<EditContestFirstStep />} />} />):(<Redirect to='/'/>)
+        )}/>
+        <Route exact path='/dashboard/My Contests/result/:id' render={()=> (
+            (currentUser) ? (<Dashboard child={<EditContest child={<EditContestSecondStep data={[]} />} />} />):(<Redirect to='/'/>)
         )}/>
         <Route exact path='/dashboard/Templates' render={()=>(currentUser) ? (<Dashboard child={<DashboardTemplatesPage />} />):(<Redirect to='/'/>)}/>
         <Route exact path='/dashboard' render={()=> (currentUser) ? (<Dashboard child={
