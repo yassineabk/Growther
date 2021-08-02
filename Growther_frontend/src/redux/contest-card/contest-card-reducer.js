@@ -23,7 +23,8 @@ const ContestCard = (state = INITIAL_STATE, action)=>{
         case Contest_Card_Types.CONTEST_CARD_LOADING:
             return {
                 ...state,
-                isLoading: true
+                isLoading: true,
+                error: false,
             }
         default:
             return state

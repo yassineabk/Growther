@@ -7,7 +7,7 @@ import {
     useHistory, 
 } 
 from "react-router-dom"
-import { PreviewSelectedAction } from "../../../redux/contest/contest-actions"
+import { InitState, PreviewSelectedAction } from "../../../redux/contest/contest-actions"
 import { Spinner } from "../../spinner/spinner.component"
 import { ContestFirstStep } from "../contest-first-step/contest-first-step.component"
 import { ContestSecondStep } from "../contest-second-step/contest-second-step.component"
@@ -15,13 +15,16 @@ import { ContestThirdStep } from "../contest-third-step/contest-third-step.compo
 import { NewContestTabs } from "../new-contest-tabs/new-contest-tabs.component"
 import { PreviewContainer } from "../preview-container/preview-container.component"
 export const NewContest = ({child})=>{
-    var { information, activePage, actions, previewActions, isLoading } = useSelector(state => state.contest)
+    var { information, activePage, actions, previewActions, isLoading, isPublished } = useSelector(state => state.contest)
     var dispatch = useDispatch()
     var history = useHistory()
     var previewChangeHandler = (event, provider)=>{
         var index = parseInt(event.target.selectedIndex)
         PreviewSelectedAction(dispatch, provider, index)
     }
+    useEffect(()=>{
+        InitState(dispatch)   
+    }, [dispatch])
     return(
         [            
             <Spinner show={isLoading} />,
@@ -44,11 +47,13 @@ export const NewContest = ({child})=>{
                             text: "Publish Contest"
                         }
                     ]}
+                    goBack={isPublished}
                 />
                 <div className="is-flex bottomContainer">
                     <PreviewContainer 
                         previewActions={previewActions} 
                         information={information} 
+                        isPreview={true}
                         actions={information.actions} 
                         changeHandler={(event, provider) => previewChangeHandler(event, provider)} />
                     {child}

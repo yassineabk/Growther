@@ -1,7 +1,14 @@
 import { ContestTypes } from "./contest-types";
 import axios from "axios"
 export const InitState = (dispatch)=>{
-    dispatch({type: ContestTypes.SET_INITIAL_STATE})
+    var date =  new Date()
+    var days = ("0" + parseInt(new Date(date.setDate(date.getDate() + 1)).getDate())).slice(-2)
+    var days2 = ("0" + parseInt(new Date(date.setDate(parseInt(days) + 1)).getDate())).slice(-2)
+    var months = ("0" + parseInt(date.getMonth() === 13 + 1 ? 1 : date.getMonth() + 1))
+    var year = date.getFullYear()
+    var startDate = year + "-" + months + "-" + days
+    var endDate = year + "-" + months + "-" + days2
+    dispatch({type: ContestTypes.SET_INITIAL_STATE, payload: {startDate, endDate}})
 }
 export const StateChange = (dispatch, data)=>{
     dispatch({type: ContestTypes.SET_NEW_CONTEST_STATE, payload: data})

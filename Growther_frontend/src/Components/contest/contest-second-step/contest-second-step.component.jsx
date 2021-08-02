@@ -7,7 +7,7 @@ import { ContestActions } from "../contest-actions/contest-actions.component"
 import { ContestButton } from "../contest-buttons/contest-buttons.component"
 export const ContestSecondStep = ()=>{
     var dispatch = useDispatch()
-    var {information, isValidData, isValidActions, validActions, savedInfos, savedPrizes, user} = useSelector(state => state.contest)
+    var {information, isValidData, validActions, isPublished, isLoading} = useSelector(state => state.contest)
     var location = useLocation()
     var history = useHistory()
     /*useEffect(()=>{
@@ -26,6 +26,7 @@ export const ContestSecondStep = ()=>{
         RemoveAction(dispatch, provider, index)
     }
     var Save = ()=>{
+        if(isLoading) return false
         PublishContest(dispatch, {information, actions: information.actions}).then(value =>{
             if(value){
                 history.push("/dashboard/My Contests/new/thirdStep")

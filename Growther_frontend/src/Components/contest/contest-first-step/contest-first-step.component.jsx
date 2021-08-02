@@ -28,8 +28,31 @@ export const ContestFirstStep = ()=>{
     }
     var dateHandler = (event)=>{
         if(event !== undefined){
-            changeHandler(event)
-            durationHandler()
+            var id = event.target.id
+            var currentDate = new Date()
+            var currentDay = ("0"+currentDate.getDate()).slice(-2)
+            var currentMonth = ("0"+parseInt(currentDate.getMonth()+1 === 13 ? 1 : currentDate.getMonth()+1)).slice(-2)
+            var currentYear = currentDate.getFullYear()
+            currentDate = currentYear + "-" + currentMonth + "-" + currentDay
+            if(id === "startDate"){
+                var date = Math.ceil((new Date(event.target.value) - new Date(currentDate))/(100*60*60*24))
+                var date2 = Math.ceil((new Date(information.endDate) - new Date(event.target.value))/(100*60*60*24))
+                console.log(date)
+                if(date > 0 && date2 > 0){
+                    changeHandler(event)
+                    return durationHandler()
+                }
+            }
+            if(id === "endDate"){
+                var date = Math.ceil((new Date(event.target.value) - new Date(information.startDate))/(100*60*60*24))
+                var date2 = Math.ceil((new Date(event.target.value) - new Date(currentDate))/(100*60*60*24))
+                console.log(date, date2)
+                if(date > 0 && date2 > 0){
+                    changeHandler(event)
+                    return durationHandler()
+                }
+            }
+            
         }
     }
     var durationHandler = (event)=>{
@@ -81,7 +104,6 @@ export const ContestFirstStep = ()=>{
         var month = date.getMonth()+1 === 13 ? 1 : date.getMonth()+1
         month = ("0" + month).slice(-2)
         var year = date.getFullYear()
-        console.log(date)
         return year + "-" + month + "-" + day
     }
     var durationTypeHandler = (event) =>{
@@ -108,7 +130,6 @@ export const ContestFirstStep = ()=>{
     }
     var nextStep = ()=>{
         var isValid = NextStep(dispatch, information)
-        console.log(isValid)
         if(isValid){
             history.push("/dashboard/My Contests/new/secondStep")
 

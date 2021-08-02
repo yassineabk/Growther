@@ -1,8 +1,13 @@
 import React from "react"
 import { PreviewCard } from "../preview-card/preview-card.component"
-export const PreviewContainer = ({information, actions, previewActions, changeHandler})=>{
+export const PreviewContainer = ({information, actions, previewActions, changeHandler, isPreview})=>{
     var TimeLeft = (d)=>{
         var currentDate = new Date()
+        var currentDay = ("0"+currentDate.getDate()).slice(-2)
+        var currentMonth = ("0"+parseInt(currentDate.getMonth()+ 1 === 13 ? 1 : currentDate.getMonth() + 1)).slice(-2)
+        var currentYear = currentDate.getFullYear()
+        var current_date = currentYear + "-" + currentMonth + "-" + currentDay
+        currentDate = new Date(current_date)
         var daysDiff = Math.ceil(Math.abs(currentDate - new Date(d))/(1000*60*60*24))
         var weeksDiff = Math.ceil(Math.abs(currentDate - new Date(d))/(1000*60*60*24*7))
         var monthsDiff = Math.ceil(Math.abs(currentDate - new Date(d))/(1000*60*60*24*30))
@@ -22,12 +27,13 @@ export const PreviewContainer = ({information, actions, previewActions, changeHa
             <PreviewCard
                 title={information.title}
                 description={information.description}
-                timeLeft={information.endDate ? TimeLeft(information.endDate).date : ""}
-                dateType={TimeLeft(information.endDate).type}
+                timeLeft={information.endDate ? TimeLeft(information.endDate.split("T")[0]).date : ""}
+                dateType={TimeLeft(information.endDate.split("T")[0]).type}
                 actions={actions}
                 prizes={information.prizes}
                 previewActions={previewActions}
                 changeHandler={(event, provider) => changeHandler(event, provider)}
+                isPreview={isPreview}
             />
         </div>
     )

@@ -1,73 +1,39 @@
 import { CONTEST_EDIT_TYPES } from "./contest-edit-types";
 import axios from "axios"
-var data = {
-    "information": {
-        "id": "ID",
-        "title": "Yassine Hijazi",
-        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure do",
-        "winnersNbr": 1,
-        "startDate": "2021-07-27",
-        "endDate": "2021-08-13",
-        "duration": {
-            "value": 17,
-            "type": "days"
-        },
-        "maxReach": 8,
-        "actions": [
-            {
-                "provider": "Youtube",
-                "type": "View",
-                "url": "https://www.youtube.com/id5",
-                "points": 3,
-                "listOfActions": [
-                    "View",
-                    "Like",
-                    "Subscribe"
-                ]
-            },
-            {
-                "provider": "Youtube",
-                "type": "View",
-                "url": "https://www.youtube.com/id6",
-                "points": 1,
-                "listOfActions": [
-                    "View",
-                    "Like",
-                    "Subscribe"
-                ]
-            },
-            {
-                "provider": "Youtube",
-                "type": "View",
-                "url": "https://www.youtube.com/id8",
-                "points": 5,
-                "listOfActions": [
-                    "View",
-                    "Like",
-                    "Subscribe"
-                ]
-            }
-        ],
-        "prizes": [
-            {
-                id: 1,
-                description: "PS5"
-            }
-        ]
-    },
-}
 export const SetInitialState = (dispatch)=>{
     dispatch({type: CONTEST_EDIT_TYPES.INIT_EDIT_STATE})
 }
-export const SetStateToEdit = (dispatch, id)=>{
-    axios.get(`/api/contests/update/${id}`).then(response =>{
-        dispatch({type: CONTEST_EDIT_TYPES.SET_STATE_TO_EDIT, payload: response})
+export const SetStateToEdit = async (dispatch, id, userId)=>{
+    console.log(userId, id)
+    var token = localStorage.getItem("accessToken")
+    var config = {
+        headers: {
+            "Content-Type" : "application/json",
+            "Authorization" : `Bearer ${token}`
+        } 
+    }
+    return axios.get(`http://localhost:5000/api/contests/${id}`, config).then(response =>{
+        if(typeof(response.data.user) === "object" && response.data.user.id.toString() === userId.toString()){
+            dispatch({type: CONTEST_EDIT_TYPES.SET_STATE_TO_EDIT, payload: response.data})
+            return true
+        }else{
+            dispatch({type: CONTEST_EDIT_TYPES.EDIT_FAIL})
+            return false
+        }
     }).catch(err=>{
-        dispatch({type: CONTEST_EDIT_TYPES.SET_STATE_TO_EDIT, payload: data})
         dispatch({type: CONTEST_EDIT_TYPES.EDIT_FAIL})
+        return false
     })
 }
-export const EditState = (dispatch, information) =>{
+export const SetStateToEditFromLocation = async (dispatch, data, userId)=>{
+    if(data.user.id.toString() === userId.toString()){
+        dispatch({type: CONTEST_EDIT_TYPES.SET_STATE_TO_EDIT, payload: data})
+        return true
+    }
+    dispatch({type: CONTEST_EDIT_TYPES.EDIT_FAIL})
+    return false
+}
+export const EditState = (dispatch, information, id) =>{
     dispatch({type: CONTEST_EDIT_TYPES.EDIT_STATE, payload: information})
 }
 export const EditDuration = (dispatch, type, value, startDate, endDate) =>{
@@ -122,10 +88,31 @@ export const CheckEdits = (dispatch, information) =>{
     }
     return false
 }
-export const Edit = (dispatch, id)=>{
-    axios.put(`/api/contests/update/${id}`).then(response =>{
-        dispatch({type: CONTEST_EDIT_TYPES.EDIT_SUCCESS})
-    }).catch(err =>{
-        dispatch({type: CONTEST_EDIT_TYPES.EDIT_FAIL})
-    })
+export const Edit = async (dispatch, information, id, userId)=>{
+    var token = localStorage.getItem("accessToken")
+    var config = {
+        headers: {
+            "Content-Type" : "application/json",
+            "Authorization" : `Bearer ${token}`
+        } 
+    }
+    if(typeof(information) === "object" && information.user.id.toString() === userId.toString()){
+        var Data = {}
+        Object.keys(information).map(key => {
+            if(key !== "actions"){
+                Data[key] = information[key] 
+            }
+        })
+        dispatch({type: CONTEST_EDIT_TYPES.EDIT_LOADING})
+        return axios.put(`http://localhost:5000/api/contests/update/${id}`, Data, config)
+        .then(response =>{
+            dispatch({type: CONTEST_EDIT_TYPES.EDIT_SUCCESS})
+            return true
+        }).catch(err =>{
+            dispatch({type: CONTEST_EDIT_TYPES.EDIT_FAIL})
+            return false
+        })
+    }
+    dispatch({type: CONTEST_EDIT_TYPES.EDIT_FAIL})
+    return false
 }
