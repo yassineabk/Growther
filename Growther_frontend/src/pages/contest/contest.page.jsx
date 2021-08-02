@@ -44,8 +44,22 @@ export const Contest = ({currentUser})=>{
     }
     var hasStarted = (d)=>{
         var currentDate = new Date()
-        var daysDiff = Math.ceil(Math.abs(currentDate - new Date(d))/(1000*60*60*24))
-        if(daysDiff === 0) return true
+        var currentDay = ("0" + currentDate.getDate()).slice(-2)
+        var currentMonth = ("0"+ parseInt(currentDate.getMonth()+1 === 13 ? 1 : currentDate.getMonth()+1)).slice(-2)
+        var currentYear = currentDate.getFullYear()
+        var date = currentYear + "-" + currentMonth + "-" + currentDay
+        var daysDiff = Math.ceil((new Date(date) - new Date(d))/(1000*60*60*24))
+        if(daysDiff >= 0) return true
+        return false
+    }
+    var hasEnded = (d)=>{
+        var currentDate = new Date()
+        var currentDay = ("0" + currentDate.getDate()).slice(-2)
+        var currentMonth = ("0"+ parseInt(currentDate.getMonth()+1 === 13 ? 1 : currentDate.getMonth()+1)).slice(-2)
+        var currentYear = currentDate.getFullYear()
+        var date = currentYear + "-" + currentMonth + "-" + currentDay
+        var daysDiff = Math.ceil((new Date(date) - new Date(d))/(1000*60*60*24))
+        if(daysDiff < 0) return true
         return false
     }
     return(
@@ -64,6 +78,7 @@ export const Contest = ({currentUser})=>{
                 changeHandler={(event, provider)=> changeHandler(event, provider)}
                 buttons={typeof(information.user) === "object" && information.user.isBrand === "true" ? userId.toString() === information.user.id.toString() : false}
                 hasStarted={typeof(information.startDate) === "string" ? hasStarted(information.startDate.split("T")[0]) : false}
+                hasEnded={typeof(information.endDate) === "string" ? hasEnded(information.endDate.split("T")[0]) : true}
                 user_id={typeof(information.user) === "object" ? information.user.id.toString() : ""}
             /> : null}
         </div>

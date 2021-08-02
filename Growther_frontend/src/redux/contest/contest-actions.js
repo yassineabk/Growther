@@ -130,7 +130,7 @@ export const SaveContestPrizes = async (dispatch, prizes, isValidData, id)=>{
         } 
     }
     if(isValidData){
-        return axios.post(`http://localhost:5000/api/contests/${id}/prizes`, prizes, config)
+        return axios.post(`https://staging-backendapp.herokuapp.com/api/contests/${id}/prizes`, prizes, config)
             .then(response =>{
                 dispatch({type: ContestTypes.PRIZES_STEP_SAVED})
                 return true
@@ -158,7 +158,7 @@ export const SaveContestFirstStep = async (dispatch, information, isValidData)=>
                 Data[key] = information[key]
             }
         })
-        return axios.post("http://localhost:5000/api/contests/create", Data, config)
+        return axios.post("https://staging-backendapp.herokuapp.com/api/contests/create", Data, config)
             .then(response =>{
                 dispatch({type: ContestTypes.SET_NEW_CONTEST_USER, payload: response.data})
                 return response.data
@@ -235,7 +235,7 @@ export const PublishContest = async (dispatch, data)=>{
     }
     dispatch({type: ContestTypes.NEW_CONTEST_LOADING})
     if(validInfos && validActions){
-        return axios.post(`http://localhost:5000/api/contests/create`, data.information ,config)
+        return axios.post(`https://staging-backendapp.herokuapp.com/api/contests/create`, data.information ,config)
             .then(response =>{
                 dispatch({type: ContestTypes.PUBLISH_SUCCESS, payload: `http://localhost:3000/contest/${data.information.title}/${data.information.description}/${response.data}`})
                 return true
