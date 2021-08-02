@@ -3,10 +3,10 @@ import { useSelector } from "react-redux"
 import { useLocation } from "react-router"
 import { Redirect } from "react-router-dom"
 export const ContestThirdStep = () =>{
-    var {isValidData, isValidActions, isPublished} = useSelector(state => state.contest)
+    var {isValidData, isValidActions, isPublished, contestLink} = useSelector(state => state.contest)
     var location = useLocation()
     var copyClipoard = ()=>{
-        navigator.clipboard.writeText("https://www.did.com/contestId")
+        navigator.clipboard.writeText(contestLink)
         document.getElementById("contestLink").classList.add("copied")
         setTimeout(()=>{
             document.getElementById("contestLink").classList.remove("copied")
@@ -19,7 +19,7 @@ export const ContestThirdStep = () =>{
         <div className="savedContest is-flex is-flex-direction-column is-justify-content-center is-align-items-center">
             <div className="bigText">Congaturlations</div>
             <div className="subText">Your contest is ready, you copy the link</div>
-            <div id="contestLink" onClick={()=> copyClipoard()} className="contestLink">https://www.did.com/contestId</div>
+            <div id="contestLink" onClick={()=> copyClipoard()} className="contestLink">{contestLink}</div>
             <div className="subText">Share via social media</div>
             <div className="is-flex is-flex-direction-row is-justify-content-center">
                 <div className="socialIcons is-flex is-justify-content-space-between is-align-items-center">

@@ -63,10 +63,11 @@ const test = [
     }
 ]
 export const DashboardGetData = (dispatch)=>{
-    axios.get("/api/contests/GetContests").then(response =>{
-        dispatch({type: DASHBOARD_TYPES.DASHBOARD_GET_DATA, payload: response})
+    axios.get("https://staging-backendapp.herokuapp.com/api/contests/GetContests").then(response =>{
+        console.log(response.data)
+        dispatch({type: DASHBOARD_TYPES.DASHBOARD_GET_DATA, payload: response.data})
     }).catch(err =>{
-        dispatch({type: DASHBOARD_TYPES.DASHBOARD_GET_DATA, payload: test})
+        console.log(err)
         dispatch({type: DASHBOARD_TYPES.DASHBOARD_GET_DATA_FAIL})
     })
 }

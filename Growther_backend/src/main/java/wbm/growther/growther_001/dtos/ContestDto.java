@@ -35,6 +35,25 @@ public class ContestDto {
         return title;
     }
 
+    @Override
+    public String toString() {
+        return "ContestDto{" +
+                "idContest=" + idContest +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", winnersNbr=" + winnersNbr +
+                ", actionsNbr=" + actionsNbr +
+                ", maxReach=" + maxReach +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", duration=" + duration +
+                ", actions=" + actions +
+                ", prizes=" + prizes +
+                ", user=" + user +
+                ", status='" + status + '\'' +
+                '}';
+    }
+
     public void setTitle(String title) {
         this.title = title;
     }

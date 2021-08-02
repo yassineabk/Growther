@@ -1,0 +1,41 @@
+.tableContainer{
+    //@extend .list-container;
+    width: 100%;
+    border-radius: 0 0 15px 15px;
+    padding: 10px 0;
+    .list-title-container{
+        padding: 15px 10px;
+    }
+    .table-container{
+        width: 100%;
+        display: flex;
+        .table{
+            flex: 1;
+            position: relative;
+            width: 100%;
+            border-radius: 0 0 15px 15px !important;
+            text-align: center;
+            .tbody{
+                display: flex;
+                flex-direction: column;
+                overflow-x: auto;
+                .tr{
+                    flex: 1;
+                    padding: 10px;
+                    font-size: 15px !important;
+                    border-bottom: 1px solid $border-color;
+                    font-family: Poppins-Medium;
+                    flex: 1;
+                    & > div{
+                        min-width: 150px;
+                        flex: 1;
+                    }
+                }
+                .tds{
+                    color: gray;
+                    font-family: Montserrat-Regular;
+                }
+            }
+        }
+    }
+}

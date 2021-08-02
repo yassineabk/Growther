@@ -122,6 +122,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         configuration.setAllowedOrigins(Arrays.asList("https://frontendgrowtherapp.herokuapp.com",
                 "https://staging-frontendapp.herokuapp.com","http://localhost:3000"));
 
+        configuration.addExposedHeader("Authorization");
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS"));
 
         configuration.setAllowedHeaders(Arrays.asList("Access-Control-Allow-Headers",

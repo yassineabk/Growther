@@ -14,23 +14,34 @@ const INITIAL_STATE={
         },
         maxReach: 0,
         prizes: [
-            {id: 1, description: ""}
+            {description: ""}
         ],
         actions: [],
+        user: null
     },
     validData: {},
     isValidData: false,
     validActions: [],
     isValidActions: false,
+    savedInfos: false,
+    savedPrizes: false,
     isPublished: false,
     activePage: "/dashboard/My Contests/new/firstStep",
     contestLink: "",
+    isLoading: false,
     error: null
 }
 const contestReducer=(state=INITIAL_STATE,action)=>{
     switch (action.type) {
         case ContestTypes.SET_INITIAL_STATE:{
-            return INITIAL_STATE
+            return {
+                ...INITIAL_STATE,
+                information:{
+                    ...INITIAL_STATE.information,
+                    startDate: action.payload.startDate,
+                    endDate: action.payload.endDate,
+                }
+            }
         }
         case ContestTypes.SET_NEW_CONTEST_STATE:
             return {
@@ -38,7 +49,16 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
                 information:{
                     ...action.payload,
                 },
+                isLoading: false,
                 error: null
+            }
+        case ContestTypes.SET_NEW_CONTEST_USER:
+            return {
+                ...state,
+                user: action.payload,
+                savedInfos: true,
+                isLoading: false,
+                error: false
             }
         case ContestTypes.SET_WINNERS_NUM:
             return{
@@ -49,11 +69,11 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
                     prizes: [
                         ...state.information.prizes,
                         {
-                            id: action.payload.id + 1,
                             description: ""
                         }
                     ]
                 },
+                isLoading: false,
                 error: null
             }
         case ContestTypes.SET_PRIZES:
@@ -68,6 +88,7 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
                         return {...item}
                     })
                 },
+                isLoading: false,
                 error: null
             }
         case ContestTypes.REMOVE_PRIZE:
@@ -83,9 +104,15 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
                         return true
                     })
                 },
+                isLoading: false,
                 error: null
             }
         case ContestTypes.SET_DURATION:
+            if(action.payload.value < 0){
+                return {
+                    ...state
+                }
+            }
             return {
                 ...state,
                 information:{
@@ -97,6 +124,7 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
                     startDate: action.payload.startDate,
                     endDate: action.payload.endDate
                 },
+                isLoading: false,
                 error: null
             }
         case ContestTypes.ADD_ACTION:
@@ -107,6 +135,7 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
                     actions: [action.payload],
                     actionsNbr: 1
                 },
+                isLoading: false,
                 error: null
             }
 
@@ -117,6 +146,7 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
                     actions: [...state.information.actions, action.payload],
                     actionsNbr: state.information.actions.length + 1
                 },
+                isLoading: false,
                 error: null
             }
         case ContestTypes.REMOVE_ACTION:  
@@ -138,6 +168,7 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
                     }
                     return true
                 }),
+                isLoading: false,
                 error: null
             }
         case ContestTypes.UPDATE_ACTION:
@@ -172,6 +203,7 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
                         }
                     })
                 },
+                isLoading: false,
                 error: null
             }
         case ContestTypes.CHECK_DATA:
@@ -179,6 +211,7 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
                 ...state,
                 validData: action.payload.validData,
                 isValidData: action.payload.isValidData,
+                isLoading: false,
                 error: null
             }
         case ContestTypes.CHECK_ACTIONS:
@@ -186,6 +219,7 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
                 ...state,
                 validActions: action.payload.validActions,
                 isValidActions: action.payload.isValidActions,
+                isLoading: false,
                 error: null,
             }
         case ContestTypes.RESET_VALIDATION:
@@ -193,6 +227,7 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
                 ...state,
                 validData: {},
                 isValidData: false,
+                isLoading: false,
                 error: null
             }
         case ContestTypes.PREVIEW_SELECTED_ACTIONS:
@@ -211,6 +246,11 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
                 }),
                 error: null
             }
+        case ContestTypes.NEW_CONTEST_LOADING:
+            return{
+                ...state,
+                isLoading: true
+            }
         case ContestTypes.SAVE_DRAFT:
             return{
                 ...state
@@ -219,14 +259,16 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
             return{
                 ...state,
                 isPublished: true,
-                contestLink: action.payload.link,
+                contestLink: action.payload,
+                isLoading: false,
                 error: null
             }
         case ContestTypes.PUBLISH_FAIL:
             return{
                 ...state,
                 isPublished: false,
-                error: {isError: true, message: "FAILED TO PUBLISH CONTEST"}
+                isLoading: false,
+                error: {isError: true, message: "FAILED TO PUBLISH CONTEST"},
             }
         default:
             return state;

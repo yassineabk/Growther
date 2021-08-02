@@ -60,9 +60,12 @@ public class UserController {
 
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<UserDto> updateBrand(@PathVariable (value = "id") Long userId,
+    public ResponseEntity<UserDto> updateUser(@PathVariable (value = "id") Long userId,
                                                 @Validated @RequestBody UserDto userInfos) throws
             ResourceNotFoundException{
+
+        System.out.println(userId);
+        System.out.println(userInfos.getActivities());
 
         UserDto userDto=userService.getUserById(userId);
 
@@ -71,13 +74,20 @@ public class UserController {
             throw new ResourceNotFoundException("No user exist with  ID : "+userId.toString());
 
         //update informations
+        if(userInfos.getEmail() != null)
         userDto.setEmail(userInfos.getEmail());
+        if(userInfos.getName() != null)
         userDto.setName(userInfos.getName());
 
-        if(userDto.getIsBrand().equalsIgnoreCase("true"))
-        userDto.setUrl(userInfos.getUrl());
+        userDto.setIsBrand(userInfos.getIsBrand());
+        if( userDto.getIsBrand()!= null && userDto.getIsBrand().equalsIgnoreCase("true"))
+        {
+            userDto.setUrl(userInfos.getUrl());
+            userDto.setActivities(userInfos.getActivities());
+        }
 
         UserDto userDtoUpdated=userService.updateUserInfos(userDto);
+        System.out.println(userDtoUpdated.getActivities());
         return  ResponseEntity.ok().body(userDtoUpdated);
     }
 

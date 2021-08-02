@@ -1,7 +1,7 @@
 import React, { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useHistory, useLocation } from "react-router-dom"
-import { InitState, NextStep, PrizesChange, RemovePrize, SetDuration, StateChange, WinnersNumChange } from "../../../redux/contest/contest-actions"
+import { InitState, NextStep, PrizesChange, RemovePrize, SaveContestFirstStep, SaveContestPrizes, SetDuration, StateChange, WinnersNumChange } from "../../../redux/contest/contest-actions"
 import { ContestButton } from "../contest-buttons/contest-buttons.component"
 import { ContestDescription } from "../contest-description-input/contest-description-input.component"
 import { ContestInput } from "../contest-input/contest-input.component"
@@ -11,7 +11,7 @@ export const ContestFirstStep = ()=>{
     var dispatch = useDispatch()
     var location = useLocation()
     var history = useHistory()
-    var {information, isValidData, validData} = useSelector(state => state.contest)
+    var {information, isValidData, validData, savedInfos} = useSelector(state => state.contest)
     useEffect(()=>{
         if(typeof(information) !== "object"){
             InitState(dispatch)
@@ -28,8 +28,31 @@ export const ContestFirstStep = ()=>{
     }
     var dateHandler = (event)=>{
         if(event !== undefined){
-            changeHandler(event)
-            durationHandler()
+            var id = event.target.id
+            var currentDate = new Date()
+            var currentDay = ("0"+currentDate.getDate()).slice(-2)
+            var currentMonth = ("0"+parseInt(currentDate.getMonth()+1 === 13 ? 1 : currentDate.getMonth()+1)).slice(-2)
+            var currentYear = currentDate.getFullYear()
+            currentDate = currentYear + "-" + currentMonth + "-" + currentDay
+            if(id === "startDate"){
+                var date = Math.ceil((new Date(event.target.value) - new Date(currentDate))/(100*60*60*24))
+                var date2 = Math.ceil((new Date(information.endDate) - new Date(event.target.value))/(100*60*60*24))
+                console.log(date)
+                if(date > 0 && date2 > 0){
+                    changeHandler(event)
+                    return durationHandler()
+                }
+            }
+            if(id === "endDate"){
+                var date = Math.ceil((new Date(event.target.value) - new Date(information.startDate))/(100*60*60*24))
+                var date2 = Math.ceil((new Date(event.target.value) - new Date(currentDate))/(100*60*60*24))
+                console.log(date, date2)
+                if(date > 0 && date2 > 0){
+                    changeHandler(event)
+                    return durationHandler()
+                }
+            }
+            
         }
     }
     var durationHandler = (event)=>{
@@ -81,7 +104,6 @@ export const ContestFirstStep = ()=>{
         var month = date.getMonth()+1 === 13 ? 1 : date.getMonth()+1
         month = ("0" + month).slice(-2)
         var year = date.getFullYear()
-        console.log(date)
         return year + "-" + month + "-" + day
     }
     var durationTypeHandler = (event) =>{
@@ -110,6 +132,16 @@ export const ContestFirstStep = ()=>{
         var isValid = NextStep(dispatch, information)
         if(isValid){
             history.push("/dashboard/My Contests/new/secondStep")
+
+            /*SaveContestFirstStep(dispatch, information, isValid).then(id =>{
+                if(typeof(id) === "number"){
+                    SaveContestPrizes(dispatch, information.prizes, isValid, id).then(value =>{
+                        if(value){
+                            history.push("/dashboard/My Contests/new/secondStep")
+                        }
+                    })
+                }
+            })*/
         }
     }
     if(location.pathname !== "/dashboard/My Contests/new/firstStep") return null

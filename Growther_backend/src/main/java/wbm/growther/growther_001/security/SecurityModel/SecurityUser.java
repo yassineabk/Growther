@@ -36,13 +36,14 @@ public class SecurityUser implements UserDetails {
 
     public static SecurityUser Create(User user){
         List<GrantedAuthority> authorities;
-        if(user.getIsBrand().equalsIgnoreCase("true"))
+        //if(user.getIsBrand()==null || user.getIsBrand().equalsIgnoreCase("true"))
             authorities = Collections.
                 singletonList(new SimpleGrantedAuthority("ROLE_BRAND"));
-        else
-            authorities = Collections.
-                    singletonList(new SimpleGrantedAuthority("ROLE_CLIENT"));
+        //else
+          //  authorities = Collections.
+            //        singletonList(new SimpleGrantedAuthority("ROLE_CLIENT"));
 
+        System.out.println("success");
         return  new SecurityUser(
                 user.getId(),
                 user.getEmail(),

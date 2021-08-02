@@ -1,7 +1,14 @@
 import { ContestTypes } from "./contest-types";
 import axios from "axios"
 export const InitState = (dispatch)=>{
-    dispatch({type: ContestTypes.SET_INITIAL_STATE})
+    var date =  new Date()
+    var days = ("0" + parseInt(new Date(date.setDate(date.getDate() + 1)).getDate())).slice(-2)
+    var days2 = ("0" + parseInt(new Date(date.setDate(parseInt(days) + 1)).getDate())).slice(-2)
+    var months = ("0" + parseInt(date.getMonth() === 13 + 1 ? 1 : date.getMonth() + 1))
+    var year = date.getFullYear()
+    var startDate = year + "-" + months + "-" + days
+    var endDate = year + "-" + months + "-" + days2
+    dispatch({type: ContestTypes.SET_INITIAL_STATE, payload: {startDate, endDate}})
 }
 export const StateChange = (dispatch, data)=>{
     dispatch({type: ContestTypes.SET_NEW_CONTEST_STATE, payload: data})
@@ -114,6 +121,64 @@ export const NextStep = (dispatch, information)=>{
     }
     return false
 }
+export const SaveContestPrizes = async (dispatch, prizes, isValidData, id)=>{
+    var token = localStorage.getItem("accessToken")
+    var config = {
+        headers: {
+            "Content-Type" : "application/json",
+            "Authorization" : `Bearer ${token}`
+        } 
+    }
+    if(isValidData){
+        return axios.post(`https://staging-backendapp.herokuapp.com/api/contests/${id}/prizes`, prizes, config)
+            .then(response =>{
+                dispatch({type: ContestTypes.PRIZES_STEP_SAVED})
+                return true
+            }).catch(err =>{
+                dispatch({type: ContestTypes.PRIZES_STEP_FAIL})
+                return false
+            })
+    }
+    dispatch({type: ContestTypes.PRIZES_STEP_FAIL})
+    return false
+}
+
+export const SaveContestFirstStep = async (dispatch, information, isValidData)=>{
+    if(isValidData){
+        var token = localStorage.getItem("accessToken")
+        var config = {
+            headers: {
+                "Content-Type" : "application/json",
+                "Authorization" : `Bearer ${token}`
+            },
+        }
+        var Data = {}
+        Object.keys(information).map((key, index) =>{
+            if(key !== "prizes" && key !== "actions"){
+                Data[key] = information[key]
+            }
+        })
+        return axios.post("https://staging-backendapp.herokuapp.com/api/contests/create", Data, config)
+            .then(response =>{
+                dispatch({type: ContestTypes.SET_NEW_CONTEST_USER, payload: response.data})
+                return response.data
+            })/*.then(id =>{
+                if(typeof(id) === "number"){
+                    SaveContestPrizes(dispatch, information.prizes, isValidData, id).then(value =>{
+                        console.log(value, "here")
+                        return value
+                    })
+                    return true
+                }
+                return false
+            })*/.catch(err =>{
+                    dispatch({type: ContestTypes.INFOS_STEP_FAIL})
+                    return false
+                })
+    }
+    dispatch({type: ContestTypes.INFOS_STEP_FAIL})
+    return false
+}
 export const SaveContest = (dispatch, actions)=>{
     var result = []
     if(Array.isArray(actions) && actions.length > 0){
@@ -158,22 +223,24 @@ export const SaveDraft = (dispatch, data)=>{
             dispatch({type: ContestTypes.PUBLISH_FAIL})
         })
 }
-export const PublishContest = (dispatch, data)=>{
+export const PublishContest = async (dispatch, data)=>{
     var validInfos = NextStep(dispatch, data.information)
     var validActions = SaveContest(dispatch, data.actions)
-    var token = "eyJhbGciOiJIUzUxMiJ9.eyJlbWFpbCI6Inlhc3NpbmVAZ21haWwuY29tIiwic3ViIjoiMiIsImlhdCI6MTYyNzQ4MjQ3NywiZXhwIjoxNjI4MzQ2NDc3fQ.fmKcwkcuELJ95IP3I_FHhSOOSbkaCBCxRlRvEI--lc1xtEQRtk-Rh9O198kv-gkFS-tIrBpAKqMa48TII_gE_Q"
+    var token = localStorage.getItem("accessToken")
     var config = {
-        headers: {"Authorization" : `Bearer ${token}`} 
+        headers: {
+            "Content-Type" : "application/json",
+            "Authorization" : `Bearer ${token}`
+        } 
     }
+    dispatch({type: ContestTypes.NEW_CONTEST_LOADING})
     if(validInfos && validActions){
-        axios.post("http://localhost:5000/api/contests/create", data.information, config)
+        return axios.post(`https://staging-backendapp.herokuapp.com/api/contests/create`, data.information ,config)
             .then(response =>{
-                console.log(response)
-                dispatch({type: ContestTypes.PUBLISH_SUCCESS})
+                dispatch({type: ContestTypes.PUBLISH_SUCCESS, payload: `http://localhost:3000/contest/${data.information.title}/${data.information.description}/${response.data}`})
                 return true
             }).catch(err => {
                 dispatch({type: ContestTypes.PUBLISH_FAIL})
-                console.log(err)
                 return false
             })
     }
