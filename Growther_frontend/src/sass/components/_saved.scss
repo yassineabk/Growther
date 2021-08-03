@@ -1,6 +1,7 @@
 .savedContest{
-    flex: 1;
     padding: 10px;
+    max-width: 100%;
+    text-align: center;
     > div{
         margin: 0.25em 0;
     }
@@ -8,19 +9,29 @@
         font-size: 25px;
         font-family: Poppins-Bold;
         color: #272D3B;
+        @media only screen and (max-width: 470px){
+            font-size: 20px;
+        }
     }
     .subText{
         color: #707070;
         font-size: 18px;
         font-family: Poppins-Medium;
+        @media only screen and (max-width: 470px){
+            font-size: 15px;
+        }
     }
     .contestLink{
         border: 1px solid $border-color;
         padding: 10px 20px;
+        word-break: break-all;
         border-radius: 5px;
         font-size: 15px;
         color: #272D3B;
         text-align: center;
+        @media only screen and (max-width: 470px){
+            font-size: 13px;
+        }
     }
     .copied{
         background-color: rgba(39, 45, 59, 0.5);
