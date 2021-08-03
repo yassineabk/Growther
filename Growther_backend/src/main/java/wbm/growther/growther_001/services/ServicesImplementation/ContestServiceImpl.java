@@ -13,6 +13,7 @@ import wbm.growther.growther_001.models.users.User;
 import wbm.growther.growther_001.repository.*;
 import wbm.growther.growther_001.services.ContestService;
 
+import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -37,6 +38,9 @@ public class ContestServiceImpl implements ContestService {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private EntityManager entityManager;
 
 
     @Override
@@ -92,6 +96,19 @@ public class ContestServiceImpl implements ContestService {
 
 
         return contest.getIdContest();
+    }
+
+    @Override
+    public ContestDto draftContest(Long contestID) {
+
+        Contest contestExist = repository.findContestByIdContest(contestID);
+        Contest contest = new Contest(contestExist);
+
+        contest.setIdContest(0);
+        contest.setStatus("DRAFT");
+
+        repository.save(contest);
+        return (contest==null)? null :  toDto(contest);
     }
 
     @Override

@@ -9,6 +9,7 @@ import wbm.growther.growther_001.models.users.User;
 import javax.persistence.*;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -41,9 +42,7 @@ public class Contest {
     @JsonIgnore
     private User user;
 
-    public Contest(String title, String description, int winnersNbr, int actionsNbr,
-                   int maxReach, Date startDate, Date endDate, Duration duration,
-                   Set<Action> actions, Set<Prize> prizes) {
+    public Contest(String title, String description, int winnersNbr, int actionsNbr, int maxReach, Date startDate, Date endDate, Duration duration, String status, Set<Action> actions, Set<Prize> prizes) {
         this.title = title;
         this.description = description;
         this.winnersNbr = winnersNbr;
@@ -52,10 +51,24 @@ public class Contest {
         this.startDate = startDate;
         this.endDate = endDate;
         this.duration = duration;
+        this.status = status;
         this.actions = actions;
         this.prizes = prizes;
     }
 
+    public Contest(Contest contest) {
+        this.title = contest.getTitle();
+        this.description = contest.getDescription();
+        this.winnersNbr = contest.getWinnersNbr();
+        this.actionsNbr = contest.getActionsNbr();
+        this.maxReach = contest.getMaxReach();
+        this.startDate = contest.getStartDate();
+        this.endDate = contest.getEndDate();
+        this.duration = contest.getDuration();
+        this.actions = new HashSet(contest.getActions());
+        this.prizes = new HashSet(contest.getPrizes());
+        this.user= contest.getUser();
+    }
 
     public Contest() {
 

@@ -80,6 +80,19 @@ public class ContestController {
         System.out.println(contestCreated);
         throw new RejectedExecutionException("A Contest with that ID already exist !!");
     }
+
+    @GetMapping("/draft/{id}")
+    public ContestDto draftContest(@PathVariable(value = "id") Long contestID)
+            throws RejectedExecutionException{
+
+        //get the email from the JWT token
+        //String token = getJwtTokenFromRequest(request);
+        //String email= jwtUtils.getUserEmailFromToken(token);
+
+        ContestDto contestCreated = contestService.draftContest(contestID);
+        if(contestCreated != null) return contestCreated;
+        throw new RejectedExecutionException("NO DRAFT");
+    }
     //Update contest
     @PutMapping("/update/{id}")
     public ResponseEntity<ContestDto> updateContest(@PathVariable(value = "id") Long contestId
