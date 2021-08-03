@@ -1,7 +1,6 @@
 import React from "react"
 import { useHistory } from "react-router-dom"
-import { DuplicateContest } from "../../../redux/contest/contest-actions"
-export const CardComponent = ({element, title, description, date, dateType, views, entries, id, userId, status, Duplicate})=>{
+export const CardComponent = ({element, title, description, date, dateType, views, entries, id, userId, status, Duplicate, Delete})=>{
     var history = useHistory()
     var openContest = ()=>{
         if(typeof(element.user === "object")){
@@ -61,7 +60,7 @@ export const CardComponent = ({element, title, description, date, dateType, view
                         <div className="duplicate-button" onClick={Duplicate && {}.toString.call(Duplicate) === '[object Function]' ? ()=> Duplicate(id) : () => false}>Duplicate</div>
                     </div> : 
                     <div className="card-buttons is-flex is-flex-direction-row">
-                        <div className="details-button" onClick={()=> openContest()}>Delete</div>
+                        <div className="details-button" onClick={Delete && {}.toString.call(Delete) === '[object Function]' ? ()=> Delete(id) : () => false}>Delete</div>
                         <div className="duplicate-button" onClick={()=> Continue()}>Continue</div>
                     </div>
                 }

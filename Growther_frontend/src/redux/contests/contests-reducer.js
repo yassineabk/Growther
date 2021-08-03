@@ -25,6 +25,13 @@ const ContestsReducer = (state = INITIAL_STATE, action)=>{
                 error: null,
                 isLoading: false
             }
+        case CONTESTS_TYPES.DELETE_FROM_DRAFT:
+            return {
+                ...state,
+                draft: state.draft.filter(item => item.idContest !== action.payload),
+                error: null,
+                isLoading: false
+            }
         case CONTESTS_TYPES.GET_CONTESTS:
             var token = decode(localStorage.getItem("accessToken"))
             var sub = typeof(token) === "object" ? token.sub : ""

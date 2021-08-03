@@ -1,7 +1,7 @@
 import { ContestTypes } from "./contest-types";
 import axios from "axios"
 import { CONTESTS_TYPES } from "../contests/contests-types";
-import { AppendContest, AppendDraft } from "../contests/contests-actions";
+import { AppendContest, AppendDraft, DeleteFromDraft } from "../contests/contests-actions";
 export const InitState = (dispatch)=>{
     var date =  new Date()
     var days = ("0" + parseInt(new Date(date.setDate(date.getDate() + 1)).getDate())).slice(-2)
@@ -263,7 +263,6 @@ export const PublishContest = async (dispatch, data)=>{
     dispatch({type: ContestTypes.PUBLISH_FAIL})
     return false
 }
-
 export const DuplicateContest = (dispatch, id)=>{
     var token = localStorage.getItem("accessToken")
     var config = {
