@@ -1,5 +1,7 @@
 import { ContestTypes } from "./contest-types";
 import axios from "axios"
+import { CONTESTS_TYPES } from "../contests/contests-types";
+import { AppendContest, AppendDraft } from "../contests/contests-actions";
 export const InitState = (dispatch)=>{
     var date =  new Date()
     var days = ("0" + parseInt(new Date(date.setDate(date.getDate() + 1)).getDate())).slice(-2)
@@ -216,11 +218,25 @@ export const PreviewSelectedAction = (dispatch, provider, index)=>{
     dispatch({type: ContestTypes.PREVIEW_SELECTED_ACTIONS, payload: {provider, index}})
 }
 export const SaveDraft = (dispatch, data)=>{
-    axios.post("DRAFT_URL", data)
+    var token = localStorage.getItem("accessToken")
+    var config = {
+        headers: {
+            "Content-Type" : "application/json",
+            "Authorization" : `Bearer ${token}`
+        },
+    }
+    dispatch({type: ContestTypes.NEW_CONTEST_LOADING})
+    axios.post(`http://localhost:5000/api/contests/create/draft`, data, config)
         .then(response =>{
             dispatch({type: ContestTypes.SAVE_DRAFT})
+            return true
         }).catch(err => {
             dispatch({type: ContestTypes.PUBLISH_FAIL})
+            return false
+        }).then(value =>{
+            if(value){
+                AppendDraft(dispatch, data)
+            }
         })
 }
 export const PublishContest = async (dispatch, data)=>{
@@ -248,10 +264,27 @@ export const PublishContest = async (dispatch, data)=>{
     return false
 }
 
-
-
-
-
+export const DuplicateContest = (dispatch, id)=>{
+    var token = localStorage.getItem("accessToken")
+    var config = {
+        headers: {
+            "Content-Type" : "application/json",
+            "Authorization" : `Bearer ${token}`
+        } 
+    }
+    dispatch({type: ContestTypes.NEW_CONTEST_LOADING})
+    axios.get(`http://localhost:5000/api/contests/draft/${id}`, config).then(response =>{
+        dispatch({type: ContestTypes.DUPLICATE_CONTEST})
+        return response.data
+    }).catch(err=>{
+        dispatch({type: ContestTypes.PUBLISH_FAIL})
+        return false
+    }).then(value => {
+        if(typeof(value) === "object"){
+            AppendContest(dispatch, value)
+        }
+    })
+}
 var UrlValidation = (url)=>{
     var pattern = new RegExp(/^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$/)
     if(!pattern.test(url)){

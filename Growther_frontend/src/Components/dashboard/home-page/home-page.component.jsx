@@ -1,5 +1,6 @@
 import React, { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
+import { DuplicateContest } from "../../../redux/contest/contest-actions"
 import { GetContests } from "../../../redux/contests/contests-actions"
 import { CardsContainer } from "../cards-container/cards-container.component"
 import { TemplatesContainer } from "../templates-container/templates-container.component"
@@ -11,6 +12,9 @@ export const DashboardHomePage = () =>{
             GetContests(dispatch)
         }
     }, [dispatch])
+    var Duplicate = (id)=> {
+        DuplicateContest(dispatch, id)
+    }
     return(
         <div className="is-flex is-flex-direction-column column is-full">
             {/*<div className="mb-4">
@@ -22,6 +26,7 @@ export const DashboardHomePage = () =>{
                     title={"Recent Contests"} 
                     showMore={"/dashboard/My Contests"} 
                     addNew={"/dashboard/My Contests/new"}
+                    Duplicate={(id)=> Duplicate(id)}
                 />
             </div>
             <div className="mb-4">

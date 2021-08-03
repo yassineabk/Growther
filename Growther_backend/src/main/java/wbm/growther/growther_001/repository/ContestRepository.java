@@ -12,6 +12,6 @@ import java.util.List;
 public interface ContestRepository extends JpaRepository<Contest,Long> {
     Contest findContestByIdContest(Long ID);
     Contest findContestByTitle(String Title);
-    Contest findContestByTitleAndDescriptionAndIdContest(String Title,String Description,Long ID);
+    Contest findContestByTitleAndIdContest(String Title,Long ID);
     Contest findTopByOrderByIdContestDesc();
 }

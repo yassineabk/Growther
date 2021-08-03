@@ -47,8 +47,8 @@ export const DashboradSideBar = ({activePage})=>{
                     <div onClick={()=>changeHandler("/dashboard/Templates")} className={templateLocations.includes(location.pathname) ? "sideBar_item active" : "sideBar_item"}>
                         <img alt="" src={require("../../../assets/icons/file.png").default}/>
                     </div>
-                    <div onClick={()=>changeHandler("/dashboard/settings")} className={location.pathname === "/dashboard/settings" ? "sideBar_item active" : "sideBar_item"}>
-                        <img alt="" src={require("../../../assets/icons/settings.png").default}/>
+                    <div onClick={()=>changeHandler("/dashboard/draft")} className={location.pathname === "/dashboard/draft" ? "sideBar_item active" : "sideBar_item"}>
+                        <img alt="" src={require("../../../assets/icons/draft.png").default}/>
                     </div>
                 </div>
             </div>
@@ -56,6 +56,9 @@ export const DashboradSideBar = ({activePage})=>{
                 <div className="tail-buttons is-flex is-flex-direction-column is-justify-content-flex-end">
                     <div className="tailButton">
                         <img alt="" src={require("../../../assets/icons/headset.png").default} />
+                    </div>
+                    <div className="tailButton" onClick={()=>changeHandler("/dashboard/settings")} className={location.pathname === "/dashboard/settings" ? "sideBar_item active" : "sideBar_item"}>
+                        <img alt="" src={require("../../../assets/icons/settings.png").default}/>
                     </div>
                     <div className="tailButton">
                         <img onClick={()=>{

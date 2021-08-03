@@ -23,6 +23,7 @@ import { Page404 } from './pages/404-page/404.page';
 import { Spinner } from './Components/spinner/spinner.component';
 import { EditContestFirstStep } from './Components/contest/edit-contest-first-step/edit-contest-first-step.component';
 import { EditContestSecondStep } from './Components/contest/edit-contest-second-step/edit-contest-second-step.component';
+import { DraftPage } from './Components/dashboard/draft-page/draft-page.component';
 
 const App = ()=> {
   var { currentUser } = useSelector(state => state.login)
@@ -34,8 +35,9 @@ const App = ()=> {
         <Route exact path='/landing-page' render={()=> (<LandingPage />) } />
         <Route exact path='/login' render={()=>(currentUser) ? (<Redirect to='/dashboard'/>) : (<LoginPage/>) } />
         <Route exact path='/signup' render={()=>currentUser ? (<Redirect to='/'/>) : (<SignUpPage/>) } />
-        <Route exact path='/contest/:title/:description/:id' render={()=>currentUser ? (<Contest />) : (<Redirect to='/'/>)}/>
+        <Route exact path='/contest/:title/:id' render={()=>currentUser ? (<Contest />) : (<Redirect to='/'/>)}/>
         <Route exact path='/dashboard/pie' render={()=> currentUser ? (<Dashboard />) : (<Redirect to='/'/>)} />
+        <Route exact path='/dashboard/draft' render={()=> currentUser ?  (<Dashboard child={<DraftPage />} />) : (<Redirect to='/'/>)} />
         <Route exact path='/dashboard/settings' render={()=> currentUser ?  (<Dashboard />) : (<Redirect to='/'/>)} />
         <Route exact path="/dashboard/My Contests/new" render={()=> (
             <Redirect to="/dashboard/My Contests/new/firstStep" />
