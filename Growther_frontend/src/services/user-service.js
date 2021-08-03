@@ -1,7 +1,8 @@
 import axios from "axios";
 import { decode } from "jsonwebtoken";
+import { BACKEND_API } from "./links";
 
-const USERS_REST_API_URL = 'https://staging-backendapp.herokuapp.com';
+const USERS_REST_API_URL = BACKEND_API;
 
 export const userService = {
     loginWithEmailAndPassword,

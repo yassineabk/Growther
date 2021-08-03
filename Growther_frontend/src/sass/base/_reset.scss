@@ -68,8 +68,8 @@ b {
 
   .button.is-success{
       background-color: #5E2691;
-      :hover{
-        background-color: #5E2691;
+      &:hover{
+        background-color: #5E2691 !important;
       }
   }
   

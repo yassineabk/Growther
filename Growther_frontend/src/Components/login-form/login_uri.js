@@ -1,2 +1,4 @@
-export const googleUri="https://staging-backendapp.herokuapp.com/oauth2/authorize/google?redirect_uri=https://staging-frontendapp.herokuapp.com/oauth2/redirect"
-export const facebookUri="https://staging-backendapp.herokuapp.com/oauth2/authorize/facebook?redirect_uri=https://staging-frontendapp.herokuapp.com/oauth2/redirect"
+import { BACKEND_API, FRONTEND_API } from "../../services/links"
+
+export const googleUri=`${BACKEND_API}/oauth2/authorize/google?redirect_uri=${FRONTEND_API}/oauth2/redirect`
+export const facebookUri=`${BACKEND_API}/oauth2/authorize/facebook?redirect_uri=${FRONTEND_API}/oauth2/redirect`

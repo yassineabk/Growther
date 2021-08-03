@@ -1,4 +1,5 @@
 import axios from "axios"
+import { BACKEND_API } from "../../services/links"
 import { Contest_Card_Types } from "./contest-card-types"
 export const SetData = (dispatch, title, description, id) =>{
     var token = localStorage.getItem("accessToken")
@@ -8,7 +9,7 @@ export const SetData = (dispatch, title, description, id) =>{
             "Authorization" : `Bearer ${token}`
         } 
     }
-    axios.get(`https://staging-backendapp.herokuapp.com/api/contests/${title}/${description}/${id}`, config).then(response =>{
+    axios.get(`${BACKEND_API}/api/contests/${title}/${id}`, config).then(response =>{
         dispatch({type: Contest_Card_Types.SET_CONTEST_STATE, payload: response.data})
     }).catch(err =>{
         dispatch({type: Contest_Card_Types.CONTEST_CARD_ERROR})
