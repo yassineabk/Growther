@@ -1,4 +1,5 @@
 import axios from "axios"
+import { BACKEND_API } from "../../services/links"
 import { CONTESTS_TYPES } from "./contests-types"
 
 export const GetContests = async (dispatch)=>{
@@ -7,7 +8,7 @@ export const GetContests = async (dispatch)=>{
         headers: {"Authorization" : `Bearer ${token}`} 
     }
     dispatch({type: CONTESTS_TYPES.GET_CONTESTS_LOADING})
-    return axios.get("http://localhost:5000/api/contests/GetContests", config)
+    return axios.get(`${BACKEND_API}/api/contests/GetContests`, config)
         .then(response =>{
             dispatch({type: CONTESTS_TYPES.GET_CONTESTS, payload: response.data})
         }).catch(err =>{
@@ -36,7 +37,7 @@ export const DeleteDraft = (dispatch, id) =>{
         } 
     }
     dispatch({type: CONTESTS_TYPES.GET_CONTESTS_LOADING})
-    axios.delete(`http://localhost:5000/api/contests/delete/${id}`, config)
+    axios.delete(`${BACKEND_API}/api/contests/delete/${id}`, config)
         .then(response =>{
             dispatch({type: CONTESTS_TYPES.DELETE_FROM_DRAFT, payload: id})
             return true

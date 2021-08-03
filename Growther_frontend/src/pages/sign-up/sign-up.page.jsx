@@ -5,6 +5,7 @@ import SingupSecondStep from '../../Components/signup-second-step/signup-second-
 import {registerWithEmailAndPassword} from '../../redux/registration/registration.action'
 import { SignupUserType } from '../../Components/signup-user-type/signup-user-type.component';
 import {SetEmail,setRegistrationErrorMessage, SetPassword,SetConfirmationPassword,SetEmailError,SetEmailErrorMessage,SetPasswordError,SetPasswordErrorMessage,SetPasswordConfirmationError,SetPasswordConfirmationErrorMessage,SetUserType,ToogleSecondStep,ToogleThirddStep,setBrandName,setBrandNameError,setBrandNameErrorMessage,setBrandUrl,setBrandUrlError,setBrandUrlErrorMessage,setBrandActvity,setBrandActvityError,setBrandActvityErrorMessage,setIndividualName,setIndividualNameErrorMessage,setIndividualNameError} from '../../redux/registration/registration.action'
+import { FRONTEND_API } from '../../services/links';
 
 class SignUpPage extends React.Component{
     SignUpWithGoogle = e =>{
@@ -81,7 +82,7 @@ class SignUpPage extends React.Component{
   handleClickLogin() {
     console.log(this.props, "here")
     //this.props.history.push("/login");
-    window.location.href="http://localhost:3000/login"
+    window.location.href=`${FRONTEND_API}/login`
   }
 
     handleSubmitSecondStep=async e=>{

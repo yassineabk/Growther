@@ -2,6 +2,7 @@ import { ContestTypes } from "./contest-types";
 import axios from "axios"
 import { CONTESTS_TYPES } from "../contests/contests-types";
 import { AppendContest, AppendDraft, DeleteFromDraft } from "../contests/contests-actions";
+import { BACKEND_API, FRONTEND_API } from "../../services/links";
 export const InitState = (dispatch)=>{
     var date =  new Date()
     var days = ("0" + parseInt(new Date(date.setDate(date.getDate() + 1)).getDate())).slice(-2)
@@ -123,64 +124,6 @@ export const NextStep = (dispatch, information)=>{
     }
     return false
 }
-export const SaveContestPrizes = async (dispatch, prizes, isValidData, id)=>{
-    var token = localStorage.getItem("accessToken")
-    var config = {
-        headers: {
-            "Content-Type" : "application/json",
-            "Authorization" : `Bearer ${token}`
-        } 
-    }
-    if(isValidData){
-        return axios.post(`http://localhost:5000/api/contests/${id}/prizes`, prizes, config)
-            .then(response =>{
-                dispatch({type: ContestTypes.PRIZES_STEP_SAVED})
-                return true
-            }).catch(err =>{
-                dispatch({type: ContestTypes.PRIZES_STEP_FAIL})
-                return false
-            })
-    }
-    dispatch({type: ContestTypes.PRIZES_STEP_FAIL})
-    return false
-}
-
-export const SaveContestFirstStep = async (dispatch, information, isValidData)=>{
-    if(isValidData){
-        var token = localStorage.getItem("accessToken")
-        var config = {
-            headers: {
-                "Content-Type" : "application/json",
-                "Authorization" : `Bearer ${token}`
-            },
-        }
-        var Data = {}
-        Object.keys(information).map((key, index) =>{
-            if(key !== "prizes" && key !== "actions"){
-                Data[key] = information[key]
-            }
-        })
-        return axios.post("http://localhost:5000/api/contests/create", Data, config)
-            .then(response =>{
-                dispatch({type: ContestTypes.SET_NEW_CONTEST_USER, payload: response.data})
-                return response.data
-            })/*.then(id =>{
-                if(typeof(id) === "number"){
-                    SaveContestPrizes(dispatch, information.prizes, isValidData, id).then(value =>{
-                        console.log(value, "here")
-                        return value
-                    })
-                    return true
-                }
-                return false
-            })*/.catch(err =>{
-                    dispatch({type: ContestTypes.INFOS_STEP_FAIL})
-                    return false
-                })
-    }
-    dispatch({type: ContestTypes.INFOS_STEP_FAIL})
-    return false
-}
 export const SaveContest = (dispatch, actions)=>{
     var result = []
     if(Array.isArray(actions) && actions.length > 0){
@@ -226,7 +169,7 @@ export const SaveDraft = (dispatch, data)=>{
         },
     }
     dispatch({type: ContestTypes.NEW_CONTEST_LOADING})
-    axios.post(`http://localhost:5000/api/contests/create/draft`, data, config)
+    axios.post(`${BACKEND_API}/api/contests/create/draft`, data, config)
         .then(response =>{
             dispatch({type: ContestTypes.SAVE_DRAFT})
             return true
@@ -251,9 +194,9 @@ export const PublishContest = async (dispatch, data)=>{
     }
     dispatch({type: ContestTypes.NEW_CONTEST_LOADING})
     if(validInfos && validActions){
-        return axios.post(`http://localhost:5000/api/contests/create`, data.information ,config)
+        return axios.post(`${BACKEND_API}/api/contests/create`, data.information ,config)
             .then(response =>{
-                dispatch({type: ContestTypes.PUBLISH_SUCCESS, payload: `http://localhost:3000/contest/${data.information.title}/${data.information.description}/${response.data}`})
+                dispatch({type: ContestTypes.PUBLISH_SUCCESS, payload: `${FRONTEND_API}/contest/${data.information.title}/${data.information.description}/${response.data}`})
                 return true
             }).catch(err => {
                 dispatch({type: ContestTypes.PUBLISH_FAIL})
@@ -272,7 +215,7 @@ export const DuplicateContest = (dispatch, id)=>{
         } 
     }
     dispatch({type: ContestTypes.NEW_CONTEST_LOADING})
-    axios.get(`http://localhost:5000/api/contests/draft/${id}`, config).then(response =>{
+    axios.get(`${BACKEND_API}/api/contests/draft/${id}`, config).then(response =>{
         dispatch({type: ContestTypes.DUPLICATE_CONTEST})
         return response.data
     }).catch(err=>{
@@ -280,7 +223,7 @@ export const DuplicateContest = (dispatch, id)=>{
         return false
     }).then(value => {
         if(typeof(value) === "object"){
-            AppendContest(dispatch, value)
+            AppendDraft(dispatch, value)
         }
     })
 }
