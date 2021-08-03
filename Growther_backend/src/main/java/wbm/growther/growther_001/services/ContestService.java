@@ -7,6 +7,7 @@ import java.util.List;
 public interface ContestService {
     List<ContestDto> getAllContests();
     Long createNewContest(ContestDto contestDto, String email);
+    Long createNewDraftContest(ContestDto contestDto, String email);
     ContestDto getContestById(Long contestID);
     ContestDto draftContest(Long contestID);
     ContestDto updateContestInfos(ContestDto contestDto);

@@ -99,6 +99,55 @@ public class ContestServiceImpl implements ContestService {
     }
 
     @Override
+    public Long createNewDraftContest(ContestDto NewContestDto, String email) {
+
+        User user = userRepository.findUserByEmail(email);
+        if(!user.getIsBrand().equalsIgnoreCase("true")) Long.decode("0");
+
+
+        Contest contest = toContest(NewContestDto);
+        //check if a contest with the same id exist
+        Contest contestExist = repository.findContestByIdContest(contest.getIdContest());
+
+        if(contestExist!=null) return Long.decode("0");
+
+        contest.setStatus("DRAFT");
+        contest.setUser(user);
+
+        Duration duration = contest.getDuration();
+        Set<Prize> prizes = contest.getPrizes();
+        Set<Action> actions = contest.getActions();
+
+        actions.forEach( action -> {
+            action.setContest(contest);
+        });
+
+        prizes.forEach( prize -> {
+            prize.setContest(contest);
+        });
+
+        System.out.println(contest.getDuration().getType()+"---"+contest.getDuration().getValue());
+        System.out.println(contest.getIdContest());
+
+        duration.setContest(contest);
+        durationRepository.save(duration);
+
+        repository.save(contest);
+
+        prizes.forEach( prize -> {
+            prizeRepository.save(prize);
+        });
+        actions.forEach( action -> {
+            actionRepository.save(action);
+        });
+
+        System.out.println(contest.getIdContest());
+
+
+        return contest.getIdContest();
+    }
+
+    @Override
     public ContestDto draftContest(Long contestID) {
 
         Contest contestExist = repository.findContestByIdContest(contestID);
