@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react"
 import { Redirect, useHistory } from "react-router-dom"
 import { PreviewActionsList } from "../preview-actions-list/preview-actions-list.component"
 import { PreviewPrizesList } from "../preview-prizes-list/preview-prizes-list.component"
-export const PreviewCard = ({title, description, timeLeft, dateType, views, points, entries, actions, previewActions, changeHandler, prizes, buttons, hasStarted, hasEnded, id, element, isPreview, user_id})=>{
+export const PreviewCard = ({title, description, timeLeft, dateType, views, points, entries, actions, previewActions, changeHandler, prizes, buttons, hasStarted, hasEnded, isPublished, id, element, isPreview, user_id, error})=>{
     var history = useHistory()
     var hoverCard = (event)=>{
         document.getElementById("card").classList.toggle("backface")
@@ -28,8 +28,7 @@ export const PreviewCard = ({title, description, timeLeft, dateType, views, poin
             }
         }
     })
-    console.log(hasStarted, "||", buttons, "||", isPreview, "||", userId)
-    if(hasStarted || buttons || isPreview || userId){
+    if(hasStarted || buttons || isPreview || userId || isPublished || error){
         return(
             <div id="card" className="is-flex previewCard">
                 <div className="left-side is-flex is-flex-direction-column">

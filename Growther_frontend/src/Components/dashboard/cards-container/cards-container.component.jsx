@@ -5,7 +5,7 @@ import { EmptyList } from "../../contest/empty-list/empty-list.component"
 import { Spinner } from "../../spinner/spinner.component"
 import { CardTitle } from "../card-title/card-title.component"
 import { CardComponent } from "../card/card.component"
-export const CardsContainer = ({data, title, showMore, addNew})=>{
+export const CardsContainer = ({data, title, showMore, addNew, Duplicate, status})=>{
     var { isLoading } = useSelector(state => state.get_contests)
     var [userId, setId] = useState("")
     useEffect(()=>{
@@ -34,7 +34,9 @@ export const CardsContainer = ({data, title, showMore, addNew})=>{
                             entries={element.entries}
                             id={element.idContest ? element.idContest : undefined}
                             userId={userId}
+                            status={typeof(element.status) === "string" ? element.status : "Draft"}
                             key={element.idContest ? `card${element.idContest}` : `card${index}`}
+                            Duplicate={Duplicate && {}.toString.call(Duplicate) === '[object Function]' ? (id)=> {Duplicate(id)} : () => false}
                         />                    
                     )
                 }): <EmptyList isLoading={isLoading} /> /*test.slice(0,3).map((element, index)=>{

@@ -13,7 +13,9 @@ export const ContestFirstStep = ()=>{
     var history = useHistory()
     var {information, isValidData, validData, savedInfos} = useSelector(state => state.contest)
     useEffect(()=>{
-        if(typeof(information) !== "object"){
+        if(typeof(location.state) === "object"){
+            StateChange(dispatch, location.state)
+        }else if(typeof(information) !== "object"){
             InitState(dispatch)
         }
     }, [dispatch, isValidData])
@@ -235,12 +237,12 @@ export const ContestFirstStep = ()=>{
                         child={[
                             <SelectInput 
                                 data={["days", "weeks", "months"]} 
-                                value={typeof(information) === "object" && typeof(information.duration) === "object" && typeof(information.duration.type) === "string" ? information.duration.type : "days"}
+                                value={typeof(information) === "object" && typeof(information.duration) === "object" && information.duration !== null ? information.duration.type : "days"}
                                 changeHandler={(event)=> durationTypeHandler(event)}
                             />
                         ]}
                         min={1}
-                        value={information ? information.duration.value : 1}
+                        value={typeof(information) === "object" && typeof(information.duration) === "object" && information.duration !== null ? information.duration.value : 1}
                     />
                     <ContestInput 
                         type={"number"}

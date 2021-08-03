@@ -91,6 +91,8 @@
       .card-infos{
         //justify-content: space-between;
         .card-title{
+          word-wrap: break-word;
+          word-break: break-all;
           font-size: 18px;
           font-weight: 500;
         }
@@ -213,6 +215,8 @@
       .card-title{
         font-size: 18px;
         font-weight: 500;
+        word-wrap: break-word;
+        word-break: break-all;
         .headButtons{
           & > div{
             margin: 0 0.125em !important;

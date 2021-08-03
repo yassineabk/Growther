@@ -8,7 +8,7 @@ export const SetData = (dispatch, title, description, id) =>{
             "Authorization" : `Bearer ${token}`
         } 
     }
-    axios.get(`http://localhost:5000/api/contests/${title}/${description}/${id}`, config).then(response =>{
+    axios.get(`http://localhost:5000/api/contests/${title}/${id}`, config).then(response =>{
         dispatch({type: Contest_Card_Types.SET_CONTEST_STATE, payload: response.data})
     }).catch(err =>{
         dispatch({type: Contest_Card_Types.CONTEST_CARD_ERROR})

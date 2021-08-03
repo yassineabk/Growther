@@ -80,6 +80,8 @@ export const Contest = ({currentUser})=>{
                 hasStarted={typeof(information.startDate) === "string" ? hasStarted(information.startDate.split("T")[0]) : false}
                 hasEnded={typeof(information.endDate) === "string" ? hasEnded(information.endDate.split("T")[0]) : true}
                 user_id={typeof(information.user) === "object" ? information.user.id.toString() : ""}
+                isPublished={typeof(information.status) === "Published" ? true  : false}
+                error={error}
             /> : null}
         </div>
     )
