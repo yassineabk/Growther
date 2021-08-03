@@ -8,9 +8,10 @@ public interface ContestService {
     List<ContestDto> getAllContests();
     Long createNewContest(ContestDto contestDto, String email);
     ContestDto getContestById(Long contestID);
+    ContestDto draftContest(Long contestID);
     ContestDto updateContestInfos(ContestDto contestDto);
     void deleteContest(ContestDto contestDto);
     ContestDto getContestByTitle(String title);
-    ContestDto getContestByInfos(String title,String description,Long id);
+    ContestDto getContestByInfos(String title,Long id);
     ContestDto getLastContest();
 }

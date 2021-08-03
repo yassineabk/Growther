@@ -216,7 +216,7 @@ export const PreviewSelectedAction = (dispatch, provider, index)=>{
     dispatch({type: ContestTypes.PREVIEW_SELECTED_ACTIONS, payload: {provider, index}})
 }
 export const SaveDraft = (dispatch, data)=>{
-    axios.post("DRAFT_URL", data)
+    axios.post(`http://localhost:5000/api/contests/draft`, data)
         .then(response =>{
             dispatch({type: ContestTypes.SAVE_DRAFT})
         }).catch(err => {

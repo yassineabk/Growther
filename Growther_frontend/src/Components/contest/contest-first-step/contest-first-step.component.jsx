@@ -1,7 +1,7 @@
 import React, { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useHistory, useLocation } from "react-router-dom"
-import { InitState, NextStep, PrizesChange, RemovePrize, SaveContestFirstStep, SaveContestPrizes, SetDuration, StateChange, WinnersNumChange } from "../../../redux/contest/contest-actions"
+import { InitState, NextStep, PrizesChange, RemovePrize, SaveContestFirstStep, SaveContestPrizes, SaveDraft, SetDuration, StateChange, WinnersNumChange } from "../../../redux/contest/contest-actions"
 import { ContestButton } from "../contest-buttons/contest-buttons.component"
 import { ContestDescription } from "../contest-description-input/contest-description-input.component"
 import { ContestInput } from "../contest-input/contest-input.component"
@@ -144,6 +144,9 @@ export const ContestFirstStep = ()=>{
             })*/
         }
     }
+    var saveDraft = ()=>{
+        SaveDraft(dispatch, information)
+    }
     if(location.pathname !== "/dashboard/My Contests/new/firstStep") return null
     return(
         <div className="is-flex is-flex-direction-column newContestFrom">
@@ -265,7 +268,8 @@ export const ContestFirstStep = ()=>{
                     color={"#5E2691"} 
                     bgColor={"#FFFFFF"}
                     borderColor={"#5E2691"}
-                    text={"Save as draft"} />
+                    text={"Save as draft"} 
+                    clickEvent={()=> saveDraft()}/>
                 <ContestButton 
                     color={"#FFFFFF"}
                     bgColor={"#5E2691"} 
