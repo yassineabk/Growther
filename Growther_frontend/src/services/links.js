@@ -1,0 +1,2 @@
+export const BACKEND_API = "https://staging-backendapp.herokuapp.com" /*process.env.NODE_ENV === "developement" ? "http://localhost:5000":*/ 
+export const FRONTEND_API = "https://staging-frontendapp.herokuapp.com" /*process.env.NODE_ENV !== "developement" ? "http://localhost:3000" :*/ 

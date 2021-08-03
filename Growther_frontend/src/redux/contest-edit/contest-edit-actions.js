@@ -1,5 +1,6 @@
 import { CONTEST_EDIT_TYPES } from "./contest-edit-types";
 import axios from "axios"
+import { BACKEND_API } from "../../services/links";
 export const SetInitialState = (dispatch)=>{
     dispatch({type: CONTEST_EDIT_TYPES.INIT_EDIT_STATE})
 }
@@ -12,7 +13,7 @@ export const SetStateToEdit = async (dispatch, id, userId)=>{
             "Authorization" : `Bearer ${token}`
         } 
     }
-    return axios.get(`http://localhost:5000/api/contests/${id}`, config).then(response =>{
+    return axios.get(`${BACKEND_API}/api/contests/${id}`, config).then(response =>{
         if(typeof(response.data.user) === "object" && response.data.user.id.toString() === userId.toString()){
             dispatch({type: CONTEST_EDIT_TYPES.SET_STATE_TO_EDIT, payload: response.data})
             return true
@@ -104,7 +105,7 @@ export const Edit = async (dispatch, information, id, userId)=>{
             }
         })
         dispatch({type: CONTEST_EDIT_TYPES.EDIT_LOADING})
-        return axios.put(`http://localhost:5000/api/contests/update/${id}`, Data, config)
+        return axios.put(`${BACKEND_API}/api/contests/update/${id}`, Data, config)
         .then(response =>{
             dispatch({type: CONTEST_EDIT_TYPES.EDIT_SUCCESS})
             return true
