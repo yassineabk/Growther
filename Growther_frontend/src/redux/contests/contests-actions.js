@@ -16,7 +16,12 @@ export const GetContests = async (dispatch)=>{
         })
 }
 export const AppendDraft = (dispatch, data) =>{
-    dispatch({type: CONTESTS_TYPES.APPEND_TO_DRAFT, payload: data})
+    if(typeof(data) === "object"){
+        data.status = "DRAFT"
+        dispatch({type: CONTESTS_TYPES.APPEND_TO_DRAFT, payload: data})
+    }else{
+        dispatch({type: CONTESTS_TYPES.GET_CONTESTS_FAIL})
+    }
 }
 export const AppendContest = (dispatch, data)=>{
     dispatch({type: CONTESTS_TYPES.APPEND_NEW_CONTEST, payload: data})
@@ -30,7 +35,6 @@ export const DeleteDraft = (dispatch, id) =>{
             "Authorization" : `Bearer ${token}`
         } 
     }
-    console.log(id, "heere")
     dispatch({type: CONTESTS_TYPES.GET_CONTESTS_LOADING})
     axios.delete(`http://localhost:5000/api/contests/delete/${id}`, config)
         .then(response =>{
