@@ -12,7 +12,7 @@ export const SetStateToEdit = async (dispatch, id, userId)=>{
             "Authorization" : `Bearer ${token}`
         } 
     }
-    return axios.get(`https://staging-backendapp.herokuapp.com/api/contests/${id}`, config).then(response =>{
+    return axios.get(`http://localhost:5000/api/contests/${id}`, config).then(response =>{
         if(typeof(response.data.user) === "object" && response.data.user.id.toString() === userId.toString()){
             dispatch({type: CONTEST_EDIT_TYPES.SET_STATE_TO_EDIT, payload: response.data})
             return true
@@ -104,7 +104,7 @@ export const Edit = async (dispatch, information, id, userId)=>{
             }
         })
         dispatch({type: CONTEST_EDIT_TYPES.EDIT_LOADING})
-        return axios.put(`https://staging-backendapp.herokuapp.com/api/contests/update/${id}`, Data, config)
+        return axios.put(`http://localhost:5000/api/contests/update/${id}`, Data, config)
         .then(response =>{
             dispatch({type: CONTEST_EDIT_TYPES.EDIT_SUCCESS})
             return true
