@@ -1,7 +1,8 @@
 import React, { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Redirect, useHistory, useLocation } from "react-router-dom"
-import { AddAction, NextStep, PublishContest, RemoveAction, SaveContest, UpdateAction } from "../../../redux/contest/contest-actions"
+import { AddAction, NextStep, PublishContest, RemoveAction, SaveContest, SaveDraft, UpdateAction } from "../../../redux/contest/contest-actions"
+import { AppendContest } from "../../../redux/contests/contests-actions"
 import { ActionsList } from "../actions-list/actions-list.component"
 import { ContestActions } from "../contest-actions/contest-actions.component"
 import { ContestButton } from "../contest-buttons/contest-buttons.component"
@@ -30,8 +31,12 @@ export const ContestSecondStep = ()=>{
         PublishContest(dispatch, {information, actions: information.actions}).then(value =>{
             if(value){
                 history.push("/dashboard/My Contests/new/thirdStep")
+                AppendContest(dispatch, information)
             }
         })
+    }
+    var saveDraft = ()=>{
+        SaveDraft(dispatch, information)
     }
     if(location.pathname !== "/dashboard/My Contests/new/secondStep") return null
     if(!isValidData) return <Redirect to="/dashboard/My Contests/new/firstStep" />
@@ -68,6 +73,7 @@ export const ContestSecondStep = ()=>{
                     bgColor={"#FFFFFF"}
                     borderColor={"#5E2691"}
                     text={"Save as draft"}
+                    clickEvent={()=> saveDraft()}
                 />
                 <ContestButton  
                     color={"#FFFFFF"}

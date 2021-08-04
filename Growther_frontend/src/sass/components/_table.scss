@@ -9,16 +9,21 @@
     .table-container{
         width: 100%;
         display: flex;
+        @extend .scroll;
         .table{
             flex: 1;
-            position: relative;
             width: 100%;
+            min-height: 150px;
             border-radius: 0 0 15px 15px !important;
             text-align: center;
+            position: relative;
             .tbody{
+                position: absolute;
                 display: flex;
                 flex-direction: column;
-                overflow-x: auto;
+                min-width: 100%;
+                left: 0;
+                top: 0;
                 .tr{
                     flex: 1;
                     padding: 10px;

@@ -1,5 +1,8 @@
 import { ContestTypes } from "./contest-types";
 import axios from "axios"
+import { CONTESTS_TYPES } from "../contests/contests-types";
+import { AppendContest, AppendDraft, DeleteFromDraft } from "../contests/contests-actions";
+import { BACKEND_API, FRONTEND_API } from "../../services/links";
 export const InitState = (dispatch)=>{
     var date =  new Date()
     var days = ("0" + parseInt(new Date(date.setDate(date.getDate() + 1)).getDate())).slice(-2)
@@ -121,64 +124,6 @@ export const NextStep = (dispatch, information)=>{
     }
     return false
 }
-export const SaveContestPrizes = async (dispatch, prizes, isValidData, id)=>{
-    var token = localStorage.getItem("accessToken")
-    var config = {
-        headers: {
-            "Content-Type" : "application/json",
-            "Authorization" : `Bearer ${token}`
-        } 
-    }
-    if(isValidData){
-        return axios.post(`https://staging-backendapp.herokuapp.com/api/contests/${id}/prizes`, prizes, config)
-            .then(response =>{
-                dispatch({type: ContestTypes.PRIZES_STEP_SAVED})
-                return true
-            }).catch(err =>{
-                dispatch({type: ContestTypes.PRIZES_STEP_FAIL})
-                return false
-            })
-    }
-    dispatch({type: ContestTypes.PRIZES_STEP_FAIL})
-    return false
-}
-
-export const SaveContestFirstStep = async (dispatch, information, isValidData)=>{
-    if(isValidData){
-        var token = localStorage.getItem("accessToken")
-        var config = {
-            headers: {
-                "Content-Type" : "application/json",
-                "Authorization" : `Bearer ${token}`
-            },
-        }
-        var Data = {}
-        Object.keys(information).map((key, index) =>{
-            if(key !== "prizes" && key !== "actions"){
-                Data[key] = information[key]
-            }
-        })
-        return axios.post("https://staging-backendapp.herokuapp.com/api/contests/create", Data, config)
-            .then(response =>{
-                dispatch({type: ContestTypes.SET_NEW_CONTEST_USER, payload: response.data})
-                return response.data
-            })/*.then(id =>{
-                if(typeof(id) === "number"){
-                    SaveContestPrizes(dispatch, information.prizes, isValidData, id).then(value =>{
-                        console.log(value, "here")
-                        return value
-                    })
-                    return true
-                }
-                return false
-            })*/.catch(err =>{
-                    dispatch({type: ContestTypes.INFOS_STEP_FAIL})
-                    return false
-                })
-    }
-    dispatch({type: ContestTypes.INFOS_STEP_FAIL})
-    return false
-}
 export const SaveContest = (dispatch, actions)=>{
     var result = []
     if(Array.isArray(actions) && actions.length > 0){
@@ -216,11 +161,25 @@ export const PreviewSelectedAction = (dispatch, provider, index)=>{
     dispatch({type: ContestTypes.PREVIEW_SELECTED_ACTIONS, payload: {provider, index}})
 }
 export const SaveDraft = (dispatch, data)=>{
-    axios.post("DRAFT_URL", data)
+    var token = localStorage.getItem("accessToken")
+    var config = {
+        headers: {
+            "Content-Type" : "application/json",
+            "Authorization" : `Bearer ${token}`
+        },
+    }
+    dispatch({type: ContestTypes.NEW_CONTEST_LOADING})
+    axios.post(`${BACKEND_API}/api/contests/create/draft`, data, config)
         .then(response =>{
             dispatch({type: ContestTypes.SAVE_DRAFT})
+            return true
         }).catch(err => {
             dispatch({type: ContestTypes.PUBLISH_FAIL})
+            return false
+        }).then(value =>{
+            if(value){
+                AppendDraft(dispatch, data)
+            }
         })
 }
 export const PublishContest = async (dispatch, data)=>{
@@ -235,9 +194,9 @@ export const PublishContest = async (dispatch, data)=>{
     }
     dispatch({type: ContestTypes.NEW_CONTEST_LOADING})
     if(validInfos && validActions){
-        return axios.post(`https://staging-backendapp.herokuapp.com/api/contests/create`, data.information ,config)
+        return axios.post(`${BACKEND_API}/api/contests/create`, data.information ,config)
             .then(response =>{
-                dispatch({type: ContestTypes.PUBLISH_SUCCESS, payload: `http://localhost:3000/contest/${data.information.title}/${data.information.description}/${response.data}`})
+                dispatch({type: ContestTypes.PUBLISH_SUCCESS, payload: `${FRONTEND_API}/contest/${data.information.title}/${data.information.description}/${response.data}`})
                 return true
             }).catch(err => {
                 dispatch({type: ContestTypes.PUBLISH_FAIL})
@@ -247,11 +206,27 @@ export const PublishContest = async (dispatch, data)=>{
     dispatch({type: ContestTypes.PUBLISH_FAIL})
     return false
 }
-
-
-
-
-
+export const DuplicateContest = (dispatch, id)=>{
+    var token = localStorage.getItem("accessToken")
+    var config = {
+        headers: {
+            "Content-Type" : "application/json",
+            "Authorization" : `Bearer ${token}`
+        } 
+    }
+    dispatch({type: ContestTypes.NEW_CONTEST_LOADING})
+    axios.get(`${BACKEND_API}/api/contests/draft/${id}`, config).then(response =>{
+        dispatch({type: ContestTypes.DUPLICATE_CONTEST})
+        return response.data
+    }).catch(err=>{
+        dispatch({type: ContestTypes.PUBLISH_FAIL})
+        return false
+    }).then(value => {
+        if(typeof(value) === "object"){
+            AppendDraft(dispatch, value)
+        }
+    })
+}
 var UrlValidation = (url)=>{
     var pattern = new RegExp(/^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$/)
     if(!pattern.test(url)){

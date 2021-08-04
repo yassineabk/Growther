@@ -35,11 +35,11 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
     switch (action.type) {
         case ContestTypes.SET_INITIAL_STATE:{
             return {
-                ...INITIAL_STATE,
+                ...state,
                 information:{
-                    ...INITIAL_STATE.information,
+                    ...state.information,
                     startDate: action.payload.startDate,
-                    endDate: action.payload.endDate,
+                    endDate: action.payload.endDate
                 }
             }
         }
@@ -253,7 +253,15 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
             }
         case ContestTypes.SAVE_DRAFT:
             return{
-                ...state
+                ...state,
+                isLoading: false,
+                error: false
+            }
+        case ContestTypes.DUPLICATE_CONTEST:
+            return{
+                ...state,
+                isLoading: false,
+                error: false
             }
         case ContestTypes.PUBLISH_SUCCESS:
             return{
@@ -261,7 +269,7 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
                 isPublished: true,
                 contestLink: action.payload,
                 isLoading: false,
-                error: null
+                error: false
             }
         case ContestTypes.PUBLISH_FAIL:
             return{
