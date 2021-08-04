@@ -2,15 +2,19 @@ package wbm.growther.growther_001.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import wbm.growther.growther_001.dtos.ContestDto;
 import wbm.growther.growther_001.exceptions.ResourceNotFoundException;
+import wbm.growther.growther_001.security.SecurityModel.SecurityUser;
 import wbm.growther.growther_001.services.ContestService;
 import wbm.growther.growther_001.utils.JwtUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,10 +26,6 @@ public class ContestController {
 
     @Autowired
     private ContestService contestService;
-
-    @Autowired
-    private JwtUtils jwtUtils;
-
 
     //Get All Contests
     @GetMapping("/GetContests")
@@ -62,22 +62,29 @@ public class ContestController {
     public Long createContest(@RequestBody ContestDto contestDto
             ,HttpServletRequest request) throws RejectedExecutionException{
 
-        //get the email from the JWT token
-        String token = getJwtTokenFromRequest(request);
-        String email= jwtUtils.getUserEmailFromToken(token);
+        // load the principal (authenticated user)
+        SecurityUser principal= (SecurityUser) SecurityContextHolder
+                .getContext().getAuthentication().getPrincipal();
+
+        //get the email from the principal
+        String email= principal.getEmail();
 
         Long contestCreated = contestService.createNewContest(contestDto,email);
         if(contestCreated != Long.decode("0")) return contestCreated;
         System.out.println(contestCreated);
         throw new RejectedExecutionException("A Contest with that ID already exist !!");
     }
+
     @PostMapping("/create/draft")
     public Long createDraftContest(@RequestBody ContestDto contestDto
             ,HttpServletRequest request) throws RejectedExecutionException{
 
-        //get the email from the JWT token
-        String token = jwtUtils.getJwtTokenFromRequest(request);
-        String email= jwtUtils.getUserEmailFromToken(token);
+        // load the principal (authenticated user)
+        SecurityUser principal= (SecurityUser) SecurityContextHolder
+                .getContext().getAuthentication().getPrincipal();
+
+        //get the email from the principal
+        String email= principal.getEmail();
 
         Long contestCreated = contestService.createNewDraftContest(contestDto,email);
         if(contestCreated != Long.decode("0")) return contestCreated;
@@ -89,14 +96,13 @@ public class ContestController {
     public Long draftContest(@PathVariable(value = "id") Long contestID)
             throws RejectedExecutionException{
 
-        //get the email from the JWT token
-        //String token = getJwtTokenFromRequest(request);
-        //String email= jwtUtils.getUserEmailFromToken(token);
 
         ContestDto contestCreated = contestService.draftContest(contestID);
         if(contestCreated != null) return contestCreated.getIdContest();
         throw new RejectedExecutionException("NO DRAFT");
     }
+
+
     //Update contest
     @PutMapping("/update/{id}")
     public ResponseEntity<ContestDto> updateContest(@PathVariable(value = "id") Long contestId
