@@ -3,11 +3,9 @@ package wbm.growther.growther_001.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import wbm.growther.growther_001.models.actions.Action;
-import wbm.growther.growther_001.models.users.Brand;
 import wbm.growther.growther_001.models.users.User;
 
 import javax.persistence.*;
-import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.Set;
 

@@ -27,15 +27,6 @@ public class ContestController {
     private JwtUtils jwtUtils;
 
 
-    private String getJwtTokenFromRequest(HttpServletRequest request) {
-        String bearerToken = request.getHeader("Authorization");
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(7, bearerToken.length());
-        }
-        return null;
-    }
-
-
     //Get All Contests
     @GetMapping("/GetContests")
     public List<ContestDto> getContests(){
@@ -87,7 +78,7 @@ public class ContestController {
             ,HttpServletRequest request) throws RejectedExecutionException{
 
         //get the email from the JWT token
-        String token = getJwtTokenFromRequest(request);
+        String token = jwtUtils.getJwtTokenFromRequest(request);
         String email= jwtUtils.getUserEmailFromToken(token);
 
         Long contestCreated = contestService.createNewContest(contestDto,email);
