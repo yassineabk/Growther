@@ -1,6 +1,7 @@
 import { CONTEST_EDIT_TYPES } from "./contest-edit-types";
 import axios from "axios"
 import { BACKEND_API } from "../../services/links";
+import { AppendEditedContest } from "../contests/contests-actions";
 export const SetInitialState = (dispatch)=>{
     dispatch({type: CONTEST_EDIT_TYPES.INIT_EDIT_STATE})
 }
@@ -108,10 +109,15 @@ export const Edit = async (dispatch, information, id, userId)=>{
         return axios.put(`${BACKEND_API}/api/contests/update/${id}`, Data, config)
         .then(response =>{
             dispatch({type: CONTEST_EDIT_TYPES.EDIT_SUCCESS})
-            return true
+            console.log(response.data)
+            return response.data
         }).catch(err =>{
             dispatch({type: CONTEST_EDIT_TYPES.EDIT_FAIL})
             return false
+        }).then(value =>{
+            if(value){
+                AppendEditedContest(dispatch, id, Data)
+            }
         })
     }
     dispatch({type: CONTEST_EDIT_TYPES.EDIT_FAIL})

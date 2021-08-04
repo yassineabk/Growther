@@ -1,3 +1,4 @@
+import { decode } from "jsonwebtoken"
 import React, { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Redirect, useHistory, useLocation } from "react-router-dom"
@@ -31,6 +32,10 @@ export const ContestSecondStep = ()=>{
         PublishContest(dispatch, {information, actions: information.actions}).then(value =>{
             if(value){
                 history.push("/dashboard/My Contests/new/thirdStep")
+                var token = decode(localStorage.getItem("accessToken"))
+                var sub = typeof(token) === "object" ? token.sub : ""
+                information.idContest = value
+                information.user = {id: sub}
                 AppendContest(dispatch, information)
             }
         })

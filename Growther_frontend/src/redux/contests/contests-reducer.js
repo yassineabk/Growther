@@ -32,6 +32,16 @@ const ContestsReducer = (state = INITIAL_STATE, action)=>{
                 error: null,
                 isLoading: false
             }
+        case CONTESTS_TYPES.APPEND_EDITED_CONTEST:
+            return {
+                ...state,
+                contests: state.contests.map(item=>{
+                    if(item.idContest.toString() === action.payload.id.toString()){
+                        return action.payload.data
+                    }
+                    return item
+                })
+            }
         case CONTESTS_TYPES.GET_CONTESTS:
             var token = decode(localStorage.getItem("accessToken"))
             var sub = typeof(token) === "object" ? token.sub : ""

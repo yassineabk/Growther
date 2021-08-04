@@ -6,11 +6,6 @@ import { CardsContainer } from "../../dashboard/cards-container/cards-container.
 export const DashboardContestPage = () =>{
     var dispatch = useDispatch()
     var {contests, isLoading} = useSelector(state => state.get_contests)
-    useEffect(()=>{
-        if((Array.isArray(contests) && contests.length === 0) || !Array.isArray(contests)){
-            GetContests(dispatch)
-        }
-    }, [dispatch])
     var Duplicate = (id)=> {
         DuplicateContest(dispatch, id)
     }
