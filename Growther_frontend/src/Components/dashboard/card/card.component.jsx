@@ -1,12 +1,22 @@
 import React from "react"
 import { useHistory } from "react-router-dom"
-export const CardComponent = ({element, title, description, date, dateType, views, entries, id})=>{
+export const CardComponent = ({element, title, description, date, dateType, views, entries, id, userId, status, Duplicate, Delete})=>{
     var history = useHistory()
     var openContest = ()=>{
-        if(typeof(id) === "number" || typeof(id) === "string"){
-            history.push(`/contest/${id}`, element)
+        if(typeof(element.user === "object")){
+            if(userId.toString() === element.user.id.toString() &&(typeof(id) === "number" || typeof(id) === "string")){
+                history.push(`/contest/${title}/${id}`, element)
+            }
         }
     }
+    var Continue = ()=>{
+        history.push("/dashboard/My%20Contests/new/firstStep", element)
+    }
+    /*if(typeof(element.user === "object")){
+        if(userId.toString() !== element.user.id.toString()){
+            return null
+        }
+    }*/
     return(
         <div className="is-flex card column">
             <div className="left-side is-flex is-flex-direction-column">
@@ -15,7 +25,7 @@ export const CardComponent = ({element, title, description, date, dateType, view
                         Total views
                     </span>
                     <span>
-                        {views && typeof(views) === "number" ? views : "xxxx"}
+                        {views && typeof(views) === "number" ? views : "0"}
                     </span>
                 </div>
                 <div className="card-entries is-flex is-flex-direction-column">
@@ -23,7 +33,7 @@ export const CardComponent = ({element, title, description, date, dateType, view
                         Total entries
                     </span>
                     <span>
-                        {entries && typeof(entries) === "number" ? entries : "xxxx"}
+                        {entries && typeof(entries) === "number" ? entries : "0"}
                     </span>
                 </div>
                 <div className="card-date is-flex is-flex-direction-column">
@@ -31,7 +41,7 @@ export const CardComponent = ({element, title, description, date, dateType, view
                         Time left
                     </span>
                     <span>
-                        {(date && typeof(date) === "string") ||  typeof(date) === "number" ? date : "xx"} <span className="dateType">{dateType && typeof(dateType) === "string"? dateType : "days"}</span>
+                        {(date && typeof(date) === "string") ||  typeof(date) === "number" ? date : "1"} <span className="dateType">{dateType && typeof(dateType) === "string"? dateType : "day"}</span>
                     </span>
                 </div>
             </div>
@@ -44,10 +54,16 @@ export const CardComponent = ({element, title, description, date, dateType, view
                         {description && typeof(description) === "string" ? description.slice(0, 250) : ""}
                     </div>
                 </div>
-                <div className="card-buttons is-flex is-flex-direction-row">
-                    <div className="details-button" onClick={()=> openContest()}>Details</div>
-                    <div className="duplicate-button">Duplicate</div>
-                </div>
+                {status !== "DRAFT" ? 
+                    <div className="card-buttons is-flex is-flex-direction-row">
+                        <div className="details-button" onClick={()=> openContest()}>Details</div>
+                        <div className="duplicate-button" onClick={Duplicate && {}.toString.call(Duplicate) === '[object Function]' ? ()=> Duplicate(id) : () => false}>Duplicate</div>
+                    </div> : 
+                    <div className="card-buttons is-flex is-flex-direction-row">
+                        <div className="details-button" onClick={Delete && {}.toString.call(Delete) === '[object Function]' ? ()=> Delete(id) : () => false}>Delete</div>
+                        <div className="duplicate-button" onClick={()=> Continue()}>Continue</div>
+                    </div>
+                }
             </div>
         </div>
     )

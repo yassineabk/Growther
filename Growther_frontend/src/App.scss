@@ -80,13 +80,16 @@ html, body{
   @media only screen and (max-width: 375px) {
     border-radius: 0px;
   }
+  .splash{
+    border-radius: 15px;
+  }
   .list-title-container{
     margin-bottom: 0.5em;
     width: 100%;
     
     #addNewButton{
         display: none !important;
-        @media only screen and (max-width: 375px) {
+        @media only screen and (max-width: 450px) {
           display: flex !important;
         }
     }
@@ -94,9 +97,11 @@ html, body{
       @extend .list-title;
       flex: 1;
       margin-bottom: 0;
+      z-index: 10000;
     }
     .addNew{
       font-size: 15px;
+      z-index: 10000;
       a{
         background-color: $sideBar-color;
         padding: 12px 20px;
@@ -104,7 +109,7 @@ html, body{
         color: white;
       }
       display: flex !important;
-      @media only screen and (max-width: 375px) {
+      @media only screen and (max-width: 450px) {
         display: none !important;
       }
     }
@@ -164,6 +169,7 @@ html, body{
   .arrow-button-container{
     margin-left: 0.25em;
     .arrow-button{
+      z-index: 100000;
       a{
         display: flex;
         align-items: center;

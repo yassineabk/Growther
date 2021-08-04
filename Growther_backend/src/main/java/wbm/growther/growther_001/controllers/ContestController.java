@@ -49,42 +49,53 @@ public class ContestController {
     }
 
     //Get contest by id and infos
-    @GetMapping("/{title}/{description}/{id}")
+    @GetMapping("/{title}/{id}")
     public ResponseEntity<ContestDto> getContestByInfos(@PathVariable(value = "id") Long contestId,
-                                                        @PathVariable(value = "title") String contestTitle,
-                                                        @PathVariable(value = "description") String contestDescription) throws ResourceNotFoundException {
-        ContestDto contestDto = contestService.getContestByInfos(contestTitle,contestDescription,contestId);
+                                                        @PathVariable(value = "title") String contestTitle)
+            throws ResourceNotFoundException {
+        ContestDto contestDto = contestService.getContestByInfos(contestTitle,contestId);
         if(contestDto==null) throw new ResourceNotFoundException("No contest exist with ID : "+contestId.toString());
         return ResponseEntity.ok().body(contestDto);
     }
-
-
-    //Create new contest
-    /*@PostMapping("/create")
-    public ContestDto createContest(@RequestBody ContestDto contestDto
-            ,HttpServletRequest request) throws RejectedExecutionException{
-
-        //get the email from the JWT token
-        String token = getJwtTokenFromRequest(request);
-        String email= jwtUtils.getUserEmailFromToken(token);
-
-        Boolean contestCreated = contestService.createNewContest(contestDto,email);
-        if(contestCreated) return contestDto;
-        throw new RejectedExecutionException("A Contest with that ID already exist !!");
-    }*/
 
     @PostMapping("/create")
     public Long createContest(@RequestBody ContestDto contestDto
             ,HttpServletRequest request) throws RejectedExecutionException{
 
         //get the email from the JWT token
-        String token = jwtUtils.getJwtTokenFromRequest(request);
+        String token = getJwtTokenFromRequest(request);
         String email= jwtUtils.getUserEmailFromToken(token);
 
         Long contestCreated = contestService.createNewContest(contestDto,email);
         if(contestCreated != Long.decode("0")) return contestCreated;
         System.out.println(contestCreated);
         throw new RejectedExecutionException("A Contest with that ID already exist !!");
+    }
+    @PostMapping("/create/draft")
+    public Long createDraftContest(@RequestBody ContestDto contestDto
+            ,HttpServletRequest request) throws RejectedExecutionException{
+
+        //get the email from the JWT token
+        String token = jwtUtils.getJwtTokenFromRequest(request);
+        String email= jwtUtils.getUserEmailFromToken(token);
+
+        Long contestCreated = contestService.createNewDraftContest(contestDto,email);
+        if(contestCreated != Long.decode("0")) return contestCreated;
+        System.out.println(contestCreated);
+        throw new RejectedExecutionException("A Contest with that ID already exist !!");
+    }
+
+    @GetMapping("/draft/{id}")
+    public Long draftContest(@PathVariable(value = "id") Long contestID)
+            throws RejectedExecutionException{
+
+        //get the email from the JWT token
+        //String token = getJwtTokenFromRequest(request);
+        //String email= jwtUtils.getUserEmailFromToken(token);
+
+        ContestDto contestCreated = contestService.draftContest(contestID);
+        if(contestCreated != null) return contestCreated.getIdContest();
+        throw new RejectedExecutionException("NO DRAFT");
     }
     //Update contest
     @PutMapping("/update/{id}")
@@ -94,7 +105,7 @@ public class ContestController {
 
         // if the contest does not exist, throw an exception
         if(contestDto==null) throw new ResourceNotFoundException("No Contest exist with  ID : "+contestId.toString());
-
+        System.out.println(contestId.toString());
         //update informations
 
         contestDto.setTitle(contestDetails.getTitle());
@@ -103,7 +114,7 @@ public class ContestController {
         contestDto.setActionsNbr(contestDetails.getActionsNbr());
         contestDto.setWinnersNbr(contestDetails.getWinnersNbr());
         contestDto.setMaxReach(contestDetails.getMaxReach());
-        contestDto.setPrizes(contestDetails.getPrizes());
+        //contestDto.setPrizes(contestDetails.getPrizes());
         contestDto.setDuration(contestDetails.getDuration());
 
         ContestDto contestDtoUpdated=contestService.updateContestInfos(contestDetails);

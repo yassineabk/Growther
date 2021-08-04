@@ -13,6 +13,7 @@ import wbm.growther.growther_001.models.users.User;
 import wbm.growther.growther_001.repository.*;
 import wbm.growther.growther_001.services.ContestService;
 
+import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -37,6 +38,9 @@ public class ContestServiceImpl implements ContestService {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private EntityManager entityManager;
 
 
     @Override
@@ -95,6 +99,68 @@ public class ContestServiceImpl implements ContestService {
     }
 
     @Override
+    public Long createNewDraftContest(ContestDto NewContestDto, String email) {
+
+        User user = userRepository.findUserByEmail(email);
+        if(!user.getIsBrand().equalsIgnoreCase("true")) Long.decode("0");
+
+
+        Contest contest = toContest(NewContestDto);
+        //check if a contest with the same id exist
+        Contest contestExist = repository.findContestByIdContest(contest.getIdContest());
+
+        if(contestExist!=null) return Long.decode("0");
+
+        contest.setStatus("DRAFT");
+        contest.setUser(user);
+
+        Duration duration = contest.getDuration();
+        Set<Prize> prizes = contest.getPrizes();
+        Set<Action> actions = contest.getActions();
+
+        actions.forEach( action -> {
+            action.setContest(contest);
+        });
+
+        prizes.forEach( prize -> {
+            prize.setContest(contest);
+        });
+
+        System.out.println(contest.getDuration().getType()+"---"+contest.getDuration().getValue());
+        System.out.println(contest.getIdContest());
+
+        duration.setContest(contest);
+        durationRepository.save(duration);
+
+        repository.save(contest);
+
+        prizes.forEach( prize -> {
+            prizeRepository.save(prize);
+        });
+        actions.forEach( action -> {
+            actionRepository.save(action);
+        });
+
+        System.out.println(contest.getIdContest());
+
+
+        return contest.getIdContest();
+    }
+
+    @Override
+    public ContestDto draftContest(Long contestID) {
+
+        Contest contestExist = repository.findContestByIdContest(contestID);
+        Contest contest = new Contest(contestExist);
+
+        contest.setIdContest(0);
+        contest.setStatus("DRAFT");
+
+        repository.save(contest);
+        return (contest==null)? null :  toDto(contest);
+    }
+
+    @Override
     public ContestDto getContestById(Long contestID) {
         Contest contest = repository.findContestByIdContest(contestID);
         return (contest==null)? null :  toDto(contest);
@@ -120,8 +186,8 @@ public class ContestServiceImpl implements ContestService {
     }
 
     @Override
-    public ContestDto getContestByInfos(String title, String description, Long id) {
-        Contest contest = repository.findContestByTitleAndDescriptionAndIdContest(title,description,id);
+    public ContestDto getContestByInfos(String title, Long id) {
+        Contest contest = repository.findContestByTitleAndIdContest(title,id);
         return (contest==null)? null :  toDto(contest);
     }
 

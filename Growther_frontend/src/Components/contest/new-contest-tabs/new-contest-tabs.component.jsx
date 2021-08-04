@@ -1,10 +1,10 @@
 import React from "react"
 import {useHistory, useLocation} from "react-router-dom"
-export const NewContestTabs = ({tabs, activePage})=>{
+export const NewContestTabs = ({tabs, activePage, goBack})=>{
     var location = useLocation()
     var history = useHistory()
     var openLink =(url)=>{
-        if(url){
+        if(url && !goBack){
             history.push(url)
         }
     }

@@ -9,7 +9,7 @@ export const ContestActions = ({data, removeAction, updateAction, validActions})
                         data={element} 
                         removeAction={(provider)=> removeAction(provider, index)} 
                         updateAction={(provider, key, value)=> updateAction(provider, key, value, index)}
-                        validAction={validActions && validActions[index] && validActions[index] ? validActions[index]: undefined}
+                        validAction={validActions && validActions[index] ? validActions[index]: undefined}
                     />
             )}) : null}
         </div>

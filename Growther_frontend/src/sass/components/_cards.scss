@@ -75,7 +75,7 @@
         }
       }
       .dateType{
-        font-size: 15px;
+        font-size: 13px;
       }
       .little-title{
         font-size: 8px;
@@ -89,13 +89,19 @@
         flex: 1;
       }
       .card-infos{
-        justify-content: space-between;
+        //justify-content: space-between;
         .card-title{
+          word-wrap: break-word;
+          word-break: break-all;
           font-size: 18px;
           font-weight: 500;
         }
         .card-description{
+          -ms-word-break: break-all;
           word-break: break-all;
+          -webkit-hyphens: auto;
+          -moz-hyphens: auto;
+          hyphens: auto;
           margin: 0.25em 0 0.5em 0;
           font-size: 13px;
           color: $container-border;
@@ -178,7 +184,7 @@
       justify-content: center;
       align-items: center;
       border-radius: 20px 20px 0 0  !important;
-      font-size: 17px;
+      font-size: 15px;
     }
     > div{
       width: 100%;
@@ -194,7 +200,7 @@
       }
     }
     .dateType{
-      font-size: 15px;
+      font-size: 13px;
     }
     .little-title{
       font-size: 8px;
@@ -205,18 +211,32 @@
     justify-content: space-evenly;
     margin-left: 10px;
     .card-infos{
-      justify-content: space-between;
+      //justify-content: space-between;
       .card-title{
         font-size: 18px;
         font-weight: 500;
+        word-wrap: break-word;
+        word-break: break-all;
+        .headButtons{
+          & > div{
+            margin: 0 0.125em !important;
+            img{
+              cursor: pointer;
+            }
+          }
+        }
       }
       .card-description{
-        word-break: break-all;
         justify-self: center;
         margin: 0.25em 0 0.5em 0;
         font-size: 13px;
         color: $container-border;
         font-family: Poppins-Medium;
+        -ms-word-break: break-all;
+        word-break: break-all;
+        -webkit-hyphens: auto;
+        -moz-hyphens: auto;
+        hyphens: auto;
       }
     }
     .previewActions{

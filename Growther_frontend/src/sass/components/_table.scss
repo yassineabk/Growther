@@ -1,0 +1,46 @@
+.tableContainer{
+    //@extend .list-container;
+    width: 100%;
+    border-radius: 0 0 15px 15px;
+    padding: 10px 0;
+    .list-title-container{
+        padding: 15px 10px;
+    }
+    .table-container{
+        width: 100%;
+        display: flex;
+        @extend .scroll;
+        .table{
+            flex: 1;
+            width: 100%;
+            min-height: 150px;
+            border-radius: 0 0 15px 15px !important;
+            text-align: center;
+            position: relative;
+            .tbody{
+                position: absolute;
+                display: flex;
+                flex-direction: column;
+                min-width: 100%;
+                left: 0;
+                top: 0;
+                .tr{
+                    flex: 1;
+                    padding: 10px;
+                    font-size: 15px !important;
+                    border-bottom: 1px solid $border-color;
+                    font-family: Poppins-Medium;
+                    flex: 1;
+                    & > div{
+                        min-width: 150px;
+                        flex: 1;
+                    }
+                }
+                .tds{
+                    color: gray;
+                    font-family: Montserrat-Regular;
+                }
+            }
+        }
+    }
+}
