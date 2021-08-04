@@ -95,7 +95,7 @@ public class ContestController {
     }
 
     @GetMapping("/draft/{id}")
-    public ContestDto draftContest(@PathVariable(value = "id") Long contestID)
+    public Long draftContest(@PathVariable(value = "id") Long contestID)
             throws RejectedExecutionException{
 
         //get the email from the JWT token
@@ -103,7 +103,7 @@ public class ContestController {
         //String email= jwtUtils.getUserEmailFromToken(token);
 
         ContestDto contestCreated = contestService.draftContest(contestID);
-        if(contestCreated != null) return contestCreated;
+        if(contestCreated != null) return contestCreated.getIdContest();
         throw new RejectedExecutionException("NO DRAFT");
     }
     //Update contest
