@@ -6,16 +6,20 @@ import SocialMediaButton from '../social-media-button/social-media-button.compon
 import {Link, useHistory} from 'react-router-dom'
 import { googleUri } from './login_uri';
 import { facebookUri } from './login_uri';
+import { Spinner } from '../spinner/spinner.component';
+import { useSelector } from 'react-redux';
 const LoginForm=({handleSubmit,handleRemeberMe,SignUpWithGoogle,SignUpWithFacebook,registrationMessage,passwordVlue,passwordFunctions,emailValue,email,password,emailFunctions})=>{
     const history = useHistory();
-
+    var {isLoading} = useSelector(state => state.login)
   function handleClickRegister() {
     history.push("/signup");
   }
     return(
 
-    <section className="hero is-fullheight Modal">
+    [
+        <section className="hero is-fullheight Modal">
             <div className="hero-body ">
+                <Spinner show={isLoading} />,
                 <div className="container ">
                 <div className="columns is-centered ">
                     <div className="column is-5-tablet is-4-desktop is-4-widescreen ">
@@ -35,15 +39,16 @@ const LoginForm=({handleSubmit,handleRemeberMe,SignUpWithGoogle,SignUpWithFacebo
                             </div>
                         <div className="field"></div>
                         <SubmitButton message={registrationMessage} id="submitButton" type="submit" label="Login"/>
-                        <SocialMediaButton uri={googleUri} onClick={SignUpWithGoogle} isGoogle label="Login with Google"/>
-                        <SocialMediaButton uri={facebookUri} onClick={SignUpWithFacebook} label="Login with Facebook"/>
-                        <SubmitButton onClick={handleClickRegister} className="details-button" type="button" label="Sign up"/>
+                        <SocialMediaButton uri={googleUri} onClick={ isLoading ? ()=> false : SignUpWithGoogle} isGoogle label="Login with Google"/>
+                        <SocialMediaButton uri={facebookUri} onClick={isLoading ? ()=> false : SignUpWithFacebook} label="Login with Facebook"/>
+                        <SubmitButton onClick={isLoading ? ()=> false : handleClickRegister} className="details-button" type="button" label="Sign up"/>
                     </form>
                     </div>
                 </div>
                 </div>
             </div>
         </section>
+    ]
 
 
 
