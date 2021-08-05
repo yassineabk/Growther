@@ -33,11 +33,10 @@ class Navbar extends React.Component {
 
             <div className="navbar-end">
                 <div className="navbar-item ">
-                      
                         <div className="buttons ">
-                        <Link to="/signup" className="btn btn-primary center-cta">Learn More <i className="mdi mdi-arrow-right"></i></Link>
+                            <Link to="/login" style={{color: "white"}} className="mr-3 is-outlined center-cta">Login</Link>
+                            <Link to="/signup" className="btn btn-primary center-cta">Sign Up <i className="mdi mdi-arrow-right"></i></Link>
                         </div>
-                    
                 </div>
             </div>
         </nav>

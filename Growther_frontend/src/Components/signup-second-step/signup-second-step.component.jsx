@@ -31,7 +31,7 @@ const SingupSecondStep=({handleChange,handleSubmit,BrandFunctions,IndividualFunc
                                 </div>
                             )
                         }
-                        <SubmitButton id="submitButton" className="" type="submit" label="Done"/>
+                        <SubmitButton id="submitButton" className="" type="submit" label="Next"/>
                         </form>
                         </div>
                     </div>
