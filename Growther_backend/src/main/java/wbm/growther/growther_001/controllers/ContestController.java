@@ -126,7 +126,7 @@ public class ContestController {
         //contestDto.setPrizes(contestDetails.getPrizes());
         contestDto.setDuration(contestDetails.getDuration());
 
-        ContestDto contestDtoUpdated=contestService.updateContestInfos(contestDetails);
+        ContestDto contestDtoUpdated=contestService.updateContestInfos(contestDto);
         return  ResponseEntity.ok().body(contestDtoUpdated);
     }
 
