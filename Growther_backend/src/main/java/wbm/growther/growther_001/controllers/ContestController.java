@@ -120,10 +120,7 @@ public class ContestController {
         contestDto.setTitle(contestDetails.getTitle());
         contestDto.setDescription(contestDetails.getDescription());
         contestDto.setEndDate(contestDetails.getEndDate());
-        contestDto.setActionsNbr(contestDetails.getActionsNbr());
-        contestDto.setWinnersNbr(contestDetails.getWinnersNbr());
         contestDto.setMaxReach(contestDetails.getMaxReach());
-        //contestDto.setPrizes(contestDetails.getPrizes());
         contestDto.setDuration(contestDetails.getDuration());
 
         ContestDto contestDtoUpdated=contestService.updateContestInfos(contestDto);
