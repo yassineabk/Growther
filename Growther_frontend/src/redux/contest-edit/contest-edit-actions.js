@@ -73,8 +73,7 @@ export const CheckEdits = (dispatch, information) =>{
                     }else{
                         var dateStart = new Date(data.startDate)
                         var dateEnd = new Date(data.endDate)
-                        var currentDate = new Date()
-                        if(dateStart >= dateEnd || dateEnd < currentDate){
+                        if(dateStart >= dateEnd){
                             result["endDate"] = false
                         }
                     }

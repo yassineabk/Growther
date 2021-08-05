@@ -36,7 +36,7 @@ export const CardsContainer = ({data, title, showMore, addNew, Duplicate, Delete
                             userId={userId}
                             status={typeof(element.status) === "string" ? element.status : "Draft"}
                             key={element.idContest ? `card${element.idContest}` : `card${index}`}
-                            Duplicate={Duplicate && {}.toString.call(Duplicate) === '[object Function]' ? (id)=> {Duplicate(id)} : () => false}
+                            Duplicate={Duplicate && {}.toString.call(Duplicate) === '[object Function]' ? (id)=> {Duplicate(id,  element)} : () => false}
                             Delete={(id)=> Delete(id)}
                         />                    
                     )

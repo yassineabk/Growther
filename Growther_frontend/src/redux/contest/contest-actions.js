@@ -207,7 +207,7 @@ export const PublishContest = async (dispatch, data)=>{
     dispatch({type: ContestTypes.PUBLISH_FAIL})
     return false
 }
-export const DuplicateContest = (dispatch, id)=>{
+export const DuplicateContest = (dispatch, id, data)=>{
     var token = localStorage.getItem("accessToken")
     var config = {
         headers: {
@@ -223,8 +223,9 @@ export const DuplicateContest = (dispatch, id)=>{
         dispatch({type: ContestTypes.PUBLISH_FAIL})
         return false
     }).then(value => {
-        if(typeof(value) === "object"){
-            AppendDraft(dispatch, value)
+        if(value){
+            data.idContest = value
+            AppendDraft(dispatch, data)
         }
     })
 }
