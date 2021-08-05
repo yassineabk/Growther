@@ -9,7 +9,7 @@ const INITIAL_STATE={
     remember:false,
     isError:false,
     errorMessage:'',
-    
+    isLoading: false
     
 }
 
@@ -22,37 +22,43 @@ export const loginReducer=(state=INITIAL_STATE,action)=>{
         case loginType.SET_EMAIL:
             return {
                 ...state,
-                email:action.payload
+                email:action.payload,
+                isLoading: false
             }
         case loginType.SET_PASSWORD:
             return {
                 ...state,
-                password:action.payload
+                password:action.payload,
+                isLoading: false
             }
         case loginType.SET_REMEMBER_ME:
             return {
                 ...state,
-                remember:action.payload
+                remember:action.payload,
+                isLoading: false
             }
         case loginType.SET_LOGIN_ERROR:
             return {
                     ...state,
-                    isError:action.payload
+                    isError:action.payload,
+                    isLoading: false
                 }
         case loginType.SET_LOGIN_ERROR_MESSAGE:
             return {
                     ...state,
-                    errorMessage:action.payload
-                        }
+                    errorMessage:action.payload,
+                    isLoading: false
+                }
         case loginType.LOGIN_REQUEST:
             return {
-                    ...state
-                    }
+                    ...state,
+                    isLoading: true
+            }
         case loginType.LOGIN_SUCCESS:
             return {
                     ...state,
-                    currentUser:localStorage.getItem("accessToken")
-
+                    currentUser:localStorage.getItem("accessToken"),
+                    isLoading: false,
             }
        
         
