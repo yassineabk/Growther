@@ -228,6 +228,9 @@ html, body{
             margin: 0 0 0.25em 0.25em;
           }
           .textInputs, .otherInputs{
+            .contest_checkbox{
+              @extend .input;
+            }
             .contest_input, .input_container{
               flex: 1;
               margin: 0px 0.5em 0px 0px;

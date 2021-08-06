@@ -4,10 +4,9 @@ export const PreviewPrizesList = ({prizes})=>{
     var result = prizes.map((item, index) =>{
         if(typeof(item) === "object" && typeof(item.description) === "string"){
             return (
-                <div key={`prize${index}`} className="previewPrize">
-                    <div>
-                        <span className="prizeOrder">{`${index + 1}.`}</span> {`${item.description}`}
-                    </div>
+                <div key={`prize${index}`} className="previewPrize is-flex is-align-items-center">
+                    <span className="prizeOrder"><img width={'25px'} src={require("../../../assets/icons/prize.png").default} /></span> 
+                    <span className="prizeText">{`${item.description}`}</span>
                 </div>
             )
         }

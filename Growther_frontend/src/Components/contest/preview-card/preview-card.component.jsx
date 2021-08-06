@@ -17,7 +17,7 @@ export const PreviewCard = ({title, description, timeLeft, dateType, views, poin
     useEffect(()=>{
         if(!buttons && !isPreview){
             var token = decode(localStorage.getItem("accessToken"))
-            if(typeof(token) === "object"){
+            if(token !== null && typeof(token) === "object"){
                 var sub = token.sub
                 if(sub.toString() === user_id){
                     setId(true)
@@ -87,11 +87,16 @@ export const PreviewCard = ({title, description, timeLeft, dateType, views, poin
                     </div>
                     <PreviewActionsList previewActions={previewActions} actions={actions} changeHandler={changeHandler && {}.toString.call(changeHandler) === '[object Function]' ? (event, provider) => changeHandler(event, provider) : ()=> false}/>
                 </div>
-                <div className="is-flex is-flex-row is-align-items-center back previewPrizes">
-                    <div onClick={()=> hoverCard()} className="backButton">
-                        <img src={require("../../../assets/icons/back.png").default} width={"20px"} />
+                <div className="is-flex is-flex-column is-align-items-center back previewPrizes">
+                    <div onClick={()=> hoverCard()} className="prizesTitle is-flex is-flex-direction-row is-justify-content-space-between">
+                        <div>Prizes</div>
+                        <div>
+                            <img src={require("../../../assets/icons/back.png").default} width={"20px"} />
+                        </div>
                     </div>
-                    <PreviewPrizesList prizes={prizes}  />
+                    <div id="previewPrizes" className="is-flex is-flex-direction-column">
+                        <PreviewPrizesList prizes={prizes}  />
+                    </div>
                 </div>
             </div>
         )

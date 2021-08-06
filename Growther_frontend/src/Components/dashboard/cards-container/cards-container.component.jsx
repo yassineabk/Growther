@@ -10,7 +10,7 @@ export const CardsContainer = ({data, title, showMore, addNew, Duplicate, Delete
     var [userId, setId] = useState("")
     useEffect(()=>{
         var token = decode(localStorage.getItem("accessToken"))
-        if(typeof(token) === "object"){
+        if(token !== null && typeof(token) === "object"){
             var sub = token.sub
             setId(sub)
         }

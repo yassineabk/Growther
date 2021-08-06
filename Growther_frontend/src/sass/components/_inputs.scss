@@ -2,6 +2,19 @@
     margin: 0 0.25em;
     flex: 1;
     width: 100%;
+    .contest_checkbox{
+        margin: 5px 0 !important;
+        min-height: 78px;
+        justify-content: space-between;
+        .checkbox_container{
+            flex: 1;
+            justify-self: center;
+        }
+        label{
+            font-size: 14px;
+            margin-bottom: 0.5em;
+        }
+    }
     .contest_input, .input_container{
         margin: 5px 0 !important;
         label{
