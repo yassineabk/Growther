@@ -9,6 +9,7 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.TimeZone;
 
 @Entity
 @Table(name="Contests")
@@ -26,6 +27,7 @@ public class Contest {
     private Date endDate;
     private Date startTime;
     private Date endTime;
+    private TimeZone timeZone;
     @OneToOne(mappedBy = "contest", cascade = CascadeType.ALL)
     @JsonIgnore
     private Duration duration;
@@ -49,7 +51,7 @@ public class Contest {
 
     public Contest(String title, String description, int winnersNbr, int actionsNbr, int maxReach,
                    Date startDate, Date endDate, Date startTime, Date endTime,
-                   Duration duration, Set<Participation> participations,
+                   TimeZone timeZone, Duration duration, Set<Participation> participations,
                    String status, Set<Action> actions, Set<Prize> prizes) {
         this.title = title;
         this.description = description;
@@ -60,6 +62,7 @@ public class Contest {
         this.endDate = endDate;
         this.startTime=startTime;
         this.endTime=endTime;
+        this.timeZone = timeZone;
         this.duration = duration;
         this.participations = participations;
         this.status = status;
@@ -179,7 +182,14 @@ public class Contest {
         this.endDate = endDate;
     }
 
-//    public Long getDuration() { return ChronoUnit.DAYS.between(startDate.toInstant(), endDate.toInstant()); }
+    public TimeZone getTimeZone() {
+        return timeZone;
+    }
+
+    public void setTimeZone(TimeZone timeZone) {
+        this.timeZone = timeZone;
+    }
+    //    public Long getDuration() { return ChronoUnit.DAYS.between(startDate.toInstant(), endDate.toInstant()); }
 //
 //    public void setDuration(Long duration) { this.duration = duration; }
 

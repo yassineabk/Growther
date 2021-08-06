@@ -214,6 +214,9 @@ public class ContestServiceImpl implements ContestService {
         contestDto.setActionsNbr(contest.getActionsNbr());
         contestDto.setStartDate(contest.getStartDate());
         contestDto.setEndDate(contest.getEndDate());
+        contestDto.setStartTime(contest.getStartTime());
+        contestDto.setEndTime(contest.getEndTime());
+        contestDto.setTimeZone(contest.getTimeZone());
         contestDto.setDuration(contest.getDuration());
         contestDto.setMaxReach(contest.getMaxReach());
         contestDto.setActions(contest.getActions());
@@ -238,6 +241,9 @@ public class ContestServiceImpl implements ContestService {
         contest.setActionsNbr(contestDto.getActionsNbr());
         contest.setStartDate(contestDto.getStartDate());
         contest.setEndDate(contestDto.getEndDate());
+        contest.setStartTime(contestDto.getStartTime());
+        contest.setEndTime(contestDto.getEndTime());
+        contest.setTimeZone(contestDto.getTimeZone());
         contest.setDuration(contestDto.getDuration());
         contest.setMaxReach(contestDto.getMaxReach());
         contest.setActions(contestDto.getActions());
