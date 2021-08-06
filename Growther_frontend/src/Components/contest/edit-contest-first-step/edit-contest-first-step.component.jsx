@@ -17,7 +17,8 @@ export const EditContestFirstStep = ()=>{
     var history = useHistory()
     var [userId, setId] = useState("")
     useEffect(()=>{
-        var id = decode(localStorage.getItem("accessToken")).sub
+        var token = decode(localStorage.getItem("accessToken"))
+        var id = token !== null && typeof(token) === "object" ? token.sub : ""
         setId(id)
         if(typeof(location.state) === "object"){
             SetStateToEditFromLocation(dispatch, location.state, id).then(value =>{

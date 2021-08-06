@@ -14,7 +14,9 @@ export const ContestThirdStep = () =>{
         navigator.clipboard.writeText(contestLink)
         document.getElementById("contestLink").classList.add("copied")
         setTimeout(()=>{
-            document.getElementById("contestLink").classList.remove("copied")
+            if(document.getElementById("contestLink") !== null && document.getElementById("contestLink") !== undefined && typeof(document.getElementById("contestLink") === "object")){
+                document.getElementById("contestLink").classList.remove("copied")
+            }
         }, 2000)
     }
     if(location.pathname !== "/dashboard/My Contests/new/thirdStep") return null
