@@ -1,20 +1,11 @@
-import React from "react"
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react"
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import { logout } from "../../../redux/login/login.actions";
 
-export const DashboradSideBar = ({activePage})=>{
-    var {activePage} = useSelector(state => state.contest)
+export const DashboradSideBar = ()=>{
     var homeLocations = [
         "/dashboard", 
-    ]
-    var contestLocations = [
-        "/dashboard/My Contests", 
-        "/dashboard/My Contests/new", 
-        "/dashboard/My Contests/new/secondStep",
-        "/dashboard/My Contests/new/firstStep",
-        "/dashboard/My Contests/new/thirdStep",
-        "/dashboard/My Contests/"
     ]
     var templateLocations = [
         "/dashboard/Templates",
@@ -22,15 +13,29 @@ export const DashboradSideBar = ({activePage})=>{
     ]
     var history = useHistory()
     var location = useLocation()
+    var dispatch = useDispatch()
     var changeHandler = (path)=>{
         //if(path === "/dashboard") return history.push(activePage && typeof(activePage) === "string" ? activePage : path)
         history.push(path)
     }
     var Logout = ()=>{
-        logout().then(value =>{
+        logout(dispatch).then(value =>{
             history.push("/landing-page")
         })
     }
+    useEffect(()=>{
+        document.addEventListener("click", event =>{
+            var id = event.target.id
+            if(id !== "sideBar" && id !== "burgerIcon"){
+                var sideBar = document.getElementById("sideBar")
+                if(sideBar !== null && typeof(sideBar) === "object"){
+                    if(!sideBar.contains(event.target) && sideBar.classList.contains("showSideBar")){
+                        sideBar.classList.remove("showSideBar")
+                    }
+                }
+            }
+        })
+    })
     return(
         <div id="sideBar" className="sideBar">
             <div className="sideBar_Items is-flex is-flex-direction-column">
