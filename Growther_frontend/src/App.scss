@@ -114,6 +114,9 @@ html, body{
       }
     }
   }
+  i{
+    cursor: pointer;
+  }
   ul{
     &.todolist{
       list-style: none;
