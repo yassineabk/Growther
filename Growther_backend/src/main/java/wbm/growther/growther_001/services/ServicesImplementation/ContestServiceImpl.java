@@ -244,7 +244,7 @@ public class ContestServiceImpl implements ContestService {
         contest.setPrizes(contestDto.getPrizes());
         return contest;
     }
-    // returns a list of brands DTO
+    // returns a list of contests DTO
     private List<ContestDto> getContestsDto(List<Contest> contests){
         List<ContestDto> contestDtos = new ArrayList<>();
 
