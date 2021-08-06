@@ -10,6 +10,7 @@ import Contact from '../../Components/landing-page/contact/contact.componenet';
 import SocialMedia from '../../Components/landing-page/social-media/social-media.component';
 import Footer from '../../Components/landing-page/footer/footer.component';
 import Auxi from '../../Components/landing-page/hoc/auxi.componenet';
+import LanguageSelect from '../../Components/language-select/language.select';
 class LandingPage extends React.Component {
   render() {
 
@@ -32,6 +33,7 @@ class LandingPage extends React.Component {
                                       <div className="column is-8-desktop text-white has-text-centered">
                                         <h1 className="home-title">We help brands grow their audience</h1>
                                         <p className="pt-7 home-desc">Etiam sed.Interdum consequat proin vestibulum className at a euismod mus luctus quam.Lorem ipsum dolor sit amet, consectetur adipisicing eli.</p>
+                                        <LanguageSelect/>
                                         <div className="margin-t-30">
                                             <iframe src="http://player.vimeo.com/video/69988283?color=f15b72&amp;title=0&amp;byline=0&amp;portrait=0" width="555" height="321" className="frame-border"></iframe>
                                         </div>

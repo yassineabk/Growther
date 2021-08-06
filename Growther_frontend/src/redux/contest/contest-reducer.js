@@ -8,6 +8,9 @@ const INITIAL_STATE={
         actionsNbr: 0,
         startDate: "",
         endDate: "",
+        startTime: "",
+        endTime: "",
+        timeZone: "",
         duration: {
             type: "days",
             value: 1
@@ -17,7 +20,8 @@ const INITIAL_STATE={
             {description: ""}
         ],
         actions: [],
-        user: null
+        user: null,
+        immediately: false
     },
     validData: {},
     isValidData: false,
@@ -38,11 +42,49 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
                 ...state,
                 information:{
                     ...state.information,
-                    startDate: action.payload.startDate,
-                    endDate: action.payload.endDate
+                    startDate: action.payload.startDate ? action.payload.startDate : "",
+                    endDate: action.payload.endDate ? action.payload.endDate : "",
+                    startTime: action.payload.startTime ? action.payload.startTime : "",
+                    endTime: action.payload.endTime ? action.payload.endTime : "",
+                    timeZone: action.payload.timeZone ? action.payload.timeZone : ""
                 }
             }
         }
+        case ContestTypes.SET_IMMEDIATELY:
+            var currentDate = new Date()
+            var fullDate = ""
+            var startTime = currentDate.getHours() + ":" +currentDate.getMinutes()
+            if(action.payload === true){
+                var day = ("0"+ currentDate.getDate()).slice(-2)
+                var month = ("0" + parseInt(currentDate.getMonth()+1 === 13 ? 1 : currentDate.getMonth() + 1)).slice(-2)
+                var year = currentDate.getFullYear()
+                fullDate = year + "-" + month + "-" + day
+            }
+            var duration = Math.abs(Math.ceil((new Date(fullDate) - new Date(state.information.endDate))/(1000*60*60*24)))
+            return {
+                ...state,
+                information: {
+                    ...state.information,
+                    immediately: action.payload,
+                    startDate: action.payload === true ? fullDate : state.information.startDate,
+                    startTime: startTime,
+                    duration: {
+                        ...state.information.duration,
+                        value: duration,
+                        type: "days"
+                    }
+                }
+            }
+        case ContestTypes.SET_TIME:
+            return {
+                ...state,
+                information: {
+                    ...state.information,
+                    endTime: action.payload ? action.payload : state.information.endTime
+                },
+                isLoading: false,
+                error: null
+            }
         case ContestTypes.SET_NEW_CONTEST_STATE:
             return {
                 ...state,
@@ -222,13 +264,9 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
                 isLoading: false,
                 error: null,
             }
-        case ContestTypes.RESET_VALIDATION:
+        case ContestTypes.RESET_NEW_CONTEST:
             return {
-                ...state,
-                validData: {},
-                isValidData: false,
-                isLoading: false,
-                error: null
+                ...INITIAL_STATE,
             }
         case ContestTypes.PREVIEW_SELECTED_ACTIONS:
             return{

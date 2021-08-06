@@ -2,7 +2,7 @@ import { decode } from "jsonwebtoken"
 import React, { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Redirect, useHistory, useLocation } from "react-router-dom"
-import { AddAction, NextStep, PublishContest, RemoveAction, SaveContest, SaveDraft, UpdateAction } from "../../../redux/contest/contest-actions"
+import { AddAction, NextStep, PublishContest, RemoveAction, ResestNewContest, SaveContest, SaveDraft, UpdateAction } from "../../../redux/contest/contest-actions"
 import { AppendContest } from "../../../redux/contests/contests-actions"
 import { ActionsList } from "../actions-list/actions-list.component"
 import { ContestActions } from "../contest-actions/contest-actions.component"
@@ -33,7 +33,7 @@ export const ContestSecondStep = ()=>{
             if(value){
                 history.push("/dashboard/My Contests/new/thirdStep")
                 var token = decode(localStorage.getItem("accessToken"))
-                var sub = typeof(token) === "object" ? token.sub : ""
+                var sub = token !== null && typeof(token) === "object" ? token.sub : ""
                 information.idContest = value
                 information.user = {id: sub}
                 AppendContest(dispatch, information)

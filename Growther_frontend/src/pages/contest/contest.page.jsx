@@ -14,7 +14,7 @@ export const Contest = ({currentUser})=>{
     useEffect(()=>{
         var token = localStorage.getItem("accessToken")
         token = decode(token)
-        var sub = token === null ? undefined : token.sub
+        var sub = token !== null && typeof(token) === "object" ? token.sub : ""
         setId(sub)
         if(location.state){
             SetDataFromLocation(dispatch, location.state)

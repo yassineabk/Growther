@@ -204,3 +204,8 @@ img{vertical-align:middle;border-style:none}
     border-width: medium;
     border-style: solid;
 }
+
+.click-icon{
+    cursor: pointer;
+    pointer-events: auto !important;
+}
