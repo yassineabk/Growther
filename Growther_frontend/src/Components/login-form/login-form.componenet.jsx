@@ -8,11 +8,15 @@ import { googleUri } from './login_uri';
 import { facebookUri } from './login_uri';
 import { Spinner } from '../spinner/spinner.component';
 import { useSelector } from 'react-redux';
+import { useTranslation } from "react-i18next";
+
 const LoginForm=({handleSubmit,handleRemeberMe,SignUpWithGoogle,SignUpWithFacebook,registrationMessage,passwordVlue,passwordFunctions,emailValue,email,password,emailFunctions})=>{
+    const { t } = useTranslation();
     const history = useHistory();
     var {isLoading} = useSelector(state => state.login)
   function handleClickRegister() {
     history.push("/signup");
+    
   }
     return(
 
@@ -25,15 +29,15 @@ const LoginForm=({handleSubmit,handleRemeberMe,SignUpWithGoogle,SignUpWithFacebo
                     <div className="column is-5-tablet is-4-desktop is-4-widescreen ">
                     <form action="" className="box" onSubmit={handleSubmit}>
                         <div className="column has-text-centered">
-                        <p className="title is-3">Login</p>
-                        <p className="subtitle is6">Welcome back</p>
+                        <p className="title is-3">{t("login")}</p>
+                        <p className="subtitle is6">{t("welcome_back")}</p>
                         </div>
                         <EmailInput value={emailValue} handleBlur={emailFunctions.handleEmailBlur} handleChange={emailFunctions.handleEmailChange} label="Email" isError={email.isEmailError} message={email.EmailMessage} placeholder="Enter Your email"/>
                         <PasswordInput value={passwordVlue} handleChange={passwordFunctions.handlePasswordChange}  label="Password" isError={password.isPasswordError} message={password.PasswordMessage} placeholder="Enter your password"/>
                         <div className="field is-flex-desktop is-flex-direction-row is-justify-content-space-between">
                             <label for="" className="checkbox is-block">
                                 <input onChange={handleRemeberMe} className="mr-3" type="checkbox"/>
-                                Remember me
+                                {t("remember_me")}
                             </label>
                             <Link className="subtitle is-danger is-6 is-link" to="Reset Password">I forgot my password</Link>
                             </div>

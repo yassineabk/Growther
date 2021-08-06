@@ -11,23 +11,20 @@ const languageMap = {
 
 const LanguageSelect = () => {
   const selected = localStorage.getItem("i18nextLng") || "en";
-  const { t } = useTranslation();
-
-  const [menuAnchor, setMenuAnchor] = React.useState(null);
-  React.useEffect(() => {
-    document.body.dir = languageMap[selected].dir;
-  }, [menuAnchor, selected]);
 
   const changeLang=(item) => {
+   
     i18next.changeLanguage(item);
+  
+
   }
 
   return (
 <div class="select is-primary">
   <select onChange={(e)=>changeLang(e.target.value)}>
-    <option value="English" >English</option>
-    <option value="العربية" >Arabic</option>
-    <option value="Français" >French</option> 
+    <option value="en" >English</option>
+    <option value="ar" >Arabic</option>
+    <option value="fr" >French</option> 
   </select>
 </div>
   );

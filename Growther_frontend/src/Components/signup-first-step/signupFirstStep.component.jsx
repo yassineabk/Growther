@@ -27,7 +27,7 @@ const SingupFirstStep=({handleSubmit,SignUpWithGoogle,SignUpWithFacebook,registr
                             <EmailInput handleBlur={emailFunctions.handleEmailBlur} handleChange={emailFunctions.handleEmailChange} label="Email" isError={isErrors.email} message={messages.email} placeholder="Enter Your email"/>
                             <PasswordInput handleChange={passwordFunctions.handlePasswordChange}  label="Password" isError={isErrors.password} message={messages.password} placeholder="Enter your password"/>
                             <PasswordInput handleBlur={passwordFunctions.handlePasswordConfirmationBlur}  label="Confirm Password" isError={isErrors.confiremed_password} message={messages.confiremed_password} placeholder="confirm your password"/>
-                            <label className=" column mb-2 "><input type="checkbox" required />  I agree to the <Link to="/terms">terms and conditions</Link></label>
+                            <label className=" column mb-2 "><input type="checkbox" required />  I agree to the <Link to="/terms" target="_blank">terms and conditions</Link></label>
                             <SubmitButton message={errMessage} id="submitButton" type="submit" label="Sign Up"/>
 
                             <SocialMediaButton uri={googleUri} onClick={isLoading ? ()=> false : SignUpWithGoogle} isGoogle label="Sign Up with Google"/>
