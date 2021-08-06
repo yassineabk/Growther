@@ -60,7 +60,11 @@ export const loginReducer=(state=INITIAL_STATE,action)=>{
                     currentUser:localStorage.getItem("accessToken"),
                     isLoading: false,
             }
-       
+        case loginType.LOGOUT:
+            return{
+                ...INITIAL_STATE,
+                currentUser: false
+            }
         
 
         default:
