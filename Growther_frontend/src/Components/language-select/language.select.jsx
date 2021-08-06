@@ -1,6 +1,6 @@
-import React from "react";
+/*import React from "react";
 import { useTranslation } from "react-i18next";
-import i18next from "i18next";
+//import i18next from "i18next";
 
 
 const languageMap = {
@@ -30,4 +30,4 @@ const LanguageSelect = () => {
   );
 };
 
-export default LanguageSelect;
+export default LanguageSelect;*/
