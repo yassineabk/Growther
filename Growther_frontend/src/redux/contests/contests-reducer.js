@@ -44,7 +44,7 @@ const ContestsReducer = (state = INITIAL_STATE, action)=>{
             }
         case CONTESTS_TYPES.GET_CONTESTS:
             var token = decode(localStorage.getItem("accessToken"))
-            var sub = typeof(token) === "object" ? token.sub : ""
+            var sub = token !== null &&  typeof(token) === "object" ? token.sub : ""
             return {
                 ...state,
                 contests: Array.isArray(action.payload) ? action.payload.filter(item =>{

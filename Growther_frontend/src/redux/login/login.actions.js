@@ -52,8 +52,9 @@ export function loginWithEmailAndPassword(user) {
     function failure(error) { return { type: loginType.SET_LOGIN_ERROR_MESSAGE, payload: error } }
 }
 
-export async function logout() {
+export async function logout(dispatch) {
     console.log('logout clicked')
     userService.logout();
+    dispatch({ type: loginType.LOGOUT })
     return { type: loginType.LOGOUT };
 }
