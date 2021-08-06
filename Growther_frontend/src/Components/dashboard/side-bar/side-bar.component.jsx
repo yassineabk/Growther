@@ -57,7 +57,7 @@ export const DashboradSideBar = ({activePage})=>{
                     <div className="tailButton">
                         <img alt="" src={require("../../../assets/icons/headset.png").default} />
                     </div>
-                    <div className="tailButton" onClick={()=>changeHandler("/dashboard/settings")} className={location.pathname === "/dashboard/settings" ? "sideBar_item active" : "sideBar_item"}>
+                    <div className="tailButton" onClick={()=>changeHandler("/dashboard/settings")}>
                         <img alt="" src={require("../../../assets/icons/settings.png").default}/>
                     </div>
                     <div className="tailButton">

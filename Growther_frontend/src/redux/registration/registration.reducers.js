@@ -46,7 +46,8 @@ const INITIAL_STATE={
         errorMessage:{
             name:''
         }
-    }
+    },
+    isLoading: false
 }
 
 export const registrationReducer=(state=INITIAL_STATE,action)=>{
@@ -290,16 +291,19 @@ export const registrationReducer=(state=INITIAL_STATE,action)=>{
                     ...state.errorMessage,
                    registration:action.payload
 
-                }
-                    }
+                },
+                isLoading: false,
+            }
         case registrationType.REGISTER_SUCCESS:
             return {
                 ...state,
-                success: true
+                success: true,
+                isLoading: false
             }
         case registrationType.REGISTER_REQUEST:
             return {
-                ...state,                
+                ...state,       
+                isLoading: true         
             }
         
             

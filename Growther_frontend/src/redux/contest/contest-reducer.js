@@ -38,6 +38,8 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
                 ...state,
                 information:{
                     ...state.information,
+                    startDate: action.payload.startDate,
+                    endDate: action.payload.endDate
                 }
             }
         }

@@ -1,4 +1,5 @@
 import axios from "axios"
+import { BACKEND_API } from "../../services/links"
 import { CONTESTS_TYPES } from "./contests-types"
 
 export const GetContests = async (dispatch)=>{
@@ -7,7 +8,7 @@ export const GetContests = async (dispatch)=>{
         headers: {"Authorization" : `Bearer ${token}`} 
     }
     dispatch({type: CONTESTS_TYPES.GET_CONTESTS_LOADING})
-    return axios.get("http://localhost:5000/api/contests/GetContests", config)
+    return axios.get(`${BACKEND_API}/api/contests/GetContests`, config)
         .then(response =>{
             dispatch({type: CONTESTS_TYPES.GET_CONTESTS, payload: response.data})
         }).catch(err =>{
@@ -16,12 +17,19 @@ export const GetContests = async (dispatch)=>{
         })
 }
 export const AppendDraft = (dispatch, data) =>{
-    dispatch({type: CONTESTS_TYPES.APPEND_TO_DRAFT, payload: data})
+    if(typeof(data) === "object"){
+        data.status = "DRAFT"
+        dispatch({type: CONTESTS_TYPES.APPEND_TO_DRAFT, payload: data})
+    }else{
+        dispatch({type: CONTESTS_TYPES.GET_CONTESTS_FAIL})
+    }
 }
 export const AppendContest = (dispatch, data)=>{
     dispatch({type: CONTESTS_TYPES.APPEND_NEW_CONTEST, payload: data})
 }
-
+export const AppendEditedContest = (dispatch, id, data)=>{
+    dispatch({type: CONTESTS_TYPES.APPEND_EDITED_CONTEST, payload: {id, data}})
+}
 export const DeleteDraft = (dispatch, id) =>{
     var token = localStorage.getItem("accessToken")
     var config = {
@@ -30,9 +38,8 @@ export const DeleteDraft = (dispatch, id) =>{
             "Authorization" : `Bearer ${token}`
         } 
     }
-    console.log(id, "heere")
     dispatch({type: CONTESTS_TYPES.GET_CONTESTS_LOADING})
-    axios.delete(`http://localhost:5000/api/contests/delete/${id}`, config)
+    axios.delete(`${BACKEND_API}/api/contests/delete/${id}`, config)
         .then(response =>{
             dispatch({type: CONTESTS_TYPES.DELETE_FROM_DRAFT, payload: id})
             return true

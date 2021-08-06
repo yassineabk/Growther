@@ -20,7 +20,6 @@ import { DashboardTemplatesPage } from './Components/dashboard/templates-page/te
 import { DashboardContestPage } from './Components/contest/contests-page/contests-page.component';
 import { DashboardHomePage } from './Components/dashboard/home-page/home-page.component';
 import { Page404 } from './pages/404-page/404.page';
-import { Spinner } from './Components/spinner/spinner.component';
 import { EditContestFirstStep } from './Components/contest/edit-contest-first-step/edit-contest-first-step.component';
 import { EditContestSecondStep } from './Components/contest/edit-contest-second-step/edit-contest-second-step.component';
 import { DraftPage } from './Components/dashboard/draft-page/draft-page.component';

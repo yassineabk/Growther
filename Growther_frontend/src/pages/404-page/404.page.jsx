@@ -8,7 +8,7 @@ export const Page404 = ()=>{
             <div>
                 <img src={require("../../assets/icons/404.png").default} />
             </div>
-            <SubmitButton onClick={()=> history.goBack()} label={'Back Home'} />
+            <SubmitButton onClick={()=> history.goBack()} label={"Go Back"} />
         </div>
     )
 }
