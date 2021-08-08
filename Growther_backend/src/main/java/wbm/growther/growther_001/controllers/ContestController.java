@@ -122,6 +122,8 @@ public class ContestController {
         contestDto.setEndDate(contestDetails.getEndDate());
         contestDto.setMaxReach(contestDetails.getMaxReach());
         contestDto.setDuration(contestDetails.getDuration());
+        contestDto.setEndTime(contestDetails.getEndTime());
+        System.out.println(contestDetails.getEndTime());
 
         ContestDto contestDtoUpdated=contestService.updateContestInfos(contestDto);
         return  ResponseEntity.ok().body(contestDtoUpdated);
