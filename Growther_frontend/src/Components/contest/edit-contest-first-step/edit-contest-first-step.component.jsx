@@ -55,7 +55,7 @@ export const EditContestFirstStep = ()=>{
             if(id === "endDate"){
                 var date = Math.ceil((new Date(event.target.value) - new Date(currentDate))/(1000*60*60*24))
                 var date2 = Math.ceil((new Date(event.target.value) - new Date(information.startDate))/(1000*60*60*24))
-                if(date > 0 && date2 > 0){
+                if(date >= 0 && date2 >= 0){
                     changeHandler(event)
                     durationHandler()
                 } 
@@ -126,6 +126,31 @@ export const EditContestFirstStep = ()=>{
             Edit(dispatch, information, information.idContest, userId)
         }
     }
+    var endTimeHandler = (event)=>{
+        var time = event.target.value.split(":")
+        var startTime = information.startTime
+        var endTime = information.endTime
+        var currentDate = new Date()
+        var currentHour = currentDate.getHours()
+        var currentMin = currentDate.getMinutes()
+        var currentDay = ("0"+currentDate.getDate()).slice(-2)
+        var currentMonth = ("0"+parseInt(currentDate.getMonth() + 1 === 13 ? 1 : currentDate.getMonth() + 1)).slice(-2)
+        var currentYear = currentDate.getFullYear()
+        var fulldate = `${currentYear}-${currentMonth}-${currentDay}`
+        var date = Math.ceil((new Date(information.endDate) - new Date(information.startDate))/(1000*60*60*24))
+        var date2 = Math.ceil((new Date(information.startDate) - new Date(fulldate))/(1000*60*60*24))
+        startTime = startTime.split(":")
+            if(date === 0){
+                if(/*parseInt(time[0]) === currentHour && parseInt(time[1]) - 10 > currentMin ||*/ parseInt(time[0]) === parseInt(startTime[0]) && (parseInt(time[1]) - 10 > parseInt(startTime[1]))){
+                    return changeHandler(event)
+                }
+                if(/*parseInt(time[0]) > currentHour &&*/ parseInt(time[0]) > parseInt(startTime[0])){
+                    return changeHandler(event)
+                }
+                return false
+            }
+            return changeHandler(event)
+    }
     if(typeof(information) !== "object") return <Redirect to={"/dashboard"} />
     return(
         [
@@ -182,21 +207,19 @@ export const EditContestFirstStep = ()=>{
                             }
                         />
                         <ContestInput 
-                            type={"number"}
-                            id="duration"
-                            name="duration"
-                            placeholder="Number of days"
-                            label="Or run contest for"
-                            changeHandler={(event)=> durationHandler(event)}
-                            child={[
-                                <SelectInput 
-                                    data={["days", "weeks", "months"]} 
-                                    value={typeof(information) === "object" && typeof(information.duration) === "object" && typeof(information.duration.type) === "string" ? information.duration.type : "days"}
-                                    changeHandler={(event)=> durationTypeHandler(event)}
-                                />
-                            ]}
-                            min={1}
-                            value={information ? information.duration.value : 1}
+                            type={"time"}
+                            id="endTime"
+                            name="endTime"
+                            placeholder="hh-mm-ss"
+                            changeHandler={(event)=> endTimeHandler(event)}
+                            min={new Date().getHours() + ":" + new Date().getMinutes()}
+                            value={information ? information.endTime : ""}
+                            validData={isValidData === false ? 
+                                {
+                                    isValid: validData.endTime,
+                                    message: "Please, Pick a valid date"
+                                } : undefined
+                            }
                         />
                         <ContestInput 
                             type={"number"}

@@ -99,7 +99,7 @@ export const Edit = async (dispatch, information, id, userId)=>{
             "Authorization" : `Bearer ${token}`
         } 
     }
-    if(typeof(information) === "object" && information.user.id.toString() === userId.toString()){
+    if(typeof(information) === "object" && information.user !== null && information.user.id.toString() === userId.toString()){
         var Data = {}
         Object.keys(information).map(key => {
             if(key !== "actions"){

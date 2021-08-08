@@ -251,7 +251,7 @@ export const SaveContest = (dispatch, actions)=>{
 export const PreviewSelectedAction = (dispatch, provider, index)=>{
     dispatch({type: ContestTypes.PREVIEW_SELECTED_ACTIONS, payload: {provider, index}})
 }
-export const SaveDraft = (dispatch, data)=>{
+export const SaveDraft = (dispatch, data, id)=>{
     var token = localStorage.getItem("accessToken")
     var config = {
         headers: {
@@ -271,6 +271,7 @@ export const SaveDraft = (dispatch, data)=>{
         }).then(value =>{
             if(value){
                 data.idContest = value
+                data.user = {id: id}
                 AppendDraft(dispatch, data)
             }
         })
