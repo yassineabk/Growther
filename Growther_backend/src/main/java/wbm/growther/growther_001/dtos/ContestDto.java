@@ -18,9 +18,9 @@ public class ContestDto {
     private int maxReach;
     private Date startDate;
     private Date endDate;
-    private Date startTime;
-    private Date endTime;
-    private TimeZone timeZone;
+    private String startTime;
+    private String endTime;
+    private int timeZone;
     private Duration duration;
     private Set<Action> actions;
     private Set<Prize> prizes;
@@ -110,27 +110,27 @@ public class ContestDto {
         this.endDate = endDate;
     }
 
-    public Date getStartTime() {
+    public String getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Date startTime) {
+    public void setStartTime(String startTime) {
         this.startTime = startTime;
     }
 
-    public Date getEndTime() {
+    public String getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Date endTime) {
+    public void setEndTime(String endTime) {
         this.endTime = endTime;
     }
 
-    public TimeZone getTimeZone() {
+    public int getTimeZone() {
         return timeZone;
     }
 
-    public void setTimeZone(TimeZone timeZone) {
+    public void setTimeZone(int timeZone) {
         this.timeZone = timeZone;
     }
 
