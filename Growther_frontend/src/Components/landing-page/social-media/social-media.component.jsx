@@ -18,7 +18,7 @@ class SocialMedia extends React.Component {
                     <div className="column is-3-desktop has-text-centered-mobile margin-t-30">
                         <p className="margin-b-0 contact-title"><i className="pe-7s-call"></i> &nbsp;+91 123 4556 789</p>
                     </div>
-                    <div className="column is-3-desktop has-text-centered-mobile margin-t-30 text-right">
+                    <div className="column is-3-desktop has-text-centered-mobile margin-t-30 has-text-right">
                         <p className="contact-title"><i className="pe-7s-mail-open"></i>&nbsp; Support@info.com</p>
                     </div>
                 </div>

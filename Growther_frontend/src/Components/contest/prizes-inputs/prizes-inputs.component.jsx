@@ -14,7 +14,7 @@ export const PrizesInputs = ({dispatch, num, prizesHandler, label, data, validDa
                 changeHandler={(event)=> {
                     prizesHandler(event, j)
                 }}
-                value={data && typeof(data) === "object" ? data[i].description : ""}
+                value={data && Array.isArray(data) && data[i] ? data[i].description : ""}
             />
         )
     }

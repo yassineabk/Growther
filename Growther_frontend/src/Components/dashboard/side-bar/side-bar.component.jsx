@@ -45,15 +45,27 @@ export const DashboradSideBar = ()=>{
                 <div className="screens-buttons is-flex is-flex-direction-column">
                     <div onClick={()=> changeHandler("/dashboard")} className={homeLocations.includes(location.pathname) ? "sideBar_item active" : "sideBar_item"}>
                         <img alt="" src={require("../../../assets/icons/home.png").default}/>
+                        <div className="tooltip is-flex">
+                            <span className="tooltip-text">Home</span>
+                        </div>
                     </div>
                     <div onClick={()=>changeHandler("/dashboard/My Contests")} className={location.pathname.includes("/dashboard/My Contests") ? "sideBar_item active" : "sideBar_item"}>
                         <img alt="" src={require("../../../assets/icons/trophy.png").default}/>
+                        <div className="tooltip is-flex">
+                            <span className="tooltip-text">Contests</span>
+                        </div>
                     </div>
                     <div onClick={()=>changeHandler("/dashboard/Templates")} className={templateLocations.includes(location.pathname) ? "sideBar_item active" : "sideBar_item"}>
                         <img alt="" src={require("../../../assets/icons/file.png").default}/>
+                        <div className="tooltip is-flex">
+                            <span className="tooltip-text">Templates</span>
+                        </div>
                     </div>
                     <div onClick={()=>changeHandler("/dashboard/draft")} className={location.pathname === "/dashboard/draft" ? "sideBar_item active" : "sideBar_item"}>
                         <img alt="" src={require("../../../assets/icons/draft.png").default}/>
+                        <div className="tooltip is-flex">
+                            <span className="tooltip-text">Draft</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -61,14 +73,23 @@ export const DashboradSideBar = ()=>{
                 <div className="tail-buttons is-flex is-flex-direction-column is-justify-content-flex-end">
                     <div className="tailButton">
                         <img alt="" src={require("../../../assets/icons/headset.png").default} />
+                        <div className="tooltip is-flex">
+                            <span className="tooltip-text">Contact</span>
+                        </div>
                     </div>
                     <div className="tailButton" onClick={()=>changeHandler("/dashboard/settings")}>
                         <img alt="" src={require("../../../assets/icons/settings.png").default}/>
+                        <div className="tooltip is-flex">
+                            <span className="tooltip-text">Settings</span>
+                        </div>
                     </div>
                     <div className="tailButton">
                         <img onClick={()=>{
                             Logout()
                         }} alt="" src={require("../../../assets/icons/logout.png").default} />
+                        <div className="tooltip is-flex">
+                            <span className="tooltip-text">Logout</span>
+                        </div>
                     </div>
                 </div>
             </div>
