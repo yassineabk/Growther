@@ -1,11 +1,14 @@
-import React, { useEffect } from "react"
+import { decode } from "jsonwebtoken"
+import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useHistory, useLocation } from "react-router-dom"
+import { Edit } from "../../../redux/contest-edit/contest-edit-actions"
 import { InitState, NextStep, PrizesChange, RemovePrize, ResestNewContest, SaveContestFirstStep, SaveContestPrizes, SaveDraft, SetDuration, SetImmediately, SetTime, StateChange, WinnersNumChange } from "../../../redux/contest/contest-actions"
 import { ContestButton } from "../contest-buttons/contest-buttons.component"
 import { ContestCheckBox } from "../contest-checkbox/contest-checkbox.component"
 import { ContestDescription } from "../contest-description-input/contest-description-input.component"
 import { ContestInput } from "../contest-input/contest-input.component"
+import { EditContest } from "../edit-contest/edit-contest.component"
 import { PrizesInputs } from "../prizes-inputs/prizes-inputs.component"
 import { SelectInput } from "../select-input/select-input.component"
 export const ContestFirstStep = ()=>{
@@ -13,6 +16,7 @@ export const ContestFirstStep = ()=>{
     var location = useLocation()
     var history = useHistory()
     var {information, isValidData, validData, savedInfos, isPublished} = useSelector(state => state.contest)
+    var [userId, setId] = useState("")
     useEffect(async ()=>{
         if(location.state !== null && typeof(location.state) === "object"){
             StateChange(dispatch, location.state)
@@ -25,6 +29,9 @@ export const ContestFirstStep = ()=>{
         }else{
             ResestNewContest(dispatch)
         }
+        var token = decode(localStorage.getItem("accessToken"))
+        var sub = token !== null && typeof(token) === "object" ? token.sub : ""
+        setId(sub)
         /*setInterval(()=>{
             updateTimeEveryMinute(information)
         }, 60000)*/
@@ -249,7 +256,10 @@ export const ContestFirstStep = ()=>{
         }
     }
     var saveDraft = ()=>{
-        SaveDraft(dispatch, information)
+        /*if(information.status === "DRAFT"){
+            return Edit(dispatch, information, information.idContest, user)
+        }*/
+        SaveDraft(dispatch, information, userId)
     }
     var CheckBoxHandler = (event)=>{
         SetImmediately(dispatch, information.immediately)
