@@ -20,7 +20,8 @@ public class ContestDto {
     private Date endDate;
     private String startTime;
     private String endTime;
-    private int timeZone;
+    private Integer timeZone;
+    private Boolean immediately;
     private Duration duration;
     private Set<Action> actions;
     private Set<Prize> prizes;
@@ -92,6 +93,18 @@ public class ContestDto {
 
     public void setMaxReach(int maxReach) {
         this.maxReach = maxReach;
+    }
+
+    public Boolean getImmediately() {
+        return immediately;
+    }
+
+    public void setImmediately(Boolean immediately) {
+        this.immediately = immediately;
+    }
+
+    public void setTimeZone(Integer timeZone) {
+        this.timeZone = timeZone;
     }
 
     public Date getStartDate() {
