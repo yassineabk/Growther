@@ -129,7 +129,6 @@ export const EditContestFirstStep = ()=>{
     var endTimeHandler = (event)=>{
         var time = event.target.value.split(":")
         var startTime = information.startTime
-        var endTime = information.endTime
         var currentDate = new Date()
         var currentHour = currentDate.getHours()
         var currentMin = currentDate.getMinutes()
@@ -138,18 +137,30 @@ export const EditContestFirstStep = ()=>{
         var currentYear = currentDate.getFullYear()
         var fulldate = `${currentYear}-${currentMonth}-${currentDay}`
         var date = Math.ceil((new Date(information.endDate) - new Date(information.startDate))/(1000*60*60*24))
-        var date2 = Math.ceil((new Date(information.startDate) - new Date(fulldate))/(1000*60*60*24))
+        var date2 = Math.ceil((new Date(information.endDate) - new Date(fulldate))/(1000*60*60*24))
         startTime = startTime.split(":")
-            if(date === 0){
-                if(/*parseInt(time[0]) === currentHour && parseInt(time[1]) - 10 > currentMin ||*/ parseInt(time[0]) === parseInt(startTime[0]) && (parseInt(time[1]) - 10 > parseInt(startTime[1]))){
-                    return changeHandler(event)
-                }
-                if(/*parseInt(time[0]) > currentHour &&*/ parseInt(time[0]) > parseInt(startTime[0])){
-                    return changeHandler(event)
-                }
-                return false
+        if(date2 === 0){
+            if(parseInt(time[0]) < currentHour){
+                var data = information
+                data.startTime = `${currentHour}:${currentMin}`
+                return SetStateToEdit(dispatch, data)
             }
-            return changeHandler(event)
+            if(parseInt(time[0]) === currentHour && parseInt(time[1]) < currentMin){
+                var data = information
+                data.startTime = `${currentHour}:${currentMin}`
+                return SetStateToEdit(dispatch, data)
+            }
+        }
+        if(date === 0){
+            if(/*parseInt(time[0]) === currentHour && parseInt(time[1]) - 10 > currentMin ||*/ parseInt(time[0]) === parseInt(startTime[0]) && (parseInt(time[1]) - 10 > parseInt(startTime[1]))){
+                return changeHandler(event)
+            }
+            if(/*parseInt(time[0]) > currentHour &&*/ parseInt(time[0]) > parseInt(startTime[0])){
+                return changeHandler(event)
+            }
+            return false
+        }
+        return changeHandler(event)
     }
     if(typeof(information) !== "object") return <Redirect to={"/dashboard"} />
     return(
