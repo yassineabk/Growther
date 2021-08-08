@@ -53,7 +53,7 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
         case ContestTypes.SET_IMMEDIATELY:
             var currentDate = new Date()
             var fullDate = ""
-            var startTime = currentDate.getHours() + ":" +currentDate.getMinutes()
+            var startTime = ("0"+currentDate.getHours()).slice(-2) + ":" + ("0"+currentDate.getMinutes()).slice(-2)
             if(action.payload === true){
                 var day = ("0"+ currentDate.getDate()).slice(-2)
                 var month = ("0" + parseInt(currentDate.getMonth()+1 === 13 ? 1 : currentDate.getMonth() + 1)).slice(-2)
@@ -107,9 +107,14 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
                 ...state,
                 information:{
                     ...state.information,
-                    winnersNbr: action.payload.value,
-                    prizes: [
+                    winnersNbr: action.payload.value && action.payload.value !== null & typeof(action.payload.value) === "number" ?  action.payload.value : 1,
+                    prizes: action.payload.value && action.payload.value !== null & typeof(action.payload.value) === "number" ?
+                    [
                         ...state.information.prizes,
+                        {
+                            description: ""
+                        }
+                    ] : [
                         {
                             description: ""
                         }
@@ -140,7 +145,7 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
                     ...state.information,
                     winnersNbr: action.payload.value,
                     prizes: state.information.prizes.filter((item, index)=>{
-                        if(index === action.payload.id){
+                        if(index + 1 > action.payload.value){
                             return false
                         }
                         return true
