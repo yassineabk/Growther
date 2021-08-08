@@ -90,6 +90,7 @@
       }
       .card-infos{
         //justify-content: space-between;
+        margin-bottom: 0.5em !important;
         .card-title{
           word-wrap: break-word;
           word-break: break-all;
@@ -112,6 +113,7 @@
         justify-self: flex-end;
         justify-content: space-between;
         align-items: center;
+        margin-top: 0.5em!important;
         > div{
           flex: 1;
           text-align: center;
@@ -145,24 +147,26 @@
   margin-right: 5px;
   margin-left: 5px;
   padding: 0 !important;
-  transition: all 0.5s, transform 1s;
+  transition: all 0.5s, transform 0.6s;
   backface-visibility: visible;
   -webkit-backface-visibility: visible;
   -moz-backface-visibility: visible;
   transform: rotateY(0deg);
   .left-side, .right-side{
+    transition: display 0.6s;
     display: flex !important;
   }
   .back{
     display: none !important;
   }
   &.backface{
-    transform: rotateY(360deg);
+    transform: rotateY(180deg);
     .left-side, .right-side{
       display: none !important;
     }
     .back{
       display: flex !important;
+      transform: rotateY(180deg);
     }
   }
   > div{
@@ -301,29 +305,47 @@
     }
   }
   .previewPrizes{
-    padding: 15px !important;
     flex: 1;
-    flex-wrap: wrap;
+    padding: 10px 5px;
+    //max-height: 300px;
+    //flex-wrap: wrap;
     justify-content: center;
     position: relative;
-    overflow-x: auto;
-    @extend .scroll;
-    .backButton{
-      position: absolute;
-      top: 0.25em;
-      left: 0.5em;
+    flex-direction: column !important;
+    .prizesTitle{
+      width: 100%;
+      padding: 15px 10px;
+      border-bottom: 1px solid $border-color;
+      font-size: 18px;
+      color: black;
+      font-family: Poppins-SemiBold;
+      img{
+        width: 20px;
+      }
+    }
+    #previewPrizes{
+      flex: 1;
+      width: 100%;
+      max-height: 250px;
+      overflow-y: auto;
+      @extend .scroll;
     }
     .previewPrize{
-      flex: 1;
-      min-width: 33.33%;
-      max-width: 33.33%;
-      font-size: 15px;
+      width: 100%;
+      padding: 15px;
+      font-size: 18px;
       display: flex;
       justify-content: center;
       align-items: center;
+      & > span{
+        margin: 0 0.25em;
+      }
       .prizeOrder{
         font-size: 18px;
         color: black;
+      }
+      .prizeText{
+        margin-top: 0.25em;
       }
       @media only screen and (max-width: 560px) {
         min-width: 50%;

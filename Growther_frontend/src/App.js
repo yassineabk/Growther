@@ -31,10 +31,10 @@ const App = ()=> {
       <Switch>
         <Route path="/oauth2/redirect" component={OAuth2RedirectHandler}></Route> 
         <Route exact path={"/"} render={()=> <Redirect to='/landing-page' />}/>
-        <Route exact path='/landing-page' render={()=> (<LandingPage />) } />
+        <Route exact path='/landing-page' render={()=> <LandingPage />} />
         <Route exact path='/login' render={()=>(currentUser) ? (<Redirect to='/dashboard'/>) : (<LoginPage/>) } />
         <Route exact path='/signup' render={()=>currentUser ? (<Redirect to='/'/>) : (<SignUpPage/>) } />
-        <Route exact path='/contest/:title/:id' render={()=>currentUser ? (<Contest />) : (<Redirect to='/'/>)}/>
+        <Route exact path='/contest/:title/:id' render={()=> (<Contest />)}/>
         <Route exact path='/dashboard/pie' render={()=> currentUser ? (<Dashboard />) : (<Redirect to='/'/>)} />
         <Route exact path='/dashboard/draft' render={()=> currentUser ?  (<Dashboard child={<DraftPage />} />) : (<Redirect to='/'/>)} />
         <Route exact path='/dashboard/settings' render={()=> currentUser ?  (<Dashboard />) : (<Redirect to='/'/>)} />
