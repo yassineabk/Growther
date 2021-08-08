@@ -2,6 +2,7 @@ import { ContestTypes } from "./contest-types";
 import axios from "axios"
 import { AppendDraft } from "../contests/contests-actions";
 import { BACKEND_API, FRONTEND_API } from "../../services/links";
+import { ShowErrorModal } from "../errors/errors-actions";
 export const InitState = (dispatch)=>{
     var date =  new Date()
     var days = ("0" + parseInt(new Date(date.setDate(date.getDate())).getDate())).slice(-2)
@@ -35,6 +36,12 @@ export const SetImmediately = (dispatch, value) =>{
     }
 }
 export const WinnersNumChange = (dispatch, id, value)=>{
+    if(value > 10){
+        value = 10
+    }
+    if(value < 1){
+        value = 1
+    }
     dispatch({type: ContestTypes.SET_WINNERS_NUM, payload: {id, value}})
 }
 export const RemovePrize = (dispatch, id, value)=>{
@@ -50,7 +57,6 @@ export const UpdateAction = (dispatch, provider, key, value, index)=>{
     dispatch({type: ContestTypes.UPDATE_ACTION, payload: {provider, key, value, index}})
 }
 export const SetTime = (dispatch, value)=>{
-    console.log(value)
     dispatch({type: ContestTypes.SET_TIME, payload: value})
 }
 export const SetDuration = (dispatch, type, value, startDate, endDate)=>{
@@ -112,29 +118,31 @@ export const NextStep = (dispatch, information)=>{
                     }
                     break
                 case "startTime":
-                    if(data["startTime"] === null || (typeof(data["startTime"]) === "string" && data["startTime"].length === 0)){
-                        result["startTime"] = false
-                    }else{
-                        var currentDate = new Date()
-                        var currentHour = currentDate.getHours()
-                        var currentMin = currentDate.getMinutes()
-                        var timeStart = data.startTime.split(":")
-                        var timeEnd = data.endTime.split(":")
-                        var dateStart = new Date(data.startDate)
-                        var dateEnd = new Date(data.endDate)
-                        var timediff = Math.abs(Math.ceil((dateEnd - dateStart)/(1000*60*60*24)))
-                        if(!Array.isArray(timeStart)){
-                            return result["startTime"] = false
-                        }
-                        if(Array.isArray(timeStart) && timeStart.length === 1){
-                            return result["startTime"] = false
-                        }
-                        if(timediff === 0){
-                            if(parseInt(timeStart[0]) === parseInt(timeEnd[0]) && parseInt(timeStart[1]) > parseInt(timeEnd[1]) - 10){
+                    if(data.immediately === false){
+                        if(data["startTime"] === null || (typeof(data["startTime"]) === "string" && data["startTime"].length === 0)){
+                            result["startTime"] = false
+                        }else{
+                            var currentDate = new Date()
+                            var currentHour = currentDate.getHours()
+                            var currentMin = currentDate.getMinutes()
+                            var timeStart = data.startTime.split(":")
+                            var timeEnd = data.endTime.split(":")
+                            var dateStart = new Date(data.startDate)
+                            var dateEnd = new Date(data.endDate)
+                            var timediff = Math.abs(Math.ceil((dateEnd - dateStart)/(1000*60*60*24)))
+                            if(!Array.isArray(timeStart)){
                                 return result["startTime"] = false
                             }
-                            if(parseInt(timeStart[0]) > parseInt(timeEnd[0])){
+                            if(Array.isArray(timeStart) && timeStart.length === 1){
                                 return result["startTime"] = false
+                            }
+                            if(timediff === 0){
+                                if(parseInt(timeStart[0]) === parseInt(timeEnd[0]) && parseInt(timeStart[1]) > parseInt(timeEnd[1]) - 10){
+                                    return result["startTime"] = false
+                                }
+                                if(parseInt(timeStart[0]) > parseInt(timeEnd[0])){
+                                    return result["startTime"] = false
+                                }
                             }
                         }
                     }
@@ -258,6 +266,7 @@ export const SaveDraft = (dispatch, data)=>{
             return response.data
         }).catch(err => {
             dispatch({type: ContestTypes.PUBLISH_FAIL})
+            ShowErrorModal(dispatch, "Couldn't save this contest as a draft, please try again later")
             return false
         }).then(value =>{
             if(value){
@@ -284,10 +293,12 @@ export const PublishContest = async (dispatch, data)=>{
                 return response.data
             }).catch(err => {
                 dispatch({type: ContestTypes.PUBLISH_FAIL})
+                ShowErrorModal(dispatch, "Please try again later")
                 return false
             })
     }
     dispatch({type: ContestTypes.PUBLISH_FAIL})
+    ShowErrorModal(dispatch, "Please, check data you entred")
     return false
 }
 export const DuplicateContest = (dispatch, id, data)=>{
@@ -304,6 +315,7 @@ export const DuplicateContest = (dispatch, id, data)=>{
         return response.data
     }).catch(err=>{
         dispatch({type: ContestTypes.PUBLISH_FAIL})
+        ShowErrorModal(dispatch, "Couldn't duplicate this contest please try again later")
         return false
     }).then(value => {
         if(value){

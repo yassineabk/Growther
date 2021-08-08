@@ -13,7 +13,7 @@ export const ContestFirstStep = ()=>{
     var location = useLocation()
     var history = useHistory()
     var {information, isValidData, validData, savedInfos, isPublished} = useSelector(state => state.contest)
-    useEffect(()=>{
+    useEffect(async ()=>{
         if(location.state !== null && typeof(location.state) === "object"){
             StateChange(dispatch, location.state)
         }else if(information === null || typeof(information) !== "object"){
@@ -25,7 +25,9 @@ export const ContestFirstStep = ()=>{
         }else{
             ResestNewContest(dispatch)
         }
-
+        /*setInterval(()=>{
+            updateTimeEveryMinute(information)
+        }, 60000)*/
     }, [dispatch, isValidData])
     var changeHandler = (event)=>{
         var id = event.target.id
@@ -96,14 +98,31 @@ export const ContestFirstStep = ()=>{
         var currentDate = new Date()
         var currentHour = currentDate.getHours()
         var currentMin = currentDate.getMinutes()
-        var date = Math.ceil((new Date(information.endDate) - new Date(information.startDate))/(100*60*60*24))
+        var currentDay = ("0"+currentDate.getDate()).slice(-2)
+        var currentMonth = ("0"+parseInt(currentDate.getMonth() + 1 === 13 ? 1 : currentDate.getMonth() + 1)).slice(-2)
+        var currentYear = currentDate.getFullYear()
+        var fulldate = `${currentYear}-${currentMonth}-${currentDay}`
+        var date = Math.ceil((new Date(information.endDate) - new Date(information.startDate))/(1000*60*60*24))
+        var date2 = Math.ceil((new Date(information.startDate) - new Date(fulldate))/(1000*60*60*24))
         if(id === "startTime"){
             endTime = endTime.split(":")
+            if(date2 === 0){
+                if(parseInt(time[0]) < currentHour){
+                    var data = information
+                    data.startTime = `${currentHour}:${currentMin}`
+                    return StateChange(dispatch, data)
+                }
+                if(parseInt(time[0]) === currentHour && parseInt(time[1]) < currentMin){
+                    var data = information
+                    data.startTime = `${currentHour}:${currentMin}`
+                    return StateChange(dispatch, data)
+                }
+            }
             if(date === 0){
-                if(parseInt(time[0]) === currentHour && parseInt(time[1]) > currentMin && parseInt(time[0]) === parseInt(endTime[0]) && parseInt(time[1]) < parseInt(endTime[1]) - 10){
+                if(parseInt(time[0]) === parseInt(endTime[0]) && parseInt(time[1]) < parseInt(endTime[1]) - 10 /*parseInt(time[0]) === currentHour && parseInt(time[1]) > currentMin ||*/ ){
                     return changeHandler(event)
                 }
-                if(parseInt(time[0]) > currentHour && parseInt(time[0]) < parseInt(endTime[0])){
+                if(/*parseInt(time[0]) > currentHour && */ parseInt(time[0]) < parseInt(endTime[0])){
                     return changeHandler(event)
                 }
                 return false
@@ -113,10 +132,10 @@ export const ContestFirstStep = ()=>{
         if(id === "endTime"){
             startTime = startTime.split(":")
             if(date === 0){
-                if(parseInt(time[0]) === currentHour && parseInt(time[1]) > currentMin && parseInt(time[0]) === parseInt(startTime[0]) && (parseInt(time[1]) - 10 > parseInt(startTime[1]))){
+                if(/*parseInt(time[0]) === currentHour && parseInt(time[1]) - 10 > currentMin ||*/ parseInt(time[0]) === parseInt(startTime[0]) && (parseInt(time[1]) - 10 > parseInt(startTime[1]))){
                     return changeHandler(event)
                 }
-                if(parseInt(time[0]) > currentHour && parseInt(time[0]) > parseInt(startTime[0])){
+                if(/*parseInt(time[0]) > currentHour &&*/ parseInt(time[0]) > parseInt(startTime[0])){
                     return changeHandler(event)
                 }
                 return false
@@ -128,12 +147,22 @@ export const ContestFirstStep = ()=>{
         if(event === undefined){
             var startDate = information.startDate
             var endDate = information.endDate
+            var startTime = information.startTime.split(":")
+            var endTime = information.endTime.split(":")
             var date1 = new Date(startDate)
             var date2 = new Date(endDate)
             var diff = Math.abs(date1 - date2)
             var diffDays = Math.ceil(diff / (1000*60*60*24))
             var diffWeeks = Math.ceil(diff / (1000*60*60*24*7))
             var diffMonths = Math.ceil(diff / (1000*60*60*24*30))
+            if(diffDays === 0){
+                var diffHours = Math.abs(parseInt(endTime[0]) - parseInt(startTime[0]))
+                var diffMins = Math.abs(parseInt(endTime[1]) - parseInt(startTime[1]))
+                if(diffHours === 0){
+                    return SetDuration(dispatch, "minutes", diffMins, information.startDate, information.endDate)
+                }
+                return SetDuration(dispatch, "hours", diffHours, information.startDate, information.endDate)
+            }
             if(diffDays % 30 === 0){
                 return SetDuration(dispatch, "months", diffMonths, information.startDate, information.endDate)
             }
@@ -183,8 +212,14 @@ export const ContestFirstStep = ()=>{
     var numWinnersHandler = (event)=>{
         var newValue = parseInt(event.target.value)
         var oldValue = parseInt(information.winnersNbr)
+        if(newValue > 10){
+            newValue = 10
+        }
+        if(newValue < 1){
+            newValue = 1
+        }
         if(oldValue > newValue){
-            for(var i = newValue; i < oldValue; i++){
+            for(var i = newValue + 1; i < oldValue; i++){
                 RemovePrize(dispatch, i, newValue)
             }
         }else{
@@ -258,6 +293,7 @@ export const ContestFirstStep = ()=>{
                         label="There will be"
                         changeHandler={(event)=> numWinnersHandler(event)}
                         min={1}
+                        max={20}
                         value={information ? information.winnersNbr : 1}
                         validData={isValidData === false ? 
                             {

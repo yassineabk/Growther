@@ -2,11 +2,11 @@ import { CONTEST_EDIT_TYPES } from "./contest-edit-types";
 import axios from "axios"
 import { BACKEND_API } from "../../services/links";
 import { AppendEditedContest } from "../contests/contests-actions";
+import { ShowErrorModal } from "../errors/errors-actions";
 export const SetInitialState = (dispatch)=>{
     dispatch({type: CONTEST_EDIT_TYPES.INIT_EDIT_STATE})
 }
 export const SetStateToEdit = async (dispatch, id, userId)=>{
-    console.log(userId, id)
     var token = localStorage.getItem("accessToken")
     var config = {
         headers: {
@@ -15,15 +15,17 @@ export const SetStateToEdit = async (dispatch, id, userId)=>{
         } 
     }
     return axios.get(`${BACKEND_API}/api/contests/${id}`, config).then(response =>{
-        if(typeof(response.data.user) === "object" && response.data.user.id.toString() === userId.toString()){
+        if(response.data.user !== null && typeof(response.data.user) === "object" && response.data.user.id.toString() === userId.toString()){
             dispatch({type: CONTEST_EDIT_TYPES.SET_STATE_TO_EDIT, payload: response.data})
             return true
         }else{
             dispatch({type: CONTEST_EDIT_TYPES.EDIT_FAIL})
+            ShowErrorModal(dispatch, "Please make sure this contest is yours")
             return false
         }
     }).catch(err=>{
         dispatch({type: CONTEST_EDIT_TYPES.EDIT_FAIL})
+        ShowErrorModal(dispatch, "Please make sure this contest exist")
         return false
     })
 }
@@ -108,9 +110,9 @@ export const Edit = async (dispatch, information, id, userId)=>{
         return axios.put(`${BACKEND_API}/api/contests/update/${id}`, Data, config)
         .then(response =>{
             dispatch({type: CONTEST_EDIT_TYPES.EDIT_SUCCESS})
-            console.log(response.data)
             return response.data
         }).catch(err =>{
+            ShowErrorModal(dispatch, "Couldn't update your contest")
             dispatch({type: CONTEST_EDIT_TYPES.EDIT_FAIL})
             return false
         }).then(value =>{
@@ -119,6 +121,7 @@ export const Edit = async (dispatch, information, id, userId)=>{
             }
         })
     }
+    ShowErrorModal(dispatch, "Please check the data you entered")
     dispatch({type: CONTEST_EDIT_TYPES.EDIT_FAIL})
     return false
 }
