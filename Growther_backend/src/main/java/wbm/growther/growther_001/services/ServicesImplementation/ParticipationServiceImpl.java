@@ -33,7 +33,7 @@ public class ParticipationServiceImpl implements ParticipationService {
     }
 
     @Override
-    public Long createNewParticipation(ParticipationDto participationDto,String email,Long contestID) {
+    public Participation createNewParticipation(ParticipationDto participationDto,String email,Long contestID) {
         User user = userRepository.findUserByEmail(email);
         if(!user.getIsBrand().equalsIgnoreCase("false")) Long.decode("0");
 
@@ -58,7 +58,7 @@ public class ParticipationServiceImpl implements ParticipationService {
             actionRepository.save(action);
         });
 
-        return participation.getId();
+        return participation;
     }
 
     @Override
