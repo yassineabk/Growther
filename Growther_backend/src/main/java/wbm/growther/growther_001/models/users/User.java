@@ -1,5 +1,7 @@
 package wbm.growther.growther_001.models.users;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sun.istack.NotNull;
 import wbm.growther.growther_001.models.AuthenticationProvider;
 import wbm.growther.growther_001.models.Contest;
@@ -136,10 +138,11 @@ public class User {
         return isBrand;
     }
 
+    @JsonIgnore
     public Set<Contest> getContests() {
         return contests;
     }
-
+    @JsonProperty
     public void setContests(Set<Contest> contests) {
         this.contests = contests;
     }

@@ -3,6 +3,8 @@ package wbm.growther.growther_001.services.ServicesImplementation;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import wbm.growther.growther_001.UpdateContestStateJob;
+import wbm.growther.growther_001.configurations.threadPoolTaskSchedulerClass;
 import wbm.growther.growther_001.dtos.ContestDto;
 import wbm.growther.growther_001.exceptions.NotFoundException;
 import wbm.growther.growther_001.models.Contest;
@@ -15,6 +17,7 @@ import wbm.growther.growther_001.services.ContestService;
 
 import javax.persistence.EntityManager;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -41,6 +44,9 @@ public class ContestServiceImpl implements ContestService {
 
     @Autowired
     private EntityManager entityManager;
+
+    @Autowired
+    private threadPoolTaskSchedulerClass taskScheduler;
 
 
     @Override
@@ -94,6 +100,31 @@ public class ContestServiceImpl implements ContestService {
 
         System.out.println(contest.getIdContest());
 
+        UpdateContestStateJob publishContestJob=new UpdateContestStateJob(
+                contest.getIdContest(),
+                "Published",
+                contest.getStartDate(),
+                repository
+        );
+
+        UpdateContestStateJob endContestJob=new UpdateContestStateJob(
+                contest.getIdContest(),
+                "Done",
+                contest.getEndDate(),
+                repository
+        );
+        UpdateContestStateJob testContestJob=new UpdateContestStateJob(
+                contest.getIdContest(),
+                "Published",
+                new Date(System.currentTimeMillis()+10000),
+                repository
+        );
+
+        taskScheduler.doTask(publishContestJob);
+        taskScheduler.doTask(endContestJob);
+
+        // this one if you wanna test
+        //taskScheduler.doTask(testContestJob);
 
         return contest.getIdContest();
     }

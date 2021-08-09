@@ -37,12 +37,17 @@ public class ContestController {
     @GetMapping("/{id}")
     public ResponseEntity<ContestDto> getContestById(@PathVariable(value = "id") Long contestId) throws ResourceNotFoundException {
         ContestDto contestDto = contestService.getContestById(contestId);
-        if(contestDto==null) throw new ResourceNotFoundException("No contest exist with ID : "+contestId.toString());
+        if(contestDto==null)
+            throw new ResourceNotFoundException("No contest exist with ID : "+contestId.toString());
+
         return ResponseEntity.ok().body(contestDto);
+
     }
     //Get contest by id
     @GetMapping("/{id}/user")
-    public ResponseEntity<String> getUserContestById(@PathVariable(value = "id") Long contestId) throws ResourceNotFoundException {
+    public ResponseEntity<String> getUserContestById(@PathVariable(value = "id") Long contestId)
+            throws ResourceNotFoundException {
+
         ContestDto contestDto = contestService.getContestById(contestId);
         if(contestDto==null) throw new ResourceNotFoundException("No contest exist with ID : "+contestId.toString());
         return ResponseEntity.ok().body(contestDto.getUser().getEmail());
@@ -54,8 +59,22 @@ public class ContestController {
                                                         @PathVariable(value = "title") String contestTitle)
             throws ResourceNotFoundException {
         ContestDto contestDto = contestService.getContestByInfos(contestTitle,contestId);
-        if(contestDto==null) throw new ResourceNotFoundException("No contest exist with ID : "+contestId.toString());
-        return ResponseEntity.ok().body(contestDto);
+        if(contestDto==null)
+            throw new ResourceNotFoundException("No contest exist with ID : "+contestId.toString());
+
+        // load the principal (authenticated user)
+        SecurityUser principal= (SecurityUser) SecurityContextHolder
+                .getContext().getAuthentication().getPrincipal();
+        //get the user id from security context
+        Long userId=principal.getId();
+
+        //get the id of the brand who created that contest
+        Long brandId=contestDto.getUser().getId();
+
+        if( contestDto.getStatus().equalsIgnoreCase("Published")
+                || userId==brandId)
+            return ResponseEntity.ok().body(contestDto);
+        else return ResponseEntity.status(403).body(null);
     }
 
     @PostMapping("/create")
@@ -68,6 +87,7 @@ public class ContestController {
 
         //get the email from the principal
         String email= principal.getEmail();
+
 
         Long contestCreated = contestService.createNewContest(contestDto,email);
         if(contestCreated != Long.decode("0")) return contestCreated;
@@ -114,14 +134,16 @@ public class ContestController {
         System.out.println(contestId.toString());
         //update informations
 
+
         contestDto.setTitle(contestDetails.getTitle());
         contestDto.setDescription(contestDetails.getDescription());
         contestDto.setEndDate(contestDetails.getEndDate());
         contestDto.setActionsNbr(contestDetails.getActionsNbr());
         contestDto.setWinnersNbr(contestDetails.getWinnersNbr());
         contestDto.setMaxReach(contestDetails.getMaxReach());
-        //contestDto.setPrizes(contestDetails.getPrizes());
+        contestDto.setPrizes(contestDetails.getPrizes());
         contestDto.setDuration(contestDetails.getDuration());
+        contestDto.setStatus(contestDetails.getStatus());
 
         ContestDto contestDtoUpdated=contestService.updateContestInfos(contestDetails);
         return  ResponseEntity.ok().body(contestDtoUpdated);
