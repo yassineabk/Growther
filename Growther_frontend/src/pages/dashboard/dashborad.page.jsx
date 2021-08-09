@@ -8,7 +8,7 @@ const Dashboard = ({child})=> {
     var dispatch = useDispatch()
     var {contests, isLoading} = useSelector(state => state.get_contests)
     useEffect(()=>{
-        if((Array.isArray(contests) && contests.length === 0) || !Array.isArray(contests)){
+        if(((Array.isArray(contests) && contests.length === 0 ) || !Array.isArray(contests)) && !isLoading){
             GetContests(dispatch)
         }
     }, [dispatch])

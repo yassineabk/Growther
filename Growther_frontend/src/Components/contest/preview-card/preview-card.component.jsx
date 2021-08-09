@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react"
 import { Redirect, useHistory } from "react-router-dom"
 import { PreviewActionsList } from "../preview-actions-list/preview-actions-list.component"
 import { PreviewPrizesList } from "../preview-prizes-list/preview-prizes-list.component"
-export const PreviewCard = ({title, description, timeLeft, dateType, views, points, entries, actions, previewActions, changeHandler, prizes, buttons, hasStarted, hasEnded, isPublished, id, element, isPreview, user_id, error})=>{
+export const PreviewCard = ({title, description, timeLeft, dateType, views, points, entries, actions, previewActions, changeHandler, prizes, buttons, hasStarted, hasEnded, isPublished, id, element, isPreview, user_id, error, immediately})=>{
     var history = useHistory()
     var hoverCard = (event)=>{
         document.getElementById("card").classList.toggle("backface")
@@ -15,6 +15,7 @@ export const PreviewCard = ({title, description, timeLeft, dateType, views, poin
     }
     var [userId, setId] = useState(true)
     useEffect(()=>{
+        console.log(timeLeft, "here")
         if(!buttons && !isPreview){
             var token = decode(localStorage.getItem("accessToken"))
             if(token !== null && typeof(token) === "object"){
@@ -28,7 +29,7 @@ export const PreviewCard = ({title, description, timeLeft, dateType, views, poin
             }
         }
     })
-    if(hasStarted || buttons || isPreview || userId || isPublished || error){
+    if(hasStarted || buttons || isPreview || userId || isPublished || error || immediately){
         return(
             <div id="card" className="is-flex previewCard">
                 <div className="left-side is-flex is-flex-direction-column">
