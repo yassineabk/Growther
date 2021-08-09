@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
-import wbm.growther.growther_001.services.CustomUserService;
+import wbm.growther.growther_001.services.ServicesImplementation.CustomUserService;
 import wbm.growther.growther_001.utils.JwtUtils;
 
 import javax.servlet.FilterChain;

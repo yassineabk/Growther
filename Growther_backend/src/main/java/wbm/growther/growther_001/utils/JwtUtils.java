@@ -8,12 +8,14 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import wbm.growther.growther_001.configurations.appConfiguration;
 import wbm.growther.growther_001.dtos.UserDto;
 import wbm.growther.growther_001.security.SecurityModel.SecurityUser;
 import wbm.growther.growther_001.services.UserService;
 
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -93,6 +95,14 @@ public class JwtUtils {
         System.out.println(claims.get("email"));
         return (String) claims.get("email");
 
+    }
+
+    public String getJwtTokenFromRequest(HttpServletRequest request) {
+        String bearerToken = request.getHeader("Authorization");
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+            return bearerToken.substring(7, bearerToken.length());
+        }
+        return null;
     }
 
 
