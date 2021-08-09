@@ -18,17 +18,13 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.Arrays;
 
 
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 
 import wbm.growther.growther_001.oath.*;
 import wbm.growther.growther_001.security.RestEntryPoint;
 import wbm.growther.growther_001.security.SecurityFilters.TokenAuthenticationFilter;
-import wbm.growther.growther_001.services.CustomUserService;
-
-import javax.sql.DataSource;
-
+import wbm.growther.growther_001.services.ServicesImplementation.CustomUserService;
 
 
 @Configuration

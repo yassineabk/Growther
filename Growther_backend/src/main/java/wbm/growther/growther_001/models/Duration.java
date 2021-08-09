@@ -1,5 +1,8 @@
 package wbm.growther.growther_001.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 @Entity
 @Table(name = "duration")
@@ -27,10 +30,12 @@ public class Duration {
     public Duration() {
     }
 
+    @JsonIgnore
     public Contest getContest() {
         return contest;
     }
 
+    @JsonProperty
     public void setContest(Contest contest) {
         this.contest = contest;
     }

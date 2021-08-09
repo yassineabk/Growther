@@ -10,7 +10,7 @@ export const DashboardHomePage = () =>{
     useEffect(()=>{
         if(((Array.isArray(contests) && contests.length === 0) || !Array.isArray(contests)) && !isLoading){
             GetContests(dispatch)
-        }
+        } 
     }, [dispatch])
     var Duplicate = (id, element)=> {
         DuplicateContest(dispatch, id, element)
