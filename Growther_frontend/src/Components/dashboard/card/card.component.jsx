@@ -41,7 +41,7 @@ export const CardComponent = ({element, title, description, date, dateType, view
                         Time left
                     </span>
                     <span>
-                        {(date && typeof(date) === "string") ||  typeof(date) === "number" ? date : "1"} <span className="dateType">{dateType && typeof(dateType) === "string"? dateType : "day"}</span>
+                        {(date && typeof(date) === "string") ||  typeof(date) === "number" ? date : ""} <span className="dateType">{dateType && typeof(dateType) === "string" ? dateType : ""}</span>
                     </span>
                 </div>
             </div>
