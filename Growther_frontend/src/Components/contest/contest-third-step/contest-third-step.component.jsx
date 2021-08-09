@@ -2,6 +2,11 @@ import React from "react"
 import { useSelector } from "react-redux"
 import { useLocation } from "react-router"
 import { Redirect } from "react-router-dom"
+import {
+    EmailShareButton,
+    FacebookShareButton,
+    TwitterShareButton
+} from "react-share";
 export const ContestThirdStep = () =>{
     var {isValidData, isValidActions, isPublished, contestLink} = useSelector(state => state.contest)
     var location = useLocation()
@@ -9,7 +14,9 @@ export const ContestThirdStep = () =>{
         navigator.clipboard.writeText(contestLink)
         document.getElementById("contestLink").classList.add("copied")
         setTimeout(()=>{
-            document.getElementById("contestLink").classList.remove("copied")
+            if(document.getElementById("contestLink") !== null && document.getElementById("contestLink") !== undefined && typeof(document.getElementById("contestLink") === "object")){
+                document.getElementById("contestLink").classList.remove("copied")
+            }
         }, 2000)
     }
     if(location.pathname !== "/dashboard/My Contests/new/thirdStep") return null
@@ -25,13 +32,19 @@ export const ContestThirdStep = () =>{
                 <div className="is-flex is-flex-direction-row is-justify-content-center">
                     <div className="socialIcons is-flex is-justify-content-space-between is-align-items-center">
                         <div>
-                            <img src={require("../../../assets/icons/twitter2.png").default} width={"40px"}/>
+                            <TwitterShareButton url={contestLink}>
+                                    <img src={require("../../../assets/icons/twitter2.png").default} width={"40px"}/>
+                            </TwitterShareButton>
                         </div>
                         <div>
-                            <img src={require("../../../assets/icons/facebook2.png").default} width={"40px"}/>
+                            <FacebookShareButton url={contestLink}>
+                                    <img src={require("../../../assets/icons/facebook2.png").default} width={"40px"}/>
+                            </FacebookShareButton>
                         </div>
                         <div>
-                            <img src={require("../../../assets/icons/google.png").default} width={"40px"}/>
+                            <EmailShareButton url={contestLink}>
+                                <img src={require("../../../assets/icons/google.png").default} width={"40px"}/>
+                            </EmailShareButton>
                         </div>
                     </div>
                 </div>

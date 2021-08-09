@@ -7,6 +7,7 @@ import EditReducer from './contest-edit/contest-edit-reducer'
 import DashboardReducer from './dashboard/dashboard-reducer'
 import ContestsReducer from './contests/contests-reducer'
 import LoadingReducer from './loading/loading-reducer'
+import ErrorsReducer from './errors/errors-reducer'
 
 
 const rootReducer=combineReducers({
@@ -17,7 +18,8 @@ const rootReducer=combineReducers({
     contest_edit: EditReducer,
     dashboard: DashboardReducer,
     get_contests: ContestsReducer,
-    isLoading: LoadingReducer
+    isLoading: LoadingReducer,
+    errors: ErrorsReducer
 })
 
 

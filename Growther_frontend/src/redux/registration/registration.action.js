@@ -1,4 +1,5 @@
 import { userService } from "../../services/user-service";
+import { ShowErrorModal } from "../errors/errors-actions";
 import { registrationType } from "./registration.types";
 
 
@@ -138,8 +139,8 @@ export function registerWithFacebookAndGoogle(user) {
                     dispatch(success());
                 },
                 error => {
+                    ShowErrorModal(dispatch, "Something went wrong, please try again later")
                     dispatch(failure(error.toString()));
-
                 }
             );
     };

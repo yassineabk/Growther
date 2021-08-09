@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sun.istack.NotNull;
 import wbm.growther.growther_001.models.AuthenticationProvider;
 import wbm.growther.growther_001.models.Contest;
+import wbm.growther.growther_001.models.Participation;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -46,6 +47,9 @@ public class User {
 
     @OneToMany(mappedBy="user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Contest> contests;
+    @OneToOne(mappedBy = "contest", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Participation participation;
 
     @Override
     public String toString() {
@@ -59,6 +63,14 @@ public class User {
                 ", authProvider=" + authProvider +
                 ", isBrand='" + isBrand + '\'' +
                 '}';
+    }
+
+    public Participation getParticipation() {
+        return participation;
+    }
+
+    public void setParticipation(Participation participation) {
+        this.participation = participation;
     }
 
     public String getActivities() {

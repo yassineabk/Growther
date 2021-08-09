@@ -1,4 +1,4 @@
-package wbm.growther.growther_001.configurations;
+package wbm.growther.growther_001;
 
 
 import org.springframework.beans.factory.annotation.Autowired;

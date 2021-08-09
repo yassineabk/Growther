@@ -1,23 +1,40 @@
-import React, { useEffect } from "react"
+import { decode } from "jsonwebtoken"
+import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useHistory, useLocation } from "react-router-dom"
-import { InitState, NextStep, PrizesChange, RemovePrize, SaveContestFirstStep, SaveContestPrizes, SaveDraft, SetDuration, StateChange, WinnersNumChange } from "../../../redux/contest/contest-actions"
+import { Edit } from "../../../redux/contest-edit/contest-edit-actions"
+import { InitState, NextStep, PrizesChange, RemovePrize, ResestNewContest, SaveContestFirstStep, SaveContestPrizes, SaveDraft, SetDuration, SetImmediately, SetTime, StateChange, WinnersNumChange } from "../../../redux/contest/contest-actions"
 import { ContestButton } from "../contest-buttons/contest-buttons.component"
+import { ContestCheckBox } from "../contest-checkbox/contest-checkbox.component"
 import { ContestDescription } from "../contest-description-input/contest-description-input.component"
 import { ContestInput } from "../contest-input/contest-input.component"
+import { EditContest } from "../edit-contest/edit-contest.component"
 import { PrizesInputs } from "../prizes-inputs/prizes-inputs.component"
 import { SelectInput } from "../select-input/select-input.component"
 export const ContestFirstStep = ()=>{
     var dispatch = useDispatch()
     var location = useLocation()
     var history = useHistory()
-    var {information, isValidData, validData, savedInfos} = useSelector(state => state.contest)
-    useEffect(()=>{
-        if(typeof(location.state) === "object"){
+    var {information, isValidData, validData, savedInfos, isPublished} = useSelector(state => state.contest)
+    var [userId, setId] = useState("")
+    useEffect(async ()=>{
+        if(location.state !== null && typeof(location.state) === "object"){
             StateChange(dispatch, location.state)
-        }else if(typeof(information) !== "object"){
+        }else if(information === null || typeof(information) !== "object"){
             InitState(dispatch)
+        }else if(information !== null &&  typeof(information) === "object"){
+            if(isPublished === true){
+                ResestNewContest(dispatch)
+            }
+        }else{
+            ResestNewContest(dispatch)
         }
+        var token = decode(localStorage.getItem("accessToken"))
+        var sub = token !== null && typeof(token) === "object" ? token.sub : ""
+        setId(sub)
+        /*setInterval(()=>{
+            updateTimeEveryMinute(information)
+        }, 60000)*/
     }, [dispatch, isValidData])
     var changeHandler = (event)=>{
         var id = event.target.id
@@ -31,6 +48,8 @@ export const ContestFirstStep = ()=>{
     var dateHandler = (event)=>{
         if(event !== undefined){
             var id = event.target.id
+            var startTime = information.startTime.split(":")
+            var endTime = information.endTime.split(":")
             var currentDate = new Date()
             var currentDay = ("0"+currentDate.getDate()).slice(-2)
             var currentMonth = ("0"+parseInt(currentDate.getMonth()+1 === 13 ? 1 : currentDate.getMonth()+1)).slice(-2)
@@ -39,8 +58,19 @@ export const ContestFirstStep = ()=>{
             if(id === "startDate"){
                 var date = Math.ceil((new Date(event.target.value) - new Date(currentDate))/(100*60*60*24))
                 var date2 = Math.ceil((new Date(information.endDate) - new Date(event.target.value))/(100*60*60*24))
-                console.log(date)
-                if(date > 0 && date2 > 0){
+                if(date >= 0 && date2 >= 0){
+                    if(date2 === 0){
+                        if(parseInt(startTime[0]) > parseInt(endTime[0]) || (parseInt(startTime[0]) === parseInt(endTime[0]) && parseInt(startTime[1]) > parseInt(endTime[1]))){
+                            var endMinInt = parseInt(startTime[1])
+                            var endHourInt = endMinInt + 10 > 59 ? parseInt(startTime[0]) + 1 : parseInt(startTime[0])
+                            var endMin = endMinInt + 10 > 59 ? (endMinInt - 60 + 10) : endMinInt + 10
+                            var endHour =   endHourInt > 23 ? (endHourInt - 24) : endHourInt
+                            var newEndTime = ("0"+endHour).slice(-2) + ":" + ("0"+endMin).slice(-2)
+                            var data = information
+                            data.endTime = newEndTime
+                            StateChange(dispatch, data)
+                        }
+                    }
                     changeHandler(event)
                     return durationHandler()
                 }
@@ -48,25 +78,98 @@ export const ContestFirstStep = ()=>{
             if(id === "endDate"){
                 var date = Math.ceil((new Date(event.target.value) - new Date(information.startDate))/(100*60*60*24))
                 var date2 = Math.ceil((new Date(event.target.value) - new Date(currentDate))/(100*60*60*24))
-                console.log(date, date2)
-                if(date > 0 && date2 > 0){
+                if(date >= 0 && date2 >= 0){
+                    if(date2 === 0){
+                        if(parseInt(startTime[0]) > parseInt(endTime[0]) || (parseInt(startTime[0]) === parseInt(endTime[0]) && parseInt(startTime[1]) > parseInt(endTime[1]))){
+                            var endMinInt = parseInt(startTime[1])
+                            var endHourInt = endMinInt + 10 > 59 ? parseInt(startTime[0]) + 1 : parseInt(startTime[0])
+                            var endMin = endMinInt + 10 > 59 ? (endMinInt - 60 + 10) : endMinInt + 10
+                            var endHour =   endHourInt > 23 ? (endHourInt - 24) : endHourInt
+                            var newEndTime = ("0"+endHour).slice(-2) + ":" + ("0"+endMin).slice(-2)
+                            var data = information
+                            data.endTime = newEndTime
+                            StateChange(dispatch, data)
+                        }
+                    }
                     changeHandler(event)
                     return durationHandler()
                 }
             }
-            
+        }
+    }
+    var timeHandler = (event)=>{
+        var id = event.target.id
+        var time = event.target.value.split(":")
+        var startTime = information.startTime
+        var endTime = information.endTime
+        var currentDate = new Date()
+        var currentHour = currentDate.getHours()
+        var currentMin = currentDate.getMinutes()
+        var currentDay = ("0"+currentDate.getDate()).slice(-2)
+        var currentMonth = ("0"+parseInt(currentDate.getMonth() + 1 === 13 ? 1 : currentDate.getMonth() + 1)).slice(-2)
+        var currentYear = currentDate.getFullYear()
+        var fulldate = `${currentYear}-${currentMonth}-${currentDay}`
+        var date = Math.ceil((new Date(information.endDate) - new Date(information.startDate))/(1000*60*60*24))
+        var date2 = Math.ceil((new Date(information.startDate) - new Date(fulldate))/(1000*60*60*24))
+        if(id === "startTime"){
+            endTime = endTime.split(":")
+            if(date2 === 0){
+                if(parseInt(time[0]) < currentHour){
+                    var data = information
+                    data.startTime = `${currentHour}:${currentMin}`
+                    return StateChange(dispatch, data)
+                }
+                if(parseInt(time[0]) === currentHour && parseInt(time[1]) < currentMin){
+                    var data = information
+                    data.startTime = `${currentHour}:${currentMin}`
+                    return StateChange(dispatch, data)
+                }
+            }
+            if(date === 0){
+                if(parseInt(time[0]) === parseInt(endTime[0]) && parseInt(time[1]) < parseInt(endTime[1]) - 10 /*parseInt(time[0]) === currentHour && parseInt(time[1]) > currentMin ||*/ ){
+                    return changeHandler(event)
+                }
+                if(/*parseInt(time[0]) > currentHour && */ parseInt(time[0]) < parseInt(endTime[0])){
+                    return changeHandler(event)
+                }
+                return false
+            }
+            return changeHandler(event)
+        }
+        if(id === "endTime"){
+            startTime = startTime.split(":")
+            if(date === 0){
+                if(/*parseInt(time[0]) === currentHour && parseInt(time[1]) - 10 > currentMin ||*/ parseInt(time[0]) === parseInt(startTime[0]) && (parseInt(time[1]) - 10 > parseInt(startTime[1]))){
+                    return changeHandler(event)
+                }
+                if(/*parseInt(time[0]) > currentHour &&*/ parseInt(time[0]) > parseInt(startTime[0])){
+                    return changeHandler(event)
+                }
+                return false
+            }
+            return changeHandler(event)
         }
     }
     var durationHandler = (event)=>{
         if(event === undefined){
             var startDate = information.startDate
             var endDate = information.endDate
+            var startTime = information.startTime.split(":")
+            var endTime = information.endTime.split(":")
             var date1 = new Date(startDate)
             var date2 = new Date(endDate)
             var diff = Math.abs(date1 - date2)
             var diffDays = Math.ceil(diff / (1000*60*60*24))
             var diffWeeks = Math.ceil(diff / (1000*60*60*24*7))
             var diffMonths = Math.ceil(diff / (1000*60*60*24*30))
+            if(diffDays === 0){
+                var diffHours = Math.abs(parseInt(endTime[0]) - parseInt(startTime[0]))
+                var diffMins = Math.abs(parseInt(endTime[1]) - parseInt(startTime[1]))
+                if(diffHours === 0){
+                    return SetDuration(dispatch, "minutes", diffMins, information.startDate, information.endDate)
+                }
+                return SetDuration(dispatch, "hours", diffHours, information.startDate, information.endDate)
+            }
             if(diffDays % 30 === 0){
                 return SetDuration(dispatch, "months", diffMonths, information.startDate, information.endDate)
             }
@@ -116,8 +219,14 @@ export const ContestFirstStep = ()=>{
     var numWinnersHandler = (event)=>{
         var newValue = parseInt(event.target.value)
         var oldValue = parseInt(information.winnersNbr)
+        if(newValue > 10){
+            newValue = 10
+        }
+        if(newValue < 1){
+            newValue = 1
+        }
         if(oldValue > newValue){
-            for(var i = newValue; i < oldValue; i++){
+            for(var i = newValue + 1; i < oldValue; i++){
                 RemovePrize(dispatch, i, newValue)
             }
         }else{
@@ -147,7 +256,13 @@ export const ContestFirstStep = ()=>{
         }
     }
     var saveDraft = ()=>{
-        SaveDraft(dispatch, information)
+        /*if(information.status === "DRAFT"){
+            return Edit(dispatch, information, information.idContest, user)
+        }*/
+        SaveDraft(dispatch, information, userId)
+    }
+    var CheckBoxHandler = (event)=>{
+        SetImmediately(dispatch, information.immediately)
     }
     if(location.pathname !== "/dashboard/My Contests/new/firstStep") return null
     return(
@@ -188,6 +303,7 @@ export const ContestFirstStep = ()=>{
                         label="There will be"
                         changeHandler={(event)=> numWinnersHandler(event)}
                         min={1}
+                        max={20}
                         value={information ? information.winnersNbr : 1}
                         validData={isValidData === false ? 
                             {
@@ -197,12 +313,19 @@ export const ContestFirstStep = ()=>{
                     />
                 </div>
                 <div className="otherInputs is-flex is-flex-direction-column">
-                    <ContestInput 
+                    <ContestCheckBox 
+                        id="immediately"
+                        name="immediately"
+                        value={information.immediately}
+                        label={"Start date"}
+                        placeholder={"Start immediately"}
+                        changeHandler={(event)=> CheckBoxHandler(event)}
+                    />
+                    {information.immediately ? null : [<ContestInput 
                         type={"date"}
                         id="startDate"
                         name="startDate"
                         placeholder="dd-mm-yyyy"
-                        label="Start date"
                         changeHandler={(event)=> dateHandler(event)}
                         value={information ? information.startDate : ""}
                         validData={isValidData === false ? 
@@ -211,7 +334,22 @@ export const ContestFirstStep = ()=>{
                                 message: "Please, Pick a valid date"
                             } : undefined
                         }
-                    />
+                    />,
+                    <ContestInput 
+                        type={"time"}
+                        id="startTime"
+                        name="startTime"
+                        placeholder="hh-mm-ss"
+                        changeHandler={(event)=> timeHandler(event)}
+                        value={information ? information.startTime : ""}
+                        validData={isValidData === false ? 
+                            {
+                                isValid: validData.startTime,
+                                message: "Please, Pick a valid date"
+                            } : undefined
+                        }
+                        timeChangeHandler={()=> console.log(true)}
+                    />]}
                     <ContestInput 
                         type={"date"}
                         id="endDate"
@@ -228,6 +366,21 @@ export const ContestFirstStep = ()=>{
                         }
                     />
                     <ContestInput 
+                        type={"time"}
+                        id="endTime"
+                        name="endTime"
+                        placeholder="hh-mm-ss"
+                        changeHandler={(event)=> timeHandler(event)}
+                        min={new Date().getHours() + ":" + new Date().getMinutes()}
+                        value={information ? information.endTime : ""}
+                        validData={isValidData === false ? 
+                            {
+                                isValid: validData.endTime,
+                                message: "Please, Pick a valid date"
+                            } : undefined
+                        }
+                    />
+                    {/*<ContestInput 
                         type={"number"}
                         id="duration"
                         name="duration"
@@ -243,7 +396,7 @@ export const ContestFirstStep = ()=>{
                         ]}
                         min={1}
                         value={typeof(information) === "object" && typeof(information.duration) === "object" && information.duration !== null ? information.duration.value : 1}
-                    />
+                    />*/}
                     <ContestInput 
                         type={"number"}
                         id="maxReach"

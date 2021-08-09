@@ -24,10 +24,18 @@ public class Contest {
     private int maxReach;
     private Date startDate;
     private Date endDate;
+    private String startTime;
+    private String endTime;
+    private Integer timeZone;
+    private Boolean immediately;
     @OneToOne(mappedBy = "contest", cascade = CascadeType.ALL)
     @JsonIgnore
-    //@PrimaryKeyJoinColumn
     private Duration duration;
+    //@OneToOne(mappedBy = "contest", cascade = CascadeType.ALL)
+    //@JsonIgnore
+    @OneToMany(mappedBy="contest", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    //private Participation participation;
+    private Set<Participation> participations;
     private String status;
     @OneToMany(mappedBy="contest", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Action> actions;
@@ -40,7 +48,11 @@ public class Contest {
     @JsonIgnore
     private User user;
 
-    public Contest(String title, String description, int winnersNbr, int actionsNbr, int maxReach, Date startDate, Date endDate, Duration duration, String status, Set<Action> actions, Set<Prize> prizes) {
+
+    public Contest(String title, String description, int winnersNbr, int actionsNbr, int maxReach,
+                   Date startDate, Date endDate, String startTime, String endTime,
+                   int timeZone, Boolean immediately, Duration duration, Set<Participation> participations,
+                   String status, Set<Action> actions, Set<Prize> prizes) {
         this.title = title;
         this.description = description;
         this.winnersNbr = winnersNbr;
@@ -48,7 +60,12 @@ public class Contest {
         this.maxReach = maxReach;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.startTime=startTime;
+        this.endTime=endTime;
+        this.timeZone = timeZone;
+        this.immediately = immediately;
         this.duration = duration;
+        this.participations = participations;
         this.status = status;
         this.actions = actions;
         this.prizes = prizes;
@@ -62,6 +79,10 @@ public class Contest {
         this.maxReach = contest.getMaxReach();
         this.startDate = contest.getStartDate();
         this.endDate = contest.getEndDate();
+        this.endTime = contest.getEndTime();
+        this.startTime = contest.getStartTime();
+        this.timeZone=contest.getTimeZone();
+        this.immediately =contest.getImmediately();
         this.duration = contest.getDuration();
         this.actions = new HashSet(contest.getActions());
         this.prizes = new HashSet(contest.getPrizes());
@@ -104,6 +125,22 @@ public class Contest {
         this.user = user;
     }
 
+    public Boolean getImmediately() {
+        return immediately;
+    }
+
+    public void setImmediately(Boolean immediatly) {
+        this.immediately = immediatly;
+    }
+
+    public Set<Participation> getParticipations() {
+        return participations;
+    }
+
+    public void setParticipations(Set<Participation> participations) {
+        this.participations = participations;
+    }
+
     public int getWinnersNbr() {
         return prizes.size();
     }
@@ -124,6 +161,10 @@ public class Contest {
 
     public void setMaxReach(int maxReach) { this.maxReach = maxReach; }
 
+    public void setTimeZone(Integer timeZone) {
+        this.timeZone = timeZone;
+    }
+
     public Date getStartDate() {
         return startDate;
     }
@@ -140,7 +181,31 @@ public class Contest {
         this.endDate = endDate;
     }
 
-//    public Long getDuration() { return ChronoUnit.DAYS.between(startDate.toInstant(), endDate.toInstant()); }
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
+
+    public int getTimeZone() {
+        return timeZone;
+    }
+
+    public void setTimeZone(int timeZone) {
+        this.timeZone = timeZone;
+    }
+
+    //    public Long getDuration() { return ChronoUnit.DAYS.between(startDate.toInstant(), endDate.toInstant()); }
 //
 //    public void setDuration(Long duration) { this.duration = duration; }
 

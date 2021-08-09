@@ -1,4 +1,5 @@
 import { userService } from "../../services/user-service";
+import { ShowErrorModal } from "../errors/errors-actions";
 import { loginType } from "./login.types";
 
 
@@ -32,7 +33,6 @@ export const setRemember =(bool) =>{
 
 
 export function loginWithEmailAndPassword(user) {
-    console.log("clicked"+user)
     return dispatch => {
         dispatch(request({ user }));
 
@@ -42,6 +42,7 @@ export function loginWithEmailAndPassword(user) {
                     dispatch(success(user));
                 },
                 error => {
+                    ShowErrorModal(dispatch, "Something went wrong, please try again later")
                     dispatch(failure(error.toString()));
                 }
             );
@@ -52,8 +53,9 @@ export function loginWithEmailAndPassword(user) {
     function failure(error) { return { type: loginType.SET_LOGIN_ERROR_MESSAGE, payload: error } }
 }
 
-export async function logout() {
+export async function logout(dispatch) {
     console.log('logout clicked')
     userService.logout();
+    dispatch({ type: loginType.LOGOUT })
     return { type: loginType.LOGOUT };
 }

@@ -1,11 +1,12 @@
 import { CONTEST_EDIT_TYPES } from "./contest-edit-types";
 import axios from "axios"
 import { BACKEND_API } from "../../services/links";
+import { AppendEditedContest } from "../contests/contests-actions";
+import { ShowErrorModal } from "../errors/errors-actions";
 export const SetInitialState = (dispatch)=>{
     dispatch({type: CONTEST_EDIT_TYPES.INIT_EDIT_STATE})
 }
 export const SetStateToEdit = async (dispatch, id, userId)=>{
-    console.log(userId, id)
     var token = localStorage.getItem("accessToken")
     var config = {
         headers: {
@@ -14,15 +15,17 @@ export const SetStateToEdit = async (dispatch, id, userId)=>{
         } 
     }
     return axios.get(`${BACKEND_API}/api/contests/${id}`, config).then(response =>{
-        if(typeof(response.data.user) === "object" && response.data.user.id.toString() === userId.toString()){
+        if(response.data.user !== null && typeof(response.data.user) === "object" && response.data.user.id.toString() === userId.toString()){
             dispatch({type: CONTEST_EDIT_TYPES.SET_STATE_TO_EDIT, payload: response.data})
             return true
         }else{
             dispatch({type: CONTEST_EDIT_TYPES.EDIT_FAIL})
+            ShowErrorModal(dispatch, "Please make sure this contest is yours")
             return false
         }
     }).catch(err=>{
         dispatch({type: CONTEST_EDIT_TYPES.EDIT_FAIL})
+        ShowErrorModal(dispatch, "Please make sure this contest exist")
         return false
     })
 }
@@ -72,8 +75,7 @@ export const CheckEdits = (dispatch, information) =>{
                     }else{
                         var dateStart = new Date(data.startDate)
                         var dateEnd = new Date(data.endDate)
-                        var currentDate = new Date()
-                        if(dateStart >= dateEnd || dateEnd < currentDate){
+                        if(dateStart >= dateEnd){
                             result["endDate"] = false
                         }
                     }
@@ -97,7 +99,7 @@ export const Edit = async (dispatch, information, id, userId)=>{
             "Authorization" : `Bearer ${token}`
         } 
     }
-    if(typeof(information) === "object" && information.user.id.toString() === userId.toString()){
+    if(typeof(information) === "object" && information.user !== null && information.user.id.toString() === userId.toString()){
         var Data = {}
         Object.keys(information).map(key => {
             if(key !== "actions"){
@@ -108,12 +110,18 @@ export const Edit = async (dispatch, information, id, userId)=>{
         return axios.put(`${BACKEND_API}/api/contests/update/${id}`, Data, config)
         .then(response =>{
             dispatch({type: CONTEST_EDIT_TYPES.EDIT_SUCCESS})
-            return true
+            return response.data
         }).catch(err =>{
+            ShowErrorModal(dispatch, "Couldn't update your contest")
             dispatch({type: CONTEST_EDIT_TYPES.EDIT_FAIL})
             return false
+        }).then(value =>{
+            if(value){
+                AppendEditedContest(dispatch, id, Data)
+            }
         })
     }
+    ShowErrorModal(dispatch, "Please check the data you entered")
     dispatch({type: CONTEST_EDIT_TYPES.EDIT_FAIL})
     return false
 }

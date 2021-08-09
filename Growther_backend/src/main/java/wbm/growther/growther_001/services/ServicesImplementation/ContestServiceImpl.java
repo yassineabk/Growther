@@ -4,9 +4,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import wbm.growther.growther_001.UpdateContestStateJob;
-import wbm.growther.growther_001.configurations.threadPoolTaskSchedulerClass;
+import wbm.growther.growther_001.threadPoolTaskSchedulerClass;
 import wbm.growther.growther_001.dtos.ContestDto;
-import wbm.growther.growther_001.exceptions.NotFoundException;
 import wbm.growther.growther_001.models.Contest;
 import wbm.growther.growther_001.models.Duration;
 import wbm.growther.growther_001.models.Prize;
@@ -245,6 +244,10 @@ public class ContestServiceImpl implements ContestService {
         contestDto.setActionsNbr(contest.getActionsNbr());
         contestDto.setStartDate(contest.getStartDate());
         contestDto.setEndDate(contest.getEndDate());
+        contestDto.setStartTime(contest.getStartTime());
+        contestDto.setEndTime(contest.getEndTime());
+        contestDto.setTimeZone(contest.getTimeZone());
+        contestDto.setImmediately(contest.getImmediately());
         contestDto.setDuration(contest.getDuration());
         contestDto.setMaxReach(contest.getMaxReach());
         contestDto.setActions(contest.getActions());
@@ -269,13 +272,17 @@ public class ContestServiceImpl implements ContestService {
         contest.setActionsNbr(contestDto.getActionsNbr());
         contest.setStartDate(contestDto.getStartDate());
         contest.setEndDate(contestDto.getEndDate());
+        contest.setStartTime(contestDto.getStartTime());
+        contest.setEndTime(contestDto.getEndTime());
+        contest.setTimeZone(contestDto.getTimeZone());
+        contest.setImmediately(contestDto.getImmediately());
         contest.setDuration(contestDto.getDuration());
         contest.setMaxReach(contestDto.getMaxReach());
         contest.setActions(contestDto.getActions());
         contest.setPrizes(contestDto.getPrizes());
         return contest;
     }
-    // returns a list of brands DTO
+    // returns a list of contests DTO
     private List<ContestDto> getContestsDto(List<Contest> contests){
         List<ContestDto> contestDtos = new ArrayList<>();
 

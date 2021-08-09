@@ -21,7 +21,7 @@ export const DraftPage = ()=>{
         <div className="is-flex is-flex-direction-column column is-full">
             <div className="mb-4">
                 <CardsContainer 
-                    data={Array.isArray(draft) ? draft.reverse() : []} 
+                    data={Array.isArray(draft) ? draft : []} 
                     title={"My Contests"} addNew={"/dashboard/My%20Contests/new/firstStep"} 
                     Duplicate={(id)=> Duplicate(id)}
                     Delete={(id)=> Delete(id)}

@@ -12,8 +12,8 @@ export const DashboardHomePage = () =>{
             GetContests(dispatch)
         } 
     }, [dispatch])
-    var Duplicate = (id)=> {
-        DuplicateContest(dispatch, id)
+    var Duplicate = (id, element)=> {
+        DuplicateContest(dispatch, id, element)
     }
     return(
         <div className="is-flex is-flex-direction-column column is-full">
@@ -26,7 +26,7 @@ export const DashboardHomePage = () =>{
                     title={"Recent Contests"} 
                     showMore={"/dashboard/My Contests"} 
                     addNew={"/dashboard/My Contests/new"}
-                    Duplicate={(id)=> Duplicate(id)}
+                    Duplicate={(id, element)=> Duplicate(id, element)}
                 />
             </div>
             <div className="mb-4">

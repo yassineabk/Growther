@@ -7,6 +7,7 @@ import wbm.growther.growther_001.models.users.User;
 
 import java.util.Date;
 import java.util.Set;
+import java.util.TimeZone;
 
 public class ContestDto {
     private long idContest;
@@ -17,6 +18,10 @@ public class ContestDto {
     private int maxReach;
     private Date startDate;
     private Date endDate;
+    private String startTime;
+    private String endTime;
+    private Integer timeZone;
+    private Boolean immediately;
     private Duration duration;
     private Set<Action> actions;
     private Set<Prize> prizes;
@@ -90,6 +95,18 @@ public class ContestDto {
         this.maxReach = maxReach;
     }
 
+    public Boolean getImmediately() {
+        return immediately;
+    }
+
+    public void setImmediately(Boolean immediately) {
+        this.immediately = immediately;
+    }
+
+    public void setTimeZone(Integer timeZone) {
+        this.timeZone = timeZone;
+    }
+
     public Date getStartDate() {
         return startDate;
     }
@@ -104,6 +121,30 @@ public class ContestDto {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
+
+    public int getTimeZone() {
+        return timeZone;
+    }
+
+    public void setTimeZone(int timeZone) {
+        this.timeZone = timeZone;
     }
 
     public Duration getDuration() {
