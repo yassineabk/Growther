@@ -6,9 +6,9 @@ import { CardsContainer } from "../cards-container/cards-container.component"
 import { TemplatesContainer } from "../templates-container/templates-container.component"
 export const DashboardHomePage = () =>{
     var dispatch = useDispatch()
-    var {contests} = useSelector(state => state.get_contests)
+    var {contests, isLoading} = useSelector(state => state.get_contests)
     useEffect(()=>{
-        if((Array.isArray(contests) && contests.length === 0) || !Array.isArray(contests)){
+        if(((Array.isArray(contests) && contests.length === 0) || !Array.isArray(contests)) && !isLoading){
             GetContests(dispatch)
         }
     }, [dispatch])
