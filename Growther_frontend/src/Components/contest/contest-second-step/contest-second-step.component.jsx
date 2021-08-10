@@ -61,12 +61,25 @@ export const ContestSecondStep = ()=>{
                 <div className={"containerTitle"}>{"List of actions"}</div>
                 <ActionsList 
                     actions={[
-                        {provider: "Youtube", actions:["View", "Like", "Subscribe"]}, 
-                        {provider: "Facebook", actions:["Like", "Follow", "Comment"]},
-                        {provider: "Instagram", actions:["Like", "Follow", "Comment"]},  
-                        {provider: "Twitter", actions: ["Like", "Follow", "Comment"]} ,
-                        {provider: "Pinterest", actions: ["Like", "Follow", "Comment"]} ,
-                        {provider: "Twitch", actions: ["Like", "Follow", "Comment"]}
+                        {provider: "Youtube", actions:["Visit Channel", "Submit Url", "Watch Video"]}, 
+                        {provider: "Facebook", actions:["Like Page", "Like Post", "Visit Page", "View Post"]},
+                        {provider: "Instagram", actions:["Visit Page", "View Post"]},  
+                        {provider: "Twitter", actions: ["Tweet", "Follow", "Retweet", "View Tweet", "Visit Page"]} ,
+                        {provider: "Pinterest", actions: ["Visit Page", "Submit Pin", "Select Board"]} ,
+                        {provider: "Twitch", actions: ["Follow", "Bonus for twitch subscriber", "Redeem Twitch channel points Reward"]},
+                        {provider: "Snapchat", actions: ["Follow"]},
+                        {provider: "Linkedin", actions: ["Follow", "Share"]},
+                        {provider: "Tiktok", actions: ["Watch Video", "Submit Video"]},
+                        {provider: "Blog", actions: ["View", "Subscribe to RSS Feed", "Write a blog post", "Comment on a blog post"]},
+                        {provider: "Discord", actions: ["Join Server"]},
+                        {provider: "Steam", actions: ["Play Game", "Join Group"]},
+                        {provider: "Spotify", actions: ["Listen to", "Save", "Follow"]},
+                        {provider: "SoundCloud", actions: ["Listen to", "Like", "Repost", "Follow", "Submit"]},
+                        {provider: "Website", actions: ["Visit Link"]},
+                        {provider: "Newsletter", actions: ["Subscribe to Newsletter"]},
+                        {provider: "Question", actions: ["Answer Question"]},
+                        {provider: "Coupon", actions: ["Get Coupons"]},
+                        {provider: "Bonus", actions: ["Get Completion Bonus"]}
                     ]} 
                     addAction={(action)=> addAction(action)} 
                     title={"List of actions"}
