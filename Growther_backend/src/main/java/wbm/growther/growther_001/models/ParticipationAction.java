@@ -16,6 +16,7 @@ public class ParticipationAction {
     private String type;
     private String url;
     private int points;
+    private boolean isDone;
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "idParticipation",nullable = true,updatable = false)
     @JsonIgnore
@@ -67,5 +68,13 @@ public class ParticipationAction {
 
     public void setParticipation(Participation participation) {
         this.participation = participation;
+    }
+
+    public boolean isDone() {
+        return isDone;
+    }
+
+    public void setDone(boolean done) {
+        isDone = done;
     }
 }
