@@ -8,6 +8,7 @@ import DashboardReducer from './dashboard/dashboard-reducer'
 import ContestsReducer from './contests/contests-reducer'
 import LoadingReducer from './loading/loading-reducer'
 import ErrorsReducer from './errors/errors-reducer'
+import ParticipationReducer from './participation/participation-reducer'
 
 
 const rootReducer=combineReducers({
@@ -18,6 +19,7 @@ const rootReducer=combineReducers({
     contest_edit: EditReducer,
     dashboard: DashboardReducer,
     get_contests: ContestsReducer,
+    participation: ParticipationReducer,
     isLoading: LoadingReducer,
     errors: ErrorsReducer
 })

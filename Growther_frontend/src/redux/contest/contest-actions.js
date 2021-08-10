@@ -217,13 +217,18 @@ export const NextStep = (dispatch, information)=>{
 }
 export const SaveContest = (dispatch, actions)=>{
     var result = []
+    var TextActions = ["tweet", "answer question", "submit url", "submit video", "submit", "subscribe to newsletter"]
     if(Array.isArray(actions) && actions.length > 0){
         actions.map((item, index) =>{
-            if(typeof(item) === "object"){
+            if(item !== null && typeof(item) === "object"){
                 var res = {isValid: true, provider: item.provider, index: index}
                 Object.keys(item).map(key=>{
-                    if(key === "url" && !UrlValidation(item[key])){
-                        res = {...res, [key]: false, isValid: false}
+                    if(key === "url"){
+                        if(!TextActions.includes(item.type.toLowerCase())){
+                            if(!UrlValidation(item[key])){
+                                res = {...res, [key]: false, isValid: false}
+                            }
+                        }
                     }
                     if(key === "points" && (item[key] < 1 || item[key] > 5)){
                         res = {...res, [key]: false, isValid: false}
@@ -328,7 +333,7 @@ export const DuplicateContest = (dispatch, id, data)=>{
 export const ResestNewContest = (dispatch)=>{
     dispatch({type: ContestTypes.RESET_NEW_CONTEST})
 }
-var UrlValidation = (url)=>{
+export const UrlValidation = (url)=>{
     var pattern = new RegExp(/^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$/)
     if(!pattern.test(url)){
         return false

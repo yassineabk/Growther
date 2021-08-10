@@ -1,6 +1,6 @@
 import React from "react"
 import { PreviewAction } from "../preview-action/preview-action.component"
-export const PreviewActionsList = ({actions, previewActions, changeHandler})=>{
+export const PreviewActionsList = ({actions, previewActions, changeHandler, DoAction})=>{
     var action = (data)=>{
         var points = []
         var links = []
@@ -21,15 +21,17 @@ export const PreviewActionsList = ({actions, previewActions, changeHandler})=>{
     return(
         <div className="is-flex is-flex-direction-column previewActions">
             {Array.isArray(actions) ? actions.map((element, index) =>{
-                if(typeof(element) !== "object") return null
+                if(element !== null && typeof(element) !== "object") return null
                 return(
                     <PreviewAction
                         provider={element.provider}
-                        links={element.url}
+                        links={element.type}
+                        done={element.isDone}
                         //selected={Array.isArray(previewActions) ? previewActions[index] : undefined}
                         points={element.points}
                         changeHandler={changeHandler && {}.toString.call(changeHandler) === '[object Function]' ? (event, provider) => changeHandler(event, provider) : ()=> false}
                         key={`action${index}`}
+                        DoAction={DoAction && {}.toString.call(DoAction) === '[object Function]' ? ()=> DoAction(index, element) : ()=> false}
                     />
                 )
             }) : null}
