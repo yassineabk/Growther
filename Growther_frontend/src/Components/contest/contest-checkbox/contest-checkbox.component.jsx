@@ -10,7 +10,8 @@ export const ContestCheckBox = ({label, changeHandler, child, placeholder, name,
                     name={name ? name : ""} 
                     placeholder={placeholder ? placeholder : "Type something here"}
                     onChange={changeHandler && {}.toString.call(changeHandler) === '[object Function]' ? (event)=> changeHandler(event) : (event) => false}
-                    value={value ? value : false}
+                    value={value !== undefined && typeof(value) === "boolean" && value === true ? value : false}
+                    checked={value}
                 />
                 <span style={{marginLeft: "0.25em", fontSize: "13px"}}>{placeholder ? placeholder : "Start immediately"}</span>
             </div>
