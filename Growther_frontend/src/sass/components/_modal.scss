@@ -82,10 +82,12 @@
             background-color: $sideBar-color;
             color: white;
             text-align: center;
+            border-radius: 0 10px 0 0;
         }
         .actionProvider{
             display: flex;
             justify-content: center;
+            border-radius: 10px 0 0 0;
             .actionIcon{
               padding: 0.5em 0.6em;
               display: flex;
@@ -102,6 +104,18 @@
             flex: 1;
             padding: 5px;
             background-color: white;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 0 0 10px 10px;
+            #countdown{
+                flex: 1;
+                font-size: 15px;
+                padding: 5px;
+                color: rgba(black, 0.5);
+                span{
+                    color: black;
+                }
+            }
             .buttonContainer{
                 transition: 0.5s all;
                 cursor: pointer;
@@ -112,18 +126,20 @@
                 max-width: 150px;
                 padding: 10px;
                 border-radius: 10px;
-                border: 2px solid $border-color !important;
+                //border: 2px solid $border-color !important;
                 color: white !important;
                 background-color: $sideBar-color !important;
             }
         }
-        #iframe{
-            width: 100%;
-            min-width: 400px !important;
+        iframe, #iframe, #spotifyIframe{
+            width: calc(30vw);
+            height: calc(50vh);
+            min-width: 300px !important;
             max-width: 750px !important;
-            height: 100%;
-            min-height: 273px !important;
-            max-height: 360px !important;
+            overflow: scroll;
+            border: 0px !important;
+            // min-height: 273px !important;
+            // max-height: 400px !important;
             background-color: white;
         }
         .action-links{

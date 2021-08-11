@@ -70,7 +70,6 @@ class LoginPage extends React.Component{
         this.passwordValidation(e.target.value)
     }
     handleRemeberMe=e =>{
-      console.log(e.target.value)
       this.props.setRemember(!this.props.remember)
     }
     

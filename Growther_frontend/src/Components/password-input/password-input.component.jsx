@@ -6,7 +6,6 @@ const PasswordInput=({handleChange,handleBlur,label,isError,value,message,placeh
     
     const [showPassword, setshowPassword] = useState(false);
     const handleClickShowPassword = () => {
-        console.log("cliiic")
         setshowPassword(!showPassword);
       };
       
