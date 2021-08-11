@@ -18,8 +18,6 @@ class SignUpPage extends React.Component{
               isBrand:"true"
 
             }
-            console.log("---------")
-            console.log(user)
             localStorage.setItem("user", JSON.stringify(user))
             //this.props.setRegistrationError(false)
             //this.props.registerWithEmailAndPassword(user)
@@ -54,8 +52,6 @@ class SignUpPage extends React.Component{
               isBrand:"true"
 
             }
-            console.log("---------")
-            console.log(user)
             this.props.setRegistrationError(false)
             
             this.props.registerWithEmailAndPassword(user)
@@ -80,7 +76,6 @@ class SignUpPage extends React.Component{
     }
 
   handleClickLogin() {
-    console.log(this.props, "here")
     //this.props.history.push("/login");
     window.location.href=`${FRONTEND_API}/login`
   }
@@ -94,9 +89,7 @@ class SignUpPage extends React.Component{
 
 
     SignUpWithFacebook=async e=>{
-      console.log("Facebook")
        
-
     }
 
 
@@ -224,8 +217,6 @@ class SignUpPage extends React.Component{
         
       }
       
-      console.log(this.state)
-
     }
     
     handleUserType=e=>{

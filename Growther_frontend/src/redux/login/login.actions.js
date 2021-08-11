@@ -54,7 +54,6 @@ export function loginWithEmailAndPassword(user) {
 }
 
 export async function logout(dispatch) {
-    console.log('logout clicked')
     userService.logout();
     dispatch({ type: loginType.LOGOUT })
     return { type: loginType.LOGOUT };

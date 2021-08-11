@@ -6,6 +6,8 @@ import { PreviewAction } from "../preview-action/preview-action.component"
 export const ActionModalContainer = ({action, show})=>{
     var dispatch = useDispatch()
     var [activeButton, setActiveButton] = useState(false)
+    var [countdown, setCount] = useState(10)
+    var [withCountDown, setCountDown] = useState(false)
     var [isLoading, setLoading] = useState(true)
     var closeModal = (event)=>{
         var container = document.getElementById("actionIframe")
@@ -13,14 +15,33 @@ export const ActionModalContainer = ({action, show})=>{
             if(!container.contains(event.target)){
                 CloseActionModal(dispatch)
                 setActiveButton(false)
+                setCount(10)
+                setCountDown(false)
             }
         }
     }
-    var action_done = (event)=>{
+    var action_done = (event, WithCountdown)=>{
+        if(withCountDown) return false
         setLoading(false)
+        startCountdown(WithCountdown)
         setTimeout(()=>{
             setActiveButton(true)
         }, 10000)
+    }
+    var startCountdown = (start)=>{
+        if(start){
+            setCountDown(true)
+            var value = countdown
+            var interval = setInterval(()=>{
+                if(value > 0){
+                    value -= 1
+                    setCount(prev => prev - 1)
+                }else{
+                    //setCountDown(false)
+                    clearInterval(interval)
+                }
+            }, 1000)
+        }
     }
     var valid_answer_check = (value)=>{
         if(value !== null && typeof(value) === "string"){
@@ -47,13 +68,18 @@ export const ActionModalContainer = ({action, show})=>{
                         action={action} 
                         valid_answer_check={(value)=> valid_answer_check(value)} 
                         valid_url_check={(value) => valid_url_check(value)}
-                        action_done={(event)=> action_done(event)} />
+                        action_done={(event, value)=> action_done(event, value)} 
+                    />
                     <div className="is-flex is-flex-direction-column is-align-items-center is-justify-content-center">
                         <div className="button-container is-flex is-justify-content-flex-end">
+                            {withCountDown ? <div id="countdown"><span>00:{("0"+countdown).slice(-2)}</span></div> : null}
                             <div onClick={activeButton ? ()=> {
-                                setActiveButton(false)
-                                ActionDone(dispatch, action.id, action.index, action.points)
-                            } : ()=> false} className={`${activeButton ? "" : "active "}buttonContainer is-flex is-justify-content-center is-align-items-center`}>
+                                    setActiveButton(false)
+                                    ActionDone(dispatch, action.id, action.index, action.points)
+                                    setCountDown(false)
+                                    setCount(10)
+                                } : ()=> false} 
+                                className={`${activeButton ? "" : "active "}buttonContainer is-flex is-justify-content-center is-align-items-center`}>
                                 Continue
                             </div>
                         </div>

@@ -37,13 +37,13 @@ export const PreviewCard = ({title, description, timeLeft, dateType, views, poin
                             Total views
                         </span>, 
                         <span>
-                            {views ? views : "0"}
+                            {views ? views : ""}
                         </span>]
                         : [<span className="little-title">
                             Your Points
                         </span>,
                         <span >
-                            {points ? points : "0"}
+                            {points ? points : ""}
                         </span> ]}
                     </div>
                     <div className="card-entries is-flex is-flex-direction-column">
@@ -51,7 +51,7 @@ export const PreviewCard = ({title, description, timeLeft, dateType, views, poin
                             Total entries
                         </span>
                         <span>
-                            {entries ? entries : "0"}
+                            {entries ? entries : ""}
                         </span>
                     </div>
                     <div className="card-date is-flex is-flex-direction-column">

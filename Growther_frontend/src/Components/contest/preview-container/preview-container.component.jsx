@@ -9,17 +9,23 @@ export const PreviewContainer = ({information, actions, previewActions, changeHa
         var currentYear = currentDate.getFullYear()
         var current_date = currentYear + "-" + currentMonth + "-" + currentDay
         currentDate = new Date(current_date)
-        var daysDiff = Math.ceil(Math.abs(currentDate - new Date(d))/(1000*60*60*24))
+        var daysDiff = Math.ceil((new Date(d) - currentDate)/(1000*60*60*24))
         if((!daysDiff && daysDiff !== 0) || daysDiff === null || typeof(daysDiff) !== "number"){
             return false
         }
         var weeksDiff = Math.ceil(Math.abs(currentDate - new Date(d))/(1000*60*60*24*7))
         var monthsDiff = Math.ceil(Math.abs(currentDate - new Date(d))/(1000*60*60*24*30))
+        if(daysDiff < 0){
+            return {date: "Ended", type: ""}
+        }
         if(daysDiff === 0){
             if(Array.isArray(endTime)){
-                if(startTime.length === 2){
+                if(endTime.length === 2){
                     var minsDiff = Math.abs(parseInt(endTime[1]) - parseInt(date.getMinutes()))
-                    var hoursDiff = (Math.abs(parseInt(endTime[0]) - parseInt(date.getHours()) - (minsDiff/60))).toFixed(0)
+                    var hoursDiff = ((parseInt(endTime[0]) - parseInt(date.getHours()) - (minsDiff/60))).toFixed(0)
+                    if(hoursDiff < 0){
+                        return {date: "Ended", type: ""}
+                    }
                     if(hoursDiff < 1){
                         if(minsDiff === 1){
                             return {date: minsDiff, type: "minute"}
