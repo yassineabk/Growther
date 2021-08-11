@@ -6,7 +6,6 @@ export const SubmitUrlAction = ({valid_url_check, provider})=>{
     var [message, setMessage] = useState("")
     var changeHandler = (event)=>{
         var value = event.target.value
-        console.log(UrlValidation(value), value.includes(provider))
         if(UrlValidation(value) && value.includes(provider)){
             setMessage("")
             valid_url_check(true)

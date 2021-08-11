@@ -148,6 +148,37 @@ public class ContestController {
         return  ResponseEntity.ok().body(contestDtoUpdated);
     }
 
+    //Update draft contest
+    @PutMapping("/update/draft/{id}")
+    public ResponseEntity<ContestDto> updateDraftContest(@PathVariable(value = "id") Long contestId
+            ,@Validated @RequestBody ContestDto contestDetails) throws ResourceNotFoundException {
+        ContestDto contestDto=contestService.getContestById(contestId);
+
+        // if the contest does not exist, throw an exception
+        if(contestDto==null) throw new ResourceNotFoundException("No Contest exist with  ID : "+contestId.toString());
+        System.out.println(contestId.toString());
+        //update informations
+
+        contestDto.setTitle(contestDetails.getTitle());
+        contestDto.setDescription(contestDetails.getDescription());
+        contestDto.setImmediately(contestDetails.getImmediately());
+        contestDto.setStartDate(contestDetails.getStartDate());
+        contestDto.setEndDate(contestDetails.getEndDate());
+        contestDto.setTimeZone(contestDetails.getTimeZone());
+        contestDto.setMaxReach(contestDetails.getMaxReach());
+        contestDto.setActionsNbr(contestDetails.getActionsNbr());
+        contestDto.setWinnersNbr(contestDetails.getWinnersNbr());
+        contestDto.setDuration(contestDetails.getDuration());
+        contestDto.setStartTime(contestDetails.getStartTime());
+        contestDto.setEndTime(contestDetails.getEndTime());
+        contestDto.setStatus(contestDetails.getStatus());
+        contestDto.setActions(contestDetails.getActions());
+        contestDto.setPrizes(contestDetails.getPrizes());
+
+        ContestDto contestDtoUpdated=contestService.updateContestInfos(contestDto);
+        return  ResponseEntity.ok().body(contestDtoUpdated);
+    }
+
     //Delete contest
     @DeleteMapping("/delete/{id}")
     public Map<String, Boolean> deleteContest(@PathVariable(value = "id") Long contestId)

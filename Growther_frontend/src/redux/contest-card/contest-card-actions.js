@@ -30,6 +30,5 @@ export const CloseActionModal = (dispatch)=>{
     dispatch({type: Contest_Card_Types.CLOSE_MODAL})
 }
 export const ActionDone = (dispatch, id, index, points)=>{
-    console.log(id, index, points)
     dispatch({type: Contest_Card_Types.ACTION_DONE, payload: {id, index, points}})
 }

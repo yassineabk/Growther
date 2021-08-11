@@ -7,6 +7,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import wbm.growther.growther_001.dtos.ParticipationDto;
 import wbm.growther.growther_001.exceptions.ResourceNotFoundException;
+import wbm.growther.growther_001.models.Participation;
 import wbm.growther.growther_001.services.ParticipationService;
 import wbm.growther.growther_001.utils.JwtUtils;
 
@@ -43,18 +44,22 @@ public class ParticipationController {
         return ResponseEntity.ok().body(participationDto);
     }
     @PostMapping("/create/{id}")
-    public Long createParticipation(@PathVariable(value = "id") Long contestID,
+    public Map<String, String> createParticipation(@PathVariable(value = "id") Long contestID,
                                     @RequestBody ParticipationDto participationDto
             ,HttpServletRequest request) throws RejectedExecutionException {
 
         //get the email from the JWT token
         String token = getJwtTokenFromRequest(request);
         String email= jwtUtils.getUserEmailFromToken(token);
-        Long newParticipation = service.createNewParticipation(participationDto,email,contestID);
+        Participation newParticipation = service.createNewParticipation(participationDto,email,contestID);
+        if(newParticipation != null) {
+            Map<String, String> response = new HashMap<>();
+            response.put("isDone", String.valueOf(newParticipation.isDone()));
+            response.put("nbrPoints", String.valueOf(newParticipation.getTotalPoints()));
+            return response;
+        }else
+            throw new RejectedExecutionException("A Participation with that ID already exist !!");
 
-        if(newParticipation != Long.decode("0")) return newParticipation;
-        System.out.println(newParticipation);
-        throw new RejectedExecutionException("A Participation with that ID already exist !!");
     }
     @PutMapping("/update/{id}")
     public ResponseEntity<ParticipationDto> updateParticipation(@PathVariable(value = "id") Long participationId

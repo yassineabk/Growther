@@ -1,4 +1,5 @@
 import React from "react"
+import { actions } from "../../../services/actions"
 import { ContestInput } from "../contest-input/contest-input.component"
 import { SelectInput } from "../select-input/select-input.component"
 export const ContestAction = ({data, removeAction, updateAction, validAction})=>{
@@ -9,7 +10,10 @@ export const ContestAction = ({data, removeAction, updateAction, validAction})=>
             <div className="actionSelect">
                 <SelectInput 
                     data={
-                        Array.isArray(data.listOfActions) ? data.listOfActions : []
+                        Array.isArray(data.listOfActions) ? data.listOfActions : actions.filter(action=> {
+                            if(action.provider === data.provider){
+                                return action.actions
+                            }})
                     }
                     changeHandler={(event)=> updateAction(data.provider, "type", event.target.value)}
                     value={data.type}
