@@ -24,14 +24,12 @@ function loginWithFacebookAndGoogle(user){
         },
         body: JSON.stringify(user)
     };
-    console.log(requestOptions)
 
     return fetch(`${USERS_REST_API_URL}/api/users/update/${id}`, requestOptions)
             .then(response => {
             // store user details and jwt token in local storage to keep user logged in between page refreshes
             // localStorage.setItem('user', JSON.stringify(user));
-            console.log("updating info when login with fb and google")
-        }).catch(error => console.log(error));
+        }).catch(error => {});
 
 }
 
@@ -69,7 +67,6 @@ function registerWithEmailAndPassword(user) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(user)
     };
-    console.log(JSON.stringify(user))
 
     return fetch(`${USERS_REST_API_URL}/authentication/signup`, requestOptions)
     .then(handleResponse)
@@ -92,7 +89,6 @@ function handleResponse(response) {
             const error = (data && data.message) || response.statusText;
             return Promise.reject(error);
         }
-        console.log(data)
         return data;
     });
 }

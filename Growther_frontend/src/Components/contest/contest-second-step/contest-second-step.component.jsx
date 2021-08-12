@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { Redirect, useHistory, useLocation } from "react-router-dom"
 import { AddAction, NextStep, PublishContest, RemoveAction, ResestNewContest, SaveContest, SaveDraft, UpdateAction } from "../../../redux/contest/contest-actions"
 import { AppendContest } from "../../../redux/contests/contests-actions"
+import { actions } from "../../../services/actions"
 import { ActionsList } from "../actions-list/actions-list.component"
 import { ContestActions } from "../contest-actions/contest-actions.component"
 import { ContestButton } from "../contest-buttons/contest-buttons.component"
@@ -60,14 +61,7 @@ export const ContestSecondStep = ()=>{
             <div className="is-flex is-flex-direction-column">
                 <div className={"containerTitle"}>{"List of actions"}</div>
                 <ActionsList 
-                    actions={[
-                        {provider: "Youtube", actions:["View", "Like", "Subscribe"]}, 
-                        {provider: "Facebook", actions:["Like", "Follow", "Comment"]},
-                        {provider: "Instagram", actions:["Like", "Follow", "Comment"]},  
-                        {provider: "Twitter", actions: ["Like", "Follow", "Comment"]} ,
-                        {provider: "Pinterest", actions: ["Like", "Follow", "Comment"]} ,
-                        {provider: "Twitch", actions: ["Like", "Follow", "Comment"]}
-                    ]} 
+                    actions={actions} 
                     addAction={(action)=> addAction(action)} 
                     title={"List of actions"}
                 />
