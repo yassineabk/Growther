@@ -24,9 +24,12 @@ export const CardsContainer = ({data, title, showMore, addNew, Duplicate, Delete
             var currentHour = currentDate.getHours()
             var currentMin = currentDate.getMinutes()
             var date = new Date(`${currentYear}-${currentMonth}-${currentDay}`)
-            var daysDiff = Math.ceil(Math.abs(date - new Date(d))/(1000*60*60*24))
+            var daysDiff = Math.ceil((new Date(d) - date)/(1000*60*60*24))
             var weeksDiff = Math.ceil(Math.abs(date - new Date(d))/(1000*60*60*24*7))
             var monthsDiff = Math.ceil(Math.abs(date - new Date(d))/(1000*60*60*24*30))
+            if(daysDiff < 0){
+                return {date: "Ended", type: ""}
+            }
             if(daysDiff === 0){
                 endTime = endTime.split(":")
                 if(parseInt(endTime[0]) === parseInt(currentHour)){
@@ -37,7 +40,8 @@ export const CardsContainer = ({data, title, showMore, addNew, Duplicate, Delete
                 }
                 var timeDiff = parseInt(endTime[1]) - parseInt(currentHour)
                 if(timeDiff > 1) return {date: timeDiff, type: "hours"}
-                return {date: timeDiff, type: "hour"}
+                if(timeDiff === 1) return {date: timeDiff, type: "hour"}
+                if(timeDiff < 1) return {date: "Ended", type: ""}
             }
             if(daysDiff % 30 === 0){
                 if(monthsDiff > 1) return {date: monthsDiff, type: "months"}

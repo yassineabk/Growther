@@ -13,7 +13,6 @@ export const ContestInput = ({type, name, value, placeholder, changeHandler, id,
                 readOnly={readonly ? readonly : ""}
                 value={value}
                 max={max ? max : ""}
-                onTimeUpdate={timeChangeHandler && {}.toString.call(timeChangeHandler) === '[object Function]' ? (event)=> console.log(event.target) : ()=> false}
             />
             {validData !== undefined && validData.isValid === false ? <div className="inputError">{validData.message}</div> : null}
             {Array.isArray(child) ? child :  null}

@@ -24,11 +24,14 @@ import { EditContestFirstStep } from './Components/contest/edit-contest-first-st
 import { EditContestSecondStep } from './Components/contest/edit-contest-second-step/edit-contest-second-step.component';
 import { DraftPage } from './Components/dashboard/draft-page/draft-page.component';
 import { ErrorsModal } from './Components/errors-modal/errors-modal.component';
+import { ActionModalContainer } from './Components/contest/action-modal-container/action-modal-container.component';
 
 const App = ()=> {
   var { currentUser } = useSelector(state => state.login)
+  var { actionModal, action } = useSelector(state => state.contest_card)
   return (
     <div className={"App"}>
+
       {/*<ErrorsModal />*/}
       <Switch>
         <Route path="/oauth2/redirect" component={OAuth2RedirectHandler}></Route> 
@@ -36,7 +39,10 @@ const App = ()=> {
         <Route exact path='/landing-page' render={()=> <LandingPage />} />
         <Route exact path='/login' render={()=>(currentUser) ? (<Redirect to='/dashboard'/>) : (<LoginPage/>) } />
         <Route exact path='/signup' render={()=>currentUser ? (<Redirect to='/'/>) : (<SignUpPage/>) } />
-        <Route exact path='/contest/:title/:id' render={()=> (<Contest />)}/>
+        <Route exact path='/contest/:title/:id' render={()=> ([
+          <ActionModalContainer show={actionModal} action={action} />,
+          <Contest />
+        ])}/>
         <Route exact path='/dashboard/pie' render={()=> currentUser ? (<Dashboard />) : (<Redirect to='/'/>)} />
         <Route exact path='/dashboard/draft' render={()=> currentUser ?  (<Dashboard child={<DraftPage />} />) : (<Redirect to='/'/>)} />
         <Route exact path='/dashboard/settings' render={()=> currentUser ?  (<Dashboard />) : (<Redirect to='/'/>)} />

@@ -348,7 +348,6 @@ export const ContestFirstStep = ()=>{
                                 message: "Please, Pick a valid date"
                             } : undefined
                         }
-                        timeChangeHandler={()=> console.log(true)}
                     />]}
                     <ContestInput 
                         type={"date"}

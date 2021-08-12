@@ -280,6 +280,7 @@
             font-family: Poppins-Regular;
           }
           &.actionPoints{
+            cursor: pointer;
             padding: 0.5em;
             width: 40px;
             background-color: $sideBar-color;
