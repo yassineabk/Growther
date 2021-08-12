@@ -6,6 +6,7 @@ import { ActionModal } from "../../Components/contest/action-modal/action-modal.
 import { PreviewCard } from "../../Components/contest/preview-card/preview-card.component"
 import { Spinner } from "../../Components/spinner/spinner.component"
 import { ActionDone, OpenActionModal, SelectAction, SetData, SetDataFromLocation } from "../../redux/contest-card/contest-card-actions"
+import { TimeLeft } from "../../services/timeLeft"
 export const Contest = ({currentUser})=>{
     var dispatch = useDispatch()
     var params = useParams()
@@ -26,47 +27,6 @@ export const Contest = ({currentUser})=>{
     var changeHandler = (event, provider)=>{
         var index = parseInt(event.target.selectedIndex)
         SelectAction(dispatch, provider, index)
-    }
-    var TimeLeft = (d, endTime)=>{
-        if(d && endTime){
-            var currentDate = new Date()
-            var currentDay = ("0"+currentDate.getDate()).slice(-2)
-            var currentMonth = ("0"+parseInt(currentDate.getMonth() + 1 === 13 ? 1 : currentDate.getMonth() + 1)).slice(-2)
-            var currentYear = currentDate.getFullYear()
-            var currentHour = currentDate.getHours()
-            var currentMin = currentDate.getMinutes()
-            var date = new Date(`${currentYear}-${currentMonth}-${currentDay}`)
-            var daysDiff = Math.ceil((new Date(d) - date)/(1000*60*60*24))
-            var weeksDiff = Math.ceil(Math.abs(date - new Date(d))/(1000*60*60*24*7))
-            var monthsDiff = Math.ceil(Math.abs(date - new Date(d))/(1000*60*60*24*30))
-            if(daysDiff < 0){
-                return {date: "Ended", type: ""}
-            }
-            if(daysDiff === 0){
-                endTime = endTime.split(":")
-                if(parseInt(endTime[0]) === parseInt(currentHour)){
-                    var timeDiff = parseInt(endTime[1]) - parseInt(currentMin)
-                    if(timeDiff > 1) return {date: timeDiff, type: "minutes"}
-                    if(timeDiff === 1) return {date: timeDiff, type: "minute"}
-                    if(timeDiff < 1) return {date: "Ended", type: ""}
-                }
-                var timeDiff = parseInt(endTime[1]) - parseInt(currentHour)
-                if(timeDiff > 1) return {date: timeDiff, type: "hours"}
-                if(timeDiff === 1) return {date: timeDiff, type: "hour"}
-                if(timeDiff < 1) return {date: "Ended", type: ""}
-            }
-            if(daysDiff % 30 === 0){
-                if(monthsDiff > 1) return {date: monthsDiff, type: "months"}
-                return {date: monthsDiff, type: "month"}
-            }
-            if(daysDiff % 7 === 0){
-                if(weeksDiff > 1) return {date: weeksDiff, type: "weeks"}
-                return {date: weeksDiff, type: "week"}
-            }
-            if(daysDiff > 1) return {date: daysDiff, type: "days"}
-            return {date: daysDiff, type: "day"}
-        }
-        return {date: "", type: ""}
     }
     var hasStarted = (d)=>{
         var currentDate = new Date()

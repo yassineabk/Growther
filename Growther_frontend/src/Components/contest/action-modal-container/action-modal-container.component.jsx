@@ -13,10 +13,10 @@ export const ActionModalContainer = ({action, show})=>{
         var container = document.getElementById("actionIframe")
         if(container !== null && typeof(container) === "object"){
             if(!container.contains(event.target)){
-                CloseActionModal(dispatch)
                 setActiveButton(false)
                 setCount(10)
                 setCountDown(false)
+                CloseActionModal(dispatch)
             }
         }
     }
@@ -69,6 +69,7 @@ export const ActionModalContainer = ({action, show})=>{
                         valid_answer_check={(value)=> valid_answer_check(value)} 
                         valid_url_check={(value) => valid_url_check(value)}
                         action_done={(event, value)=> action_done(event, value)} 
+                        closeModal={()=> closeModal()}
                     />
                     <div className="is-flex is-flex-direction-column is-align-items-center is-justify-content-center">
                         <div className="button-container is-flex is-justify-content-flex-end">
