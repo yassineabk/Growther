@@ -20,7 +20,7 @@ public class ContestDto {
     private Date endDate;
     private String startTime;
     private String endTime;
-    private Integer timeZone;
+    //private int timeZone;
     private Boolean immediately;
     private Duration duration;
     private Set<Action> actions;
@@ -103,9 +103,6 @@ public class ContestDto {
         this.immediately = immediately;
     }
 
-    public void setTimeZone(Integer timeZone) {
-        this.timeZone = timeZone;
-    }
 
     public Date getStartDate() {
         return startDate;
@@ -139,13 +136,7 @@ public class ContestDto {
         this.endTime = endTime;
     }
 
-    public int getTimeZone() {
-        return timeZone;
-    }
 
-    public void setTimeZone(int timeZone) {
-        this.timeZone = timeZone;
-    }
 
     public Duration getDuration() {
         return duration;

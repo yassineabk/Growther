@@ -164,7 +164,7 @@ public class ContestController {
         contestDto.setImmediately(contestDetails.getImmediately());
         contestDto.setStartDate(contestDetails.getStartDate());
         contestDto.setEndDate(contestDetails.getEndDate());
-        contestDto.setTimeZone(contestDetails.getTimeZone());
+        //contestDto.setTimeZone(contestDetails.getTimeZone());
         contestDto.setMaxReach(contestDetails.getMaxReach());
         contestDto.setActionsNbr(contestDetails.getActionsNbr());
         contestDto.setWinnersNbr(contestDetails.getWinnersNbr());

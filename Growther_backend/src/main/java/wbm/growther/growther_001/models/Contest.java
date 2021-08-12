@@ -26,7 +26,6 @@ public class Contest {
     private Date endDate;
     private String startTime;
     private String endTime;
-    private Integer timeZone;
     private Boolean immediately;
     @OneToOne(mappedBy = "contest", cascade = CascadeType.ALL)
     @JsonIgnore
@@ -62,7 +61,6 @@ public class Contest {
         this.endDate = endDate;
         this.startTime=startTime;
         this.endTime=endTime;
-        this.timeZone = timeZone;
         this.immediately = immediately;
         this.duration = duration;
         this.participations = participations;
@@ -81,7 +79,6 @@ public class Contest {
         this.endDate = contest.getEndDate();
         this.endTime = contest.getEndTime();
         this.startTime = contest.getStartTime();
-        this.timeZone=contest.getTimeZone();
         this.immediately =contest.getImmediately();
         this.duration = contest.getDuration();
         this.actions = new HashSet(contest.getActions());
@@ -161,9 +158,7 @@ public class Contest {
 
     public void setMaxReach(int maxReach) { this.maxReach = maxReach; }
 
-    public void setTimeZone(Integer timeZone) {
-        this.timeZone = timeZone;
-    }
+
 
     public Date getStartDate() {
         return startDate;
@@ -197,13 +192,9 @@ public class Contest {
         this.endTime = endTime;
     }
 
-    public int getTimeZone() {
-        return timeZone;
-    }
 
-    public void setTimeZone(int timeZone) {
-        this.timeZone = timeZone;
-    }
+
+
 
     //    public Long getDuration() { return ChronoUnit.DAYS.between(startDate.toInstant(), endDate.toInstant()); }
 //
