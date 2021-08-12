@@ -6,8 +6,12 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import wbm.growther.growther_001.dtos.ParticipationDto;
+import wbm.growther.growther_001.exceptions.NotFoundException;
 import wbm.growther.growther_001.exceptions.ResourceNotFoundException;
 import wbm.growther.growther_001.models.Participation;
+import wbm.growther.growther_001.models.ParticipationAction;
+import wbm.growther.growther_001.repository.ParticipationActionRepository;
+import wbm.growther.growther_001.repository.ParticipationRepository;
 import wbm.growther.growther_001.services.ParticipationService;
 import wbm.growther.growther_001.utils.JwtUtils;
 
@@ -22,6 +26,10 @@ import java.util.concurrent.RejectedExecutionException;
 public class ParticipationController {
     @Autowired
     private ParticipationService service;
+    @Autowired
+    private ParticipationRepository repository;
+    @Autowired
+    private ParticipationActionRepository actionRepository;
     @Autowired
     private JwtUtils jwtUtils;
 
@@ -52,8 +60,10 @@ public class ParticipationController {
         String token = getJwtTokenFromRequest(request);
         String email= jwtUtils.getUserEmailFromToken(token);
         Participation newParticipation = service.createNewParticipation(participationDto,email,contestID);
+        service.checkParticipation(newParticipation);
         if(newParticipation != null) {
             Map<String, String> response = new HashMap<>();
+            response.put("id", String.valueOf(newParticipation.getId()));
             response.put("isDone", String.valueOf(newParticipation.isDone()));
             response.put("nbrPoints", String.valueOf(newParticipation.getTotalPoints()));
             return response;
@@ -61,6 +71,18 @@ public class ParticipationController {
             throw new RejectedExecutionException("A Participation with that ID already exist !!");
 
     }
+    @PostMapping("/add/{participationID}")
+    public ParticipationAction addAction(@PathVariable Long participationID,
+                                         @RequestBody ParticipationAction action) {
+
+        return repository.findById(participationID)
+                .map(participation -> {
+                    action.setParticipation(participation);
+                    return actionRepository.save(action);
+                })
+                .orElseThrow(() -> new NotFoundException("Participation not found!"));
+    }
+
     @PutMapping("/update/{id}")
     public ResponseEntity<ParticipationDto> updateParticipation(@PathVariable(value = "id") Long participationId
             ,@Validated @RequestBody ParticipationDto participationDetails) throws ResourceNotFoundException {

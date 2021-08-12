@@ -6,6 +6,7 @@ import wbm.growther.growther_001.dtos.ParticipationDto;
 import wbm.growther.growther_001.models.Contest;
 import wbm.growther.growther_001.models.Participation;
 import wbm.growther.growther_001.models.ParticipationAction;
+import wbm.growther.growther_001.models.actions.Action;
 import wbm.growther.growther_001.models.users.User;
 import wbm.growther.growther_001.repository.ContestRepository;
 import wbm.growther.growther_001.repository.ParticipationActionRepository;
@@ -29,6 +30,9 @@ public class ParticipationServiceImpl implements ParticipationService {
     @Override
     public List<ParticipationDto> getAllParticipations() {
         List<Participation> participations = repository.findAll();
+        participations.forEach(participation -> {
+            this.checkParticipation(participation);
+        });
         return getParticipationsDto(participations);
     }
 
@@ -72,6 +76,38 @@ public class ParticipationServiceImpl implements ParticipationService {
         Participation participation = toParticipation(participationDto);
         repository.save(participation);
         return toDto(repository.save(participation));
+    }
+
+    @Override
+    public void checkParticipation(Participation participation) {
+        final int[] cmp = {0};
+        final int[] sum = {0};
+        Set<ParticipationAction> actions = participation.getParticipationActions();
+        Set<Action> contestActions = participation.getContest().getActions();
+        actions.forEach( action -> {
+            contestActions.forEach( action1 -> {
+                if (action.getType().equalsIgnoreCase(action1.getType())
+                        && action.getProvider().equalsIgnoreCase(action1.getProvider())
+                        && action.getUrl().equalsIgnoreCase(action1.getUrl())){
+                    action.setDone(true);
+                    action.setPoints(action1.getPoints());
+                    sum[0] += action.getPoints() ;
+                }
+            });
+        });
+        actions.forEach( action -> {
+            if (action.isDone())
+                cmp[0] +=1;
+        });
+        if (cmp[0] == contestActions.size())
+            participation.setDone(true);
+        participation.setTotalPoints(sum[0]);
+
+        repository.save(participation);
+
+        actions.forEach( action -> {
+            actionRepository.save(action);
+        });
     }
 
     @Override

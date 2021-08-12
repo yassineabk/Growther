@@ -103,6 +103,10 @@ public class ContestDto {
         this.immediately = immediately;
     }
 
+    public Integer getTimeZone() {
+        return timeZone;
+    }
+
     public void setTimeZone(Integer timeZone) {
         this.timeZone = timeZone;
     }
@@ -139,13 +143,6 @@ public class ContestDto {
         this.endTime = endTime;
     }
 
-    public int getTimeZone() {
-        return timeZone;
-    }
-
-    public void setTimeZone(int timeZone) {
-        this.timeZone = timeZone;
-    }
 
     public Duration getDuration() {
         return duration;
