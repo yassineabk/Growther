@@ -11,7 +11,7 @@ export const actions = [
     {provider: "Blog", actions: ["View", "Subscribe to RSS Feed", "Write a blog post", "Comment on a blog post"]},
     {provider: "Discord", actions: ["Join Server"]},
     {provider: "Steam", actions: ["Play Game", "Join Group"]},
-    {provider: "Spotify", actions: ["Listen to", "Save", "Follow"]},
+    {provider: "Spotify", actions: ["Listen to", "Save Album", "Save Track", "Follow Playlist", "Follow Artist"]},
     {provider: "SoundCloud", actions: ["Listen to", "Like", "Repost", "Follow", "Submit"]},
     {provider: "Website", actions: ["Visit Link"]},
     {provider: "Newsletter", actions: ["Subscribe to Newsletter"]},

@@ -1,6 +1,7 @@
 import { decode } from "jsonwebtoken"
 import React, { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
+import { TimeLeft } from "../../../services/timeLeft"
 import { EmptyList } from "../../contest/empty-list/empty-list.component"
 import { Spinner } from "../../spinner/spinner.component"
 import { CardTitle } from "../card-title/card-title.component"
@@ -15,47 +16,6 @@ export const CardsContainer = ({data, title, showMore, addNew, Duplicate, Delete
             setId(sub)
         }
     })
-    var TimeLeft = (d, endTime)=>{
-        if(d && endTime){
-            var currentDate = new Date()
-            var currentDay = ("0"+currentDate.getDate()).slice(-2)
-            var currentMonth = ("0"+parseInt(currentDate.getMonth() + 1 === 13 ? 1 : currentDate.getMonth() + 1)).slice(-2)
-            var currentYear = currentDate.getFullYear()
-            var currentHour = currentDate.getHours()
-            var currentMin = currentDate.getMinutes()
-            var date = new Date(`${currentYear}-${currentMonth}-${currentDay}`)
-            var daysDiff = Math.ceil((new Date(d) - date)/(1000*60*60*24))
-            var weeksDiff = Math.ceil(Math.abs(date - new Date(d))/(1000*60*60*24*7))
-            var monthsDiff = Math.ceil(Math.abs(date - new Date(d))/(1000*60*60*24*30))
-            if(daysDiff < 0){
-                return {date: "Ended", type: ""}
-            }
-            if(daysDiff === 0){
-                endTime = endTime.split(":")
-                if(parseInt(endTime[0]) === parseInt(currentHour)){
-                    var timeDiff = parseInt(endTime[1]) - parseInt(currentMin)
-                    if(timeDiff > 1) return {date: timeDiff, type: "minutes"}
-                    if(timeDiff === 1) return {date: timeDiff, type: "minute"}
-                    if(timeDiff < 1) return {date: "Ended", type: ""}
-                }
-                var timeDiff = parseInt(endTime[1]) - parseInt(currentHour)
-                if(timeDiff > 1) return {date: timeDiff, type: "hours"}
-                if(timeDiff === 1) return {date: timeDiff, type: "hour"}
-                if(timeDiff < 1) return {date: "Ended", type: ""}
-            }
-            if(daysDiff % 30 === 0){
-                if(monthsDiff > 1) return {date: monthsDiff, type: "months"}
-                return {date: monthsDiff, type: "month"}
-            }
-            if(daysDiff % 7 === 0){
-                if(weeksDiff > 1) return {date: weeksDiff, type: "weeks"}
-                return {date: weeksDiff, type: "week"}
-            }
-            if(daysDiff > 1) return {date: daysDiff, type: "days"}
-            return {date: daysDiff, type: "day"}
-        }
-        return {date: "", type: ""}
-    }
     return(
         <div className="is-flex is-flex-direction-column list-container">
             <Spinner show={isLoading} />
