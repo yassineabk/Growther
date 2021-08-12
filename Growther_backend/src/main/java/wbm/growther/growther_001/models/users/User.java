@@ -51,6 +51,10 @@ public class User {
     @JsonIgnore
     private Participation participation;
 
+    private Boolean isLocked=false;
+    private Boolean enabled=false;
+
+
     @Override
     public String toString() {
         return "User{" +

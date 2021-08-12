@@ -122,8 +122,8 @@ public class ContestServiceImpl implements ContestService {
         taskScheduler.doTask(publishContestJob);
         taskScheduler.doTask(endContestJob);
 
-        // this one if you wanna test
-        //taskScheduler.doTask(testContestJob);
+         //this one if you wanna test
+        taskScheduler.doTask(testContestJob);
 
         return contest.getIdContest();
     }

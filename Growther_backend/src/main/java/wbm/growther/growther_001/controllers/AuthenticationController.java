@@ -3,42 +3,23 @@ package wbm.growther.growther_001.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.bind.annotation.*;
+
 import wbm.growther.growther_001.dtos.UserDto;
-import wbm.growther.growther_001.models.AuthenticationProvider;
-import wbm.growther.growther_001.models.users.User;
+
 import wbm.growther.growther_001.payload.ApiResponse;
 import wbm.growther.growther_001.payload.AuthResponse;
-import wbm.growther.growther_001.repository.UserRepository;
-import wbm.growther.growther_001.utils.JwtUtils;
+import wbm.growther.growther_001.services.AuthenticationService;
 
-import java.net.URI;
 
 
 @RestController
 @RequestMapping("/authentication")
 public class AuthenticationController {
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private JwtUtils jwtUtils;
+    private AuthenticationService authenticationService;
 
 
     @PostMapping("/login")
@@ -47,47 +28,26 @@ public class AuthenticationController {
         System.out.println(loginRequest.getEmail());
         System.out.println(loginRequest.getPassword());
 
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginRequest.getEmail(),
-                        loginRequest.getPassword()
-                )
-        );
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        String token = jwtUtils.createToken(authentication);
-
+        String token= authenticationService.authenticateUser(loginRequest);
         return ResponseEntity.ok(new AuthResponse(token));
     }
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@RequestBody UserDto signUpRequest) {
-        if(userRepository.existsByEmail(signUpRequest.getEmail())) {
-            throw new RuntimeException("Email address already in use.");
-        }
 
-        // Creating user's account
-        User user =new  User();
-        System.out.println(signUpRequest.getEmail());
-        user.setName(signUpRequest.getName());
-        user.setEmail(signUpRequest.getEmail());
-        user.setPassword(signUpRequest.getPassword());
-        user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
-        user.setAuthProvider(AuthenticationProvider.LOCAL);
-        if(signUpRequest.getIsBrand().equalsIgnoreCase("true")){
-            user.setUrl(signUpRequest.getUrl());
-            user.setIsBrand("true");
-        }
-        else user.setIsBrand("false");
+        String token=authenticationService.registerUser(signUpRequest);
 
-        User result = userRepository.save(user);
-
-        /*URI location = ServletUriComponentsBuilder
-                .fromCurrentContextPath().path("/user/me")
-                .buildAndExpand(result.getId()).toUri();*/
-
-        return ResponseEntity.ok(new ApiResponse(true, "User registered successfully "));
+        return ResponseEntity.ok(new ApiResponse(true, "User registered successfully token:" +
+                " is  "+ token));
     }
+
+
+    @GetMapping(path = "confirmEmail")
+    public String confirmEmail(@RequestParam("token") String token){
+
+        return authenticationService.confirm(token);
+
+    }
+
 
 }
