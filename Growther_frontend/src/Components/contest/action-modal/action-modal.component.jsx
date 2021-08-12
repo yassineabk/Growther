@@ -1,36 +1,21 @@
 import React, { useEffect } from "react"
 import { useDispatch } from "react-redux"
-import { CloseActionModal } from "../../../redux/contest-card/contest-card-actions"
+import { SpotifyFollowArtist } from "../../participation/spotify/spotify-follow/spotify-follow-artist/spotify-follow-artist.component"
+import { SpotifyFollowPlaylist } from "../../participation/spotify/spotify-follow/spotify-follow-playlist/spotify-follow-playlist.component"
+import { SpotifyIframe } from "../../participation/spotify/spotify-iframe/spotify-iframe.component"
+import { SpotifySave } from "../../participation/spotify/spotify-save/spotify-save.component"
 import { SubmitTextAction } from "../../participation/submit-information/submit-text.component"
 import { SubmitUrlAction } from "../../participation/submit-information/submit-url.component"
 import { SubscribeToNewsLetter } from "../../participation/subscribe-to-newsletter/subscribe-to-newsletter.component"
 import { VisitSocialMedia } from "../../participation/visit-social-media/visit-social-media.component"
-export const ActionModal = ({action, valid_answer_check, action_done, valid_url_check})=>{
+export const ActionModal = ({action, valid_answer_check, action_done, valid_url_check, closeModal})=>{
     var dispatch = useDispatch()
-    useEffect(()=>{
-        var listener = window.addEventListener('blur', event => {
-            if (document.activeElement === document.getElementById('spotifyIframe')) {
-                setTimeout(()=>{
-                    action_done(event, true)
-                }, 3000) 
-            }
-            window.removeEventListener('blur', listener);
-        });
-    })
     var LinkMaker = (url)=>{
         while(url[url.length - 1] === "/"){
             url = url.slice(0, url.length - 1)
         }
         url = url.replaceAll(":", "%3A").replaceAll("/", "%2F")
         return url
-    }
-    var SpotifyIdMaker = (url)=>{
-        while(url[url.length - 1] === "/"){
-            url = url.slice(0, url.length - 1)
-        }
-        url = url.split("/")
-        var id = url[url.length - 1]
-        return id
     }
     if(action === null && typeof(action) !== "object" && action.provider === null && typeof(action.provider) !== "string") return null
     switch(action.provider.toLowerCase()){
@@ -41,7 +26,7 @@ export const ActionModal = ({action, valid_answer_check, action_done, valid_url_
                         <iframe
                             id={"iframe"}
                             onLoad={(event)=> action_done(event, true)}
-                            onError={()=> CloseActionModal(dispatch)}
+                            onError={()=> closeModal()}
                             src={`https://www.facebook.com/plugins/post.php?href=${action.url !== null && typeof(action.url) === "string" ? LinkMaker(action.url) : ""}&width=750&show_text=true&appId=549723986167815&height=273`}
                             width="750" 
                             height="273" 
@@ -114,7 +99,10 @@ export const ActionModal = ({action, valid_answer_check, action_done, valid_url_
             switch(action.type.toLowerCase()){
                 case "visit page":
                     return(
-                        <VisitSocialMedia link={action.url} action_done={(event)=> action_done(event, true)} />
+                        <VisitSocialMedia 
+                            link={action.url} 
+                            action_done={(event)=> action_done(event, true)} 
+                        />
                     )
                 case "submit pin":
                 case "select board":
@@ -140,9 +128,15 @@ export const ActionModal = ({action, valid_answer_check, action_done, valid_url_
         case "tiktok":
             switch(action.type.toLowerCase()){
                 case "watch video":
-                    return <VisitSocialMedia link={action.url} action_done={(event)=> action_done(event, true)} />
+                    return <VisitSocialMedia 
+                                link={action.url} 
+                                action_done={(event)=> action_done(event, true)} 
+                            />
                 case "submit video":
-                    return  <SubmitUrlAction provider={"tiktok"} valid_url_check={(value)=> valid_url_check(value)} />
+                    return  <SubmitUrlAction 
+                                provider={"tiktok"} 
+                                valid_url_check={(value)=> valid_url_check(value)} 
+                            />
                 default:
                     return null
             }
@@ -150,11 +144,17 @@ export const ActionModal = ({action, valid_answer_check, action_done, valid_url_
             switch(action.type.toLowerCase()){
                 case "view":
                     return(
-                        <VisitSocialMedia link={action.url} action_done={(event)=> action_done(event, true)} />
+                        <VisitSocialMedia 
+                            link={action.url} 
+                            action_done={(event)=> action_done(event, true)} 
+                        />
                     )
                 case "write a blog post":
                     return(
-                        <SubmitUrlAction provider={""} valid_url_check={(value)=> valid_url_check(value)} />
+                        <SubmitUrlAction 
+                            provider={""} 
+                            valid_url_check={(value)=> valid_url_check(value)} 
+                        />
                     )
                 case "subscribe to rss feed":
                 case "comment on a blog":
@@ -181,13 +181,22 @@ export const ActionModal = ({action, valid_answer_check, action_done, valid_url_
             switch(action.type.toLowerCase()){
                 case "listen to":
                     return (
-                        <iframe id="spotifyIframe" src={`https://open.spotify.com/embed/track/${SpotifyIdMaker(action.url)}`} width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media">
-
-                        </iframe>
+                        <SpotifyIframe 
+                            url={action.url} 
+                            action_done={(event, value)=> action_done(event, value)} 
+                            onError={()=> closeModal()}
+                            closeModal={()=> closeModal()}
+                        />
                     )
-                case "save":
-                case "follow":
-                    return null
+                case "save album":
+                case "save track":
+                    return (
+                        <SpotifySave url={action.url} action_done={(event, value)=> action_done(event, value)} />
+                    )
+                case "follow playlist":
+                    return <SpotifyFollowPlaylist url={action.url} action_done={(event, value)=> action_done(event, value)} />
+                case "follow artist":
+                    return <SpotifyFollowArtist url={action.url} action_done={(event, value)=> action_done(event, value)} />
                 default:
                     return null
             }
@@ -199,7 +208,10 @@ export const ActionModal = ({action, valid_answer_check, action_done, valid_url_
                 case "repost":
                 case "submit":
                     return (
-                        <SubmitUrlAction provider={"soundcloud"} valid_url_check={(value)=> valid_url_check(value)} />
+                        <SubmitUrlAction 
+                            provider={"soundcloud"} 
+                            valid_url_check={(value)=> valid_url_check(value)} 
+                        />
                     )
                 default:
                     return null
@@ -207,7 +219,10 @@ export const ActionModal = ({action, valid_answer_check, action_done, valid_url_
         case "website":
             switch(action.type.toLowerCase()){
                 case "visit link":
-                    return <VisitSocialMedia link={action.url} action_done={(event)=> action_done(event, true)} />
+                    return <VisitSocialMedia 
+                                link={action.url} 
+                                action_done={(event)=> action_done(event, true)} 
+                            />
                 default:
                     return null
             }
@@ -224,7 +239,9 @@ export const ActionModal = ({action, valid_answer_check, action_done, valid_url_
             switch(action.type.toLowerCase()){
                 case "answer question":
                     return (
-                        <SubmitTextAction valid_answer_check={(value)=> valid_answer_check(value)} text={action.url} />
+                        <SubmitTextAction 
+                            valid_answer_check={(value)=> valid_answer_check(value)} text={action.url} 
+                        />
                     )
                 default:
                     return null

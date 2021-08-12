@@ -25,6 +25,7 @@ import { EditContestSecondStep } from './Components/contest/edit-contest-second-
 import { DraftPage } from './Components/dashboard/draft-page/draft-page.component';
 import { ErrorsModal } from './Components/errors-modal/errors-modal.component';
 import { ActionModalContainer } from './Components/contest/action-modal-container/action-modal-container.component';
+import SpotifyAuthHandler from './services/Spotify-auth-handler';
 
 const App = ()=> {
   var { currentUser } = useSelector(state => state.login)
@@ -34,6 +35,7 @@ const App = ()=> {
 
       {/*<ErrorsModal />*/}
       <Switch>
+        <Route path="/spotify/redirect" component={SpotifyAuthHandler}></Route> 
         <Route path="/oauth2/redirect" component={OAuth2RedirectHandler}></Route> 
         <Route exact path={"/"} render={()=> <Redirect to='/landing-page' />}/>
         <Route exact path='/landing-page' render={()=> <LandingPage />} />
