@@ -1,3 +1,15 @@
+.iframe{
+    width: calc(30vw) !important;
+    height: calc(50vh) !important;
+    min-width: 300px !important;
+    max-width: 750px !important;
+    overflow-y: scroll !important;
+    border: 0px !important;
+    // min-height: 273px !important;
+    // max-height: 400px !important;
+    background-color: white !important;
+    @extend .scroll;
+}
 .Modal{
     z-index: 1256463;
     position: absolute;
@@ -131,16 +143,49 @@
                 background-color: $sideBar-color !important;
             }
         }
-        iframe, #iframe, #spotifyIframe{
-            width: calc(30vw);
-            height: calc(50vh);
-            min-width: 300px !important;
-            max-width: 750px !important;
-            overflow: scroll;
-            border: 0px !important;
-            // min-height: 273px !important;
-            // max-height: 400px !important;
+        iframe, #iframe, #spotifyIframe, #tiktokIframe{
+            @extend .iframe;
+            &#tiktokIframe{
+                position: relative;
+                border-bottom: 1px solid $border-color !important;
+                iframe{
+                    width: inherit !important;
+                    height: inherit !important;
+                }
+            }
+        }
+        #spotifyAuthContainer{
+            width: 300px;
             background-color: white;
+            padding: 20px;
+            border-bottom: 1px solid $border-color;
+            text-align: center;
+            .spotifyAuthButton{
+                flex: 1;
+                display: flex;
+                flex-direction: row !important;
+                align-items: center !important;
+                justify-content: center !important;
+                cursor: pointer !important;
+                font-size: 15px !important;
+                font-family: Poppins-SemiBold;
+                padding: 15px !important;
+                border-radius: 10px !important;
+                outline: none !important;
+                border: none !important;
+                background-color: $spotify !important;
+                color: white !important;
+                transition: all .5s !important;
+                .spotifyAuthLogo{
+                    color: white !important;
+                    width: 25px;
+                    margin-right: 5px;
+                    fill: white !important;
+                    & > *{
+                        color: white !important;
+                    }
+                }
+            }
         }
         .action-links{
             background-color: white;
