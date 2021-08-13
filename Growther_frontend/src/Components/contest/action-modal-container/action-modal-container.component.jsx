@@ -1,6 +1,8 @@
+import axios from "axios"
 import React, { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
 import { ActionDone, CloseActionModal } from "../../../redux/contest-card/contest-card-actions"
+import { BACKEND_API } from "../../../services/links"
 import { ActionModal } from "../action-modal/action-modal.component"
 import { PreviewAction } from "../preview-action/preview-action.component"
 export const ActionModalContainer = ({action, show})=>{
@@ -9,6 +11,7 @@ export const ActionModalContainer = ({action, show})=>{
     var [countdown, setCount] = useState(10)
     var [withCountDown, setCountDown] = useState(false)
     var [isLoading, setLoading] = useState(true)
+    var [error, setError] = useState({isError: false, message: ""})
     useEffect(()=>{
         window.onpopstate = e =>{
             setActiveButton(false)
@@ -32,11 +35,10 @@ export const ActionModalContainer = ({action, show})=>{
     }
     var action_done = (event, WithCountdown)=>{
         if(withCountDown) return false
-        setLoading(false)
         startCountdown(WithCountdown)
         setTimeout(()=>{
             setActiveButton(true)
-        }, 10000)
+        }, 10000)        
     }
     var startCountdown = (start)=>{
         if(start){
@@ -84,14 +86,20 @@ export const ActionModalContainer = ({action, show})=>{
                     <div className="is-flex is-flex-direction-column is-align-items-center is-justify-content-center">
                         <div className="button-container is-flex is-justify-content-flex-end">
                             {withCountDown ? <div id="countdown"><span>00:{("0"+countdown).slice(-2)}</span></div> : null}
-                            <div onClick={activeButton ? ()=> {
-                                    setActiveButton(false)
-                                    ActionDone(dispatch, action.id, action.index, action.points)
-                                    setCountDown(false)
-                                    setCount(10)
+                            <div onClick={activeButton ? (event)=> {
+                                ActionDone(dispatch, action, action.id, action.index, action.points)
+                                    .then(value =>{
+                                        if(value){
+                                            setActiveButton(false)
+                                            setCountDown(false)
+                                            setCount(10)
+                                        }else{
+                                            setError({isError: true, message: "Please try again later"})
+                                        }
+                                    })
                                 } : ()=> false} 
                                 className={`${activeButton ? "" : "active "}buttonContainer is-flex is-justify-content-center is-align-items-center`}>
-                                Continue
+                                    Continue
                             </div>
                         </div>
                     </div>

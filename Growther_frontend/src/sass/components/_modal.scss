@@ -154,6 +154,40 @@
                 }
             }
         }
+        #discordAuthContainer{
+            flex: 1;
+            width: 300px;
+            background-color: white;
+            padding: 20px;
+            border-bottom: 1px solid $border-color;
+            text-align: center;
+            #discordAuthButton{
+                flex: 1;
+                display: flex;
+                flex-direction: row !important;
+                align-items: center !important;
+                justify-content: center !important;
+                cursor: pointer !important;
+                font-size: 15px !important;
+                font-family: Poppins-SemiBold;
+                padding: 15px !important;
+                border-radius: 10px !important;
+                outline: none !important;
+                border: none !important;
+                color: white !important;
+                transition: all .5s !important;
+                background-color: $discord;
+                justify-content: center;
+                a{
+                    color: white !important;
+                    text-decoration: none;
+                }
+                img{
+                    width: 25px !important;
+                    margin-right: 5px;
+                }
+            }
+        }
         #spotifyAuthContainer{
             width: 300px;
             background-color: white;

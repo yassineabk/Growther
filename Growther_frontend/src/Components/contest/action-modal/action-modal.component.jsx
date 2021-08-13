@@ -11,7 +11,6 @@ import { TiktokWatchVideo } from "../../participation/tiktok/tiktok-watch-video.
 import { DiscordJoin } from "../../participation/discord/discord-follow.component.jsx/discord-join.component"
 import { VisitSocialMedia } from "../../participation/visit-social-media/visit-social-media.component"
 export const ActionModal = ({action, valid_answer_check, action_done, valid_url_check, closeModal})=>{
-    var dispatch = useDispatch()
     var LinkMaker = (url)=>{
         while(url[url.length - 1] === "/"){
             url = url.slice(0, url.length - 1)
@@ -41,7 +40,10 @@ export const ActionModal = ({action, valid_answer_check, action_done, valid_url_
                     )
                 case "visit page":
                     return (
-                        <VisitSocialMedia link={action.url} action_done={(event)=> action_done(event, true)} />
+                        <VisitSocialMedia 
+                            link={action.url} 
+                            action_done={(event)=> action_done(event, true)} 
+                        />
                     )
                 case "like post":
                     return null
@@ -52,11 +54,19 @@ export const ActionModal = ({action, valid_answer_check, action_done, valid_url_
             switch(action.type.toLowerCase()){
                 case "visit channel":
                     return (
-                        <VisitSocialMedia link={action.url} action_done={(event)=> action_done(event, true)} />
+                        <VisitSocialMedia 
+                            link={action.url} 
+                            action_done={(event)=> action_done(event, true)} 
+                        />
                     )
                 case "submit url":
                     return (
-                        <SubmitUrlAction provider={"youtube"} valid_url_check={(value)=> valid_url_check(value)} />
+                        <SubmitUrlAction 
+                            provider={"youtube"} 
+                            valid_url_check={(value)=> valid_url_check(value)} 
+                            id={action.id}
+                            index={action.index}
+                        />
                     )
                 default:
                     return null
@@ -134,6 +144,8 @@ export const ActionModal = ({action, valid_answer_check, action_done, valid_url_
                         <SubmitUrlAction 
                                 provider={"tiktok"} 
                                 valid_url_check={(value)=> valid_url_check(value)} 
+                                id={action.id}
+                                index={action.index}
                             />
                     )
                 default:
@@ -153,6 +165,8 @@ export const ActionModal = ({action, valid_answer_check, action_done, valid_url_
                         <SubmitUrlAction 
                             provider={""} 
                             valid_url_check={(value)=> valid_url_check(value)} 
+                            id={action.id}
+                            index={action.id}
                         />
                     )
                 case "subscribe to rss feed":
@@ -217,7 +231,11 @@ export const ActionModal = ({action, valid_answer_check, action_done, valid_url_
             switch(action.type.toLowerCase()){
                 case "subscribe to newsletter":
                     return (
-                        <SubscribeToNewsLetter valid_url_check={(value)=> valid_url_check(value)}  />
+                        <SubscribeToNewsLetter 
+                            valid_url_check={(value)=> valid_url_check(value)}  
+                            id={action.id}
+                            index={action.index}
+                        />
                     )
                 default:
                     return null
