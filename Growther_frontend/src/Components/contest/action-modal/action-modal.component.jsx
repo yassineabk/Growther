@@ -7,6 +7,8 @@ import { SpotifySave } from "../../participation/spotify/spotify-save/spotify-sa
 import { SubmitTextAction } from "../../participation/submit-information/submit-text.component"
 import { SubmitUrlAction } from "../../participation/submit-information/submit-url.component"
 import { SubscribeToNewsLetter } from "../../participation/subscribe-to-newsletter/subscribe-to-newsletter.component"
+import { TiktokWatchVideo } from "../../participation/tiktok/tiktok-watch-video.component"
+import { DiscordJoin } from "../../participation/discord/discord-follow.component.jsx/discord-join.component"
 import { VisitSocialMedia } from "../../participation/visit-social-media/visit-social-media.component"
 export const ActionModal = ({action, valid_answer_check, action_done, valid_url_check, closeModal})=>{
     var dispatch = useDispatch()
@@ -87,14 +89,6 @@ export const ActionModal = ({action, valid_answer_check, action_done, valid_url_
                 default:
                     return null
             }
-        case "twitch":
-            switch(action.type.toLowerCase()){
-                case "follow":
-                case "bonus for twitch subscribers" :
-                case "redeem twitch channel points reward":
-                default:
-                    return null
-            }
         case "pinterest":
             switch(action.type.toLowerCase()){
                 case "visit page":
@@ -128,15 +122,20 @@ export const ActionModal = ({action, valid_answer_check, action_done, valid_url_
         case "tiktok":
             switch(action.type.toLowerCase()){
                 case "watch video":
-                    return <VisitSocialMedia 
-                                link={action.url} 
-                                action_done={(event)=> action_done(event, true)} 
-                            />
+                    return(
+                        <TiktokWatchVideo
+                            url={action.url}
+                            closeModal={event => closeModal(event)}
+                            action_done={(event, value)=> action_done(event, value)}
+                        />
+                    )
                 case "submit video":
-                    return  <SubmitUrlAction 
+                    return ( 
+                        <SubmitUrlAction 
                                 provider={"tiktok"} 
                                 valid_url_check={(value)=> valid_url_check(value)} 
                             />
+                    )
                 default:
                     return null
             }
@@ -165,7 +164,11 @@ export const ActionModal = ({action, valid_answer_check, action_done, valid_url_
         case "discord":
             switch(action.type.toLowerCase()){
                 case "join server":
-                    return null
+                    return (<DiscordJoin 
+                                url={action.url} 
+                                action_done={(event, value)=> action_done(event, value)} 
+                                closeModal={event => closeModal(event)}
+                            />)
                 default:
                     return null
             }
@@ -197,22 +200,6 @@ export const ActionModal = ({action, valid_answer_check, action_done, valid_url_
                     return <SpotifyFollowPlaylist url={action.url} action_done={(event, value)=> action_done(event, value)} />
                 case "follow artist":
                     return <SpotifyFollowArtist url={action.url} action_done={(event, value)=> action_done(event, value)} />
-                default:
-                    return null
-            }
-        case "soundcloud":
-            switch(action.type.toLowerCase()){
-                case "listen to":
-                case "like":
-                case "follow":
-                case "repost":
-                case "submit":
-                    return (
-                        <SubmitUrlAction 
-                            provider={"soundcloud"} 
-                            valid_url_check={(value)=> valid_url_check(value)} 
-                        />
-                    )
                 default:
                     return null
             }
@@ -261,6 +248,7 @@ export const ActionModal = ({action, valid_answer_check, action_done, valid_url_
                     return null
             }
         default:
+            closeModal()
             return null
     }
 }
