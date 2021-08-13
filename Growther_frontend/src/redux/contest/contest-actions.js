@@ -275,9 +275,7 @@ export const SaveDraft = (dispatch, data, id)=>{
             return false
         }).then(value =>{
             if(value){
-                data.idContest = value
-                data.user = {id: id}
-                AppendDraft(dispatch, data)
+                AppendDraft(dispatch, data, value, id)
             }
         })
 }

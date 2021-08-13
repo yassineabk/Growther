@@ -161,6 +161,10 @@ public class Contest {
 
     public void setMaxReach(int maxReach) { this.maxReach = maxReach; }
 
+    public Integer getTimeZone() {
+        return timeZone;
+    }
+
     public void setTimeZone(Integer timeZone) {
         this.timeZone = timeZone;
     }
@@ -195,14 +199,6 @@ public class Contest {
 
     public void setEndTime(String endTime) {
         this.endTime = endTime;
-    }
-
-    public int getTimeZone() {
-        return timeZone;
-    }
-
-    public void setTimeZone(int timeZone) {
-        this.timeZone = timeZone;
     }
 
     //    public Long getDuration() { return ChronoUnit.DAYS.between(startDate.toInstant(), endDate.toInstant()); }

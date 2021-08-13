@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
 import { ActionDone, CloseActionModal } from "../../../redux/contest-card/contest-card-actions"
 import { ActionModal } from "../action-modal/action-modal.component"
@@ -9,14 +9,24 @@ export const ActionModalContainer = ({action, show})=>{
     var [countdown, setCount] = useState(10)
     var [withCountDown, setCountDown] = useState(false)
     var [isLoading, setLoading] = useState(true)
+    useEffect(()=>{
+        window.onpopstate = e =>{
+            setActiveButton(false)
+            setCount(10)
+            setCountDown(false)
+            CloseActionModal(dispatch)
+        }
+    })
     var closeModal = (event)=>{
         var container = document.getElementById("actionIframe")
         if(container !== null && typeof(container) === "object"){
-            if(!container.contains(event.target)){
-                setActiveButton(false)
-                setCount(10)
-                setCountDown(false)
-                CloseActionModal(dispatch)
+            if(event !== undefined){
+                if(!container.contains(event.target)){
+                    setActiveButton(false)
+                    setCount(10)
+                    setCountDown(false)
+                    CloseActionModal(dispatch)
+                }
             }
         }
     }

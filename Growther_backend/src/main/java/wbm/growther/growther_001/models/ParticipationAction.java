@@ -2,6 +2,7 @@ package wbm.growther.growther_001.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 
@@ -17,6 +18,15 @@ public class ParticipationAction {
     private String url;
     private int points;
     private boolean isDone;
+    //username -- link --- email --- text
+    @Nullable
+    private String username;
+    @Nullable
+    private String link;
+    @Nullable
+    private String email;
+    @Nullable
+    private String text;
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "idParticipation",nullable = true,updatable = false)
     @JsonIgnore
@@ -76,5 +86,41 @@ public class ParticipationAction {
 
     public void setDone(boolean done) {
         isDone = done;
+    }
+
+    @Nullable
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(@Nullable String username) {
+        this.username = username;
+    }
+
+    @Nullable
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(@Nullable String link) {
+        this.link = link;
+    }
+
+    @Nullable
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(@Nullable String email) {
+        this.email = email;
+    }
+
+    @Nullable
+    public String getText() {
+        return text;
+    }
+
+    public void setText(@Nullable String text) {
+        this.text = text;
     }
 }

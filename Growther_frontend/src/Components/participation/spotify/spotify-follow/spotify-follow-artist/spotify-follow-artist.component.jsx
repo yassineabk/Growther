@@ -29,10 +29,8 @@ export const SpotifyFollowArtist = ({url, action_done})=>{
         }
         axios.put(`${Spotify_Url}?type=${userType}&ids=${id}`, {}, config)
             .then(response =>{
-                console.log(response)
                 return true
             }).catch(err=>{
-                console.log(err)
                 return false
             }).then(value =>{
                 if(value){
@@ -52,18 +50,21 @@ export const SpotifyFollowArtist = ({url, action_done})=>{
         </div>
     )
     return (
-        <SpotifyAuth 
-            btnClassName={"spotifyIframe"}
-            redirectUri={"http://localhost:3000/spotify/redirect"}
-            clientID={SPOTIFY_CLIENT_ID}
-            title={"Login with spotify"}
-            onAccessToken={(token)=> console.log(token)}
-            scopes={Object.keys(Scopes).map(key=>{
-                return Scopes[key]
-            })}
-            localStorage={true}
-            noCookie={true}
-            showDialog={true}
-        />
+        <div id="spotifyAuthContainer" className="is-flex is-justify-content-center is-align-items-center">
+            <SpotifyAuth 
+                btnClassName={"spotifyAuthButton"}
+                logoClassName={"spotifyAuthLogo"}
+                redirectUri={"https://staging-frontendapp.herokuapp.com/spotify/redirect"}
+                clientID={SPOTIFY_CLIENT_ID}
+                title={"Login with spotify"}
+                onAccessToken={(token)=> console.log(token)}
+                scopes={Object.keys(Scopes).map(key=>{
+                    return Scopes[key]
+                })}
+                localStorage={true}
+                noCookie={true}
+                showDialog={true}
+            />
+        </div>
     )
 }
