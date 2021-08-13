@@ -1,15 +1,13 @@
 import axios from "axios"
 import React, { useState } from "react"
-import { DISCORD_AUTH_URL, DISCORD_CLIENT_ID } from "../../../../services/links"
+import { BACKEND_API, DISCORD_AUTH_URL, DISCORD_CLIENT_ID } from "../../../../services/links"
 import { GetDiscordToken } from "../../../../services/tokens"
 export const DiscordJoin = ({url, action_done, closeModal})=>{
     const token = GetDiscordToken()
     const oauthUrl = DISCORD_AUTH_URL
     var [active, setActive] = useState(true)
-    var config = {
+    const config = {
         "headers": {
-            "Access-Control-Allow-Credentials": true,
-            "Access-Control-Allow-Origin" : "*",
             "Accept" : "application/json",
             "Content-Type" : "application/json",
             "Authorization" : `Bearer ${token}`
@@ -26,18 +24,22 @@ export const DiscordJoin = ({url, action_done, closeModal})=>{
     var Follow = (event, url)=>{
         axios.get("https://discord.com/api/users/@me", config)
             .then(response =>{
-                return response.data
+                return response
+            }).catch(err =>{
+                closeModal(event)
+                return false
             }).then(data =>{
-                axios.put(`https://discord.com/api/guilds/${getGuildId(url)}/members/${data.id}`)
+                setActive(false)
+                action_done(event, true)
+                /*axios.put(`https://discord.com/api/guilds/${getGuildId(url)}/members/${data.id}`)
                     .then(res =>{
                         setActive(false)
                         action_done(event, true)
-                    })
-            }).catch(err =>{
-                closeModal()
+                    })*/
             })
     }
     if(token){
+        console.log("here")
         return(
             <div className="is-flex is-flex-direction-column action-links">
                 <div>
@@ -50,6 +52,15 @@ export const DiscordJoin = ({url, action_done, closeModal})=>{
         )
     }
     return(
-        <a href={oauthUrl}>Discord Auth</a>
+        <div id="discordAuthContainer">
+            <div id="discordAuthButton" className="is-flex">
+                <span>
+                    <img src={require("../../../../assets/icons/discord.png").default} />
+                </span>
+                <span>
+                    <a href={oauthUrl}>Discord Auth</a>
+                </span>
+            </div>
+        </div>
     )
 }
