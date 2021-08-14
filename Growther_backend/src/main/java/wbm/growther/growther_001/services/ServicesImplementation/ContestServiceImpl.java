@@ -113,24 +113,15 @@ public class ContestServiceImpl implements ContestService {
                 repository
         );
 
-        String a= contest.getStartTime();
-        String b= String.valueOf(contest.getStartDate());
-        String d= String.valueOf(contest.getEndDate());
-        String e=contest.getEndTime();
 
-        String c= b+" "+a;
-        String f=d+" "+e;
+        //SimpleDateFormat dateFormat=new SimpleDateFormat("dd-MM-yyyy HH:mm");
 
-        System.out.println(c+"  ----------- "+f);
+        //Date date1=dateFormat.parse(c);
+        //Date date2=dateFormat.parse(f);
 
-        SimpleDateFormat dateFormat=new SimpleDateFormat("dd-MM-yyyy HH:mm");
+        //Long timeDiff=date2.getTime()-date1.getTime();
 
-        Date date1=dateFormat.parse(c);
-        Date date2=dateFormat.parse(f);
-
-        Long timeDiff=date2.getTime()-date1.getTime();
-
-        System.out.println(timeDiff);
+       // System.out.println(timeDiff);
 
 
 

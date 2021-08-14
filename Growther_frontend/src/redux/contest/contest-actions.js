@@ -275,9 +275,7 @@ export const SaveDraft = (dispatch, data, id)=>{
             return false
         }).then(value =>{
             if(value){
-                data.idContest = value
-                data.user = {id: id}
-                AppendDraft(dispatch, data)
+                AppendDraft(dispatch, data, value, id)
             }
         })
 }
@@ -325,8 +323,7 @@ export const DuplicateContest = (dispatch, id, data)=>{
         return false
     }).then(value => {
         if(value){
-            data.idContest = value
-            AppendDraft(dispatch, data)
+            AppendDraft(dispatch, data, id)
         }
     })
 }

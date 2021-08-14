@@ -47,9 +47,9 @@ public class User {
 
     @OneToMany(mappedBy="user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Contest> contests;
-    @OneToOne(mappedBy = "contest", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnore
-    private Participation participation;
+    private Set<Participation> participations;
 
     private Boolean isLocked=false;
     private Boolean enabled=false;
@@ -69,12 +69,20 @@ public class User {
                 '}';
     }
 
-    public Participation getParticipation() {
+    /*public Participation getParticipation() {
         return participation;
     }
 
     public void setParticipation(Participation participation) {
         this.participation = participation;
+    }*/
+
+    public Set<Participation> getParticipations() {
+        return participations;
+    }
+
+    public void setParticipations(Set<Participation> participations) {
+        this.participations = participations;
     }
 
     public String getActivities() {

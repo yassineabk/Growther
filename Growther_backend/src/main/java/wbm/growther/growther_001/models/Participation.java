@@ -20,9 +20,9 @@ public class Participation {
     @JoinColumn(name = "idContest", nullable = false)
     @JsonIgnore
     private Contest contest;
-    @OneToOne
-    @MapsId
-    @JoinColumn(name = "idUser")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    //@MapsId
+    @JoinColumn(name = "idUser",nullable = true,updatable = false)
     @JsonIgnore
     private User user;
     @OneToMany(mappedBy="participation", cascade = CascadeType.ALL, fetch = FetchType.EAGER)

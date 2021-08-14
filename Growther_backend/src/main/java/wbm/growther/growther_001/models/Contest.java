@@ -160,6 +160,7 @@ public class Contest {
 
     public void setMaxReach(int maxReach) { this.maxReach = maxReach; }
 
+
     public void setTimeZone(Integer timeZone) {
         this.timeZone = timeZone;
     }

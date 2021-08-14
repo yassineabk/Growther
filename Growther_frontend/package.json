@@ -18,10 +18,13 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "react-share": "^4.4.0",
+    "react-spotify-api": "^3.0.0",
+    "react-spotify-auth": "^1.4.1",
     "redux": "^4.1.0",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0",
+    "soundcloud": "^3.3.2",
     "web-vitals": "^1.1.2"
   },
   "scripts": {
