@@ -1,6 +1,6 @@
 import axios from "axios"
 import React, { useState } from "react"
-import { BACKEND_API, DISCORD_AUTH_URL, DISCORD_CLIENT_ID } from "../../../../services/links"
+import { BACKEND_API, DISCORD_AUTH_URL, DISCORD_BOT_TOKEN, DISCORD_CLIENT_ID } from "../../../../services/links"
 import { GetDiscordToken } from "../../../../services/tokens"
 export const DiscordJoin = ({url, action_done, closeModal})=>{
     const token = GetDiscordToken()
@@ -8,11 +8,17 @@ export const DiscordJoin = ({url, action_done, closeModal})=>{
     var [active, setActive] = useState(true)
     const config = {
         "headers": {
-            "Accept" : "application/json",
-            "Content-Type" : "application/json",
+            "Content-Type" : "application/x-www-form-urlencoded",
             "Authorization" : `Bearer ${token}`
         },
     }
+    var config2 = {
+        "headers": {
+            "Content-Type" : "application/x-www-form-urlencoded",
+            "Authorization" : `Bot ${DISCORD_BOT_TOKEN}`
+        },
+    }
+
     var getGuildId = (url)=>{
         while(url[url.length-1] === "/"){
             url = url.slice(0, url.length-1)
@@ -24,22 +30,22 @@ export const DiscordJoin = ({url, action_done, closeModal})=>{
     var Follow = (event, url)=>{
         axios.get("https://discord.com/api/users/@me", config)
             .then(response =>{
-                return response
+                return response.data
+            }).then(data =>{
+                if(data){
+                    axios.get(`https://discord.com/api/guilds/${getGuildId(url)}/members/search`, config)
+                        .then(res =>{
+                            console.log(res.data)
+                        })
+                }else{
+                    closeModal(event)
+                }
             }).catch(err =>{
                 closeModal(event)
                 return false
-            }).then(data =>{
-                setActive(false)
-                action_done(event, true)
-                /*axios.put(`https://discord.com/api/guilds/${getGuildId(url)}/members/${data.id}`)
-                    .then(res =>{
-                        setActive(false)
-                        action_done(event, true)
-                    })*/
             })
     }
     if(token){
-        console.log("here")
         return(
             <div className="is-flex is-flex-direction-column action-links">
                 <div>

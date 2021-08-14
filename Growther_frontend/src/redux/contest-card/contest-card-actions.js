@@ -37,7 +37,11 @@ export const ActionDone = async (dispatch, action, id, index, points)=>{
             "Authorization" : `Bearer ${token}`
         },
     }
-    return axios.post(`${BACKEND_API}/api/participations/create`, action, config)
+    var data = {
+        partipationDate: new Date() ,
+        participationActions: [action]
+    }
+    return axios.post(`${BACKEND_API}/api/participations/create`, data, config)
         .then(response =>{
             dispatch({type: Contest_Card_Types.ACTION_DONE, payload: {id, index, points}})
             return true
