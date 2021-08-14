@@ -28,19 +28,20 @@ public class Contest {
     private String endTime;
     private Integer timeZone;
     private Boolean immediately;
-    @OneToOne(mappedBy = "contest", cascade = CascadeType.ALL)
-    @JsonIgnore
-    private Duration duration;
     //@OneToOne(mappedBy = "contest", cascade = CascadeType.ALL)
     //@JsonIgnore
     @OneToMany(mappedBy="contest", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     //private Participation participation;
+    @JsonIgnore
     private Set<Participation> participations;
+
     private String status;
     @OneToMany(mappedBy="contest", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<Action> actions;
     //JSON field
     @OneToMany(mappedBy="contest", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<Prize> prizes;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -51,7 +52,7 @@ public class Contest {
 
     public Contest(String title, String description, int winnersNbr, int actionsNbr, int maxReach,
                    Date startDate, Date endDate, String startTime, String endTime,
-                   int timeZone, Boolean immediately, Duration duration, Set<Participation> participations,
+                   int timeZone, Boolean immediately, Set<Participation> participations,
                    String status, Set<Action> actions, Set<Prize> prizes) {
         this.title = title;
         this.description = description;
@@ -64,7 +65,6 @@ public class Contest {
         this.endTime=endTime;
         this.timeZone = timeZone;
         this.immediately = immediately;
-        this.duration = duration;
         this.participations = participations;
         this.status = status;
         this.actions = actions;
@@ -83,7 +83,6 @@ public class Contest {
         this.startTime = contest.getStartTime();
         this.timeZone=contest.getTimeZone();
         this.immediately =contest.getImmediately();
-        this.duration = contest.getDuration();
         this.actions = new HashSet(contest.getActions());
         this.prizes = new HashSet(contest.getPrizes());
         this.user= contest.getUser();
@@ -161,9 +160,6 @@ public class Contest {
 
     public void setMaxReach(int maxReach) { this.maxReach = maxReach; }
 
-    public Integer getTimeZone() {
-        return timeZone;
-    }
 
     public void setTimeZone(Integer timeZone) {
         this.timeZone = timeZone;
@@ -201,17 +197,8 @@ public class Contest {
         this.endTime = endTime;
     }
 
-    //    public Long getDuration() { return ChronoUnit.DAYS.between(startDate.toInstant(), endDate.toInstant()); }
-//
-//    public void setDuration(Long duration) { this.duration = duration; }
-
-
-    public Duration getDuration() {
-        return duration;
-    }
-
-    public void setDuration(Duration duration) {
-        this.duration = duration;
+    public int getTimeZone() {
+        return timeZone;
     }
 
     public Set<Action> getActions() {

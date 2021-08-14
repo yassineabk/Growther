@@ -1,13 +1,13 @@
 package wbm.growther.growther_001.dtos;
 
-import wbm.growther.growther_001.models.Duration;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import wbm.growther.growther_001.models.Prize;
 import wbm.growther.growther_001.models.actions.Action;
 import wbm.growther.growther_001.models.users.User;
 
 import java.util.Date;
 import java.util.Set;
-import java.util.TimeZone;
 
 public class ContestDto {
     private long idContest;
@@ -22,16 +22,17 @@ public class ContestDto {
     private String endTime;
     private Integer timeZone;
     private Boolean immediately;
-    private Duration duration;
     private Set<Action> actions;
     private Set<Prize> prizes;
     private User user;
     private String status;
 
+    @JsonProperty
     public long getIdContest() {
         return idContest;
     }
 
+    @JsonIgnore
     public void setIdContest(long idContest) {
         this.idContest = idContest;
     }
@@ -51,7 +52,6 @@ public class ContestDto {
                 ", maxReach=" + maxReach +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
-                ", duration=" + duration +
                 ", actions=" + actions +
                 ", prizes=" + prizes +
                 ", user=" + user +
@@ -103,13 +103,6 @@ public class ContestDto {
         this.immediately = immediately;
     }
 
-    public Integer getTimeZone() {
-        return timeZone;
-    }
-
-    public void setTimeZone(Integer timeZone) {
-        this.timeZone = timeZone;
-    }
 
     public Date getStartDate() {
         return startDate;
@@ -143,13 +136,12 @@ public class ContestDto {
         this.endTime = endTime;
     }
 
-
-    public Duration getDuration() {
-        return duration;
+    public int getTimeZone() {
+        return timeZone;
     }
 
-    public void setDuration(Duration duration) {
-        this.duration = duration;
+    public void setTimeZone(int timeZone) {
+        this.timeZone = timeZone;
     }
 
     public Set<Action> getActions() {
