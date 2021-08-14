@@ -54,7 +54,7 @@ export const SpotifyFollowArtist = ({url, action_done})=>{
             <SpotifyAuth 
                 btnClassName={"spotifyAuthButton"}
                 logoClassName={"spotifyAuthLogo"}
-                redirectUri={"https://staging-frontendapp.herokuapp.com/spotify/redirect"}
+                redirectUri={"http://localhost:3000/spotify/redirect"}
                 clientID={SPOTIFY_CLIENT_ID}
                 title={"Login with spotify"}
                 onAccessToken={(token)=> console.log(token)}

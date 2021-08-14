@@ -66,10 +66,10 @@ const ContestCard = (state = INITIAL_STATE, action)=>{
                     actions:  Array.isArray(state.information.actions) ? state.information.actions.map((item, index)=>{
                         if(item !== null && typeof(item) === "object"){
                             if(action.payload.index === index || (typeof(action.payload.id) === "number" && typeof(item.id) === "number" && item.id === action.payload.id)){
-                                console.log(action.payload)
                                 return {
                                     ...item,
-                                    isDone: true
+                                    isDone: true,
+                                    done: true
                                 }
                             }
                             return {
