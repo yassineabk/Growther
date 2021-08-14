@@ -14,15 +14,8 @@ public class SecurityUser implements UserDetails {
 
     private Long id;
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
     private String email;
+
     private String password;
     private Map<String, Object> attributes;
     private Collection<? extends GrantedAuthority> authorities;
@@ -32,6 +25,14 @@ public class SecurityUser implements UserDetails {
         this.email = email;
         this.password = password;
         this.authorities = authorities;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getEmail() {
+        return email;
     }
 
     public static SecurityUser Create(User user){

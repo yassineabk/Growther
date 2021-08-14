@@ -32,7 +32,9 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
                                     FilterChain filterChain) throws ServletException, IOException {
 
         try {
+
             String jwt= getJwtTokenFromRequest(httpServletRequest);
+
 
             if(StringUtils.hasText(jwt) && jwtUtils.validateToken(jwt)){
 

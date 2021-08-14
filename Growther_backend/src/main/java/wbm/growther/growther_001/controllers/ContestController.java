@@ -15,6 +15,7 @@ import wbm.growther.growther_001.utils.JwtUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -65,6 +66,7 @@ public class ContestController {
         // load the principal (authenticated user)
         SecurityUser principal= (SecurityUser) SecurityContextHolder
                 .getContext().getAuthentication().getPrincipal();
+
         //get the user id from security context
         Long userId=principal.getId();
 
@@ -79,7 +81,7 @@ public class ContestController {
 
     @PostMapping("/create")
     public Long createContest(@RequestBody ContestDto contestDto
-            ,HttpServletRequest request) throws RejectedExecutionException{
+            ,HttpServletRequest request) throws RejectedExecutionException, ParseException {
 
         // load the principal (authenticated user)
         SecurityUser principal= (SecurityUser) SecurityContextHolder
@@ -139,7 +141,6 @@ public class ContestController {
         contestDto.setDescription(contestDetails.getDescription());
         contestDto.setEndDate(contestDetails.getEndDate());
         contestDto.setMaxReach(contestDetails.getMaxReach());
-        contestDto.setDuration(contestDetails.getDuration());
         contestDto.setEndTime(contestDetails.getEndTime());
         System.out.println(contestDetails.getEndTime());
         contestDto.setStatus(contestDetails.getStatus());
@@ -164,11 +165,10 @@ public class ContestController {
         contestDto.setImmediately(contestDetails.getImmediately());
         contestDto.setStartDate(contestDetails.getStartDate());
         contestDto.setEndDate(contestDetails.getEndDate());
-        //contestDto.setTimeZone(contestDetails.getTimeZone());
+        contestDto.setTimeZone(contestDetails.getTimeZone());
         contestDto.setMaxReach(contestDetails.getMaxReach());
         contestDto.setActionsNbr(contestDetails.getActionsNbr());
         contestDto.setWinnersNbr(contestDetails.getWinnersNbr());
-        contestDto.setDuration(contestDetails.getDuration());
         contestDto.setStartTime(contestDetails.getStartTime());
         contestDto.setEndTime(contestDetails.getEndTime());
         contestDto.setStatus(contestDetails.getStatus());
