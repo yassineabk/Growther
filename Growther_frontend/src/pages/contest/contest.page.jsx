@@ -73,6 +73,7 @@ export const Contest = ({currentUser})=>{
                     isPublished={information.status !== "DRAFT" ? true  : false}
                     immediately={information.immediately === "true" || information.immediately === true ? true : false}
                     error={error}
+                    status={information.status}
                     DoAction={(index, element)=> DoAction(index, element)}
                 /> 
             : null}
