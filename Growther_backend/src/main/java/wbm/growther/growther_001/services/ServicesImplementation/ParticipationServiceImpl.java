@@ -72,6 +72,12 @@ public class ParticipationServiceImpl implements ParticipationService {
     }
 
     @Override
+    public ParticipationDto getParticipationByContestIdAndUserId(Long contestID, Long userID) {
+        Participation participation = repository.findParticipationByContestIdContestAndUserId(contestID,userID);
+        return (participation==null)? null :  toDto(participation);
+    }
+
+    @Override
     public ParticipationDto updateParticipation(ParticipationDto participationDto) {
         Participation participation = toParticipation(participationDto);
         repository.save(participation);

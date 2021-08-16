@@ -8,9 +8,11 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import wbm.growther.growther_001.dtos.ContestDto;
+import wbm.growther.growther_001.dtos.ParticipationDto;
 import wbm.growther.growther_001.exceptions.ResourceNotFoundException;
 import wbm.growther.growther_001.security.SecurityModel.SecurityUser;
 import wbm.growther.growther_001.services.ContestService;
+import wbm.growther.growther_001.services.ParticipationService;
 import wbm.growther.growther_001.utils.JwtUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,6 +28,8 @@ public class ContestController {
 
     @Autowired
     private ContestService contestService;
+    @Autowired
+    private ParticipationService participationService;
 
     //Get All Contests
     @GetMapping("/GetContests")
@@ -54,7 +58,7 @@ public class ContestController {
     }
 
     //Get contest by id and infos
-    @GetMapping("/{title}/{id}")
+    /*@GetMapping("/{title}/{id}")
     public ResponseEntity<ContestDto> getContestByInfos(@PathVariable(value = "id") Long contestId,
                                                         @PathVariable(value = "title") String contestTitle)
             throws ResourceNotFoundException {
@@ -75,6 +79,33 @@ public class ContestController {
                 || userId==brandId)
             return ResponseEntity.ok().body(contestDto);
         else return ResponseEntity.status(403).body(null);
+    }*/
+
+    //Get contest by id and infos
+    @GetMapping("/{title}/{id}")
+    public ResponseEntity<ParticipationDto> getContestByInfos(@PathVariable(value = "id") Long contestId,
+                                                              @PathVariable(value = "title") String contestTitle)
+            throws ResourceNotFoundException {
+
+
+        ContestDto contestDto = contestService.getContestByInfos(contestTitle,contestId);
+        if(contestDto==null)
+            throw new ResourceNotFoundException("No contest exist with ID : "+contestId.toString());
+
+        // load the principal (authenticated user)
+        SecurityUser principal= (SecurityUser) SecurityContextHolder
+                .getContext().getAuthentication().getPrincipal();
+        //get the user id from security context
+        Long userId=principal.getId();
+
+        //get the id of the brand who created that contest
+        Long brandId=contestDto.getUser().getId();
+
+        ParticipationDto participationDto=participationService.getParticipationByContestIdAndUserId(contestId,userId);
+
+        //if( contestDto.getStatus().equalsIgnoreCase("Published")|| userId==brandId)
+            return ResponseEntity.ok().body(participationDto);
+        //else return ResponseEntity.status(403).body(null);
     }
 
     @PostMapping("/create")

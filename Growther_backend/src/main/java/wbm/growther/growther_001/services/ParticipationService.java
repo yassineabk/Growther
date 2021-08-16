@@ -9,6 +9,7 @@ public interface ParticipationService {
     List<ParticipationDto> getAllParticipations();
     Participation createNewParticipation(ParticipationDto participationDto, String email, Long contestID);
     ParticipationDto getParticipationById(Long participationID);
+    ParticipationDto getParticipationByContestIdAndUserId(Long contestID,Long userID);
     ParticipationDto updateParticipation(ParticipationDto participationDto);
     void checkParticipation(Participation participation);
     void deleteParticipation(ParticipationDto participationDto);
