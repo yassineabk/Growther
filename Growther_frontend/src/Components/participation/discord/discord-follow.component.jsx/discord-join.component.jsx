@@ -1,11 +1,17 @@
 import axios from "axios"
 import React, { useState } from "react"
+import { useHistory } from "react-router-dom"
 import { BACKEND_API, DISCORD_AUTH_URL, DISCORD_BOT_TOKEN, DISCORD_CLIENT_ID } from "../../../../services/links"
 import { GetDiscordToken } from "../../../../services/tokens"
 export const DiscordJoin = ({url, action_done, closeModal})=>{
-    const token = GetDiscordToken()
+    //var token = GetDiscordToken()
     const oauthUrl = DISCORD_AUTH_URL
+    var history = useHistory()
     var [active, setActive] = useState(true)
+    var [token, setToken] = useState(GetDiscordToken)
+    window.addEventListener("storage", event=>{
+        setToken(GetDiscordToken)
+    })
     const config = {
         "headers": {
             "Content-Type" : "application/x-www-form-urlencoded",
@@ -59,12 +65,12 @@ export const DiscordJoin = ({url, action_done, closeModal})=>{
     }
     return(
         <div id="discordAuthContainer">
-            <div id="discordAuthButton" className="is-flex">
+            <div onClick={()=> window.open(oauthUrl, "_blank")} id="discordAuthButton" className="is-flex">
                 <span>
                     <img src={require("../../../../assets/icons/discord.png").default} />
                 </span>
                 <span>
-                    <a href={oauthUrl}>Discord Auth</a>
+                    Discord Auth
                 </span>
             </div>
         </div>

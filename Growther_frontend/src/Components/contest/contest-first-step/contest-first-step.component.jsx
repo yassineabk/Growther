@@ -42,7 +42,7 @@ export const ContestFirstStep = ()=>{
         var numIds = ["winnersNbr", "duration", "maxParticipants"]
         if(id in result){
             result[id] = numIds.includes(id) ?  parseInt(event.target.value) : event.target.value
-            StateChange(dispatch, result)
+            StateChange(dispatch, result, id)
         }
     }
     var dateHandler = (event)=>{
@@ -57,7 +57,7 @@ export const ContestFirstStep = ()=>{
             currentDate = currentYear + "-" + currentMonth + "-" + currentDay
             if(id === "startDate"){
                 var date = Math.ceil((new Date(event.target.value) - new Date(currentDate))/(100*60*60*24))
-                var date2 = Math.ceil((new Date(information.endDate) - new Date(event.target.value))/(100*60*60*24))
+                var date2 = Math.ceil((new Date(information.endDate.split("T")[0]) - new Date(event.target.value))/(100*60*60*24))
                 if(date >= 0 && date2 >= 0){
                     if(date2 === 0){
                         if(parseInt(startTime[0]) > parseInt(endTime[0]) || (parseInt(startTime[0]) === parseInt(endTime[0]) && parseInt(startTime[1]) > parseInt(endTime[1]))){
@@ -67,7 +67,7 @@ export const ContestFirstStep = ()=>{
                             var endHour =   endHourInt > 23 ? (endHourInt - 24) : endHourInt
                             var newEndTime = ("0"+endHour).slice(-2) + ":" + ("0"+endMin).slice(-2)
                             var data = information
-                            data.endTime = newEndTime
+                            data.endTime = `${newEndTime}`
                             StateChange(dispatch, data)
                         }
                     }
@@ -152,8 +152,8 @@ export const ContestFirstStep = ()=>{
     }
     var durationHandler = (event)=>{
         if(event === undefined){
-            var startDate = information.startDate
-            var endDate = information.endDate
+            var startDate = information.startDate.split("T")[0]
+            var endDate = information.endDate.split("T")[0]
             var startTime = information.startTime.split(":")
             var endTime = information.endTime.split(":")
             var date1 = new Date(startDate)
@@ -327,7 +327,7 @@ export const ContestFirstStep = ()=>{
                         name="startDate"
                         placeholder="dd-mm-yyyy"
                         changeHandler={(event)=> dateHandler(event)}
-                        value={information ? information.startDate : ""}
+                        value={information ? information.startDate.split("T")[0] : ""}
                         validData={isValidData === false ? 
                             {
                                 isValid: validData.startDate,
@@ -356,7 +356,7 @@ export const ContestFirstStep = ()=>{
                         placeholder="dd-mm-yyyy"
                         label="End date"
                         changeHandler={(event)=> dateHandler(event)}
-                        value={information ? information.endDate : ""}
+                        value={information ? information.endDate.split("T")[0] : ""}
                         validData={isValidData === false ? 
                             {
                                 isValid: validData.endDate,

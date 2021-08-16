@@ -1,18 +1,15 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom'
 import {setCurrentUser, SetCurrentUser} from '../redux/login/login.actions'
-import { connect } from 'react-redux';
 import { registerWithFacebookAndGoogle } from '../redux/registration/registration.action';
 import { SetDiscordToken } from './tokens';
-import axios from 'axios';
-import { DISCORD_APP_ID, DISCORD_CLIENT_ID } from './links';
+import { DISCORD_APP_ID, DISCORD_CLIENT_ID, FRONTEND_API } from './links';
 class DiscordAuthHandler extends Component {
     async getUrlParameter(name) {
         var search = this.props.location.search
         var regex = new RegExp(("(?<=code=).+.+?(?=&guild)"));
         var results = regex.exec(search);
-        var redirect_url = "http://localhost:3000/discord/redirect"
-        console.log(results[0])
+        var redirect_url = `${FRONTEND_API}/discord/redirect`
         var params = new URLSearchParams()
         params.append('client_id', DISCORD_APP_ID)
         params.append('client_secret', DISCORD_CLIENT_ID)
@@ -38,7 +35,6 @@ class DiscordAuthHandler extends Component {
     };
     render() {  
         this.getUrlParameter('access_token').then(token =>{
-            console.log(token)
             if(token) {
                 SetDiscordToken(token, 3600*1000)
             }

@@ -31,7 +31,7 @@ import DiscordAuthHandler from './services/discord-auth-handler';
 
 const App = ()=> {
   var { currentUser } = useSelector(state => state.login)
-  var { actionModal, action } = useSelector(state => state.contest_card)
+  var { actionModal, action, information } = useSelector(state => state.contest_card)
   return (
     <div className={"App"}>
 
@@ -45,7 +45,7 @@ const App = ()=> {
         <Route exact path='/login' render={()=>(currentUser) ? (<Redirect to='/dashboard'/>) : (<LoginPage/>) } />
         <Route exact path='/signup' render={()=>currentUser ? (<Redirect to='/'/>) : (<SignUpPage/>) } />
         <Route exact path='/contest/:title/:id' render={()=> ([
-          <ActionModalContainer show={actionModal} action={action} />,
+          <ActionModalContainer idContest={information.idContest} show={actionModal} action={action} />,
           <Contest />
         ])}/>
         <Route exact path='/dashboard/pie' render={()=> currentUser ? (<Dashboard />) : (<Redirect to='/'/>)} />

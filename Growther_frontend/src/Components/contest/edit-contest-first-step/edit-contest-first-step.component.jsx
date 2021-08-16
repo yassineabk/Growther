@@ -41,7 +41,7 @@ export const EditContestFirstStep = ()=>{
         var numIds = ["duration", "maxParticipants"]
         if(id in result){
             result[id] = numIds.includes(id) ?  parseInt(event.target.value) : event.target.value
-            EditState(dispatch, result)
+            EditState(dispatch, result, undefined, id)
         }
     }
     var dateHandler = (event)=>{
