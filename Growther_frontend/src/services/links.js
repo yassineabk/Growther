@@ -12,7 +12,7 @@ export const DISCORD_APP_ID = "875491544927445003"
 export const DISCORD_CLIENT_ID = "BrvbrzAKMrVrzmIXLbL5-AYoF5qoV-JJ"
 export const DISCORD_BOT_TOKEN = "ODc1NDkxNTQ0OTI3NDQ1MDAz.YRWTCg.OrGJfv12Ead7aQoOcgP0teKa29g"
 export const DISCORD_PUBLIC_KEY = "b102f41278ec772031ece5f2120277d58d4e4e4a4c255fbc19e9d22dadc8669c"
-export const DISCORD_AUTH_URL = "https://discord.com/api/oauth2/authorize?client_id=875491544927445003&permissions=1&redirect_uri=http%3A%2F%2Fstaging-backendapp.herokuapp.com%2Fdiscord%2Fredirect&response_type=code&scope=identify%20email%20guilds%20connections%20guilds.join%20bot"
+export const DISCORD_AUTH_URL = "https://discord.com/api/oauth2/authorize?client_id=875491544927445003&permissions=1&redirect_uri=https%3A%2F%2Fstaging-frontendapp.herokuapp.com%2Fdiscord%2Fredirect&response_type=code&scope=identify%20email%20connections%20guilds%20guilds.join%20gdm.join%20rpc%20rpc.notifications.read%20bot"
 
 // Twitch
 export const TWITCH_CLIENT_ID = "n0vpscnhqjvbpjmqlspwusxknaulk2"
