@@ -6,6 +6,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import wbm.growther.growther_001.dtos.ContestDto;
 import wbm.growther.growther_001.dtos.ParticipationDto;
 import wbm.growther.growther_001.exceptions.NotFoundException;
 import wbm.growther.growther_001.exceptions.ResourceNotFoundException;
@@ -14,6 +15,7 @@ import wbm.growther.growther_001.models.ParticipationAction;
 import wbm.growther.growther_001.repository.ParticipationActionRepository;
 import wbm.growther.growther_001.repository.ParticipationRepository;
 import wbm.growther.growther_001.security.SecurityModel.SecurityUser;
+import wbm.growther.growther_001.services.ContestService;
 import wbm.growther.growther_001.services.ParticipationService;
 import wbm.growther.growther_001.utils.JwtUtils;
 
@@ -31,6 +33,8 @@ public class ParticipationController {
     @Autowired
     private ParticipationService service;
     @Autowired
+    private ContestService contestService;
+    @Autowired
     private ParticipationRepository repository;
     @Autowired
     private ParticipationActionRepository actionRepository;
@@ -41,6 +45,12 @@ public class ParticipationController {
     @GetMapping("/all")
     public List<ParticipationDto> getParticipations(){
         return service.getAllParticipations();
+    }
+
+    @GetMapping("/all/{id}")
+    public List<ParticipationDto> getParticipationsByContest(@PathVariable(value = "id") Long contestID) throws ResourceNotFoundException {
+        ContestDto contestDto = contestService.getContestById(contestID);
+        return service.getParticipationsByContest(contestID);
     }
     @GetMapping("/{id}")
     public ResponseEntity<ParticipationDto> getParticipationById(@PathVariable(value = "id") Long participationId) throws ResourceNotFoundException{
