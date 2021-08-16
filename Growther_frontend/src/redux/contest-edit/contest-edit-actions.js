@@ -37,8 +37,8 @@ export const SetStateToEditFromLocation = async (dispatch, data, userId)=>{
     dispatch({type: CONTEST_EDIT_TYPES.EDIT_FAIL})
     return false
 }
-export const EditState = (dispatch, information, id) =>{
-    dispatch({type: CONTEST_EDIT_TYPES.EDIT_STATE, payload: information})
+export const EditState = (dispatch, information, id, targetId) =>{
+    dispatch({type: CONTEST_EDIT_TYPES.EDIT_STATE, payload: {data: information, targetId}})
 }
 export const EditDuration = (dispatch, type, value, startDate, endDate) =>{
     dispatch({type: CONTEST_EDIT_TYPES.EDIT_DURATION, payload: {value, type, startDate, endDate}})

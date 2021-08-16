@@ -10,12 +10,13 @@ export const SetData = (dispatch, title, description, id) =>{
             "Authorization" : `Bearer ${token}`
         } 
     }
-    axios.get(`${BACKEND_API}/api/contests/${title}/${id}`, config).then(response =>{
-        dispatch({type: Contest_Card_Types.SET_CONTEST_STATE, payload: response.data})
-    }).catch(err =>{
-        dispatch({type: Contest_Card_Types.CONTEST_CARD_ERROR})
-        ShowErrorModal(dispatch, "Couldn't get this contest please try again later")
-    })
+    axios.get(`${BACKEND_API}/api/contests/${title}/${id}`, config)
+        .then(response =>{
+            dispatch({type: Contest_Card_Types.SET_CONTEST_STATE, payload: response.data})
+        }).catch(err =>{
+            dispatch({type: Contest_Card_Types.CONTEST_CARD_ERROR})
+            ShowErrorModal(dispatch, "Couldn't get this contest please try again later")
+        })
 }
 export const SetDataFromLocation = (dispatch, data)=>{
     dispatch({type: Contest_Card_Types.SET_CONTEST_STATE, payload: data})
@@ -29,7 +30,7 @@ export const OpenActionModal = (dispatch, index, element)=>{
 export const CloseActionModal = (dispatch)=>{
     dispatch({type: Contest_Card_Types.CLOSE_MODAL})
 }
-export const ActionDone = async (dispatch, action, id, index, points)=>{
+export const ActionDone = async (dispatch, action, id, index, points, idContest)=>{
     var token = localStorage.getItem("accessToken")
     var config = {
         headers: {
@@ -37,16 +38,22 @@ export const ActionDone = async (dispatch, action, id, index, points)=>{
             "Authorization" : `Bearer ${token}`
         },
     }
+    var participationActions = {}
+    Object.keys(action).map(key=>{
+        if(!["id", "index", "points"].includes(key)){
+            participationActions[key] = action[key]
+        }
+    })
     var data = {
-        partipationDate: new Date() ,
-        participationActions: [action]
+        partipationDate: new Date().toUTCString(),
+        participationActions: [participationActions]
     }
-    return axios.post(`${BACKEND_API}/api/participations/create`, data, config)
+    return axios.post(`${BACKEND_API}/api/participations/create/${idContest}`, data, config)
         .then(response =>{
             dispatch({type: Contest_Card_Types.ACTION_DONE, payload: {id, index, points}})
             return true
         }).catch(err =>{
-            dispatch({type: Contest_Card_Types.ACTION_DONE, payload: {id, index, points}})
+            dispatch({type: Contest_Card_Types.ACTION_FAIL})
             return false
         })
 }

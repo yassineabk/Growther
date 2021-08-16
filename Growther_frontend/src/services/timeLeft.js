@@ -1,5 +1,6 @@
 export const TimeLeft = (endDate, endTime)=>{
     if(endDate && endTime){
+        endDate = endDate.split("T")[0]
         var currentDate = new Date()
         var currentDay = ("0"+currentDate.getDate()).slice(-2)
         var currentMonth = ("0"+parseInt(currentDate.getMonth() + 1 === 13 ? 1 : currentDate.getMonth() + 1)).slice(-2)
@@ -49,4 +50,11 @@ export const TimeLeft = (endDate, endTime)=>{
         return {date: daysDiff, type: "day"}
     }
     return {date: "", type: ""}
+}
+export const TimeZone = (timezone)=>{
+    var sign = timezone < 0 ? "+" : "-"
+    var timezoneHours = ("0"+parseInt(Math.abs(timezone/60))).slice(-2)
+    var timezoneMins = Math.abs(timezone/60).toString().split(".")
+    timezoneMins = timezoneMins && timezoneMins.length === 2 ? (parseFloat("0."+timezoneMins[1])*60).toFixed(0) : "00"
+    return `${sign}${timezoneHours}:${timezoneMins}`
 }

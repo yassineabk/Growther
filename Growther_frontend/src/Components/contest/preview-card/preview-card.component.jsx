@@ -28,6 +28,7 @@ export const PreviewCard = ({title, description, timeLeft, dateType, views, poin
             }
         }
     })
+    console.log(hasStarted || buttons || isPreview || userId || isPublished || error || immediately)
     if(hasStarted || buttons || isPreview || userId || isPublished || error || immediately){
         return(
             <div id="card" className="is-flex previewCard">
@@ -37,13 +38,14 @@ export const PreviewCard = ({title, description, timeLeft, dateType, views, poin
                             Total views
                         </span>, 
                         <span>
-                            {views ? views : ""}
-                        </span>]
+                            {views !== undefined && views !== null && typeof(parseInt(views)) === "number" ? views : 0}
+                        </span>,
+                        ]
                         : [<span className="little-title">
                             Your Points
                         </span>,
                         <span >
-                            {points ? points : ""}
+                            {points !== undefined && points !== null && typeof(points) === "number" ? points : ""}
                         </span> ]}
                     </div>
                     <div className="card-entries is-flex is-flex-direction-column">
@@ -51,7 +53,7 @@ export const PreviewCard = ({title, description, timeLeft, dateType, views, poin
                             Total entries
                         </span>
                         <span>
-                            {entries ? entries : ""}
+                            {entries !== undefined && entries !== null && typeof(parseInt(entries)) === "number" ? entries : 0}
                         </span>
                     </div>
                     <div className="card-date is-flex is-flex-direction-column">
