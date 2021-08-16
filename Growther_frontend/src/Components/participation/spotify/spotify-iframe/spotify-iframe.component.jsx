@@ -40,8 +40,6 @@ export const SpotifyIframe = ({url, action_done, onError, closeModal})=>{
         </iframe>
     )
     return(
-        <div id="spotifyAuthContainer" className="is-flex is-justify-content-center is-align-items-center">
-            <SpotifyAuthComponent />
-        </div>    
+        <SpotifyAuthComponent />
     )
 }

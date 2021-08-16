@@ -28,7 +28,7 @@ export const PreviewCard = ({title, description, timeLeft, dateType, views, poin
             }
         }
     })
-    if(status.toLowerCase() === "published" || hasStarted || buttons || isPreview || userId || isPublished || error || immediately){
+    if((status && status.toLowerCase() === "published") || hasStarted || buttons || isPreview || userId || isPublished || error || immediately){
         return(
             <div id="card" className="is-flex previewCard">
                 <div className="left-side is-flex is-flex-direction-column">

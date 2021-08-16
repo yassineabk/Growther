@@ -1,12 +1,11 @@
 import axios from "axios"
 import React, { useState } from "react"
+import { SpotifyAuth, Scopes } from 'react-spotify-auth'
+import { SPOTIFY_CLIENT_ID } from "../../../../../services/links"
 import { GetSpotifyToken } from "../../../../../services/tokens"
 import { SpotifyAuthComponent } from "../../spotify-login/spotify-login.compnent"
 export const SpotifyFollowArtist = ({url, action_done})=>{
-    var [token, setToken] = useState(GetSpotifyToken())
-    window.addEventListener("storage", ()=>{
-        setToken(GetSpotifyToken())
-    })    
+    const token = GetSpotifyToken()
     var [active, setActive] = useState(true)
     var AlbumId = (url)=>{
         while(url[url.length - 1] === "/"){
@@ -52,8 +51,6 @@ export const SpotifyFollowArtist = ({url, action_done})=>{
         </div>
     )
     return (
-        <div id="spotifyAuthContainer" className="is-flex is-justify-content-center is-align-items-center">
-            <SpotifyAuthComponent />
-        </div>
+        <SpotifyAuthComponent />
     )
 }

@@ -64,8 +64,6 @@ export const SpotifyFollowPlaylist = ({url, action_done})=>{
         </div>
     )
     return (
-        <div id="spotifyAuthContainer" className="is-flex is-justify-content-center is-align-items-center">
-            <SpotifyAuthComponent />
-        </div>
+        <SpotifyAuthComponent />
     )
 }
