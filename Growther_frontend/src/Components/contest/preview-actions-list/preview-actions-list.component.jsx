@@ -26,7 +26,8 @@ export const PreviewActionsList = ({actions, previewActions, changeHandler, DoAc
                     <PreviewAction
                         provider={element.provider}
                         links={element.type}
-                        done={element.isDone || element.done}
+                        done={element.isDone || element.done}$
+                        index={index}
                         //selected={Array.isArray(previewActions) ? previewActions[index] : undefined}
                         points={element.points}
                         changeHandler={changeHandler && {}.toString.call(changeHandler) === '[object Function]' ? (event, provider) => changeHandler(event, provider) : ()=> false}

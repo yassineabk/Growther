@@ -22,8 +22,8 @@ export const InitState = (dispatch)=>{
     var timeZone = date.getTimezoneOffset()
     dispatch({type: ContestTypes.SET_INITIAL_STATE, payload: {startDate, endDate, startTime, endTime, timeZone}})
 }
-export const StateChange = (dispatch, data)=>{
-    dispatch({type: ContestTypes.SET_NEW_CONTEST_STATE, payload: data})
+export const StateChange = (dispatch, data, targetId)=>{
+    dispatch({type: ContestTypes.SET_NEW_CONTEST_STATE, payload: {data, targetId}})
 }
 export const PrizesChange = (dispatch, id, value)=>{
     dispatch({type: ContestTypes.SET_PRIZES, payload: {id, value}})
@@ -89,8 +89,8 @@ export const NextStep = (dispatch, information)=>{
                     if(data["startDate"] === null || (typeof(data["startDate"]) === "string" && data["startDate"].length === 0)){
                         result["startDate"] = false
                     }else{
-                        var dateStart = new Date(data.startDate)
-                        var dateEnd = new Date(data.endDate)
+                        var dateStart = new Date(data.startDate.split("T")[0])
+                        var dateEnd = new Date(data.endDate.split("T")[0])
                         var currentDate = new Date()
                         var currentDay = ("0"+currentDate.getDate()).slice(-2)
                         var currentMonth = ("0"+parseInt(currentDate.getMonth()+1 === 13 ? 1 : currentDate.getMonth()+1))
@@ -105,8 +105,8 @@ export const NextStep = (dispatch, information)=>{
                     if(data["endDate"] === null || (typeof(data["endDate"]) === "string" && data["endDate"].length === 0)){
                         result["endDate"] = false
                     }else{
-                        var dateStart = new Date(data.startDate)
-                        var dateEnd = new Date(data.endDate)
+                        var dateStart = new Date(data.startDate.split("T")[0])
+                        var dateEnd = new Date(data.endDate.split("T")[0])
                         var currentDate = new Date()
                         var currentDay = ("0"+currentDate.getDate()).slice(-2)
                         var currentMonth = ("0"+parseInt(currentDate.getMonth()+1 === 13 ? 1 : currentDate.getMonth()+1))

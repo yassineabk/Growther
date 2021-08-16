@@ -2,8 +2,6 @@ import React, { useState } from "react"
 import { useDispatch } from "react-redux"
 import { SetActionText } from "../../../redux/contest-card/contest-card-actions"
 import UrlSubmit from "../../contest/action-modal-container/action-submit-url.component"
-import EmailInput from "../../email-input/email-input.component"
-import FormInput from "../../form-input/form-input.component"
 export const SubscribeToNewsLetter = ({valid_url_check, id, index})=>{
     var [nameMessage, setNameMessage] = useState("")
     var [emailMessage, setEmailMessage] = useState("")

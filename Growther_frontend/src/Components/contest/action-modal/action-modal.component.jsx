@@ -10,33 +10,20 @@ import { SubscribeToNewsLetter } from "../../participation/subscribe-to-newslett
 import { TiktokWatchVideo } from "../../participation/tiktok/tiktok-watch-video.component"
 import { DiscordJoin } from "../../participation/discord/discord-follow.component.jsx/discord-join.component"
 import { VisitSocialMedia } from "../../participation/visit-social-media/visit-social-media.component"
+import { FacebookViewPost } from "../../participation/facebook/facebook-view-post.component"
+import { SnapchatFollow } from "../../participation/snapchat/snapchat-follow.component"
 export const ActionModal = ({action, valid_answer_check, action_done, valid_url_check, closeModal})=>{
-    var LinkMaker = (url)=>{
-        while(url[url.length - 1] === "/"){
-            url = url.slice(0, url.length - 1)
-        }
-        url = url.replaceAll(":", "%3A").replaceAll("/", "%2F")
-        return url
-    }
     if(action === null && typeof(action) !== "object" && action.provider === null && typeof(action.provider) !== "string") return null
     switch(action.provider.toLowerCase()){
         case "facebook":
             switch(action.type.toLowerCase()){
                 case "view post":
                     return(
-                        <iframe
-                            id={"iframe"}
-                            onLoad={(event)=> action_done(event, true)}
-                            onError={()=> closeModal()}
-                            src={`https://www.facebook.com/plugins/post.php?href=${action.url !== null && typeof(action.url) === "string" ? LinkMaker(action.url) : ""}&width=750&show_text=true&appId=549723986167815&height=273`}
-                            width="750" 
-                            height="273" 
-                            style={{border:"none !important", overflow:"hidden", borderRadius: 0}} 
-                            scrolling="yes" 
-                            frameBorder={"0"} 
-                            allowFullScreen={true}
-                            allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
-                        </iframe>
+                        <FacebookViewPost 
+                            action_done={(event, value)=> action_done(event, value)}
+                            closeModal={()=> closeModal()}
+                            url={action.url}
+                        />
                     )
                 case "visit page":
                     return (
@@ -75,7 +62,10 @@ export const ActionModal = ({action, valid_answer_check, action_done, valid_url_
             switch(action.type.toLowerCase()){
                 case "visit page":
                     return(
-                        <VisitSocialMedia link={action.url} action_done={(event)=> action_done(event, true)} />
+                        <VisitSocialMedia 
+                            link={action.url} 
+                            action_done={(event)=> action_done(event, true)} 
+                        />
                     )
                 case "view post":
                     return (
@@ -88,9 +78,12 @@ export const ActionModal = ({action, valid_answer_check, action_done, valid_url_
             switch(action.type.toLowerCase()){
                 case "visit page":
                     return(
-                        <VisitSocialMedia link={action.url} action_done={(event)=> action_done(event, true)} />
+                        <VisitSocialMedia 
+                            link={action.url} 
+                            action_done={(event)=> action_done(event, true)} 
+                        />
                     )
-                case "follow page":
+                case "follow":
                     return null
                 case "tweet":
                     return null
@@ -99,33 +92,18 @@ export const ActionModal = ({action, valid_answer_check, action_done, valid_url_
                 default:
                     return null
             }
-        case "pinterest":
-            switch(action.type.toLowerCase()){
-                case "visit page":
-                    return(
-                        <VisitSocialMedia 
-                            link={action.url} 
-                            action_done={(event)=> action_done(event, true)} 
-                        />
-                    )
-                case "submit pin":
-                case "select board":
-                    return null
-                default:
-                    return null
-            }
         case "snapchat":
             switch(action.type.toLowerCase()){
                 case "follow":
-                    return null
-                default:
-                    return null
-            }
-        case "linkedin":
-            switch(action.type.toLowerCase()){
-                case "share":
-                case "follow":
-                    return null
+                    return (
+                        <SnapchatFollow 
+                            url={action.url} 
+                            valid_url_check={(value)=> valid_url_check(value)} 
+                            closeModal={(event)=> closeModal(event)}
+                            id={action.id}
+                            index={action.index}
+                        />
+                    )
                 default:
                     return null
             }
@@ -142,11 +120,11 @@ export const ActionModal = ({action, valid_answer_check, action_done, valid_url_
                 case "submit video":
                     return ( 
                         <SubmitUrlAction 
-                                provider={"tiktok"} 
-                                valid_url_check={(value)=> valid_url_check(value)} 
-                                id={action.id}
-                                index={action.index}
-                            />
+                            provider={"tiktok"} 
+                            valid_url_check={(value)=> valid_url_check(value)} 
+                            id={action.id}
+                            index={action.index}
+                        />
                     )
                 default:
                     return null
@@ -186,14 +164,6 @@ export const ActionModal = ({action, valid_answer_check, action_done, valid_url_
                 default:
                     return null
             }
-        case "steam":
-            switch(action.type.toLowerCase()){
-                case "play for hours":
-                case "join":
-                    return null
-                default:
-                    return null
-            }
         case "spotify":
             switch(action.type.toLowerCase()){
                 case "listen to":
@@ -220,10 +190,12 @@ export const ActionModal = ({action, valid_answer_check, action_done, valid_url_
         case "website":
             switch(action.type.toLowerCase()){
                 case "visit link":
-                    return <VisitSocialMedia 
-                                link={action.url} 
-                                action_done={(event)=> action_done(event, true)} 
-                            />
+                    return (
+                        <VisitSocialMedia 
+                            link={action.url} 
+                            action_done={(event)=> action_done(event, true)} 
+                        />
+                    )
                 default:
                     return null
             }
@@ -245,7 +217,10 @@ export const ActionModal = ({action, valid_answer_check, action_done, valid_url_
                 case "answer question":
                     return (
                         <SubmitTextAction 
-                            valid_answer_check={(value)=> valid_answer_check(value)} text={action.url} 
+                            valid_answer_check={(value)=> valid_answer_check(value)} 
+                            text={action.url} 
+                            id={action.id}
+                            index={action.index}
                         />
                     )
                 default:

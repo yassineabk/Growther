@@ -36,7 +36,7 @@ export const ContestSecondStep = ()=>{
                 var token = decode(localStorage.getItem("accessToken"))
                 var sub = token !== null && typeof(token) === "object" ? token.sub : ""
                 information.idContest = value
-                information.user = {id: sub}
+                information.user = {id: sub, isBrand: "true"}
                 AppendContest(dispatch, information)
             }
         })

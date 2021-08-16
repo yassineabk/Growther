@@ -1,11 +1,9 @@
 import React from "react"
-import { Contest } from "../../../pages/contest/contest.page"
 import { ActionIcon } from "../actions-icons/actions-icons.component"
 import { ContestInput } from "../contest-input/contest-input.component"
-import { SelectInput } from "../select-input/select-input.component"
-export const PreviewAction = ({provider, links, points, selected, changeHandler, DoAction, done})=>{
+export const PreviewAction = ({provider, links, points, selected, changeHandler, DoAction, done, index})=>{
     return(
-        <div className="is-flex is-flex-direction-row prev-action">
+        <div key={`previewAction-${provider}-${index}`} className="is-flex is-flex-direction-row prev-action">
             {provider && typeof(provider) === "string" ? 
                 <div id={provider.toLowerCase()} className="actionProvider">
                     <ActionIcon
