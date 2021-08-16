@@ -7,7 +7,6 @@ import wbm.growther.growther_001.UpdateContestStateJob;
 import wbm.growther.growther_001.threadPoolTaskSchedulerClass;
 import wbm.growther.growther_001.dtos.ContestDto;
 import wbm.growther.growther_001.models.Contest;
-import wbm.growther.growther_001.models.Duration;
 import wbm.growther.growther_001.models.Prize;
 import wbm.growther.growther_001.models.actions.Action;
 import wbm.growther.growther_001.models.users.User;
@@ -15,6 +14,8 @@ import wbm.growther.growther_001.repository.*;
 import wbm.growther.growther_001.services.ContestService;
 
 import javax.persistence.EntityManager;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -29,8 +30,6 @@ public class ContestServiceImpl implements ContestService {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private DurationRepository durationRepository;
 
     @Autowired
     private PrizeRepository prizeRepository;
@@ -55,7 +54,7 @@ public class ContestServiceImpl implements ContestService {
     }
 
     @Override
-    public Long createNewContest(ContestDto NewContestDto, String email) {
+    public Long createNewContest(ContestDto NewContestDto, String email) throws ParseException {
 
         User user = userRepository.findUserByEmail(email);
         if(!user.getIsBrand().equalsIgnoreCase("true")) Long.decode("0");
@@ -70,7 +69,6 @@ public class ContestServiceImpl implements ContestService {
         contest.setStatus("in_Creation");
         contest.setUser(user);
 
-        Duration duration = contest.getDuration();
         Set<Prize> prizes = contest.getPrizes();
         Set<Action> actions = contest.getActions();
 
@@ -82,12 +80,6 @@ public class ContestServiceImpl implements ContestService {
             prize.setContest(contest);
         });
 
-        System.out.println(contest.getDuration().getType()+"---"+contest.getDuration().getValue());
-        System.out.println(contest.getIdContest());
-
-                    duration.setContest(contest);
-                    durationRepository.save(duration);
-
         repository.save(contest);
 
         prizes.forEach( prize -> {
@@ -98,6 +90,7 @@ public class ContestServiceImpl implements ContestService {
         });
 
         System.out.println(contest.getIdContest());
+
 
         UpdateContestStateJob publishContestJob=new UpdateContestStateJob(
                 contest.getIdContest(),
@@ -112,18 +105,31 @@ public class ContestServiceImpl implements ContestService {
                 contest.getEndDate(),
                 repository
         );
+
         UpdateContestStateJob testContestJob=new UpdateContestStateJob(
                 contest.getIdContest(),
-                "Published",
-                new Date(System.currentTimeMillis()+10000),
+                "beggybone",
+                new Date(System.currentTimeMillis()+1000*10),
                 repository
         );
 
-        taskScheduler.doTask(publishContestJob);
-        taskScheduler.doTask(endContestJob);
 
-        // this one if you wanna test
-        //taskScheduler.doTask(testContestJob);
+        //SimpleDateFormat dateFormat=new SimpleDateFormat("dd-MM-yyyy HH:mm");
+
+        //Date date1=dateFormat.parse(c);
+        //Date date2=dateFormat.parse(f);
+
+        //Long timeDiff=date2.getTime()-date1.getTime();
+
+       // System.out.println(timeDiff);
+
+
+
+        //taskScheduler.doTask(publishContestJob);
+        //taskScheduler.doTask(endContestJob);
+
+         //this one if you wanna test
+        taskScheduler.doTask(testContestJob);
 
         return contest.getIdContest();
     }
@@ -144,7 +150,6 @@ public class ContestServiceImpl implements ContestService {
         contest.setStatus("DRAFT");
         contest.setUser(user);
 
-        Duration duration = contest.getDuration();
         Set<Prize> prizes = contest.getPrizes();
         Set<Action> actions = contest.getActions();
 
@@ -155,12 +160,6 @@ public class ContestServiceImpl implements ContestService {
         prizes.forEach( prize -> {
             prize.setContest(contest);
         });
-
-        System.out.println(contest.getDuration().getType()+"---"+contest.getDuration().getValue());
-        System.out.println(contest.getIdContest());
-
-        duration.setContest(contest);
-        durationRepository.save(duration);
 
         repository.save(contest);
 
@@ -248,7 +247,6 @@ public class ContestServiceImpl implements ContestService {
         contestDto.setEndTime(contest.getEndTime());
         contestDto.setTimeZone(contest.getTimeZone());
         contestDto.setImmediately(contest.getImmediately());
-        contestDto.setDuration(contest.getDuration());
         contestDto.setMaxReach(contest.getMaxReach());
         contestDto.setActions(contest.getActions());
         contestDto.setPrizes(contest.getPrizes());
@@ -276,7 +274,6 @@ public class ContestServiceImpl implements ContestService {
         contest.setEndTime(contestDto.getEndTime());
         contest.setTimeZone(contestDto.getTimeZone());
         contest.setImmediately(contestDto.getImmediately());
-        contest.setDuration(contestDto.getDuration());
         contest.setMaxReach(contestDto.getMaxReach());
         contest.setActions(contestDto.getActions());
         contest.setPrizes(contestDto.getPrizes());

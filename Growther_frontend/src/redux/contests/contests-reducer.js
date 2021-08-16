@@ -21,7 +21,12 @@ const ContestsReducer = (state = INITIAL_STATE, action)=>{
         case CONTESTS_TYPES.APPEND_TO_DRAFT:
             return {
                 ...state,
-                draft: [...state.draft.reverse(), action.payload].reverse(),
+                draft: [...state.draft.reverse(), {
+                    ...action.payload.data,
+                    status: "DRAFT",
+                    idContest: action.payload.idContest,
+                    user: {id: action.payload.userId}
+                }].reverse(),
                 error: null,
                 isLoading: false
             }

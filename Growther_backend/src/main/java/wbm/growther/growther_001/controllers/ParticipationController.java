@@ -2,6 +2,7 @@ package wbm.growther.growther_001.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,7 @@ import wbm.growther.growther_001.models.Participation;
 import wbm.growther.growther_001.models.ParticipationAction;
 import wbm.growther.growther_001.repository.ParticipationActionRepository;
 import wbm.growther.growther_001.repository.ParticipationRepository;
+import wbm.growther.growther_001.security.SecurityModel.SecurityUser;
 import wbm.growther.growther_001.services.ParticipationService;
 import wbm.growther.growther_001.utils.JwtUtils;
 
@@ -24,22 +26,17 @@ import java.util.concurrent.RejectedExecutionException;
 @RestController
 @RequestMapping("api/participations")
 public class ParticipationController {
+
+
     @Autowired
     private ParticipationService service;
     @Autowired
     private ParticipationRepository repository;
     @Autowired
     private ParticipationActionRepository actionRepository;
-    @Autowired
-    private JwtUtils jwtUtils;
 
-    private String getJwtTokenFromRequest(HttpServletRequest request) {
-        String bearerToken = request.getHeader("Authorization");
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(7, bearerToken.length());
-        }
-        return null;
-    }
+
+
 
     @GetMapping("/all")
     public List<ParticipationDto> getParticipations(){
@@ -56,9 +53,14 @@ public class ParticipationController {
                                     @RequestBody ParticipationDto participationDto
             ,HttpServletRequest request) throws RejectedExecutionException {
 
-        //get the email from the JWT token
-        String token = getJwtTokenFromRequest(request);
-        String email= jwtUtils.getUserEmailFromToken(token);
+
+        // load the principal (authenticated user)
+        SecurityUser principal= (SecurityUser) SecurityContextHolder
+                .getContext().getAuthentication().getPrincipal();
+
+        //get the email from the principal
+        String email= principal.getEmail();
+
         Participation newParticipation = service.createNewParticipation(participationDto,email,contestID);
         service.checkParticipation(newParticipation);
         if(newParticipation != null) {
