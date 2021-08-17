@@ -3,13 +3,13 @@ import { Redirect } from 'react-router-dom'
 import {setCurrentUser, SetCurrentUser} from '../redux/login/login.actions'
 import { registerWithFacebookAndGoogle } from '../redux/registration/registration.action';
 import { SetDiscordToken } from './tokens';
-import { DISCORD_APP_ID, DISCORD_CLIENT_ID, FRONTEND_API } from './links';
+import { DISCORD_APP_ID, DISCORD_CLIENT_ID } from './links';
 class DiscordAuthHandler extends Component {
     async getUrlParameter(name) {
         var search = this.props.location.search
         var regex = new RegExp(("(?<=code=).+.+?(?=&guild)"));
         var results = regex.exec(search);
-        var redirect_url = `${FRONTEND_API}/discord/redirect`
+        var redirect_url = `http://localhost:3000/discord/redirect`
         var params = new URLSearchParams()
         params.append('client_id', DISCORD_APP_ID)
         params.append('client_secret', DISCORD_CLIENT_ID)

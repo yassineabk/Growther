@@ -19,17 +19,29 @@ export const GetContests = async (dispatch)=>{
         })
 }
 export const AppendDraft = (dispatch, data, idContest, userId) =>{
-    if(typeof(data) === "object"){
-        dispatch({type: CONTESTS_TYPES.APPEND_TO_DRAFT, payload: {data, idContest, userId}})
-    }else{
+    try{
+        if(typeof(data) === "object"){
+            dispatch({type: CONTESTS_TYPES.APPEND_TO_DRAFT, payload: {data, idContest, userId}})
+        }else{
+            dispatch({type: CONTESTS_TYPES.GET_CONTESTS_FAIL})
+        }
+    }catch{
         dispatch({type: CONTESTS_TYPES.GET_CONTESTS_FAIL})
     }
 }
 export const AppendContest = (dispatch, data)=>{
-    dispatch({type: CONTESTS_TYPES.APPEND_NEW_CONTEST, payload: data})
+    try{
+        dispatch({type: CONTESTS_TYPES.APPEND_NEW_CONTEST, payload: data})
+    }catch{
+        dispatch({type: CONTESTS_TYPES.GET_CONTESTS_FAIL})
+    }
 }
 export const AppendEditedContest = (dispatch, id, data)=>{
-    dispatch({type: CONTESTS_TYPES.APPEND_EDITED_CONTEST, payload: {id, data}})
+    try{
+        dispatch({type: CONTESTS_TYPES.APPEND_EDITED_CONTEST, payload: {id, data}})
+    }catch{
+        dispatch({type: CONTESTS_TYPES.GET_CONTESTS_FAIL})
+    }
 }
 export const DeleteDraft = (dispatch, id) =>{
     var token = localStorage.getItem("accessToken")

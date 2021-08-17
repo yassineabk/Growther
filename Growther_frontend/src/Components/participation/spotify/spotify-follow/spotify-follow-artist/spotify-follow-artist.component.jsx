@@ -5,7 +5,10 @@ import { SPOTIFY_CLIENT_ID } from "../../../../../services/links"
 import { GetSpotifyToken } from "../../../../../services/tokens"
 import { SpotifyAuthComponent } from "../../spotify-login/spotify-login.compnent"
 export const SpotifyFollowArtist = ({url, action_done})=>{
-    const token = GetSpotifyToken()
+    var [token, setToken] = useState(GetSpotifyToken())
+    window.addEventListener("storage", ()=>{
+        setToken(GetSpotifyToken())
+    })    
     var [active, setActive] = useState(true)
     var AlbumId = (url)=>{
         while(url[url.length - 1] === "/"){

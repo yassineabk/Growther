@@ -101,6 +101,11 @@ const EditReducer = (state = INITIAL_STATE, action)=>{
                 error: true,
                 edited: false
             }
+        case CONTEST_EDIT_TYPES:
+            return {
+                ...state,
+                error: true,
+            }
         default:
             return state
     }

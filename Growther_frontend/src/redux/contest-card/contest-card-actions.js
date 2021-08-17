@@ -19,16 +19,32 @@ export const SetData = (dispatch, title, description, id) =>{
         })
 }
 export const SetDataFromLocation = (dispatch, data)=>{
-    dispatch({type: Contest_Card_Types.SET_CONTEST_STATE, payload: data})
+    try{
+        dispatch({type: Contest_Card_Types.SET_CONTEST_STATE, payload: data})
+    }catch{
+        dispatch({type: Contest_Card_Types.SET_CONTEST_CARD_DATA_FAIL})
+    }
 }
 export const SelectAction = (dispatch, provider, index)=>{
-    dispatch({type: Contest_Card_Types.SELECTED_ACTION, payload: {provider, index}})
+    try{
+        dispatch({type: Contest_Card_Types.SELECTED_ACTION, payload: {provider, index}})
+    }catch{
+        dispatch({type: Contest_Card_Types.SET_CONTEST_CARD_DATA_FAIL})
+    }
 }
 export const OpenActionModal = (dispatch, index, element)=>{
-    dispatch({type: Contest_Card_Types.DO_ACTION, payload: element !== null && typeof(element) === "object" ? {element, index} : {}})
+    try{
+        dispatch({type: Contest_Card_Types.DO_ACTION, payload: element !== null && typeof(element) === "object" ? {element, index} : {}})
+    }catch{
+        dispatch({type: Contest_Card_Types.SET_CONTEST_CARD_DATA_FAIL})
+    }
 }
 export const CloseActionModal = (dispatch)=>{
-    dispatch({type: Contest_Card_Types.CLOSE_MODAL})
+    try{
+        dispatch({type: Contest_Card_Types.CLOSE_MODAL})
+    }catch{
+        dispatch({type: Contest_Card_Types.SET_CONTEST_CARD_DATA_FAIL})
+    }
 }
 export const ActionDone = async (dispatch, action, id, index, points, idContest)=>{
     var token = localStorage.getItem("accessToken")
@@ -58,5 +74,9 @@ export const ActionDone = async (dispatch, action, id, index, points, idContest)
         })
 }
 export const SetActionText = (dispatch, id, text, type, index)=>{
-    dispatch({type: Contest_Card_Types.SET_ACTION_TEXT, payload: {id, text, type, index}})
+    try{
+        dispatch({type: Contest_Card_Types.SET_ACTION_TEXT, payload: {id, text, type, index}})
+    }catch{
+        dispatch({type: Contest_Card_Types.SET_CONTEST_CARD_DATA_FAIL})
+    }
 }

@@ -18,13 +18,6 @@ export const DiscordJoin = ({url, action_done, closeModal})=>{
             "Authorization" : `Bearer ${token}`
         },
     }
-    var config2 = {
-        "headers": {
-            "Content-Type" : "application/x-www-form-urlencoded",
-            "Authorization" : `Bot ${DISCORD_BOT_TOKEN}`
-        },
-    }
-
     var getGuildId = (url)=>{
         while(url[url.length-1] === "/"){
             url = url.slice(0, url.length-1)

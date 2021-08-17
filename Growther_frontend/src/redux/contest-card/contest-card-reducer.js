@@ -90,6 +90,11 @@ const ContestCard = (state = INITIAL_STATE, action)=>{
                 error: true,
                 isLoading: false,
             }
+        case Contest_Card_Types.SET_CONTEST_CARD_DATA_FAIL:
+            return{
+                ...state,
+                error: true,
+            }
         case Contest_Card_Types.CONTEST_CARD_ERROR:
             return {
                 ...state,
