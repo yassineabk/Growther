@@ -1,7 +1,10 @@
 import React, { useState } from "react"
+import { useDispatch } from "react-redux"
+import { SetActionText } from "../../../redux/contest-card/contest-card-actions"
 import TextAreaInput from "../../text-area-input/text-area-input.component"
-export const SubmitTextAction = ({text, valid_answer_check})=>{
+export const SubmitTextAction = ({text, valid_answer_check, id, index})=>{
     var [message, setMessage] = useState("")
+    var dispatch = useDispatch()
     var changeHandler = (event)=>{
         var value = event.target.value
         if(value.length < 100){
@@ -10,6 +13,7 @@ export const SubmitTextAction = ({text, valid_answer_check})=>{
             setMessage("")
         }
         valid_answer_check(value)
+        SetActionText(dispatch, id, value, "text", index)
     }
     return(
         <div id="actionQuestion">
