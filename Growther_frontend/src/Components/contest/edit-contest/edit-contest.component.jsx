@@ -10,18 +10,10 @@ import {
     useParams,
 } 
 from "react-router-dom"
-import { EditSelectedAction, SetStateToEdit, SetStateToEditFromLocation } from "../../../redux/contest-edit/contest-edit-actions"
-import { EditContestFirstStep } from "../edit-contest-first-step/edit-contest-first-step.component"
 import { NewContestTabs } from "../new-contest-tabs/new-contest-tabs.component"
-import { PreviewContainer } from "../preview-container/preview-container.component"
 export const EditContest = ({child})=>{
     var params = useParams()
-    var dispatch = useDispatch()
-    var previewChangeHandler = (event, provider)=>{
-        var index = parseInt(event.target.selectedIndex)
-        EditSelectedAction(dispatch, provider, index)
-    }
-    var { information, actions, isValidData, validData, isLoading } = useSelector(state => state.contest_edit)
+    var { information } = useSelector(state => state.contest_edit)
     if(typeof(information) !== "object") return null
     return(
         <div className="column is-full is-flex is-flex-direction-column list-container newContest is-size-6 mb-4">
