@@ -85,7 +85,7 @@ public class ContestController {
 
     //Get contest by id and infos
     @GetMapping("/{title}/{id}")
-    public ResponseEntity<ParticipationDto> getContestByInfos(@PathVariable(value = "id") Long contestId,
+    public ResponseEntity<Object> getContestByInfos(@PathVariable(value = "id") Long contestId,
                                                               @PathVariable(value = "title") String contestTitle)
             throws ResourceNotFoundException {
 
@@ -105,9 +105,14 @@ public class ContestController {
 
         ParticipationDto participationDto=participationService.getParticipationByContestIdAndUserId(contestId,userId);
 
-        //if( contestDto.getStatus().equalsIgnoreCase("Published")|| userId==brandId)
-            return ResponseEntity.ok().body(participationDto);
-        //else return ResponseEntity.status(403).body(null);
+        //Show the contest for the brand and the participation for the normal user
+            if (userId==brandId)
+                return ResponseEntity.ok().body(contestDto);
+            else{
+                if(participationDto == null && contestDto.getStatus().equalsIgnoreCase("Published"))
+                return ResponseEntity.ok().body(contestDto);
+                else return ResponseEntity.status(403).body("You are not allowed to see this contest right now. COME BACK SOON !");
+            }
     }
 
     @PostMapping("/create")
