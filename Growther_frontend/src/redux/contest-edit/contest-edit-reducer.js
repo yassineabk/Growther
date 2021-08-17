@@ -1,3 +1,4 @@
+import { TimeZone } from "../../services/timeLeft"
 import { CONTEST_EDIT_TYPES } from "./contest-edit-types"
 const INITIAL_STATE={
     information:{
@@ -41,10 +42,23 @@ const EditReducer = (state = INITIAL_STATE, action)=>{
                 error: false
             }
         case CONTEST_EDIT_TYPES.EDIT_STATE:
+            var setEndDate = ()=>{
+                if(action.payload.targetId){
+                    if(action.payload.targetId === "endDate"){
+                        return action.payload.data.endDate+"T"+state.information.endTime+`:00.000${TimeZone(state.information.timeZone)}`
+                    }else if(action.payload.targetId === "endTime"){
+                        return state.information.endDate.split("T")[0]+"T"+action.payload.data.endTime+`:00.000${TimeZone(state.information.timeZone)}`
+                    }
+                    return state.information.endDate
+                }else{
+                    return state.information.endDate
+                }
+            }
             return{
                 ...state,
                 information: {
-                    ...action.payload
+                    ...action.payload.data,
+                    endDate: setEndDate()
                 },
                 isLoading: false,
                 edited: false,
@@ -86,6 +100,11 @@ const EditReducer = (state = INITIAL_STATE, action)=>{
                 isLoading: false,
                 error: true,
                 edited: false
+            }
+        case CONTEST_EDIT_TYPES:
+            return {
+                ...state,
+                error: true,
             }
         default:
             return state

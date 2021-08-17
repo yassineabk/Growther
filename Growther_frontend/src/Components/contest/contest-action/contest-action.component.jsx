@@ -3,6 +3,7 @@ import { actions } from "../../../services/actions"
 import { ContestInput } from "../contest-input/contest-input.component"
 import { SelectInput } from "../select-input/select-input.component"
 export const ContestAction = ({data, removeAction, updateAction, validAction})=>{
+    const TextActions = ["tweet", "answer question", "submit url", "submit video", "submit", "subscribe to newsletter", "write a blog post"]
     if(typeof(data) !== "object") return null
     return(
         <div className="contestAction is-flex is-flex-direction-row">
@@ -24,7 +25,7 @@ export const ContestAction = ({data, removeAction, updateAction, validAction})=>
                     type={"url"}
                     id="actionUrl"
                     name="actionUrl"
-                    placeholder="Link here"
+                    placeholder={TextActions.includes(data.type.toLowerCase()) ? "Describe your Action" : "Action Link"}
                     changeHandler={(event)=> updateAction(data.provider, "url", event.target.value)}
                     value={typeof(data) === "object" && typeof(data.url) === "string" ? data.url : ""}
                     validData={typeof(validAction) === "object" ? {isValid: validAction.url, message: "Please, Enter a valid link"} : false}

@@ -10,26 +10,43 @@ export const SetData = (dispatch, title, description, id) =>{
             "Authorization" : `Bearer ${token}`
         } 
     }
-    axios.get(`${BACKEND_API}/api/contests/${title}/${id}`, config).then(response =>{
-        dispatch({type: Contest_Card_Types.SET_CONTEST_STATE, payload: response.data})
-    }).catch(err =>{
-        dispatch({type: Contest_Card_Types.CONTEST_CARD_ERROR})
-        ShowErrorModal(dispatch, "Couldn't get this contest please try again later")
-    })
+    axios.get(`${BACKEND_API}/api/contests/${title}/${id}`, config)
+        .then(response =>{
+            dispatch({type: Contest_Card_Types.SET_CONTEST_STATE, payload: response.data})
+        }).catch(err =>{
+            dispatch({type: Contest_Card_Types.CONTEST_CARD_ERROR})
+            ShowErrorModal(dispatch, "Couldn't get this contest please try again later")
+        })
 }
 export const SetDataFromLocation = (dispatch, data)=>{
-    dispatch({type: Contest_Card_Types.SET_CONTEST_STATE, payload: data})
+    try{
+        dispatch({type: Contest_Card_Types.SET_CONTEST_STATE, payload: data})
+    }catch{
+        dispatch({type: Contest_Card_Types.SET_CONTEST_CARD_DATA_FAIL})
+    }
 }
 export const SelectAction = (dispatch, provider, index)=>{
-    dispatch({type: Contest_Card_Types.SELECTED_ACTION, payload: {provider, index}})
+    try{
+        dispatch({type: Contest_Card_Types.SELECTED_ACTION, payload: {provider, index}})
+    }catch{
+        dispatch({type: Contest_Card_Types.SET_CONTEST_CARD_DATA_FAIL})
+    }
 }
 export const OpenActionModal = (dispatch, index, element)=>{
-    dispatch({type: Contest_Card_Types.DO_ACTION, payload: element !== null && typeof(element) === "object" ? {element, index} : {}})
+    try{
+        dispatch({type: Contest_Card_Types.DO_ACTION, payload: element !== null && typeof(element) === "object" ? {element, index} : {}})
+    }catch{
+        dispatch({type: Contest_Card_Types.SET_CONTEST_CARD_DATA_FAIL})
+    }
 }
 export const CloseActionModal = (dispatch)=>{
-    dispatch({type: Contest_Card_Types.CLOSE_MODAL})
+    try{
+        dispatch({type: Contest_Card_Types.CLOSE_MODAL})
+    }catch{
+        dispatch({type: Contest_Card_Types.SET_CONTEST_CARD_DATA_FAIL})
+    }
 }
-export const ActionDone = async (dispatch, action, id, index, points)=>{
+export const ActionDone = async (dispatch, action, id, index, points, idContest)=>{
     var token = localStorage.getItem("accessToken")
     var config = {
         headers: {
@@ -37,19 +54,29 @@ export const ActionDone = async (dispatch, action, id, index, points)=>{
             "Authorization" : `Bearer ${token}`
         },
     }
+    var participationActions = {}
+    Object.keys(action).map(key=>{
+        if(!["id", "index", "points"].includes(key)){
+            participationActions[key] = action[key]
+        }
+    })
     var data = {
-        partipationDate: new Date() ,
-        participationActions: [action]
+        partipationDate: new Date().toUTCString(),
+        participationActions: [participationActions]
     }
-    return axios.post(`${BACKEND_API}/api/participations/create`, data, config)
+    return axios.post(`${BACKEND_API}/api/participations/create/${idContest}`, data, config)
         .then(response =>{
             dispatch({type: Contest_Card_Types.ACTION_DONE, payload: {id, index, points}})
             return true
         }).catch(err =>{
-            dispatch({type: Contest_Card_Types.ACTION_DONE, payload: {id, index, points}})
+            dispatch({type: Contest_Card_Types.ACTION_FAIL})
             return false
         })
 }
 export const SetActionText = (dispatch, id, text, type, index)=>{
-    dispatch({type: Contest_Card_Types.SET_ACTION_TEXT, payload: {id, text, type, index}})
+    try{
+        dispatch({type: Contest_Card_Types.SET_ACTION_TEXT, payload: {id, text, type, index}})
+    }catch{
+        dispatch({type: Contest_Card_Types.SET_CONTEST_CARD_DATA_FAIL})
+    }
 }

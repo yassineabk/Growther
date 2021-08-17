@@ -1,8 +1,11 @@
 package wbm.growther.growther_001.services.ServicesImplementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import wbm.growther.growther_001.dtos.ContestDto;
 import wbm.growther.growther_001.dtos.ParticipationDto;
+import wbm.growther.growther_001.exceptions.ResourceNotFoundException;
 import wbm.growther.growther_001.models.Contest;
 import wbm.growther.growther_001.models.Participation;
 import wbm.growther.growther_001.models.ParticipationAction;
@@ -12,6 +15,7 @@ import wbm.growther.growther_001.repository.ContestRepository;
 import wbm.growther.growther_001.repository.ParticipationActionRepository;
 import wbm.growther.growther_001.repository.ParticipationRepository;
 import wbm.growther.growther_001.repository.UserRepository;
+import wbm.growther.growther_001.security.SecurityModel.SecurityUser;
 import wbm.growther.growther_001.services.ParticipationService;
 
 import java.util.ArrayList;
@@ -34,6 +38,25 @@ public class ParticipationServiceImpl implements ParticipationService {
             this.checkParticipation(participation);
         });
         return getParticipationsDto(participations);
+    }
+
+    @Override
+    public List<ParticipationDto> getParticipationsByContest(Long contestID) throws ResourceNotFoundException {
+        Contest contest = contestRepository.findContestByIdContest(contestID);
+        if(contest==null)
+            throw new ResourceNotFoundException("No contest exist with ID : "+contestID.toString());
+        Long brandID = contest.getUser().getId();
+        // load the principal (authenticated user)
+        SecurityUser principal= (SecurityUser) SecurityContextHolder
+                .getContext().getAuthentication().getPrincipal();
+        //get the user id from security context
+        Long userId=principal.getId();
+
+        List<Participation> participations = repository.findAllByContestIdContest(contestID);
+        //return participations just for the Brand who created the Contest
+        if (userId == brandID)
+            return getParticipationsDto(participations);
+        else return null;
     }
 
     @Override

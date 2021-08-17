@@ -1,3 +1,4 @@
+import { TimeZone } from "../../services/timeLeft";
 import { ContestTypes } from "./contest-types";
 
 const INITIAL_STATE={
@@ -42,8 +43,8 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
                 ...state,
                 information:{
                     ...state.information,
-                    startDate: action.payload.startDate ? action.payload.startDate : "",
-                    endDate: action.payload.endDate ? action.payload.endDate : "",
+                    startDate: action.payload.startDate && action.payload.startTime ? action.payload.startDate+"T"+action.payload.startTime+`:00.000${TimeZone(action.payload.timeZone)}` : "",
+                    endDate: action.payload.endDate && action.payload.endTime ? action.payload.endDate+"T"+action.payload.endTime+`:00.000${TimeZone(action.payload.timeZone)}` : "",
                     startTime: action.payload.startTime ? action.payload.startTime : "",
                     endTime: action.payload.endTime ? action.payload.endTime : "",
                     timeZone: action.payload.timeZone ? action.payload.timeZone : ""
@@ -61,6 +62,7 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
                 fullDate = year + "-" + month + "-" + day
             }
             var duration = Math.abs(Math.ceil((new Date(fullDate) - new Date(state.information.endDate))/(1000*60*60*24)))
+            fullDate = fullDate+"T"+startTime+`:00.000${TimeZone(state.information.timeZone)}`
             return {
                 ...state,
                 information: {
@@ -86,10 +88,36 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
                 error: null
             }
         case ContestTypes.SET_NEW_CONTEST_STATE:
+            var setStartDate =  ()=>{
+                if(action.payload.targetId){
+                    if(action.payload.targetId === "startDate"){
+                        return action.payload.data.startDate+"T"+state.information.startTime+`:00.000${TimeZone(state.information.timeZone)}`
+                    }else if(action.payload.targetId === "startTime"){
+                        return state.information.startDate.split("T")[0]+"T"+action.payload.data.startTime+`:00.000${TimeZone(state.information.timeZone)}`
+                    }
+                    return state.information.startDate
+                }else{
+                    return state.information.startDate
+                }
+            }
+            var setEndDate = ()=>{
+                if(action.payload.targetId){
+                    if(action.payload.targetId === "endDate"){
+                        return action.payload.data.endDate+"T"+state.information.endTime+`:00.000${TimeZone(state.information.timeZone)}`
+                    }else if(action.payload.targetId === "endTime"){
+                        return state.information.endDate.split("T")[0]+"T"+action.payload.data.endTime+`:00.000${TimeZone(state.information.timeZone)}`
+                    }
+                    return state.information.endDate
+                }else{
+                    return state.information.endDate
+                }
+            }
             return {
                 ...state,
                 information:{
-                    ...action.payload,
+                    ...action.payload.data,
+                    startDate: setStartDate(),
+                    endDate: setEndDate()
                 },
                 isLoading: false,
                 error: null
@@ -305,6 +333,12 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
                 ...state,
                 isLoading: false,
                 error: false
+            }
+        case ContestTypes.SET_NEW_CONTEST_DATA_FAIL:
+            return{
+                ...state,
+                error: true,
+                isLoading: false
             }
         case ContestTypes.PUBLISH_SUCCESS:
             return{

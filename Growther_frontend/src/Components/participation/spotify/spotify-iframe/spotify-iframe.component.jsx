@@ -1,10 +1,13 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { useUser } from 'react-spotify-api';
 import { SPOTIFY_CLIENT_ID } from "../../../../services/links";
-import { SpotifyAuth, Scopes } from 'react-spotify-auth'
 import { GetSpotifyToken } from "../../../../services/tokens";
+import { SpotifyAuthComponent } from "../spotify-login/spotify-login.compnent";
 export const SpotifyIframe = ({url, action_done, onError, closeModal})=>{
-    const token = GetSpotifyToken()
+    var [token, setToken] = useState(GetSpotifyToken())
+    window.addEventListener("storage", ()=>{
+        setToken(GetSpotifyToken())
+    })
     var iframeBlur = ()=>{
         var listener = window.addEventListener('blur', event => {
             if (document.activeElement === document.getElementById('spotifyIframe')) {
@@ -37,21 +40,6 @@ export const SpotifyIframe = ({url, action_done, onError, closeModal})=>{
         </iframe>
     )
     return(
-        <div id="spotifyIframe" className="is-flex is-justify-content-center is-align-items-center">
-            <SpotifyAuth 
-                btnClassName={"spotifyAuthButton"}
-                logoClassName={"spotifyAuthLogo"}
-                redirectUri={"http://localhost:3000/spotify/redirect"}
-                clientID={SPOTIFY_CLIENT_ID}
-                title={"Login with spotify"}
-                onAccessToken={(token)=> console.log(token)}
-                scopes={Object.keys(Scopes).map(key=>{
-                    return Scopes[key]
-                })}
-                localStorage={true}
-                noCookie={true}
-                showDialog={true}
-            />
-        </div>
+        <SpotifyAuthComponent />
     )
 }

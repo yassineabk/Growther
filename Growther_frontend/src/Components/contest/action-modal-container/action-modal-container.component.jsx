@@ -5,7 +5,7 @@ import { ActionDone, CloseActionModal } from "../../../redux/contest-card/contes
 import { BACKEND_API } from "../../../services/links"
 import { ActionModal } from "../action-modal/action-modal.component"
 import { PreviewAction } from "../preview-action/preview-action.component"
-export const ActionModalContainer = ({action, show})=>{
+export const ActionModalContainer = ({action, show, idContest})=>{
     var dispatch = useDispatch()
     var [activeButton, setActiveButton] = useState(false)
     var [countdown, setCount] = useState(10)
@@ -85,16 +85,20 @@ export const ActionModalContainer = ({action, show})=>{
                     />
                     <div className="is-flex is-flex-direction-column is-align-items-center is-justify-content-center">
                         <div className="button-container is-flex is-justify-content-flex-end">
-                            {withCountDown ? <div id="countdown"><span>00:{("0"+countdown).slice(-2)}</span></div> : null}
+                            {error.isError ? <div id="countdown"><span>{error.message}</span></div> : null}
+                            {withCountDown && !error.isError ? <div id="countdown"><span>00:{("0"+countdown).slice(-2)}</span></div> : null}
                             <div onClick={activeButton ? (event)=> {
-                                ActionDone(dispatch, action, action.id, action.index, action.points)
+                                ActionDone(dispatch, action, action.id, action.index, action.points, idContest)
                                     .then(value =>{
                                         if(value){
                                             setActiveButton(false)
                                             setCountDown(false)
                                             setCount(10)
+                                            setError({isError: false, message: ""})
                                         }else{
-                                            setError({isError: true, message: "Please try again later"})
+                                            setCountDown(false)
+                                            setCount(10)
+                                            setError({isError: true, message: "Something went wrong"})
                                         }
                                     })
                                 } : ()=> false} 
