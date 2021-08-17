@@ -17,6 +17,22 @@
         max-height: 500px;
         overflow-y: auto;
         @extend .scroll;
+        .discordBotLink{
+            &.is-danger{
+                color: red !important;
+            }
+            font-size: 15px;
+            margin-left: 0.25em;
+            color: #2B2637;
+            a {
+                color: $sideBar-color;
+                text-decoration: underline !important;
+                transition: all .5s;
+                &:hover{
+                    color: #2B2637;
+                }
+            }
+        }
         .contestAction{
             position: relative;
             padding: 5px 10px;
