@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { registerWithFacebookAndGoogle } from '../redux/registration/registration.action';
 class OAuth2RedirectHandler extends Component {
     getUrlParameter(name) {
-        console.log(name, "heree")
         name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
         var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
         var results = regex.exec(this.props.location.search);

@@ -334,6 +334,12 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
                 isLoading: false,
                 error: false
             }
+        case ContestTypes.SET_NEW_CONTEST_DATA_FAIL:
+            return{
+                ...state,
+                error: true,
+                isLoading: false
+            }
         case ContestTypes.PUBLISH_SUCCESS:
             return{
                 ...state,

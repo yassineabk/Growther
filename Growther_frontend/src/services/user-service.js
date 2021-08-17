@@ -50,6 +50,8 @@ function loginWithEmailAndPassword(user) {
             localStorage.setItem("accessToken",token.accessToken);
 
             return user;
+        }).catch(err=>{
+            return false
         });
 }
 
@@ -72,6 +74,8 @@ function registerWithEmailAndPassword(user) {
     .then(handleResponse)
     .then(user => {
         return user;
+    }).catch(err =>{
+        return false
     });
 }
 
