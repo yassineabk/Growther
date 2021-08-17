@@ -46,3 +46,26 @@ export const GetDiscordToken = ()=>{
         return false
     }
 }
+export const SetDiscordBotToken = (value, expiration = 3600*1000)=>{
+    try{
+        var item = {value, expiration: expiration + new Date().getTime()}
+        localStorage.setItem("discordBotToken", JSON.stringify(item))
+    }catch{
+        return false
+    }
+}
+export const GetDiscordBotToken = ()=>{
+    try{
+        var token = localStorage.getItem("discordBotToken")
+        token = JSON.parse(token)
+        if(token && token !== null && typeof(token) === "object"){
+            var time = new Date()
+            if(parseInt(token.expiration) - time.getTime() > 0){
+                return token.value
+            }
+            localStorage.removeItem("discordAccessToken")
+        }
+    }catch(err){
+        return false
+    }
+}

@@ -272,6 +272,12 @@ export const SaveContest = (dispatch, actions)=>{
             actions.map((item, index) =>{
                 if(item !== null && typeof(item) === "object"){
                     var res = {isValid: true, provider: item.provider, index: index}
+                    if(item.isDiscord && item.provider.toLowerCase() === "discord"){
+                        var tokenBot = localStorage.getItem("discordBotToken")
+                        if(tokenBot === null || !tokenBot){
+                            res = {...res, isValid: false, isDiscord: false}
+                        }
+                    }
                     Object.keys(item).map(key=>{
                         if(key === "url"){
                             if(!TextActions.includes(item.type.toLowerCase())){
