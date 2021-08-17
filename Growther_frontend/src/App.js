@@ -25,6 +25,7 @@ import { ErrorsModal } from './Components/errors-modal/errors-modal.component';
 import { ActionModalContainer } from './Components/contest/action-modal-container/action-modal-container.component';
 import SpotifyAuthHandler from './services/Spotify-auth-handler';
 import DiscordAuthHandler from './services/discord-auth-handler';
+import DiscordBotAuthHandler from './services/discord-bot-auth-handler';
 
 const App = ()=> {
   var { currentUser } = useSelector(state => state.login)
@@ -33,46 +34,47 @@ const App = ()=> {
     <div className={"App"}>
           {/*<ErrorsModal />*/}
           <Switch>
-          <Route path="/discord/redirect" component={DiscordAuthHandler}></Route> 
-          <Route path="/spotify/redirect" component={SpotifyAuthHandler}></Route> 
-          <Route path="/oauth2/redirect" component={OAuth2RedirectHandler}></Route> 
-          <Route exact path={"/"} render={()=> <Redirect to='/landing-page' />}/>
-          <Route exact path='/landing-page' render={()=> <LandingPage />} />
-          <Route exact path='/login' render={()=>(currentUser) ? (<Redirect to='/dashboard'/>) : (<LoginPage/>) } />
-          <Route exact path='/signup' render={()=>currentUser ? (<Redirect to='/'/>) : (<SignUpPage/>) } />
-          <Route exact path='/contest/:title/:id' render={()=> ([
-            <ActionModalContainer idContest={information.idContest} show={actionModal} action={action} />,
-            <Contest />
-          ])}/>
-          <Route exact path='/dashboard/pie' render={()=> currentUser ? (<Dashboard />) : (<Redirect to='/'/>)} />
-          <Route exact path='/dashboard/draft' render={()=> currentUser ?  (<Dashboard child={<DraftPage />} />) : (<Redirect to='/'/>)} />
-          <Route exact path='/dashboard/settings' render={()=> currentUser ?  (<Dashboard />) : (<Redirect to='/'/>)} />
-          <Route exact path="/dashboard/My Contests/new" render={()=> (
-              <Redirect to="/dashboard/My Contests/new/firstStep" />
-          )} />
-          <Route exact path="/dashboard/My Contests/new/firstStep" render={()=> (
-              (currentUser) ? (<Dashboard child={<NewContest child={ <ContestFirstStep />}/>} />) : (<Redirect to="/"/>)
-          )} />
-          <Route exact path="/dashboard/My Contests/new/secondStep" render={()=> (
-              (currentUser) ? (<Dashboard child={<NewContest child={ <ContestSecondStep />}/>} />) : (<Redirect to="/"/>)
-          )} />
-          <Route exact path="/dashboard/My Contests/new/thirdStep" render={()=> (
-              (currentUser) ? (<Dashboard child={<NewContest child={ <ContestThirdStep />}/>} />) : (<Redirect to="/"/>)
-          )} />
-          <Route exact path='/dashboard/My Contests' render={()=>
-            (currentUser) ? (<Dashboard child={<DashboardContestPage/>} />) : (<Redirect to="/" />)
-          }/>
-          <Route exact path='/dashboard/My Contests/edit/:id' render={()=> (
-              (currentUser) ? (<Dashboard child={<EditContest child={<EditContestFirstStep />} />} />):(<Redirect to='/'/>)
-          )}/>
-          <Route exact path='/dashboard/My Contests/result/:id' render={()=> (
-              (currentUser) ? (<Dashboard child={<EditContest child={<EditContestSecondStep data={[]} />} />} />):(<Redirect to='/'/>)
-          )}/>
-          <Route exact path='/dashboard/Templates' render={()=>(currentUser) ? (<Dashboard child={<DashboardTemplatesPage />} />):(<Redirect to='/'/>)}/>
-          <Route exact path='/dashboard' render={()=> (currentUser) ? (<Dashboard child={
-            <DashboardHomePage />
-          }/>):(<Redirect to='/'/>) } />
-          <Route render={()=> (<Page404 />)} />
+            <Route path="/discord/bot/redirect" component={DiscordBotAuthHandler}></Route> 
+            <Route path="/discord/redirect" component={DiscordAuthHandler}></Route> 
+            <Route path="/spotify/redirect" component={SpotifyAuthHandler}></Route> 
+            <Route path="/oauth2/redirect" component={OAuth2RedirectHandler}></Route> 
+            <Route exact path={"/"} render={()=> <Redirect to='/landing-page' />}/>
+            <Route exact path='/landing-page' render={()=> <LandingPage />} />
+            <Route exact path='/login' render={()=>(currentUser) ? (<Redirect to='/dashboard'/>) : (<LoginPage/>) } />
+            <Route exact path='/signup' render={()=>currentUser ? (<Redirect to='/'/>) : (<SignUpPage/>) } />
+            <Route exact path='/contest/:title/:id' render={()=> ([
+              <ActionModalContainer idContest={information.idContest} show={actionModal} action={action} />,
+              <Contest />
+            ])}/>
+            <Route exact path='/dashboard/pie' render={()=> currentUser ? (<Dashboard />) : (<Redirect to='/'/>)} />
+            <Route exact path='/dashboard/draft' render={()=> currentUser ?  (<Dashboard child={<DraftPage />} />) : (<Redirect to='/'/>)} />
+            <Route exact path='/dashboard/settings' render={()=> currentUser ?  (<Dashboard />) : (<Redirect to='/'/>)} />
+            <Route exact path="/dashboard/My Contests/new" render={()=> (
+                <Redirect to="/dashboard/My Contests/new/firstStep" />
+            )} />
+            <Route exact path="/dashboard/My Contests/new/firstStep" render={()=> (
+                (currentUser) ? (<Dashboard child={<NewContest child={ <ContestFirstStep />}/>} />) : (<Redirect to="/"/>)
+            )} />
+            <Route exact path="/dashboard/My Contests/new/secondStep" render={()=> (
+                (currentUser) ? (<Dashboard child={<NewContest child={ <ContestSecondStep />}/>} />) : (<Redirect to="/"/>)
+            )} />
+            <Route exact path="/dashboard/My Contests/new/thirdStep" render={()=> (
+                (currentUser) ? (<Dashboard child={<NewContest child={ <ContestThirdStep />}/>} />) : (<Redirect to="/"/>)
+            )} />
+            <Route exact path='/dashboard/My Contests' render={()=>
+              (currentUser) ? (<Dashboard child={<DashboardContestPage/>} />) : (<Redirect to="/" />)
+            }/>
+            <Route exact path='/dashboard/My Contests/edit/:id' render={()=> (
+                (currentUser) ? (<Dashboard child={<EditContest child={<EditContestFirstStep />} />} />):(<Redirect to='/'/>)
+            )}/>
+            <Route exact path='/dashboard/My Contests/result/:id' render={()=> (
+                (currentUser) ? (<Dashboard child={<EditContest child={<EditContestSecondStep data={[]} />} />} />):(<Redirect to='/'/>)
+            )}/>
+            <Route exact path='/dashboard/Templates' render={()=>(currentUser) ? (<Dashboard child={<DashboardTemplatesPage />} />):(<Redirect to='/'/>)}/>
+            <Route exact path='/dashboard' render={()=> (currentUser) ? (<Dashboard child={
+              <DashboardHomePage />
+            }/>):(<Redirect to='/'/>) } />
+            <Route render={()=> (<Page404 />)} />
         </Switch>
     </div>
   );

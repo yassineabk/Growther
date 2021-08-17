@@ -3,35 +3,41 @@ import { Redirect } from 'react-router-dom'
 import {setCurrentUser, SetCurrentUser} from '../redux/login/login.actions'
 import { registerWithFacebookAndGoogle } from '../redux/registration/registration.action';
 import { SetDiscordToken } from './tokens';
-import { DISCORD_APP_ID, DISCORD_CLIENT_ID } from './links';
+import { DISCORD_APP_ID, DISCORD_CLIENT_ID, FRONTEND_API } from './links';
 class DiscordAuthHandler extends Component {
     async getUrlParameter(name) {
-        var search = this.props.location.search
-        var regex = new RegExp(("(?<=code=).+.+?(?=&guild)"));
-        var results = regex.exec(search);
-        var redirect_url = `http://localhost:3000/discord/redirect`
-        var params = new URLSearchParams()
-        params.append('client_id', DISCORD_APP_ID)
-        params.append('client_secret', DISCORD_CLIENT_ID)
-        params.append('grant_type', 'authorization_code')
-        params.append('code', results[0])
-        params.append('redirect_uri', redirect_url)
-        var headers = {
-            'Content-Type' : 'application/x-www-form-urlencoded'
+        try{
+            var search = this.props.location.search
+            var regex = new RegExp(("(?<=code=).+"));
+            var results = regex.exec(search);
+            var redirect_url = process.env.NODE_ENV === "development" ? "http://localhost:3000/discord/redirect" :  `${FRONTEND_API}/discord/redirect`
+            console.log(redirect_url)
+            var params = new URLSearchParams()
+            params.append('client_id', DISCORD_APP_ID)
+            params.append('client_secret', DISCORD_CLIENT_ID)
+            params.append('grant_type', 'authorization_code')
+            params.append('code', results[0])
+            params.append('redirect_uri', redirect_url)
+            var headers = {
+                'Content-Type' : 'application/x-www-form-urlencoded'
+            }
+            var config = {
+                'method' : "POST",
+                "headers" : headers,
+                "body" : params
+            }
+            return fetch("https://discord.com/api/v8/oauth2/token", config)
+                .then(response =>{
+                    return response.json()
+                }).catch(err =>{
+                    return false
+                }).then(data =>{
+                    console.log(data)
+                    return data.access_token
+                })
+        }catch (err){
+            return false
         }
-        var config = {
-            'method' : "POST",
-            "headers" : headers,
-            "body" : params
-        }
-        return fetch("https://discord.com/api/v8/oauth2/token", config)
-            .then(response =>{
-                return response.json()
-            }).catch(err =>{
-                return false
-            }).then(data =>{
-                return data.access_token
-            })
     };
     render() {  
         this.getUrlParameter('access_token').then(token =>{
