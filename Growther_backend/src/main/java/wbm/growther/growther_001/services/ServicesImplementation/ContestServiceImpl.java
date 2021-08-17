@@ -91,18 +91,32 @@ public class ContestServiceImpl implements ContestService {
 
         System.out.println(contest.getIdContest());
 
+        String localStartDate=contest.getStartDate().toString()+" "+contest.getStartTime();
+        String localEndDate = contest.getEndDate().toString()+" "+contest.getEndTime();
+
+
+
+
+        SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm");
+
+        Date date1=dateFormat.parse(localStartDate);
+        Date date2=dateFormat.parse(localEndDate);
+
+        //System.out.println(contest.getStartDate());
+        //System.out.println(date2.getTime());
+
 
         UpdateContestStateJob publishContestJob=new UpdateContestStateJob(
                 contest.getIdContest(),
                 "Published",
-                contest.getStartDate(),
+                date1,
                 repository
         );
 
         UpdateContestStateJob endContestJob=new UpdateContestStateJob(
                 contest.getIdContest(),
                 "Done",
-                contest.getEndDate(),
+                date2,
                 repository
         );
 
@@ -114,22 +128,12 @@ public class ContestServiceImpl implements ContestService {
         );
 
 
-        //SimpleDateFormat dateFormat=new SimpleDateFormat("dd-MM-yyyy HH:mm");
 
-        //Date date1=dateFormat.parse(c);
-        //Date date2=dateFormat.parse(f);
-
-        //Long timeDiff=date2.getTime()-date1.getTime();
-
-       // System.out.println(timeDiff);
-
-
-
-        //taskScheduler.doTask(publishContestJob);
-        //taskScheduler.doTask(endContestJob);
+        taskScheduler.doTask(publishContestJob);
+        taskScheduler.doTask(endContestJob);
 
          //this one if you wanna test
-        taskScheduler.doTask(testContestJob);
+        //taskScheduler.doTask(testContestJob);
 
         return contest.getIdContest();
     }

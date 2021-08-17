@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.Set;
 
 public class ParticipationDto {
+
     private Long id;
     private Date partipationDate;
     private Contest contest;

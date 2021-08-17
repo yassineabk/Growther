@@ -50,11 +50,14 @@ public class AuthenticationServiceImpl  implements wbm.growther.growther_001.ser
     @Transactional
     public String registerUser(UserDto signUpRequest) {
 
-        if(userRepository.existsByEmail(signUpRequest.getEmail())) {
+
+        User userExist= userRepository.findUserByEmail(signUpRequest.getEmail());
+        if( userExist != null && userExist.getEnabled()) {
             throw new RuntimeException("Email address already in use.");
         }
         // Creating user's account
-        User user =new  User();
+        User user =userRepository.findUserByEmail(signUpRequest.getEmail());
+        if(user == null) user=new User();
         System.out.println(signUpRequest.getEmail());
         user.setName(signUpRequest.getName());
         user.setEmail(signUpRequest.getEmail());
@@ -89,16 +92,21 @@ public class AuthenticationServiceImpl  implements wbm.growther.growther_001.ser
 
 
         //TODO : app email
-        //emailService.sendMessage(
-        //        signUpRequest.getActivities(),
-        //        buildEmail(signUpRequest.getName(), link)
-        //        );
+        emailService.sendMessage(
+                signUpRequest.getEmail(),
+                buildEmail(signUpRequest.getName(), link)
+                );
+
+        //the email is not enabled yet
 
         return token;
     }
 
     @Override
     public String authenticateUser(UserDto loginRequest) {
+
+        User user=userRepository.findUserByEmail(loginRequest.getEmail());
+        if(!user.getEnabled()) return "you need to verify your email first";
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -133,11 +141,12 @@ public class AuthenticationServiceImpl  implements wbm.growther.growther_001.ser
 
         User user = userRepository.findUserById(confirmationToken.getUser().getId());
 
-        confirmationTokenService.setConfirmedAt(token);
+        int a=confirmationTokenService.setConfirmedAt(token);
+        System.out.println(a);
         userService.enableUser(
                 confirmationToken.getUser().getEmail());
-        //ConfirmationToken confirmationToken1=confirmationTokenService.getToken(token);
-        //System.out.println(confirmationToken1.getConfirmedAt());
+        ConfirmationToken confirmationToken1=confirmationTokenService.getToken(token);
+        System.out.println(confirmationToken1.getConfirmedAt());
 
         return "confirmed";
     }
@@ -198,7 +207,7 @@ public class AuthenticationServiceImpl  implements wbm.growther.growther_001.ser
                 "      <td width=\"10\" valign=\"middle\"><br></td>\n" +
                 "      <td style=\"font-family:Helvetica,Arial,sans-serif;font-size:19px;line-height:1.315789474;max-width:560px\">\n" +
                 "        \n" +
-                "            <p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\">Hi " + name + ",</p><p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\"> Thank you for registering. Please click on the below link to activate your account: </p><blockquote style=\"Margin:0 0 20px 0;border-left:10px solid #b1b4b6;padding:15px 0 0.1px 15px;font-size:19px;line-height:25px\"><p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\"> <a href=\"" + link + "\">Activate Now</a> </p></blockquote>\n Link will expire in 15 minutes. <p>See you soon</p>" +
+                "            <p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\">Hi " + name + ",</p><p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\"> Thank you for registering. Please click on the below link to activate your account: </p><blockquote style=\"Margin:0 0 20px 0;border-left:10px solid #b1b4b6;padding:15px 0 0.1px 15px;font-size:19px;line-height:25px\"><p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\"> <a href=\"" + link + "\">Activate Now</a> </p></blockquote>\n Link will expire in 10 minutes. <p>See you soon</p>" +
                 "        \n" +
                 "      </td>\n" +
                 "      <td width=\"10\" valign=\"middle\"><br></td>\n" +

@@ -6,6 +6,9 @@ import wbm.growther.growther_001.models.actions.Action;
 import wbm.growther.growther_001.models.users.User;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -22,8 +25,8 @@ public class Contest {
     private int winnersNbr;
     private int actionsNbr;
     private int maxReach;
-    private Date startDate;
-    private Date endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private String startTime;
     private String endTime;
     private Integer timeZone;
@@ -44,6 +47,8 @@ public class Contest {
     @JsonIgnore
     private Set<Prize> prizes;
 
+
+    //each brand should be able to create more than 1 contest
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id",nullable = true,updatable = false)
     @JsonIgnore
@@ -51,7 +56,7 @@ public class Contest {
 
 
     public Contest(String title, String description, int winnersNbr, int actionsNbr, int maxReach,
-                   Date startDate, Date endDate, String startTime, String endTime,
+                   LocalDate startDate, LocalDate endDate, String startTime, String endTime,
                    int timeZone, Boolean immediately, Set<Participation> participations,
                    String status, Set<Action> actions, Set<Prize> prizes) {
         this.title = title;
@@ -165,19 +170,19 @@ public class Contest {
         this.timeZone = timeZone;
     }
 
-    public Date getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
-    public Date getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 
