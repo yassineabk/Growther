@@ -13,14 +13,19 @@ button {
 }
 
 p {
-    font-size: 15px;
-    line-height: 24px;
+    padding: 0 !important;
+    margin: 0 !important;
+    font-size: inherit;
+    line-height: inherit;
 }
 h1,h2,h3,h4,h5,h6 {
-    font-family: 'Poppins', sans-serif;
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: inherit !important;
+    font-weight: inherit !important;
 }
 
-.h1,
+/*.h1,
 h1 {
     font-size: 36px;
 }
@@ -48,7 +53,7 @@ h5 {
 .h6,
 h6 {
     font-size: 12px;
-}
+}*/
 
 b {
     font-weight: 500;

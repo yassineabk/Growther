@@ -92,12 +92,15 @@
         //justify-content: space-between;
         margin-bottom: 0.5em !important;
         .card-title{
-          word-wrap: break-word;
-          word-break: break-all;
-          font-size: 18px;
-          font-weight: 500;
+          word-wrap: break-word !important;
+          word-break: break-all !important;
+          font-size: 18px !important;
+          font-weight: 500 !important;
+          h1{
+            @extend .card-title;
+          }
         }
-        .card-description{
+        .card-description, .card-description p{
           -ms-word-break: break-all;
           word-break: break-all;
           -webkit-hyphens: auto;

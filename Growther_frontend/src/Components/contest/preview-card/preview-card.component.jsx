@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react"
 import { Redirect, useHistory } from "react-router-dom"
 import { PreviewActionsList } from "../preview-actions-list/preview-actions-list.component"
 import { PreviewPrizesList } from "../preview-prizes-list/preview-prizes-list.component"
-export const PreviewCard = ({title, description, timeLeft, dateType, views, points, entries, status, actions, previewActions, changeHandler, prizes, buttons, hasStarted, hasEnded, isPublished, id, element, isPreview, user_id, error, immediately, DoAction})=>{
+export const PreviewCard = ({title, description, timeLeft, dateType, views, points, entries, status, actions, previewActions, changeHandler, prizes, buttons, hasStarted, hasEnded, canParticipate, isPublished, id, element, isPreview, user_id, error, immediately, DoAction})=>{
     var history = useHistory()
     var hoverCard = (event)=>{
         document.getElementById("card").classList.toggle("backface")
@@ -67,7 +67,9 @@ export const PreviewCard = ({title, description, timeLeft, dateType, views, poin
                 <div className="right-side is-flex is-flex-direction-column">
                     <div className="card-infos is-flex is-flex-direction-column">
                         <div className="card-title is-flex is-justify-content-space-between">
-                            <div>{title ? title : ""}</div>
+                            <div>
+                                <h3>{title ? title : ""}</h3>
+                            </div>
                             <div className="is-flex is-flex-direction-row headButtons">
                                 {buttons ? 
                                     [<div onClick={(event)=> editContest(event)}>
@@ -83,7 +85,7 @@ export const PreviewCard = ({title, description, timeLeft, dateType, views, poin
                             </div>
                         </div>
                         <div className="card-description">
-                            {description ? description : ""}
+                            <p>{description ? description : ""}</p>
                         </div>
                     </div>
                     <PreviewActionsList 
@@ -91,6 +93,8 @@ export const PreviewCard = ({title, description, timeLeft, dateType, views, poin
                         actions={actions} 
                         changeHandler={changeHandler && {}.toString.call(changeHandler) === '[object Function]' ? (event, provider) => changeHandler(event, provider) : ()=> false}
                         DoAction={DoAction && {}.toString.call(DoAction) === '[object Function]' ? (index, element)=> DoAction(index, element) : ()=> false}
+                        isOwner={buttons}
+                        canParticipate={canParticipate}
                     />
                 </div>
                 <div className="is-flex is-flex-column is-align-items-center back previewPrizes">

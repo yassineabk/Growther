@@ -6,7 +6,6 @@ import { SetDiscordBotToken, SetDiscordToken } from './tokens';
 import { DISCORD_APP_ID, DISCORD_CLIENT_ID } from './links';
 class DiscordBotAuthHandler extends Component {
     async getUrlParameter(name) {
-        console.log(this.props.location)
         var search = this.props.location.search
         var regex = new RegExp(("(?<=code=).+.+?(?=&guild)"));
         var results = regex.exec(search);
