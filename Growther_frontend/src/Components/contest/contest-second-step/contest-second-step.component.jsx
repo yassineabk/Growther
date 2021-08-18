@@ -38,6 +38,7 @@ export const ContestSecondStep = ()=>{
                 information.idContest = value
                 information.user = {id: sub, isBrand: "true"}
                 AppendContest(dispatch, information)
+                localStorage.removeItem("discordBotToken")
             }
         })
     }
