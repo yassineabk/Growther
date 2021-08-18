@@ -11,7 +11,7 @@ export const TiktokWatchVideo = ({url, action_done, closeModal})=>{
             .catch(err => err)
     })
     return(
-        <div  onError={(event)=> console.log(event)} onLoad={(event)=> console.log(event.target)} id="tiktokIframe" dangerouslySetInnerHTML={createMarkup(html)}>
+        <div  onError={(event)=> closeModal(event)} onLoad={(event)=> action_done(event, true)} id="tiktokIframe" dangerouslySetInnerHTML={createMarkup(html)}>
 
         </div>
     )
