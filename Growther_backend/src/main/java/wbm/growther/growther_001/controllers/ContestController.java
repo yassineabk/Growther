@@ -109,8 +109,8 @@ public class ContestController {
             if (userId==brandId)
                 return ResponseEntity.ok().body(contestDto);
             else{
-                if(participationDto == null && contestDto.getStatus().equalsIgnoreCase("Published"))
-                return ResponseEntity.ok().body(contestDto);
+                if(participationDto != null && contestDto.getStatus().equalsIgnoreCase("Published"))
+                return ResponseEntity.ok().body(participationDto);
                 else return ResponseEntity.status(403).body("You are not allowed to see this contest right now. COME BACK SOON !");
             }
     }
