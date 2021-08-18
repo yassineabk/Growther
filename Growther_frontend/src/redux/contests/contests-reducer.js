@@ -42,7 +42,11 @@ const ContestsReducer = (state = INITIAL_STATE, action)=>{
                 ...state,
                 contests: state.contests.map(item=>{
                     if(item.idContest.toString() === action.payload.id.toString()){
-                        return action.payload.data
+                        return {
+                            ...action.payload.data,
+                            actions: [...item.actions],
+                            prizes: [item.prizes]
+                        }
                     }
                     return item
                 })

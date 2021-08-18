@@ -135,7 +135,6 @@ export const EditContestFirstStep = ()=>{
         var date2 = Math.ceil((new Date(information.endDate.split("T")[0]) - new Date(fulldate))/(1000*60*60*24))
         startTime = startTime.split(":")
         if(date2 === 0){
-            console.log(parseInt(time[0]), currentHour, currentMin, time[1])
             if(parseInt(time[0]) === currentHour && parseInt(time[1]) > currentMin){
                 return changeHandler(event)
             }

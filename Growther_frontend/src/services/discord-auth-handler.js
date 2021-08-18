@@ -11,7 +11,6 @@ class DiscordAuthHandler extends Component {
             var regex = new RegExp(("(?<=code=).+"));
             var results = regex.exec(search);
             var redirect_url = process.env.NODE_ENV === "development" ? "http://localhost:3000/discord/redirect" :  `${FRONTEND_API}/discord/redirect`
-            console.log(redirect_url)
             var params = new URLSearchParams()
             params.append('client_id', DISCORD_APP_ID)
             params.append('client_secret', DISCORD_CLIENT_ID)
@@ -32,7 +31,6 @@ class DiscordAuthHandler extends Component {
                 }).catch(err =>{
                     return false
                 }).then(data =>{
-                    console.log(data)
                     return data.access_token
                 })
         }catch (err){

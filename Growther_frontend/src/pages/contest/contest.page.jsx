@@ -11,7 +11,7 @@ export const Contest = ({currentUser})=>{
     var params = useParams()
     var location = useLocation()
     var [userId, setId] = useState("")
-    var {information, selected, isLoading, error, points, isDone} = useSelector(state => state.contest_card)
+    var {information, selected, isLoading, error, points, canParticipate} = useSelector(state => state.contest_card)
     useEffect(()=>{
         var token = localStorage.getItem("accessToken")
         token = decode(token)
@@ -72,6 +72,7 @@ export const Contest = ({currentUser})=>{
                     user_id={typeof(information.user) === "object" ? information.user.id.toString() : ""}
                     isPublished={information.status !== "DRAFT" ? true  : false}
                     immediately={information.immediately === "true" || information.immediately === true ? true : false}
+                    canParticipate={canParticipate}
                     error={error}
                     status={information.status}
                     DoAction={(index, element)=> DoAction(index, element)}
