@@ -83,4 +83,8 @@ public class UserServiceImpl implements UserService {
         return userDtos;
     }
 
+    public int enableUser(String email) {
+        return userRepository.enableAppUser(email);
+    }
+
 }

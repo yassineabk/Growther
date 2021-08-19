@@ -12,6 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("api/contests")
 public class ActionController {
+
     @Autowired
     private ActionRepository actionRepository;
 

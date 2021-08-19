@@ -1,20 +1,25 @@
 package wbm.growther.growther_001.models.users;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sun.istack.NotNull;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import wbm.growther.growther_001.models.AuthenticationProvider;
 import wbm.growther.growther_001.models.Contest;
 import wbm.growther.growther_001.models.Participation;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.Set;
 
 @Entity
 @Table(name = "Users",uniqueConstraints = {
         @UniqueConstraint(columnNames = "email")
 })
-public class User {
+@JsonIgnoreProperties({"password"})
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,11 +50,35 @@ public class User {
 
     private String providerId;
 
+    //contest creation
     @OneToMany(mappedBy="user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonIgnore
     private Set<Contest> contests;
+
+    // contest participation
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnore
     private Set<Participation> participations;
+
+
+    private Boolean isLocked=false;
+    private Boolean enabled=false;
+
+    public Boolean getLocked() {
+        return isLocked;
+    }
+
+    public void setLocked(Boolean locked) {
+        isLocked = locked;
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
 
     @Override
     public String toString() {
@@ -158,21 +187,47 @@ public class User {
         return isBrand;
     }
 
-    @JsonIgnore
     public Set<Contest> getContests() {
         return contests;
     }
-    @JsonProperty
     public void setContests(Set<Contest> contests) {
         this.contests = contests;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+    @Override
+    public String getUsername() {
+        return name;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return !isLocked;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
     }
 
 }

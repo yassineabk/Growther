@@ -33,7 +33,7 @@ public class CustomUserDetails implements org.springframework.security.core.user
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return user.getLocked();
     }
 
     @Override
@@ -43,6 +43,6 @@ public class CustomUserDetails implements org.springframework.security.core.user
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return user.getEnabled();
     }
 }

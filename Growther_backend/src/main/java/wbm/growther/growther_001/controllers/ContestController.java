@@ -8,13 +8,16 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import wbm.growther.growther_001.dtos.ContestDto;
+import wbm.growther.growther_001.dtos.ParticipationDto;
 import wbm.growther.growther_001.exceptions.ResourceNotFoundException;
 import wbm.growther.growther_001.security.SecurityModel.SecurityUser;
 import wbm.growther.growther_001.services.ContestService;
+import wbm.growther.growther_001.services.ParticipationService;
 import wbm.growther.growther_001.utils.JwtUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +29,8 @@ public class ContestController {
 
     @Autowired
     private ContestService contestService;
+    @Autowired
+    private ParticipationService participationService;
 
     //Get All Contests
     @GetMapping("/GetContests")
@@ -54,7 +59,7 @@ public class ContestController {
     }
 
     //Get contest by id and infos
-    @GetMapping("/{title}/{id}")
+    /*@GetMapping("/{title}/{id}")
     public ResponseEntity<ContestDto> getContestByInfos(@PathVariable(value = "id") Long contestId,
                                                         @PathVariable(value = "title") String contestTitle)
             throws ResourceNotFoundException {
@@ -65,6 +70,7 @@ public class ContestController {
         // load the principal (authenticated user)
         SecurityUser principal= (SecurityUser) SecurityContextHolder
                 .getContext().getAuthentication().getPrincipal();
+
         //get the user id from security context
         Long userId=principal.getId();
 
@@ -75,11 +81,56 @@ public class ContestController {
                 || userId==brandId)
             return ResponseEntity.ok().body(contestDto);
         else return ResponseEntity.status(403).body(null);
+    }*/
+
+    //Get contest by id and infos
+    @GetMapping("/{title}/{id}")
+    public ResponseEntity<Object> getContestByInfos(@PathVariable(value = "id") Long contestId,
+                                                              @PathVariable(value = "title") String contestTitle)
+            throws ResourceNotFoundException {
+
+
+        ContestDto contestDto = contestService.getContestByInfos(contestTitle,contestId);
+        if(contestDto==null)
+            throw new ResourceNotFoundException("No contest exist with ID : "+contestId.toString());
+
+        Long userId=null;
+        SecurityUser principal;
+
+        // load the principal (authenticated user)
+        try {
+            principal= (SecurityUser) SecurityContextHolder
+                    .getContext().getAuthentication().getPrincipal();
+            //get the user id from security context
+
+            userId=principal.getId();
+        }catch (Exception e){
+            System.out.println("do nothing");
+        }
+
+        //get the id of the brand who created that contest
+        Long brandId=contestDto.getUser().getId();
+
+        ParticipationDto participationDto=participationService
+                .getParticipationByContestIdAndUserId(contestId,userId);
+
+        //Show the contest for the brand and the participation for the normal user
+        if (userId!=null && userId==brandId)
+            return ResponseEntity.ok().body(contestDto);
+        else{
+            if(contestDto.getStatus().equalsIgnoreCase("Published"))
+                if(participationDto == null )
+                    return ResponseEntity.ok().body(contestDto);
+                else  return ResponseEntity.ok().body(participationDto);
+            else return ResponseEntity.
+                    status(403).
+                    body("You are not allowed to see this contest right now. COME BACK SOON !");
+        }
     }
 
     @PostMapping("/create")
-    public Long createContest(@RequestBody ContestDto contestDto
-            ,HttpServletRequest request) throws RejectedExecutionException{
+    public Long createContest(@RequestBody ContestDto contestDto)
+            throws RejectedExecutionException, ParseException {
 
         // load the principal (authenticated user)
         SecurityUser principal= (SecurityUser) SecurityContextHolder
@@ -97,7 +148,7 @@ public class ContestController {
 
     @PostMapping("/create/draft")
     public Long createDraftContest(@RequestBody ContestDto contestDto
-            ,HttpServletRequest request) throws RejectedExecutionException{
+            ,HttpServletRequest request) throws RejectedExecutionException, ParseException {
 
         // load the principal (authenticated user)
         SecurityUser principal= (SecurityUser) SecurityContextHolder
@@ -126,7 +177,7 @@ public class ContestController {
     //Update contest
     @PutMapping("/update/{id}")
     public ResponseEntity<ContestDto> updateContest(@PathVariable(value = "id") Long contestId
-            ,@Validated @RequestBody ContestDto contestDetails) throws ResourceNotFoundException {
+            ,@Validated @RequestBody ContestDto contestDetails) throws ResourceNotFoundException, ParseException {
         ContestDto contestDto=contestService.getContestById(contestId);
 
         // if the contest does not exist, throw an exception
@@ -139,7 +190,6 @@ public class ContestController {
         contestDto.setDescription(contestDetails.getDescription());
         contestDto.setEndDate(contestDetails.getEndDate());
         contestDto.setMaxReach(contestDetails.getMaxReach());
-        contestDto.setDuration(contestDetails.getDuration());
         contestDto.setEndTime(contestDetails.getEndTime());
         System.out.println(contestDetails.getEndTime());
         contestDto.setStatus(contestDetails.getStatus());
@@ -151,7 +201,7 @@ public class ContestController {
     //Update draft contest
     @PutMapping("/update/draft/{id}")
     public ResponseEntity<ContestDto> updateDraftContest(@PathVariable(value = "id") Long contestId
-            ,@Validated @RequestBody ContestDto contestDetails) throws ResourceNotFoundException {
+            ,@Validated @RequestBody ContestDto contestDetails) throws ResourceNotFoundException, ParseException {
         ContestDto contestDto=contestService.getContestById(contestId);
 
         // if the contest does not exist, throw an exception
@@ -168,7 +218,6 @@ public class ContestController {
         contestDto.setMaxReach(contestDetails.getMaxReach());
         contestDto.setActionsNbr(contestDetails.getActionsNbr());
         contestDto.setWinnersNbr(contestDetails.getWinnersNbr());
-        contestDto.setDuration(contestDetails.getDuration());
         contestDto.setStartTime(contestDetails.getStartTime());
         contestDto.setEndTime(contestDetails.getEndTime());
         contestDto.setStatus(contestDetails.getStatus());
@@ -182,7 +231,7 @@ public class ContestController {
     //Delete contest
     @DeleteMapping("/delete/{id}")
     public Map<String, Boolean> deleteContest(@PathVariable(value = "id") Long contestId)
-            throws ResourceNotFoundException {
+            throws ResourceNotFoundException, ParseException {
         ContestDto contestDto = contestService.getContestById(contestId);
         if (contestDto==null) throw new ResourceNotFoundException("Contest not found for this id : "+contestId);
 

@@ -17,6 +17,7 @@ import wbm.growther.growther_001.repository.UserRepository;
 
 import java.util.Map;
 
+
 @Service
 public class CutomOAuth2UserService extends DefaultOAuth2UserService {
 
@@ -72,6 +73,7 @@ public class CutomOAuth2UserService extends DefaultOAuth2UserService {
         user.setEmail(oAuthUserInfo.getEmail());
         user.setProviderId(oAuthUserInfo.getId());
         user.setName(oAuthUserInfo.getName());
+        user.setEnabled(true);
         return userRepository.save(user);
     }
 
