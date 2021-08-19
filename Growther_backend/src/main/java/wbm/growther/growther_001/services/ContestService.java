@@ -8,11 +8,11 @@ import java.util.List;
 public interface ContestService {
     List<ContestDto> getAllContests();
     Long createNewContest(ContestDto contestDto, String email) throws ParseException;
-    Long createNewDraftContest(ContestDto contestDto, String email);
+    Long createNewDraftContest(ContestDto contestDto, String email) throws ParseException;
     ContestDto getContestById(Long contestID);
     ContestDto draftContest(Long contestID);
-    ContestDto updateContestInfos(ContestDto contestDto);
-    void deleteContest(ContestDto contestDto);
+    ContestDto updateContestInfos(ContestDto contestDto) throws ParseException;
+    void deleteContest(ContestDto contestDto) throws ParseException;
     ContestDto getContestByTitle(String title);
     ContestDto getContestByInfos(String title,Long id);
     ContestDto getLastContest();

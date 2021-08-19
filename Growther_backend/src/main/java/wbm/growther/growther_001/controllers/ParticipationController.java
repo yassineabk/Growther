@@ -20,6 +20,7 @@ import wbm.growther.growther_001.services.ParticipationService;
 import wbm.growther.growther_001.utils.JwtUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,7 +62,7 @@ public class ParticipationController {
     @PostMapping("/create/{id}")
     public Map<String, String> createParticipation(@PathVariable(value = "id") Long contestID,
                                     @RequestBody ParticipationDto participationDto
-            ,HttpServletRequest request) throws RejectedExecutionException {
+            ,HttpServletRequest request) throws RejectedExecutionException, ParseException {
 
 
         // load the principal (authenticated user)
@@ -97,7 +98,7 @@ public class ParticipationController {
 
     @PutMapping("/update/{id}")
     public ResponseEntity<ParticipationDto> updateParticipation(@PathVariable(value = "id") Long participationId
-            ,@Validated @RequestBody ParticipationDto participationDetails) throws ResourceNotFoundException {
+            ,@Validated @RequestBody ParticipationDto participationDetails) throws ResourceNotFoundException, ParseException {
         ParticipationDto participationDto = service.getParticipationById(participationId);
 
         // if the participation does not exist, throw an exception
@@ -114,7 +115,7 @@ public class ParticipationController {
     //Delete contest
     @DeleteMapping("/delete/{id}")
     public Map<String, Boolean> deleteParticipation(@PathVariable(value = "id") Long participationId)
-            throws ResourceNotFoundException {
+            throws ResourceNotFoundException, ParseException {
         ParticipationDto participationDto = service.getParticipationById(participationId);
         if (participationDto==null) throw new ResourceNotFoundException("Participation not found for this id : "+participationId);
 

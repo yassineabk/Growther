@@ -15,7 +15,7 @@ import java.util.Set;
 
 @Entity
 @Table(name="Contests")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler","providedActions"})
 public class Contest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,16 +25,14 @@ public class Contest {
     private int winnersNbr;
     private int actionsNbr;
     private int maxReach;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private Date startDate;
+    private Date endDate;
     private String startTime;
     private String endTime;
-    private Integer timeZone;
+    private String timeZone;
     private Boolean immediately;
-    //@OneToOne(mappedBy = "contest", cascade = CascadeType.ALL)
-    //@JsonIgnore
+
     @OneToMany(mappedBy="contest", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    //private Participation participation;
     @JsonIgnore
     private Set<Participation> participations;
 
@@ -54,10 +52,21 @@ public class Contest {
     @JsonIgnore
     private User user;
 
+    //@ManyToMany(mappedBy = "contestsComposants")
+    //private Set<ContestAvailableActions> providedActions;
+
+
+    //public Set<ContestAvailableActions> getProvidedActions() {
+      //  return providedActions;
+    //}
+
+    //public void setProvidedActions(Set<ContestAvailableActions> providedActions) {
+      //  this.providedActions = providedActions;
+    //}
 
     public Contest(String title, String description, int winnersNbr, int actionsNbr, int maxReach,
-                   LocalDate startDate, LocalDate endDate, String startTime, String endTime,
-                   int timeZone, Boolean immediately, Set<Participation> participations,
+                   Date startDate, Date endDate, String startTime, String endTime,
+                   String timeZone, Boolean immediately, Set<Participation> participations,
                    String status, Set<Action> actions, Set<Prize> prizes) {
         this.title = title;
         this.description = description;
@@ -121,6 +130,7 @@ public class Contest {
         this.description = description;
     }
 
+
     public User getUser() {
         return user;
     }
@@ -166,23 +176,23 @@ public class Contest {
     public void setMaxReach(int maxReach) { this.maxReach = maxReach; }
 
 
-    public void setTimeZone(Integer timeZone) {
+    public void setTimeZone(String timeZone) {
         this.timeZone = timeZone;
     }
 
-    public LocalDate getStartDate() {
+    public Date getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(LocalDate startDate) {
+    public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
-    public LocalDate getEndDate() {
+    public Date getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(LocalDate endDate) {
+    public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
 
@@ -202,7 +212,7 @@ public class Contest {
         this.endTime = endTime;
     }
 
-    public int getTimeZone() {
+    public String getTimeZone() {
         return timeZone;
     }
 

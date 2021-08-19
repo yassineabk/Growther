@@ -6,28 +6,45 @@ import wbm.growther.growther_001.models.Prize;
 import wbm.growther.growther_001.models.actions.Action;
 import wbm.growther.growther_001.models.users.User;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Set;
+import java.util.TimeZone;
 
 public class ContestDto {
+
+    private static final SimpleDateFormat dateformat=
+            new SimpleDateFormat("yyyy-MM-dd HH:mm");
+
+
     private long idContest;
     private String title;
     private String description;
     private int winnersNbr;
     private int actionsNbr;
     private int maxReach;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private String startDate;
+    private String endDate;
     private String startTime;
     private String endTime;
-    private Integer timeZone;
+    private String timeZone;
     private Boolean immediately;
     private Set<Action> actions;
     private Set<Prize> prizes;
     private User user;
     private String status;
+    private int NumOfParticipation;
+
+    public int getNumOfParticipation() {
+        return NumOfParticipation;
+    }
+
+    public void setNumOfParticipation(int numOfParticipation) {
+        NumOfParticipation = numOfParticipation;
+    }
 
     @JsonProperty
     public long getIdContest() {
@@ -106,19 +123,19 @@ public class ContestDto {
     }
 
 
-    public LocalDate getStartDate() {
+    public String getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(LocalDate startDate) {
+    public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
 
-    public LocalDate getEndDate() {
+    public String getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(LocalDate endDate) {
+    public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
 
@@ -138,11 +155,11 @@ public class ContestDto {
         this.endTime = endTime;
     }
 
-    public int getTimeZone() {
+    public String getTimeZone() {
         return timeZone;
     }
 
-    public void setTimeZone(int timeZone) {
+    public void setTimeZone(String timeZone) {
         this.timeZone = timeZone;
     }
 
@@ -177,4 +194,20 @@ public class ContestDto {
     public void setUser(User user) {
         this.user = user;
     }
+
+
+    public Date getDateInServerTimezone(String timezone,String date) throws ParseException {
+        dateformat.setTimeZone(TimeZone.getTimeZone(timezone));
+        return dateformat.parse(date);
+    }
+
+    public void setDateInUserTimezone(Date startDate,Date endDate,String timezone){
+
+        dateformat.setTimeZone(TimeZone.getTimeZone(timezone));
+        this.endDate=dateformat.format(endDate);
+        this.startDate=dateformat.format(startDate);
+    }
+
+
+
 }

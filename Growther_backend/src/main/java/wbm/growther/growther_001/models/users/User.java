@@ -1,6 +1,7 @@
 package wbm.growther.growther_001.models.users;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sun.istack.NotNull;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,6 +18,7 @@ import java.util.Set;
 @Table(name = "Users",uniqueConstraints = {
         @UniqueConstraint(columnNames = "email")
 })
+@JsonIgnoreProperties({"password"})
 public class User implements UserDetails {
 
     @Id
@@ -50,6 +52,7 @@ public class User implements UserDetails {
 
     //contest creation
     @OneToMany(mappedBy="user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonIgnore
     private Set<Contest> contests;
 
     // contest participation
@@ -184,11 +187,9 @@ public class User implements UserDetails {
         return isBrand;
     }
 
-    @JsonIgnore
     public Set<Contest> getContests() {
         return contests;
     }
-    @JsonProperty
     public void setContests(Set<Contest> contests) {
         this.contests = contests;
     }
