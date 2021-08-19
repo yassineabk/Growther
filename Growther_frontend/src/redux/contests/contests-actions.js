@@ -14,7 +14,7 @@ export const GetContests = async (dispatch)=>{
             dispatch({type: CONTESTS_TYPES.GET_CONTESTS, payload: response.data})
         }).catch(err =>{
             dispatch({type: CONTESTS_TYPES.GET_CONTESTS_FAIL})
-            ShowErrorModal(dispatch, "Something went wrong please try again later")
+            //ShowErrorModal(dispatch, "Something went wrong please try again later")
             return false
         })
 }
@@ -57,7 +57,7 @@ export const DeleteDraft = (dispatch, id) =>{
             dispatch({type: CONTESTS_TYPES.DELETE_FROM_DRAFT, payload: id})
             return true
         }).catch(err=>{
-            ShowErrorModal(dispatch, "Couldn't delete this contest please try again laters")
+            //ShowErrorModal(dispatch, "Couldn't delete this contest please try again laters")
             dispatch({type: CONTESTS_TYPES.GET_CONTESTS_FAIL})
             return false
         })

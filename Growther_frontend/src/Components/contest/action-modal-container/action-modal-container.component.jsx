@@ -2,6 +2,7 @@ import axios from "axios"
 import React, { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
 import { ActionDone, CloseActionModal } from "../../../redux/contest-card/contest-card-actions"
+import { HideErrorModal } from "../../../redux/errors/errors-actions"
 import { BACKEND_API } from "../../../services/links"
 import { ActionModal } from "../action-modal/action-modal.component"
 import { PreviewAction } from "../preview-action/preview-action.component"
@@ -18,8 +19,9 @@ export const ActionModalContainer = ({action, show, idContest})=>{
             setCount(10)
             setCountDown(false)
             CloseActionModal(dispatch)
+            HideErrorModal(dispatch)
         }
-    })
+    }, [dispatch])
     var closeModal = (event)=>{
         var container = document.getElementById("actionIframe")
         if(container !== null && typeof(container) === "object"){
