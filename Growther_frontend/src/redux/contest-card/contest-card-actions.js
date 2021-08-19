@@ -12,7 +12,19 @@ export const SetData = (dispatch, title, description, id) =>{
     }
     axios.get(`${BACKEND_API}/api/contests/${title}/${id}`, config)
         .then(response =>{
-            dispatch({type: Contest_Card_Types.SET_CONTEST_STATE, payload: response.data})
+            if(typeof(response.data) === "object"){
+                if(response.data.contest !== undefined  && response.data.contest !== null && typeof(response.data.contest) === "object"){
+                    var data = response.data
+                    var {contest, user, participationActions, partipationDate, id, totalPoints, done} = data
+                    var payload = {...contest, actions: participationActions, user, partipationDate, participationId: id, totalPoints, done}
+                    dispatch({type: Contest_Card_Types.SET_CONTEST_STATE, payload: {data: payload, canParticipate: true}})
+                }else{
+                    dispatch({type: Contest_Card_Types.SET_CONTEST_STATE, payload:{data: response.data, canParticipate: false}})
+                }
+            }else{
+                dispatch({type: Contest_Card_Types.CONTEST_CARD_ERROR})
+                ShowErrorModal(dispatch, "Couldn't get this contest please try again later")
+            }
         }).catch(err =>{
             dispatch({type: Contest_Card_Types.CONTEST_CARD_ERROR})
             ShowErrorModal(dispatch, "Couldn't get this contest please try again later")
@@ -20,7 +32,7 @@ export const SetData = (dispatch, title, description, id) =>{
 }
 export const SetDataFromLocation = (dispatch, data)=>{
     try{
-        dispatch({type: Contest_Card_Types.SET_CONTEST_STATE, payload: data})
+        dispatch({type: Contest_Card_Types.SET_CONTEST_STATE, payload: {data, canParticipate: false}})
     }catch{
         dispatch({type: Contest_Card_Types.SET_CONTEST_CARD_DATA_FAIL})
     }

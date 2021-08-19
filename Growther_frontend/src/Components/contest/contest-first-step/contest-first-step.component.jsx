@@ -76,7 +76,7 @@ export const ContestFirstStep = ()=>{
                 }
             }
             if(id === "endDate"){
-                var date = Math.ceil((new Date(event.target.value) - new Date(information.startDate))/(100*60*60*24))
+                var date = Math.ceil((new Date(event.target.value) - new Date(information.startDate.split("T")[0]))/(100*60*60*24))
                 var date2 = Math.ceil((new Date(event.target.value) - new Date(currentDate))/(100*60*60*24))
                 if(date >= 0 && date2 >= 0){
                     if(date2 === 0){

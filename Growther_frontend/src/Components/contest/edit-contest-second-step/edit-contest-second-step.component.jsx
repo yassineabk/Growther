@@ -1,5 +1,6 @@
 import React from "react"
 import { Link } from "react-router-dom"
+import { CSVLink } from "react-csv";
 export const EditContestSecondStep = ({data})=>{
     var test = [
         {
@@ -17,87 +18,137 @@ export const EditContestSecondStep = ({data})=>{
             points: 5,
             numActions: "2 of 5",
             status: "pending"
+        },
+        {
+            email: "hijazi@gmail.com",
+            location: "Agadir",
+            date: "22 June 2021",
+            points: 5,
+            numActions: "2 of 5",
+            status: "pending"
+        },
+        {
+            email: "hijazi@gmail.com",
+            location: "Agadir",
+            date: "22 June 2021",
+            points: 5,
+            numActions: "2 of 5",
+            status: "pending"
+        },
+        {
+            email: "hijazi@gmail.com",
+            location: "Agadir",
+            date: "22 June 2021",
+            points: 5,
+            numActions: "2 of 5",
+            status: "pending"
+        },
+        {
+            email: "hijazi@gmail.com",
+            location: "Agadir",
+            date: "22 June 2021",
+            points: 5,
+            numActions: "2 of 5",
+            status: "pending"
         }
     ]
+    const tableHead = [
+        {label: "Email", key: "email"},
+        {label: "Location", key: "location"},
+        {label: "Date", key: "date"},
+        {label: "Points", key: "points"},
+        {label: "Number of actions", key: "NumActions"},
+        {label: "Winning status", key: "status"}
+    ]
+    var MakeCSVFile = ()=>{
+        var result = []
+        if(Array.isArray(data) && data.length > 0){
+            result = data
+        }else{
+            result = test
+        }
+        return {
+            data: result,
+            headers: tableHead,
+            filename: 'Participants_Report.csv'
+        }
+    }
     return(
         <div className="is-flex is-flex-direction-column bottomContainer tableContainer">
             <div className="list-title-container is-flex is-flex-direction-row is-justify-content-space-between is-align-items-center">
                 <span className="list-title">Participants</span>
                 <div className="is-flex is-flex-direction-row is-align-items-center">
                     <div className="addNew">
-                        <Link to="#">Export a csv</Link>
+                        <CSVLink {...MakeCSVFile()}>Export a csv</CSVLink>
                     </div>
                     <div id="addNewButton" className="arrow-button-container is-flex is-justify-content-flex-end">
                         <div className="arrow-button">
-                            <img src={require("../../../assets/icons/csv.png").default} widdiv={"22px"} />
+                            <img src={require("../../../assets/icons/csv.png").default} width={"22px"} />
                         </div>
                     </div>
                 </div>
             </div>
             <div className="table-container">
-                <div className="table">
-                    <div className="tbody">
-                        <div className="tr is-flex is-flex-direction-row">
-                            <div>Email</div>
-                            <div>Location</div>
-                            <div>Date</div>
-                            <div>Points</div>
-                            <div>Number of actions</div>
-                            <div>Winning status</div>
-                        </div>
+                <table id="participationTable" className="table" style={{height: Array.isArray(data) ? data.length * 58.8 : test.length * 58.8}} >
+                    <tbody className="tbody">
+                        <tr className="tr tds is-flex is-flex-direction-row">
+                            {tableHead.map(item =>{
+                                return <th>{item.label}</th>
+                            })}
+                        </tr>
                         {!Array.isArray(data) ? data.map(item =>{
                             return(
-                            <div className={"tr tds is-flex is-flex-direction-row"}>
+                            <tr className={"tr tds is-flex is-flex-direction-row"}>
                                 {typeof(item) === "object" ? [
-                                    <div>
+                                    <td>
                                         {item.email}
-                                    </div>,
-                                    <div>
+                                    </td>,
+                                    <td>
                                         {item.location}
-                                    </div>,
-                                    <div>
+                                    </td>,
+                                    <td>
                                         {item.date}
-                                    </div>,
-                                    <div>
+                                    </td>,
+                                    <td>
                                         {item.points}
-                                    </div>,
-                                    <div>
+                                    </td>,
+                                    <td>
                                         {item.numActions}
-                                    </div>,
-                                    <div>
+                                    </td>,
+                                    <td>
                                         {item.status}
-                                    </div>
+                                    </td>
                                 ] : null}
-                            </div>
+                            </tr>
                         )
                     }) : test.map(item =>{
                         return(
-                            <div className="tr tds is-flex is-flex-direction-row">
+                            <tr className="tr tds is-flex is-flex-direction-row">
                                 {typeof(item) === "object" ? [
-                                    <div>
+                                    <th>
                                         {item.email}
-                                    </div>,
-                                    <div>
+                                    </th>,
+                                    <th>
                                         {item.location}
-                                    </div>,
-                                    <div>
+                                    </th>,
+                                    <th>
                                         {item.date}
-                                    </div>,
-                                    <div>
+                                    </th>,
+                                    <th>
                                         {item.points}
-                                    </div>,
-                                    <div>
+                                    </th>,
+                                    <th>
                                         {item.numActions}
-                                    </div>,
-                                    <div>
+                                    </th>,
+                                    <th>
                                         {item.status}
-                                    </div>
+                                    </th>
                                 ] : null}
-                            </div>
+                            </tr>
                         )
                     })}
-                    </div>
-                </div>
+                    </tbody>
+                </table>
             </div>
         </div>
     )

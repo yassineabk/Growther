@@ -1,6 +1,6 @@
 import React from "react"
 import { useHistory } from "react-router-dom"
-export const CardComponent = ({element, title, description, date, dateType, views, entries, id, userId, status, Duplicate, Delete})=>{
+export const CardComponent = ({element, title, description, views, entries, id, userId, status, Duplicate, Delete, timeLeft})=>{
     var history = useHistory()
     var openContest = ()=>{
         if(typeof(element.user === "object")){
@@ -41,17 +41,17 @@ export const CardComponent = ({element, title, description, date, dateType, view
                         Time left
                     </span>
                     <span>
-                        {(date && typeof(date) === "string") ||  typeof(date) === "number" ? date : ""} <span className="dateType">{dateType && typeof(dateType) === "string" ? dateType : ""}</span>
+                        {(timeLeft && typeof(timeLeft) === "object" && typeof(timeLeft.date) === "string") ||  typeof(timeLeft.date) === "number" ? timeLeft.date : ""} <span className="dateType">{timeLeft && typeof(timeLeft) === "object" && typeof(timeLeft.type) === "string" ? timeLeft.type : ""}</span>
                     </span>
                 </div>
             </div>
             <div className="right-side is-flex is-flex-direction-column">
                 <div className="card-infos is-flex is-flex-direction-column">
                     <div className="card-title">
-                        {title && typeof(title) === "string" ? title : "Contest Title"}
+                        <h3>{title && typeof(title) === "string" ? title : "Contest Title"}</h3>
                     </div>
                     <div className="card-description">
-                        {description && typeof(description) === "string" ? description.slice(0, 250) : ""}
+                        <p>{description && typeof(description) === "string" ? description.slice(0, 250) : ""}</p>
                     </div>
                 </div>
                 {status !== "DRAFT" ? 

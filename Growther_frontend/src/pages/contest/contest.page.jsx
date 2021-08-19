@@ -7,13 +7,13 @@ import { Spinner } from "../../Components/spinner/spinner.component"
 import { OpenActionModal, SelectAction, SetData, SetDataFromLocation } from "../../redux/contest-card/contest-card-actions"
 import { TimeLeft } from "../../services/timeLeft"
 export const Contest = ({currentUser})=>{
+    var [token, setToken] = useState(localStorage.getItem("accessToken"))
     var dispatch = useDispatch()
     var params = useParams()
     var location = useLocation()
     var [userId, setId] = useState("")
-    var {information, selected, isLoading, error, points, isDone} = useSelector(state => state.contest_card)
+    var {information, selected, isLoading, error, points, canParticipate} = useSelector(state => state.contest_card)
     useEffect(()=>{
-        var token = localStorage.getItem("accessToken")
         token = decode(token)
         var sub = token !== null && typeof(token) === "object" ? token.sub : ""
         setId(sub)
@@ -23,6 +23,13 @@ export const Contest = ({currentUser})=>{
                 SetData(dispatch, params.title, params.description, params.id)
             }
     }, [dispatch, location])
+    window.addEventListener("storage", ()=>{
+        var value = localStorage.getItem("accessToken")
+        setToken(value)
+        if(value && value !== null){
+            SetData(dispatch, params.title, params.description, params.id)
+        }
+    })
     var changeHandler = (event, provider)=>{
         var index = parseInt(event.target.selectedIndex)
         SelectAction(dispatch, provider, index)
@@ -50,6 +57,11 @@ export const Contest = ({currentUser})=>{
     var DoAction = (index, element)=>{
         OpenActionModal(dispatch, index, element)
     }
+    var showLoginForm = (value)=>{
+        if(value && token && token !== null){
+            window.open("/login")
+        }
+    }
     return(
         <div className="is-flex is-flex-direction-column contest is-justify-content-center is-align-items-center">
             <Spinner show={isLoading} />
@@ -72,9 +84,11 @@ export const Contest = ({currentUser})=>{
                     user_id={typeof(information.user) === "object" ? information.user.id.toString() : ""}
                     isPublished={information.status !== "DRAFT" ? true  : false}
                     immediately={information.immediately === "true" || information.immediately === true ? true : false}
+                    canParticipate={canParticipate}
                     error={error}
                     status={information.status}
                     DoAction={(index, element)=> DoAction(index, element)}
+                    showLoginForm={showLoginForm && {}.toString.call(DoAction) === '[object Function]' ? (value)=> showLoginForm(value) : ()=> false}
                 /> 
             : null}
         </div>

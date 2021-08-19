@@ -6,6 +6,7 @@ const INITIAL_STATE = {
     action: {},
     actionModal: false,
     isLoading: true,
+    canParticipate: false,
     error: false
 }
 const ContestCard = (state = INITIAL_STATE, action)=>{
@@ -13,7 +14,8 @@ const ContestCard = (state = INITIAL_STATE, action)=>{
         case Contest_Card_Types.SET_CONTEST_STATE:
             return{
                 ...state,
-                information: {...action.payload},
+                information: {...action.payload.data},
+                canParticipate: action.payload.canParticipate,
                 isLoading: false,
                 error: false
             }

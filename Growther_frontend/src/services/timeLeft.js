@@ -54,7 +54,6 @@ export const TimeLeft = (endDate, endTime)=>{
     }catch (err){
         return {date: "", type: ""}
     }
-    
 }
 export const TimeZone = (timezone)=>{
     var sign = timezone < 0 ? "+" : "-"

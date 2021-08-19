@@ -24,12 +24,12 @@ export const SetStateToEdit = async (dispatch, id, userId)=>{
             return true
         }else{
             dispatch({type: CONTEST_EDIT_TYPES.EDIT_FAIL})
-            ShowErrorModal(dispatch, "Please make sure this contest is yours")
+            //ShowErrorModal(dispatch, "Please make sure this contest is yours")
             return false
         }
     }).catch(err=>{
         dispatch({type: CONTEST_EDIT_TYPES.EDIT_FAIL})
-        ShowErrorModal(dispatch, "Please make sure this contest exist")
+        //ShowErrorModal(dispatch, "Please make sure this contest exist")
         return false
     })
 }
@@ -179,7 +179,7 @@ export const Edit = async (dispatch, information, id, userId)=>{
             dispatch({type: CONTEST_EDIT_TYPES.EDIT_SUCCESS})
             return response.data
         }).catch(err =>{
-            ShowErrorModal(dispatch, "Couldn't update your contest")
+            //ShowErrorModal(dispatch, "Couldn't update your contest")
             dispatch({type: CONTEST_EDIT_TYPES.EDIT_FAIL})
             return false
         }).then(value =>{
@@ -188,7 +188,7 @@ export const Edit = async (dispatch, information, id, userId)=>{
             }
         })
     }
-    ShowErrorModal(dispatch, "Please check the data you entered")
+    //ShowErrorModal(dispatch, "Please check the data you entered")
     dispatch({type: CONTEST_EDIT_TYPES.EDIT_FAIL})
     return false
 }
