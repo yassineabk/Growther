@@ -20,6 +20,7 @@ import java.util.concurrent.ScheduledFuture;
 public class Growther001Application  {
 
     public static void main(String[] args) {
+
         SpringApplication.run(Growther001Application.class, args);
     }
 

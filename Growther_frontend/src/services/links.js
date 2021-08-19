@@ -2,10 +2,10 @@
 export const location = window.location.href
 
 export const BACKEND_API = "https://staging-backendapp.herokuapp.com"
-export const FRONTEND_API = "https://staging-frontendapp.herokuapp.com" 
+export const FRONTEND_API = "https://staging-frontendapp.herokuapp.com"
 // Spotify
 export const SPOTIFY_REDIRECT_URL = location.includes("localhost:3000") ? "http:%2F%2Flocalhost:3000%2Fspotify%2Fredirect&show_dialog=true" : "https:%2F%2Fstaging-frontendapp.herokuapp.com%2Fspotify%2Fredirect&show_dialog=true"
-export const SPOTIFY_CLIENT_ID = "0faee53012344abb85a8d0df74af1e09" 
+export const SPOTIFY_CLIENT_ID = "0faee53012344abb85a8d0df74af1e09"
 export const SPOTIFY_CLIENT_SECRET = "3500e5bda23b41d188fb6c020bb509d9"
 export const SPOTIFY_ACCESS_TOKEN = "BQDALflmxeTyyUzxQemCtbuf6siGXQ_0mDr0XvGiFlc0shcaa08GJjYCDGf6SqYSFRfF75vxL52yOlS2zoKMIl-13fTRB9K4w8gFnRhjdUz7er5ZkgZixrULKNVIoTQRyhyDVZkBciePmjPE6M3Ia8Ygx7aPtfZVMnRK-hhgp8s6LzhZvjdIBO4"
 export const SPOTIFY_AUTH_URL = `https://accounts.spotify.com/en/authorize?response_type=token&client_id=0faee53012344abb85a8d0df74af1e09&scope=ugc-image-upload%20user-follow-read%20user-follow-modify%20user-read-recently-played%20user-top-read%20user-read-playback-position%20user-library-read%20user-library-modify%20user-read-playback-state%20user-read-currently-playing%20user-modify-playback-state%20playlist-read-collaborative%20playlist-modify-private%20playlist-modify-public%20playlist-read-private%20streaming%20app-remote-control%20user-read-email%20user-read-private%20ugc-image-upload%20user-follow-read%20user-follow-modify%20user-read-recently-played%20user-top-read%20user-read-playback-position%20user-library-read%20user-library-modify%20user-read-playback-state%20user-read-currently-playing%20user-modify-playback-state%20playlist-read-collaborative%20playlist-modify-private%20playlist-modify-public%20playlist-read-private%20streaming%20app-remote-control%20user-read-email%20user-read-private&redirect_uri=${SPOTIFY_REDIRECT_URL}`

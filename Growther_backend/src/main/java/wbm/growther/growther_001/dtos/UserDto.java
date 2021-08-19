@@ -14,6 +14,9 @@ public class UserDto {
     private AuthenticationProvider authProvider;
     private String isBrand;
 
+    private String activities;
+
+
     public String getIsBrand() {
         return isBrand;
     }
@@ -22,9 +25,6 @@ public class UserDto {
         this.isBrand = isBrand;
     }
 
-    private String activities;
-
-
     public String getActivities() {
         return activities;
     }
@@ -32,8 +32,6 @@ public class UserDto {
     public void setActivities(String activities) {
         this.activities = activities;
     }
-
-
 
     public Long getId() {
         return id;
