@@ -6,13 +6,16 @@ import wbm.growther.growther_001.models.actions.Action;
 import wbm.growther.growther_001.models.users.User;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name="Contests")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler","providedActions"})
 public class Contest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,12 +29,10 @@ public class Contest {
     private Date endDate;
     private String startTime;
     private String endTime;
-    private Integer timeZone;
+    private String timeZone;
     private Boolean immediately;
-    //@OneToOne(mappedBy = "contest", cascade = CascadeType.ALL)
-    //@JsonIgnore
+
     @OneToMany(mappedBy="contest", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    //private Participation participation;
     @JsonIgnore
     private Set<Participation> participations;
 
@@ -44,15 +45,28 @@ public class Contest {
     @JsonIgnore
     private Set<Prize> prizes;
 
+
+    //each brand should be able to create more than 1 contest
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id",nullable = true,updatable = false)
     @JsonIgnore
     private User user;
 
+    //@ManyToMany(mappedBy = "contestsComposants")
+    //private Set<ContestAvailableActions> providedActions;
+
+
+    //public Set<ContestAvailableActions> getProvidedActions() {
+      //  return providedActions;
+    //}
+
+    //public void setProvidedActions(Set<ContestAvailableActions> providedActions) {
+      //  this.providedActions = providedActions;
+    //}
 
     public Contest(String title, String description, int winnersNbr, int actionsNbr, int maxReach,
                    Date startDate, Date endDate, String startTime, String endTime,
-                   int timeZone, Boolean immediately, Set<Participation> participations,
+                   String timeZone, Boolean immediately, Set<Participation> participations,
                    String status, Set<Action> actions, Set<Prize> prizes) {
         this.title = title;
         this.description = description;
@@ -116,6 +130,7 @@ public class Contest {
         this.description = description;
     }
 
+
     public User getUser() {
         return user;
     }
@@ -161,7 +176,7 @@ public class Contest {
     public void setMaxReach(int maxReach) { this.maxReach = maxReach; }
 
 
-    public void setTimeZone(Integer timeZone) {
+    public void setTimeZone(String timeZone) {
         this.timeZone = timeZone;
     }
 
@@ -197,7 +212,7 @@ public class Contest {
         this.endTime = endTime;
     }
 
-    public int getTimeZone() {
+    public String getTimeZone() {
         return timeZone;
     }
 

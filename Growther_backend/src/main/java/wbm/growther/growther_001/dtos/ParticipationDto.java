@@ -8,9 +8,10 @@ import java.util.Date;
 import java.util.Set;
 
 public class ParticipationDto {
+
     private Long id;
     private Date partipationDate;
-    private Contest contest;
+    private ContestDto contest;
     private User user;
     private Set<ParticipationAction> participationActions;
     private boolean isDone;
@@ -32,11 +33,11 @@ public class ParticipationDto {
         this.partipationDate = partipationDate;
     }
 
-    public Contest getContest() {
+    public ContestDto getContestDto() {
         return contest;
     }
 
-    public void setContest(Contest contest) {
+    public void setContestDto(ContestDto contest) {
         this.contest = contest;
     }
 

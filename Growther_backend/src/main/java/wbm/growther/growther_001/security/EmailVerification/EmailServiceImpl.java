@@ -17,7 +17,7 @@ public class EmailServiceImpl implements EmailService  {
     @Autowired
     private JavaMailSender emailSender;
 
-    private String MonEmail="hamzabht18@gmail.com";
+    private String MonEmail="<email>";
 
 
     @Override

@@ -22,7 +22,7 @@ public class ConfirmationToken {
     private LocalDateTime createdAt;
     @Column(nullable = false)
     private LocalDateTime expiredAt;
-    @Column(nullable = true)
+    @Column(nullable = true,length = 100)
     private LocalDateTime confirmedAt;
 
     @ManyToOne

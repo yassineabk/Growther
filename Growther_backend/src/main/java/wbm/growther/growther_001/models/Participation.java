@@ -16,18 +16,21 @@ public class Participation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Date partipationDate;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "idContest", nullable = false)
     @JsonIgnore
     private Contest contest;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    //@MapsId
     @JoinColumn(name = "idUser",nullable = true,updatable = false)
     @JsonIgnore
     private User user;
+
     @OneToMany(mappedBy="participation", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnore
     private Set<ParticipationAction> participationActions;
+
     private boolean isDone;
     private int totalPoints;
 
