@@ -32,7 +32,6 @@ const App = ()=> {
   var { actionModal, action, information } = useSelector(state => state.contest_card)
   return (
     <div className={"App"}>
-          {/*<ErrorsModal />*/}
           <Switch>
             <Route path="/discord/bot/redirect" component={DiscordBotAuthHandler}></Route> 
             <Route path="/discord/redirect" component={DiscordAuthHandler}></Route> 
@@ -43,6 +42,7 @@ const App = ()=> {
             <Route exact path='/login' render={()=>(currentUser) ? (<Redirect to='/dashboard'/>) : (<LoginPage/>) } />
             <Route exact path='/signup' render={()=>currentUser ? (<Redirect to='/'/>) : (<SignUpPage/>) } />
             <Route exact path='/contest/:title/:id' render={()=> ([
+              <ErrorsModal />,
               <ActionModalContainer idContest={information.idContest} show={actionModal} action={action} />,
               <Contest />
             ])}/>
