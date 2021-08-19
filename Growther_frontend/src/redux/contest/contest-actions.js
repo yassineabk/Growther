@@ -334,7 +334,7 @@ export const SaveDraft = (dispatch, data, id)=>{
             return response.data
         }).catch(err => {
             dispatch({type: ContestTypes.PUBLISH_FAIL})
-            ShowErrorModal(dispatch, "Couldn't save this contest as a draft, please try again later")
+            //ShowErrorModal(dispatch, "Couldn't save this contest as a draft, please try again later")
             return false
         }).then(value =>{
             if(value){
@@ -360,12 +360,12 @@ export const PublishContest = async (dispatch, data)=>{
                 return response.data
             }).catch(err => {
                 dispatch({type: ContestTypes.PUBLISH_FAIL})
-                ShowErrorModal(dispatch, "Please try again later")
+                //ShowErrorModal(dispatch, "Please try again later")
                 return false
             })
     }
     dispatch({type: ContestTypes.PUBLISH_FAIL})
-    ShowErrorModal(dispatch, "Please, check data you entred")
+    //ShowErrorModal(dispatch, "Please, check data you entred")
     return false
 }
 export const DuplicateContest = (dispatch, id, data)=>{
@@ -382,7 +382,7 @@ export const DuplicateContest = (dispatch, id, data)=>{
         return response.data
     }).catch(err=>{
         dispatch({type: ContestTypes.PUBLISH_FAIL})
-        ShowErrorModal(dispatch, "Couldn't duplicate this contest please try again later")
+        //ShowErrorModal(dispatch, "Couldn't duplicate this contest please try again later")
         return false
     }).then(value => {
         if(value){
