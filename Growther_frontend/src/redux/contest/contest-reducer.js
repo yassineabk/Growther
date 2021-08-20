@@ -43,8 +43,8 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
                 ...state,
                 information:{
                     ...state.information,
-                    startDate: action.payload.startDate && action.payload.startTime ? action.payload.startDate+"T"+action.payload.startTime+`:00.000${TimeZone(action.payload.timeZone)}` : "",
-                    endDate: action.payload.endDate && action.payload.endTime ? action.payload.endDate+"T"+action.payload.endTime+`:00.000${TimeZone(action.payload.timeZone)}` : "",
+                    startDate: action.payload.startDate && action.payload.startTime ? action.payload.startDate+"T"+action.payload.startTime : "",
+                    endDate: action.payload.endDate && action.payload.endTime ? action.payload.endDate+"T"+action.payload.endTime : "",
                     startTime: action.payload.startTime ? action.payload.startTime : "",
                     endTime: action.payload.endTime ? action.payload.endTime : "",
                     timeZone: action.payload.timeZone ? action.payload.timeZone : ""
@@ -62,7 +62,7 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
                 fullDate = year + "-" + month + "-" + day
             }
             var duration = Math.abs(Math.ceil((new Date(fullDate) - new Date(state.information.endDate))/(1000*60*60*24)))
-            fullDate = fullDate+"T"+startTime+`:00.000${TimeZone(state.information.timeZone)}`
+            fullDate = fullDate+"T"+startTime
             return {
                 ...state,
                 information: {
@@ -91,9 +91,9 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
             var setStartDate =  ()=>{
                 if(action.payload.targetId){
                     if(action.payload.targetId === "startDate"){
-                        return action.payload.data.startDate+"T"+state.information.startTime+`:00.000${TimeZone(state.information.timeZone)}`
+                        return action.payload.data.startDate+"T"+state.information.startTime
                     }else if(action.payload.targetId === "startTime"){
-                        return state.information.startDate.split("T")[0]+"T"+action.payload.data.startTime+`:00.000${TimeZone(state.information.timeZone)}`
+                        return state.information.startDate.split("T")[0]+"T"+action.payload.data.startTime
                     }
                     return state.information.startDate
                 }else{
@@ -103,9 +103,9 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
             var setEndDate = ()=>{
                 if(action.payload.targetId){
                     if(action.payload.targetId === "endDate"){
-                        return action.payload.data.endDate+"T"+state.information.endTime+`:00.000${TimeZone(state.information.timeZone)}`
+                        return action.payload.data.endDate+"T"+state.information.endTime
                     }else if(action.payload.targetId === "endTime"){
-                        return state.information.endDate.split("T")[0]+"T"+action.payload.data.endTime+`:00.000${TimeZone(state.information.timeZone)}`
+                        return state.information.endDate.split("T")[0]+"T"+action.payload.data.endTime
                     }
                     return state.information.endDate
                 }else{

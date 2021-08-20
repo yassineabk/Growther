@@ -20,7 +20,7 @@ export const InitState = (dispatch)=>{
         endHour = endHour > 23 ? ("0" + parseInt(startHour - 24)).slice(-2) : ("0" + parseInt(startHour)).slice(-2)
         var startTime =  startHour + ":" + startMin
         var endTime = endHour + ":" + endMin
-        var timeZone = date.getTimezoneOffset()
+        var timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
         dispatch({type: ContestTypes.SET_INITIAL_STATE, payload: {startDate, endDate, startTime, endTime, timeZone}})
     }catch(err){
         dispatch({type: ContestTypes.SET_NEW_CONTEST_DATA_FAIL})
@@ -329,6 +329,29 @@ export const SaveDraft = (dispatch, data, id)=>{
     }
     dispatch({type: ContestTypes.NEW_CONTEST_LOADING})
     axios.post(`${BACKEND_API}/api/contests/create/draft`, data, config)
+        .then(response =>{
+            dispatch({type: ContestTypes.SAVE_DRAFT})
+            return response.data
+        }).catch(err => {
+            dispatch({type: ContestTypes.PUBLISH_FAIL})
+            //ShowErrorModal(dispatch, "Couldn't save this contest as a draft, please try again later")
+            return false
+        }).then(value =>{
+            if(value){
+                AppendDraft(dispatch, data, value, id)
+            }
+        })
+}
+export const EditDraft = (dispatch, data, id)=>{
+    var token = localStorage.getItem("accessToken")
+    var config = {
+        headers: {
+            "Content-Type" : "application/json",
+            "Authorization" : `Bearer ${token}`
+        },
+    }
+    dispatch({type: ContestTypes.NEW_CONTEST_LOADING})
+    axios.put(`${BACKEND_API}/api/contests/update/draft/${id}`, data, config)
         .then(response =>{
             dispatch({type: ContestTypes.SAVE_DRAFT})
             return response.data

@@ -30,9 +30,11 @@ class LandingPage extends React.Component {
                            <div className="home-cell-bottom">
                                <div className="container">
                                    <div className="columns is-vcentered is-centered">
-                                      <div className="column is-8-desktop text-white has-text-centered">
+                                      <div className="column is-flex is-flex-direction-column is-justify-content-center is-8-desktop text-white has-text-centered">
                                         <h1 className="home-title">We help brands grow their audience</h1>
-                                        <p className="pt-7 home-desc">Etiam sed.Interdum consequat proin vestibulum className at a euismod mus luctus quam.Lorem ipsum dolor sit amet, consectetur adipisicing eli.</p>
+                                        <div className="is-flex is-justify-content-center">
+                                            <p className="pt-7 home-desc has-text-centered">Etiam sed.Interdum consequat proin vestibulum className at a euismod mus luctus quam.Lorem ipsum dolor sit amet, consectetur adipisicing eli.</p>
+                                        </div>
                                         {/*<LanguageSelect/>*/}
                                         <div className="margin-t-30">
                                             <iframe src="http://player.vimeo.com/video/69988283?color=f15b72&amp;title=0&amp;byline=0&amp;portrait=0" width="555" height="321" className="frame-border"></iframe>
