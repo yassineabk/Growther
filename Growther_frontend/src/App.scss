@@ -211,6 +211,13 @@ html, body{
           }
         }
       }
+      .generalInfosForm{
+        flex: 1;
+        border-right: 1px solid $border-color;
+        @media only screen and (max-width: 1279px){
+          display: none !important;
+        }
+      }
       .newContestFrom{
         flex: 1;
         .mainInfos, .prizes, .contestButtons{

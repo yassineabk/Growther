@@ -7,7 +7,7 @@ export const DraftPage = ()=>{
     var dispatch = useDispatch()
     var {contests, isLoading, draft} = useSelector(state => state.get_contests)
     useEffect(()=>{
-        if(((Array.isArray(contests) && contests.length === 0) || !Array.isArray(contests)) && !isLoading){
+        if(((Array.isArray(draft) && draft.length === 0) || !Array.isArray(draft)) && !isLoading){
             GetContests(dispatch)
         }
     }, [dispatch])
