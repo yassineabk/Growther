@@ -74,7 +74,7 @@ export const DashboradSideBar = ({isBrand})=>{
                     <div className="tailButton">
                         <img alt="" src={require("../../../assets/icons/headset.png").default} />
                         <div className="tooltip is-flex">
-                            <span className="tooltip-text">Contact</span>
+                            <span className="tooltip-text">Support</span>
                         </div>
                     </div>
                     <div className="tailButton" onClick={()=>changeHandler("/dashboard/settings")}>
