@@ -45,7 +45,7 @@ const ContestsReducer = (state = INITIAL_STATE, action)=>{
                         return {
                             ...action.payload.data,
                             actions: [...item.actions],
-                            prizes: [item.prizes]
+                            prizes: [...item.prizes]
                         }
                     }
                     return item
