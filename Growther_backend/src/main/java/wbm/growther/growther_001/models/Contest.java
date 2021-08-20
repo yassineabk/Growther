@@ -42,7 +42,7 @@ public class Contest {
     private Set<Action> actions;
     //JSON field
     @OneToMany(mappedBy="contest", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    //@JsonIgnore
+    @JsonIgnore
     private Set<Prize> prizes;
 
 
@@ -95,7 +95,7 @@ public class Contest {
         this.endDate = contest.getEndDate();
         this.endTime = contest.getEndTime();
         this.startTime = contest.getStartTime();
-        this.timeZone=contest.getTimeZone();
+        //this.timeZone=contest.getTimeZone();
         this.immediately =contest.getImmediately();
         this.actions = new HashSet(contest.getActions());
         this.prizes = new HashSet(contest.getPrizes());

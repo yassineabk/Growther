@@ -22,6 +22,17 @@ public class Action {
     @JsonIgnore
     private Contest contest;
 
+    public Action(Action action) {
+        this.provider=action.getProvider();
+        this.url=action.getUrl();
+        this.type=action.getType();
+        this.points=action.getPoints();
+    }
+
+    public Action() {
+        
+    }
+
     public void setId(Long id) {
         this.id = id;
     }

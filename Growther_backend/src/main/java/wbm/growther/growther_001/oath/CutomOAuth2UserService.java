@@ -73,7 +73,7 @@ public class CutomOAuth2UserService extends DefaultOAuth2UserService {
         user.setEmail(oAuthUserInfo.getEmail());
         user.setProviderId(oAuthUserInfo.getId());
         user.setName(oAuthUserInfo.getName());
-        user.setEnabled(true);
+        //user.setEnabled(true);
         return userRepository.save(user);
     }
 

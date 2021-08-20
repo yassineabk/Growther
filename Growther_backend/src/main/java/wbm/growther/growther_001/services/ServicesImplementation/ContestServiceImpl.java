@@ -183,10 +183,41 @@ public class ContestServiceImpl implements ContestService {
         Contest contestExist = repository.findContestByIdContest(contestID);
         Contest contest = new Contest(contestExist);
 
+        Set<Prize> prizes = contestExist.getPrizes();
+        Set<Action> actions = contestExist.getActions();
+        Set<Prize> newPrizes = new HashSet<>();
+        Set<Action> newActions = new HashSet<>();
+
+        actions.forEach( action -> {
+            newActions.add(new Action(action));
+            //action.setContest(contest);
+        });
+        newActions.forEach( action -> {
+            action.setId(0L);
+            action.setContest(contest);
+        });
+
+
+        prizes.forEach( prize -> {
+            newPrizes.add(new Prize(prize));
+            //prize.setContest(contest);
+        });
+        newPrizes.forEach( prize -> {
+            prize.setId(0L);
+            prize.setContest(contest);
+        });
+
         contest.setIdContest(0);
         contest.setStatus("DRAFT");
 
         repository.save(contest);
+
+        newPrizes.forEach( prize -> {
+            prizeRepository.save(prize);
+        });
+        newActions.forEach( action -> {
+            actionRepository.save(action);
+        });
         return (contest==null)? null :  toDto(contest);
     }
 

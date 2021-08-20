@@ -19,6 +19,14 @@ public class Prize {
     @JsonIgnore
     private Contest contest;
 
+    public Prize(Prize prize) {
+        this.description = prize.getDescription();
+    }
+
+    public Prize() {
+
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
