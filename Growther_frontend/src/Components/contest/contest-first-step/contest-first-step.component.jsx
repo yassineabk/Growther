@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useHistory, useLocation } from "react-router-dom"
 import { Edit } from "../../../redux/contest-edit/contest-edit-actions"
-import { InitState, NextStep, PrizesChange, RemovePrize, ResestNewContest, SaveContestFirstStep, SaveContestPrizes, SaveDraft, SetDuration, SetImmediately, SetTime, StateChange, WinnersNumChange } from "../../../redux/contest/contest-actions"
+import { EditDraft, InitState, NextStep, PrizesChange, RemovePrize, ResestNewContest, SaveContestFirstStep, SaveContestPrizes, SaveDraft, SetDuration, SetImmediately, SetTime, StateChange, WinnersNumChange } from "../../../redux/contest/contest-actions"
 import { ContestButton } from "../contest-buttons/contest-buttons.component"
 import { ContestCheckBox } from "../contest-checkbox/contest-checkbox.component"
 import { ContestDescription } from "../contest-description-input/contest-description-input.component"
@@ -256,9 +256,9 @@ export const ContestFirstStep = ()=>{
         }
     }
     var saveDraft = ()=>{
-        /*if(information.status === "DRAFT"){
-            return Edit(dispatch, information, information.idContest, user)
-        }*/
+        if(information.status !== null && typeof(information.status) === "string" && information.status === "DRAFT"){
+            return EditDraft(dispatch, information, information.idContest)
+        }
         SaveDraft(dispatch, information, userId)
     }
     var CheckBoxHandler = (event)=>{
@@ -422,7 +422,7 @@ export const ContestFirstStep = ()=>{
                     color={"#5E2691"} 
                     bgColor={"#FFFFFF"}
                     borderColor={"#5E2691"}
-                    text={"Save as draft"} 
+                    text={information.status !== null && typeof(information.status) === "string" && information.status.toLowerCase() === "draft" ? "Edit" : "Save as draft"} 
                     clickEvent={()=> saveDraft()}/>
                 <ContestButton 
                     color={"#FFFFFF"}

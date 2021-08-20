@@ -4,13 +4,13 @@ import { Link } from 'react-router-dom';
 class Pricing extends React.Component {
   render() {
   	return (
-        <section className="section pt-5" id="pricing">
+        <section className="section py-6" id="pricing">
         <div className="container">
             <div className="columns is-centered">
                 <div className="column is-8-desktop has-text-centered">
                     <h1 className="section-title text-center">Our Pricing</h1>
                     <div className="section-title-border margin-t-20"></div>
-                    <p className="section-subtitle font-secondary text-muted text-center service-title padding-t-30">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sit amet tortor scelerisque,.</p>
+                    <p className="section-subtitle pt-4 font-secondary text-muted text-center service-title padding-t-30">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sit amet tortor scelerisque,.</p>
                 </div>
             </div>
             <div className="columns margin-t-50">
