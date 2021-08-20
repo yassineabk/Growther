@@ -61,9 +61,11 @@ public class AuthenticationServiceImpl  implements wbm.growther.growther_001.ser
         System.out.println(signUpRequest.getEmail());
         user.setName(signUpRequest.getName());
         user.setEmail(signUpRequest.getEmail());
-        user.setPassword(signUpRequest.getPassword());
         user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
         user.setAuthProvider(AuthenticationProvider.LOCAL);
+        System.out.println(passwordEncoder);
+        System.out.println(signUpRequest.getPassword());
+        System.out.println(user.getPassword());
         if(signUpRequest.getIsBrand().equalsIgnoreCase("true")){
             user.setUrl(signUpRequest.getUrl());
             user.setIsBrand("true");
@@ -92,10 +94,10 @@ public class AuthenticationServiceImpl  implements wbm.growther.growther_001.ser
 
 
         //TODO : app email
-        emailService.sendMessage(
-                signUpRequest.getEmail(),
-                buildEmail(signUpRequest.getName(), link)
-                );
+        //emailService.sendMessage(
+          //      signUpRequest.getEmail(),
+            //    buildEmail(signUpRequest.getName(), link)
+              //  );
 
         //the email is not enabled yet
 

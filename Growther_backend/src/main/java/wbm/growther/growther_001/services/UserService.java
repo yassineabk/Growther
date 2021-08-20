@@ -12,6 +12,7 @@ public interface UserService {
     UserDto updateUserInfos(UserDto brandDto);
     void deleteUser(UserDto brandDto);
     UserDto getUserByName(String brandName);
+    String updateUserPassword(String oldPassword,String newPassword);
 
 
 }

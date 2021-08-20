@@ -2,10 +2,15 @@ package wbm.growther.growther_001.services.ServicesImplementation;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import wbm.growther.growther_001.dtos.UserDto;
 import wbm.growther.growther_001.models.users.User;
 import wbm.growther.growther_001.repository.UserRepository;
+import wbm.growther.growther_001.security.SecurityModel.SecurityUser;
 import wbm.growther.growther_001.services.UserService;
 
 import java.util.ArrayList;
@@ -19,6 +24,10 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
 
     @Override
     public List<UserDto> getAllUsers() {
@@ -59,6 +68,41 @@ public class UserServiceImpl implements UserService {
     public UserDto getUserByName(String userName) {
        User user = userRepository.findUserByName(userName);
        return mapToDto(user);
+    }
+
+    @Override
+    public String updateUserPassword(String oldPassword, String newPassword) {
+
+        SecurityUser securityUser= (SecurityUser) SecurityContextHolder.
+                getContext().getAuthentication().getPrincipal();
+
+        Long userId= securityUser.getId();
+
+        UserDto user=this.getUserById(userId);
+        String a="hamza";
+        System.out.println(passwordEncoder.encode(a));
+
+        System.out.println(user.getPassword());
+        System.out.println(passwordEncoder);
+        System.out.println(oldPassword);
+
+        boolean doesMatch= passwordEncoder.matches(oldPassword,user.getPassword());
+        String hashedNewPassword=passwordEncoder.encode(newPassword);
+
+        System.out.println(doesMatch);
+
+        if(user.getPassword() == null)
+            return "you cant change your password, " +
+                    "cause you don't have one";
+
+        if(!doesMatch)
+            return "your password is incorrect";
+        if(oldPassword == newPassword)
+            return "password updated";
+        user.setPassword(hashedNewPassword);
+        userRepository.save(mapToUser(user));
+        return "password updated";
+
     }
 
     private UserDto mapToDto(User user){
