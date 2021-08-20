@@ -20,7 +20,7 @@ export const InitState = (dispatch)=>{
         endHour = endHour > 23 ? ("0" + parseInt(startHour - 24)).slice(-2) : ("0" + parseInt(startHour)).slice(-2)
         var startTime =  startHour + ":" + startMin
         var endTime = endHour + ":" + endMin
-        var timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
+        var timeZone = date.getTimezoneOffset() //Intl.DateTimeFormat().resolvedOptions().timeZone
         dispatch({type: ContestTypes.SET_INITIAL_STATE, payload: {startDate, endDate, startTime, endTime, timeZone}})
     }catch(err){
         dispatch({type: ContestTypes.SET_NEW_CONTEST_DATA_FAIL})
@@ -382,6 +382,7 @@ export const PublishContest = async (dispatch, data)=>{
                 dispatch({type: ContestTypes.PUBLISH_SUCCESS, payload: `${FRONTEND_API}/contest/${data.information.title}/${response.data}`})
                 return response.data
             }).catch(err => {
+                console.log(err.response)
                 dispatch({type: ContestTypes.PUBLISH_FAIL})
                 //ShowErrorModal(dispatch, "Please try again later")
                 return false
