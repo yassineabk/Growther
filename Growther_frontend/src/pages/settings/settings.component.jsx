@@ -1,16 +1,15 @@
 import axios from "axios"
 import { decode } from "jsonwebtoken"
 import React, { useEffect, useState } from "react"
-import { useSelector } from "react-redux"
 import { ContestButton } from "../../Components/contest/contest-buttons/contest-buttons.component"
 import { ContestDescription } from "../../Components/contest/contest-description-input/contest-description-input.component"
 import { ContestInput } from "../../Components/contest/contest-input/contest-input.component"
 import { SelectInput } from "../../Components/contest/select-input/select-input.component"
-import PasswordInput from "../../Components/password-input/password-input.component"
+import { Spinner } from "../../Components/spinner/spinner.component"
 import { UrlValidation } from "../../redux/contest/contest-actions"
 import { SettingsModal } from "./settings-modal.component"
 export const SettingsComponent = ()=>{
-    var user = useSelector(state => state.user) 
+    const language = localStorage.getItem("lang")
     var [show, showModal] = useState(false)
     var [userInfos, setInfos] = useState({})
     var [error, setError] = useState({
@@ -19,6 +18,8 @@ export const SettingsComponent = ()=>{
         activities: {isValid: true, message: ""}
     })
     var [save, canSave] = useState(false)
+    var [isLoading, setLoading] = useState(false)
+    var [lang, setLang] = useState(language !== null && typeof(language) === "string" ? language : "English")
     useEffect(()=>{
         var token = localStorage.getItem("accessToken")
         var decodedToken = decode(token)
@@ -30,14 +31,17 @@ export const SettingsComponent = ()=>{
                     "Authorization" : `Bearer ${token}`
                 } 
             }
+            setLoading(true)
             axios.get(`https://staging-backendapp.herokuapp.com/api/users/${sub}`, config)
                 .then(response =>{
                     setInfos(response.data)
+                    setLoading(false)
                 }).catch(err => {
                     console.log(err.response)
+                    setLoading(false)
                 })
         }
-    }, [setInfos])
+    }, [setInfos, setLoading])
     var changeHandler = (event)=>{
         canSave(false)
         var key = event.target.id
@@ -98,12 +102,17 @@ export const SettingsComponent = ()=>{
                 "Authorization" : `Bearer ${token}`
             } 
         }
+        setLoading(true)
         axios.put(`https://staging-backendapp.herokuapp.com/api/users/update/${userInfos.id}`, userInfos ,config)
             .then(response =>{
-                console.log(response.data)
+                setLoading(false)
             }).catch(err => {
-                console.log(err.response)
+                setLoading(false)
             })
+    }
+    var setLanguage = (event)=>{
+        setLang(event.target.value)
+        localStorage.setItem("lang", event.target.value)
     }
     return(
         <div className="column is-full is-flex is-flex-direction-column list-container newContest is-size-6 mb-4">
@@ -116,10 +125,13 @@ export const SettingsComponent = ()=>{
                 <div className="is-flex is-flex-direction-column newContestFrom">
                     <div className="mainInfos is-flex">
                         <div className="textInputs is-flex is-flex-direction-column">
+                            <Spinner show={isLoading} />
                             <SettingsModal show={show} closeModal={()=> showModal(false)} />
                             <SelectInput 
                                 data={["Arabic", "English", "French"]}
                                 placeholder="Choose Language"
+                                value={lang}
+                                changeHandler={(event)=> setLanguage(event)}
                             />
                             <ContestInput 
                                 type="text"
