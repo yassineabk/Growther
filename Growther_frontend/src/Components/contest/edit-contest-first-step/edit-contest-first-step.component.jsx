@@ -116,10 +116,15 @@ export const EditContestFirstStep = ()=>{
         return year + "-" + month + "-" + day
     }
     var checkEdits = ()=>{
-        var validEdits = CheckEdits(dispatch, information)
-        if(validEdits){
-            Edit(dispatch, information, information.idContest, userId)
+        if(information.status.toLowerCase() !== "done" && userId){
+            var validEdits = CheckEdits(dispatch, information)
+            if(validEdits){
+                Edit(dispatch, information, information.idContest, userId)
+            }
+        }else{
+            return false
         }
+        
     }
     var endTimeHandler = (event)=>{
         var time = event.target.value.split(":")
@@ -155,6 +160,7 @@ export const EditContestFirstStep = ()=>{
         return changeHandler(event)
     }
     if(typeof(information) !== "object") return <Redirect to={"/dashboard"} />
+    if(information.status !== null && typeof(information.status) === "string" && information.status.toLowerCase() === "done") return <Redirect to={`/dashboard/My%20Contests/result/${information.idContest}`} />
     return(
         [
             <PreviewContainer 
@@ -241,7 +247,9 @@ export const EditContestFirstStep = ()=>{
                         color={"#5E2691"} 
                         bgColor={"#FFFFFF"}
                         borderColor={"#5E2691"}
-                        text={"Cancel"} />
+                        text={"Cancel"} 
+                        clickEvent={()=> history.goBack()}
+                    />
                     <ContestButton 
                         color={"#FFFFFF"}
                         bgColor={"#5E2691"} 
