@@ -28,10 +28,13 @@ import DiscordAuthHandler from './services/discord-auth-handler';
 import DiscordBotAuthHandler from './services/discord-bot-auth-handler';
 import { SettingsComponent } from './pages/settings/settings.page';
 import { SupportPage } from './pages/support/support.page';
+import { EditContestThirdStep } from './Components/contest/edit-contest-third-step/edit-contest-third-step.component';
 
 const App = ()=> {
   var { currentUser } = useSelector(state => state.login)
   var { actionModal, action, information } = useSelector(state => state.contest_card)
+  var InfosToEdit = useSelector(state => state.contest_edit.information)
+  var { isLoading } = useSelector(state => state.contest_edit)
   return (
     <div className={"App"}>
           <Switch>
@@ -72,6 +75,9 @@ const App = ()=> {
             )}/>
             <Route exact path='/dashboard/My Contests/result/:id' render={()=> (
                 (currentUser) ? (<Dashboard child={<EditContest child={<EditContestSecondStep data={[]} />} />} />):(<Redirect to='/'/>)
+            )}/>
+            <Route exact path='/dashboard/My Contests/winners/:id' render={()=> (
+                (currentUser) ? (<Dashboard child={<EditContest child={<EditContestThirdStep />} />} />):(<Redirect to='/'/>)
             )}/>
             <Route exact path='/dashboard/Templates' render={()=>(currentUser) ? (<Dashboard child={<DashboardTemplatesPage />} />):(<Redirect to='/'/>)}/>
             <Route exact path='/dashboard' render={()=> (currentUser) ? (<Dashboard child={

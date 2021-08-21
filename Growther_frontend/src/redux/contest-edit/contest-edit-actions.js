@@ -18,6 +18,7 @@ export const SetStateToEdit = async (dispatch, id, userId)=>{
             "Authorization" : `Bearer ${token}`
         } 
     }
+    dispatch({type: CONTEST_EDIT_TYPES.EDIT_LOADING})
     return axios.get(`${BACKEND_API}/api/contests/${id}`, config).then(response =>{
         if(response.data.user !== null && typeof(response.data.user) === "object" && response.data.user.id.toString() === userId.toString()){
             dispatch({type: CONTEST_EDIT_TYPES.SET_STATE_TO_EDIT, payload: response.data})
@@ -166,6 +167,7 @@ export const Edit = async (dispatch, information, id, userId)=>{
             "Authorization" : `Bearer ${token}`
         } 
     }
+    dispatch({type: CONTEST_EDIT_TYPES.EDIT_LOADING})
     if(typeof(information) === "object" && information.user !== null && information.user.id.toString() === userId.toString()){
         var Data = {}
         Object.keys(information).map(key => {

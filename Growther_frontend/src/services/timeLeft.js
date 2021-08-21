@@ -1,7 +1,7 @@
 export const TimeLeft = (endDate, endTime)=>{
     try{
         if(endDate && endTime){
-            endDate = endDate.split("T")[0]
+            endDate = Array.isArray(endDate) ? endDate[0] : endDate.split("T")[0]
             var currentDate = new Date()
             var currentDay = ("0"+currentDate.getDate()).slice(-2)
             var currentMonth = ("0"+parseInt(currentDate.getMonth() + 1 === 13 ? 1 : currentDate.getMonth() + 1)).slice(-2)
@@ -17,12 +17,14 @@ export const TimeLeft = (endDate, endTime)=>{
             }
             if(daysDiff === 0){
                 endTime = Array.isArray(endTime) ? endTime : endTime.split(":")
-                var minsDiff = Math.abs(parseInt(endTime[1]) - parseInt(currentDate.getMinutes()))
-                var hoursDiff = ((parseInt(endTime[0]) - parseInt(currentDate.getHours()) - (minsDiff/60))).toFixed(0)
+                var minsDiff = Math.abs(parseInt(endTime[1]) - currentMin)
+                var hoursDiff = ((parseInt(endTime[0]) - currentHour)).toFixed(0)
+                console.log(hoursDiff, minsDiff, "herre")
                 if(hoursDiff < 0){
                     return {date: "Ended", type: ""}
                 }
                 if(hoursDiff < 1){
+                    console.log(minsDiff)
                     if(hoursDiff === 0){
                         return {date: minsDiff, type: "minute"}
                     }
