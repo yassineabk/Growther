@@ -14,7 +14,7 @@ public interface ContestService {
     ContestDto updateContestInfos(ContestDto contestDto) throws ParseException;
     void deleteContest(ContestDto contestDto) throws ParseException;
     ContestDto getContestByTitle(String title);
-    ContestDto getContestByInfos(String title,Long id);
+    ContestDto getContestByInfos(String title,Long id,String timezone);
     ContestDto getLastContest();
     ContestDto publishContest(Long contestID);
 }

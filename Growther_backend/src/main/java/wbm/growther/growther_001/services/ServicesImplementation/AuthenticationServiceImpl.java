@@ -61,7 +61,6 @@ public class AuthenticationServiceImpl  implements wbm.growther.growther_001.ser
         System.out.println(signUpRequest.getEmail());
         user.setName(signUpRequest.getName());
         user.setEmail(signUpRequest.getEmail());
-        user.setPassword(signUpRequest.getPassword());
         user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
         user.setAuthProvider(AuthenticationProvider.LOCAL);
         if(signUpRequest.getIsBrand().equalsIgnoreCase("true")){

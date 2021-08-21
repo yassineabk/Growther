@@ -71,13 +71,13 @@ export const DashboradSideBar = ({isBrand})=>{
             </div>
             <div className="profile_picture is-flex is-flex-direction-column">
                 <div className="tail-buttons is-flex is-flex-direction-column is-justify-content-flex-end">
-                    <div className="tailButton">
+                    <div className="tailButton" onClick={()=> changeHandler("/dashboard/support")}>
                         <img alt="" src={require("../../../assets/icons/headset.png").default} />
                         <div className="tooltip is-flex">
-                            <span className="tooltip-text">Contact</span>
+                            <span className="tooltip-text">Support</span>
                         </div>
                     </div>
-                    <div className="tailButton" onClick={()=>changeHandler("/dashboard/settings")}>
+                    <div className="tailButton" onClick={()=> changeHandler("/dashboard/settings")}>
                         <img alt="" src={require("../../../assets/icons/settings.png").default}/>
                         <div className="tooltip is-flex">
                             <span className="tooltip-text">Settings</span>

@@ -3,13 +3,13 @@ import React from 'react';
 class Services extends React.Component {
   render() {
   	return (
-        <section className="section pt-5" id="services">
+        <section className="section py-6" id="services">
             <div className="container is-vcentered">
                 <div className="columns  is-centered">
                     <div className="column is-8-desktop">
                         <h1 className="section-title has-text-centered">Our Services</h1>
                         <div className="section-title-border margin-t-20"></div>
-                        <p className="section-subtitle text-muted has-text-centered service-title padding-t-30 font-secondary">Build powerful competitions for your business or clients.In order to grow your digital presence</p>
+                        <p className="section-subtitle pt-4 text-muted has-text-centered service-title padding-t-30 font-secondary">Build powerful competitions for your business or clients.In order to grow your digital presence</p>
                     </div>
                 </div>
                 <div className="columns margin-t-30">

@@ -1,7 +1,7 @@
 // Window Location
 export const location = window.location.href
 
-export const BACKEND_API = "https://staging-backendapp.herokuapp.com"
+export const BACKEND_API = "http://staging-backendapp.herokuapp.com"
 export const FRONTEND_API = "https://staging-frontendapp.herokuapp.com"
 
 // Spotify

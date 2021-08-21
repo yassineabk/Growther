@@ -10,7 +10,8 @@ export const SetData = (dispatch, title, description, id) =>{
             "Authorization" : `Bearer ${token}`
         } 
     }
-    axios.get(`${BACKEND_API}/api/contests/${title}/${id}`, config)
+    var timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
+    axios.get(`${BACKEND_API}/api/contests/${title}/${id}?timezone=${timeZone}`, config)
         .then(response =>{
             if(typeof(response.data) === "object"){
                 if(response.data.contest !== undefined  && response.data.contest !== null && typeof(response.data.contest) === "object"){

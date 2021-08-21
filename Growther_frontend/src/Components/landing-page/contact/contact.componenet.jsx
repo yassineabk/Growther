@@ -9,7 +9,7 @@ class Contact extends React.Component {
                 <div className="column is-8-desktop has-text-centered">
                     <h1 className="section-title has-text-centered">Get In Touch</h1>
                     <div className="section-title-border margin-t-20"></div>
-                    <p className="section-subtitle text-muted text-center font-secondary padding-t-30">We thrive when coming up with innovative ideas but also understand that a smart concept should be supported with measurable results.</p>
+                    <p className="section-subtitle pt-4 text-muted text-center font-secondary padding-t-30">We thrive when coming up with innovative ideas but also understand that a smart concept should be supported with measurable results.</p>
                 </div>
             </div>
             <div className="columns center-contact">

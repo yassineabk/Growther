@@ -198,7 +198,7 @@ public class ContestDto {
 
     public Date getDateInServerTimezone(String timezone,String date) throws ParseException {
         dateformat.setTimeZone(TimeZone.getTimeZone(timezone));
-        return dateformat.parse(date);
+        return dateformat.parse(convertDate(date));
     }
 
     public void setDateInUserTimezone(Date startDate,Date endDate,String timezone){
@@ -206,6 +206,16 @@ public class ContestDto {
         dateformat.setTimeZone(TimeZone.getTimeZone(timezone));
         this.endDate=dateformat.format(endDate);
         this.startDate=dateformat.format(startDate);
+    }
+    public String convertDate(String date){
+        System.out.println(date);
+        StringBuilder convertedDate=new StringBuilder();
+        for(int i=0;i<date.length();i++){
+            if(date.charAt(i)!='T')convertedDate.append(date.charAt(i));
+            else convertedDate.append(' ');
+        }
+        System.out.println(convertedDate.toString());
+        return convertedDate.toString();
     }
 
 
