@@ -89,18 +89,10 @@ public class ContestServiceImpl implements ContestService {
             actionRepository.save(action);
         });
 
-        System.out.println(contest.getIdContest());
-
-        String localStartDate=contest.getStartDate().toString()+" "+contest.getStartTime();
-        String localEndDate = contest.getEndDate().toString()+" "+contest.getEndTime();
-
-
-
-
-
 
         System.out.println(contest.getStartDate());
         System.out.println(contest.getEndDate());
+
 
 
         UpdateContestStateJob publishContestJob=new UpdateContestStateJob(
@@ -117,12 +109,12 @@ public class ContestServiceImpl implements ContestService {
                 repository
         );
 
-        UpdateContestStateJob testContestJob=new UpdateContestStateJob(
+       /* UpdateContestStateJob testContestJob=new UpdateContestStateJob(
                 contest.getIdContest(),
                 "beggybone",
-                new Date(System.currentTimeMillis()+1000*10),
+               dd,
                 repository
-        );
+        );*/
 
 
 
@@ -183,10 +175,41 @@ public class ContestServiceImpl implements ContestService {
         Contest contestExist = repository.findContestByIdContest(contestID);
         Contest contest = new Contest(contestExist);
 
+        Set<Prize> prizes = contestExist.getPrizes();
+        Set<Action> actions = contestExist.getActions();
+        Set<Prize> newPrizes = new HashSet<>();
+        Set<Action> newActions = new HashSet<>();
+
+        actions.forEach( action -> {
+            newActions.add(new Action(action));
+            //action.setContest(contest);
+        });
+        newActions.forEach( action -> {
+            action.setId(0L);
+            action.setContest(contest);
+        });
+
+
+        prizes.forEach( prize -> {
+            newPrizes.add(new Prize(prize));
+            //prize.setContest(contest);
+        });
+        newPrizes.forEach( prize -> {
+            prize.setId(0L);
+            prize.setContest(contest);
+        });
+
         contest.setIdContest(0);
         contest.setStatus("DRAFT");
 
         repository.save(contest);
+
+        newPrizes.forEach( prize -> {
+            prizeRepository.save(prize);
+        });
+        newActions.forEach( action -> {
+            actionRepository.save(action);
+        });
         return (contest==null)? null :  toDto(contest);
     }
 
@@ -216,9 +239,9 @@ public class ContestServiceImpl implements ContestService {
     }
 
     @Override
-    public ContestDto getContestByInfos(String title, Long id) {
+    public ContestDto getContestByInfos(String title, Long id,String timezone) {
         Contest contest = repository.findContestByTitleAndIdContest(title,id);
-        return (contest==null)? null :  toDto(contest);
+        return (contest==null)? null :  getZonedtimeContestDto(contest,timezone);
     }
 
     @Override
@@ -276,8 +299,14 @@ public class ContestServiceImpl implements ContestService {
         contest.setUser(contestDto.getUser());
         contest.setWinnersNbr(contestDto.getWinnersNbr());
         contest.setActionsNbr(contestDto.getActionsNbr());
-        contest.setStartDate(new Date(System.currentTimeMillis()+1000*10));
-        contest.setEndDate(new Date(System.currentTimeMillis()+1000*500));
+        contest.setStartDate(contestDto.getDateInServerTimezone(
+                TimeZone.getDefault().toString(),
+                contestDto.convertDate(contestDto.getStartDate())
+        ));
+        contest.setEndDate(contestDto.getDateInServerTimezone(
+                TimeZone.getDefault().toString(),
+                contestDto.convertDate(contestDto.getEndDate())
+        ));
         contest.setStartTime(contestDto.getStartTime());
         contest.setEndTime(contestDto.getEndTime());
         contest.setTimeZone(contestDto.getTimeZone());
@@ -297,6 +326,34 @@ public class ContestServiceImpl implements ContestService {
         });
         return contestDtos;
     }
+
+    public ContestDto getZonedtimeContestDto(Contest contest,String timezone){
+        ContestDto contestDto = new ContestDto();
+        contestDto.setIdContest(contest.getIdContest());
+        contestDto.setTitle(contest.getTitle());
+        contestDto.setStatus(contest.getStatus());
+        contestDto.setUser(contest.getUser());
+        contestDto.setDescription(contest.getDescription());
+        contestDto.setWinnersNbr(contest.getWinnersNbr());
+        contestDto.setActionsNbr(contest.getActionsNbr());
+        // contestDto.setStartDate(contest.getStartDate());
+        //contestDto.setEndDate(contest.getEndDate());
+
+        // TODO: set date in user TimeZone
+        contestDto.setDateInUserTimezone(
+                contest.getStartDate(),contest.getEndDate(),TimeZone.getDefault().toString()
+        );
+        contestDto.setStartTime(contest.getStartTime());
+        contestDto.setEndTime(contest.getEndTime());
+        contestDto.setTimeZone(contest.getTimeZone());
+        contestDto.setImmediately(contest.getImmediately());
+        contestDto.setMaxReach(contest.getMaxReach());
+        contestDto.setActions(contest.getActions());
+        contestDto.setPrizes(contest.getPrizes());
+        contestDto.setNumOfParticipation(this.GetNumOfParticipation(contest.getIdContest()));
+        return contestDto;
+    }
+
 
     private int GetNumOfParticipation(Long idContest){
         List<Participation> participations=participationRepository

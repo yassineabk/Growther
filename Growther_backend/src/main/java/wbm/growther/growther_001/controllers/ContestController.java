@@ -86,11 +86,12 @@ public class ContestController {
     //Get contest by id and infos
     @GetMapping("/{title}/{id}")
     public ResponseEntity<Object> getContestByInfos(@PathVariable(value = "id") Long contestId,
-                                                              @PathVariable(value = "title") String contestTitle)
+                      @PathVariable(value = "title") String contestTitle,
+                                                    @RequestParam("timezone")String timezone)
             throws ResourceNotFoundException {
 
 
-        ContestDto contestDto = contestService.getContestByInfos(contestTitle,contestId);
+        ContestDto contestDto = contestService.getContestByInfos(contestTitle,contestId,timezone);
         if(contestDto==null)
             throw new ResourceNotFoundException("No contest exist with ID : "+contestId.toString());
 

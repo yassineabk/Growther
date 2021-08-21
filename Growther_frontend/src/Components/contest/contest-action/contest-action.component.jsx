@@ -4,6 +4,15 @@ import { ContestInput } from "../contest-input/contest-input.component"
 import { SelectInput } from "../select-input/select-input.component"
 export const ContestAction = ({data, removeAction, updateAction, validAction})=>{
     const TextActions = ["tweet", "answer question", "submit url", "submit video", "submit", "subscribe to newsletter", "write a blog post"]
+    var getActionsList = (actions)=>{
+        var result = []
+        actions.map(action=> {
+            if(action.provider === data.provider){
+                result = action.actions
+            }
+        })
+        return result
+    }
     if(typeof(data) !== "object") return null
     return(
         <div className="contestAction is-flex is-flex-direction-row">
@@ -11,10 +20,7 @@ export const ContestAction = ({data, removeAction, updateAction, validAction})=>
             <div className="actionSelect">
                 <SelectInput 
                     data={
-                        Array.isArray(data.listOfActions) ? data.listOfActions : actions.filter(action=> {
-                            if(action.provider === data.provider){
-                                return action.actions
-                            }})
+                        Array.isArray(data.listOfActions) ? data.listOfActions : getActionsList(actions)
                     }
                     changeHandler={(event)=> updateAction(data.provider, "type", event.target.value)}
                     value={data.type}

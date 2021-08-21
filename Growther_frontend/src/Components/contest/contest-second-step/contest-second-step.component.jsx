@@ -1,8 +1,8 @@
 import { decode } from "jsonwebtoken"
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Redirect, useHistory, useLocation } from "react-router-dom"
-import { AddAction, NextStep, PublishContest, RemoveAction, ResestNewContest, SaveContest, SaveDraft, UpdateAction } from "../../../redux/contest/contest-actions"
+import { AddAction, EditDraft, NextStep, PublishContest, RemoveAction, ResestNewContest, SaveContest, SaveDraft, UpdateAction } from "../../../redux/contest/contest-actions"
 import { AppendContest } from "../../../redux/contests/contests-actions"
 import { actions } from "../../../services/actions"
 import { ActionsList } from "../actions-list/actions-list.component"
@@ -19,6 +19,12 @@ export const ContestSecondStep = ()=>{
     var CheckFirstStepData = ()=>{
         NextStep(dispatch, information)
     }*/
+    var [userId, setId] = useState("")
+    useEffect(()=>{
+        var token = decode(localStorage.getItem("accessToken"))
+        var sub = token !== null && typeof(token) === "object" ? token.sub : ""
+        setId(sub)
+    })
     var addAction = (action)=>{
         AddAction(dispatch, action)
     }
@@ -43,7 +49,10 @@ export const ContestSecondStep = ()=>{
         })
     }
     var saveDraft = ()=>{
-        SaveDraft(dispatch, information)
+        if(information.status !== null && typeof(information.status) === "string" && information.status === "DRAFT"){
+            return EditDraft(dispatch, information, information.idContest)
+        }
+        SaveDraft(dispatch, information, userId)
     }
     if(location.pathname !== "/dashboard/My Contests/new/secondStep") return null
     if(!isValidData) return <Redirect to="/dashboard/My Contests/new/firstStep" />
@@ -72,7 +81,7 @@ export const ContestSecondStep = ()=>{
                     color={"#5E2691"} 
                     bgColor={"#FFFFFF"}
                     borderColor={"#5E2691"}
-                    text={"Save as draft"}
+                    text={information.status !== null && typeof(information.status) === "string" && information.status === "DRAFT" ? "Edit" : "Save as draft"}
                     clickEvent={()=> saveDraft()}
                 />
                 <ContestButton  

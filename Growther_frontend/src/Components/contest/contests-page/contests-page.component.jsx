@@ -12,8 +12,8 @@ export const DashboardContestPage = () =>{
             GetContests(dispatch)
         }
     }, [dispatch])
-    var Duplicate = (id)=> {
-        DuplicateContest(dispatch, id)
+    var Duplicate = (id, data)=> {
+        DuplicateContest(dispatch, id, data)
     }
     return(
         <div className="is-flex is-flex-direction-column column is-full">
@@ -21,7 +21,7 @@ export const DashboardContestPage = () =>{
                 <CardsContainer 
                     data={Array.isArray(contests) ? contests.reverse() : []} 
                     title={"My Contests"} addNew={"/dashboard/My%20Contests/new/firstStep"} 
-                    Duplicate={(id)=> Duplicate(id)}
+                    Duplicate={(id, data)=> Duplicate(id, data)}
                 />
             </div>
         </div>

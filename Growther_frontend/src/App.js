@@ -26,6 +26,8 @@ import { ActionModalContainer } from './Components/contest/action-modal-containe
 import SpotifyAuthHandler from './services/Spotify-auth-handler';
 import DiscordAuthHandler from './services/discord-auth-handler';
 import DiscordBotAuthHandler from './services/discord-bot-auth-handler';
+import { SettingsComponent } from './pages/settings/settings.page';
+import { SupportPage } from './pages/support/support.page';
 
 const App = ()=> {
   var { currentUser } = useSelector(state => state.login)
@@ -48,7 +50,8 @@ const App = ()=> {
             ])}/>
             <Route exact path='/dashboard/pie' render={()=> currentUser ? (<Dashboard />) : (<Redirect to='/'/>)} />
             <Route exact path='/dashboard/draft' render={()=> currentUser ?  (<Dashboard child={<DraftPage />} />) : (<Redirect to='/'/>)} />
-            <Route exact path='/dashboard/settings' render={()=> currentUser ?  (<Dashboard />) : (<Redirect to='/'/>)} />
+            <Route exact path='/dashboard/settings' render={()=> currentUser ?  (<Dashboard child={<SettingsComponent />} />) : (<Redirect to='/'/>)} />
+            <Route exact path='/dashboard/support' render={()=> currentUser ?  (<Dashboard child={<SupportPage />} />) : (<Redirect to='/'/>)} />
             <Route exact path="/dashboard/My Contests/new" render={()=> (
                 <Redirect to="/dashboard/My Contests/new/firstStep" />
             )} />
@@ -62,7 +65,7 @@ const App = ()=> {
                 (currentUser) ? (<Dashboard child={<NewContest child={ <ContestThirdStep />}/>} />) : (<Redirect to="/"/>)
             )} />
             <Route exact path='/dashboard/My Contests' render={()=>
-              (currentUser) ? (<Dashboard child={<DashboardContestPage/>} />) : (<Redirect to="/" />)
+              (currentUser) ? (<Dashboard child={<DashboardContestPage />} />) : (<Redirect to="/" />)
             }/>
             <Route exact path='/dashboard/My Contests/edit/:id' render={()=> (
                 (currentUser) ? (<Dashboard child={<EditContest child={<EditContestFirstStep />} />} />):(<Redirect to='/'/>)

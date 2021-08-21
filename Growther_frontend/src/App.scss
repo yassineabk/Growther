@@ -203,19 +203,35 @@ html, body{
       .actionsContainer{
         flex: 1 !important;
         .contestButtons{
+          justify-self: flex-end !important;
+          justify-content: flex-end;
           .buttonContainer{
+            justify-self: flex-end !important;
             @extend .button_container;
             margin-bottom: 0.25em !important;
             margin-top: 0.25em;
+            
           }
+        }
+      }
+      .generalInfosForm{
+        flex: 1;
+        border-right: 1px solid $border-color;
+        @media only screen and (max-width: 1279px){
+          display: none !important;
         }
       }
       .newContestFrom{
         flex: 1;
         .mainInfos, .prizes, .contestButtons{
           padding: 10px;
-          flex: 1;
           flex-wrap: wrap !important;
+          &.contestButtons{
+            justify-self: flex-end !important
+          }
+          &:not(.contestButtons){
+            flex: 1;
+          }
           .textInputs, .otherInputs{
             @extend .input;
             flex-wrap: wrap;
