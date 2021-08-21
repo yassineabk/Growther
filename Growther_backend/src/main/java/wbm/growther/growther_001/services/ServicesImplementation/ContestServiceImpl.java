@@ -221,6 +221,8 @@ public class ContestServiceImpl implements ContestService {
         return (contest==null)? null :  toDto(contest);
     }
 
+
+
     @Override
     public ContestDto getContestById(Long contestID) {
         Contest contest = repository.findContestByIdContest(contestID);
@@ -231,7 +233,7 @@ public class ContestServiceImpl implements ContestService {
     public ContestDto updateContestInfos(ContestDto contestDto) throws ParseException {
         Contest contest=toContest(contestDto);
         repository.save(contest);
-        return mapToDto(repository.save(contest));
+        return toDtoUpdate(repository.save(contest));
     }
 
     @Override
@@ -257,6 +259,15 @@ public class ContestServiceImpl implements ContestService {
         Contest contest = repository.findTopByOrderByIdContestDesc();
         return (contest==null)? null :  toDto(contest);
     }
+
+    @Override
+    public ContestDto publishContest(Long contestID) {
+        Contest contest = repository.findContestByIdContest(contestID);
+        contest.setStatus("Published");
+        repository.save(contest);
+        return (contest==null)? null :  toDto(contest);
+    }
+
 
     //convert model to DTO
     private ContestDto mapToDto(Contest contest){
@@ -287,6 +298,32 @@ public class ContestServiceImpl implements ContestService {
         contestDto.setMaxReach(contest.getMaxReach());
         contestDto.setActions(contest.getActions());
         contestDto.setPrizes(contest.getPrizes());
+        contestDto.setNumOfParticipation(this.GetNumOfParticipation(contest.getIdContest()));
+        return contestDto;
+    }
+    public ContestDto toDtoUpdate(Contest contest){
+        ContestDto contestDto = new ContestDto();
+        contestDto.setIdContest(contest.getIdContest());
+        contestDto.setTitle(contest.getTitle());
+        contestDto.setStatus(contest.getStatus());
+        contestDto.setUser(contest.getUser());
+        contestDto.setDescription(contest.getDescription());
+        contestDto.setWinnersNbr(contest.getWinnersNbr());
+        contestDto.setActionsNbr(contest.getActionsNbr());
+        // contestDto.setStartDate(contest.getStartDate());
+        //contestDto.setEndDate(contest.getEndDate());
+
+        // TODO: set date in user TimeZone
+        contestDto.setDateInUserTimezone(
+                contest.getStartDate(),contest.getEndDate(),TimeZone.getDefault().toString()
+        );
+        contestDto.setStartTime(contest.getStartTime());
+        contestDto.setEndTime(contest.getEndTime());
+        contestDto.setTimeZone(contest.getTimeZone());
+        contestDto.setImmediately(contest.getImmediately());
+        contestDto.setMaxReach(contest.getMaxReach());
+        //contestDto.setActions(contest.getActions());
+        //contestDto.setPrizes(contest.getPrizes());
         contestDto.setNumOfParticipation(this.GetNumOfParticipation(contest.getIdContest()));
         return contestDto;
     }

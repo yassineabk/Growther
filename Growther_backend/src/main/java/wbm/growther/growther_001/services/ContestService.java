@@ -16,4 +16,5 @@ public interface ContestService {
     ContestDto getContestByTitle(String title);
     ContestDto getContestByInfos(String title,Long id);
     ContestDto getLastContest();
+    ContestDto publishContest(Long contestID);
 }

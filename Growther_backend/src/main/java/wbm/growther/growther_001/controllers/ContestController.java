@@ -49,6 +49,16 @@ public class ContestController {
 
     }
     //Get contest by id
+    @GetMapping("/{id}/publish")
+    public ResponseEntity<ContestDto> publishContestById(@PathVariable(value = "id") Long contestId) throws ResourceNotFoundException {
+        ContestDto contestDto = contestService.publishContest(contestId);
+        if(contestDto==null)
+            throw new ResourceNotFoundException("No contest exist with ID : "+contestId.toString());
+
+        return ResponseEntity.ok().body(contestDto);
+
+    }
+    //Get user by id contest
     @GetMapping("/{id}/user")
     public ResponseEntity<String> getUserContestById(@PathVariable(value = "id") Long contestId)
             throws ResourceNotFoundException {

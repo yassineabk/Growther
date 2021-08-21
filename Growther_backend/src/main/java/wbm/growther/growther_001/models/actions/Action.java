@@ -30,7 +30,7 @@ public class Action {
     }
 
     public Action() {
-        
+
     }
 
     public void setId(Long id) {
