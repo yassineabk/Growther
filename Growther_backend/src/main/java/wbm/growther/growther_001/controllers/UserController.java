@@ -3,10 +3,16 @@ package wbm.growther.growther_001.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import wbm.growther.growther_001.dtos.UserDto;
 import wbm.growther.growther_001.exceptions.ResourceNotFoundException;
+import wbm.growther.growther_001.models.users.User;
+import wbm.growther.growther_001.payload.UpdatePassword;
+import wbm.growther.growther_001.security.SecurityModel.SecurityUser;
 import wbm.growther.growther_001.services.UserService;
 
 import java.util.HashMap;
@@ -19,6 +25,8 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+
 
 
     @GetMapping("/Getusers")
@@ -47,16 +55,6 @@ public class UserController {
 
         return ResponseEntity.ok().body(userDto);
     }
-
-    @GetMapping("/name/{name}")
-    public ResponseEntity<UserDto> getUserByName(@PathVariable(value = "name") String userName)
-            throws ResourceNotFoundException{
-
-        UserDto userDto = userService.getUserByName(userName);
-        if(userDto==null) throw new ResourceNotFoundException("No user exist with name: "+userName);
-        return ResponseEntity.ok().body(userDto);
-    }
-
 
 
     @PutMapping("/update/{id}")
@@ -89,6 +87,17 @@ public class UserController {
         UserDto userDtoUpdated=userService.updateUserInfos(userDto);
         System.out.println(userDtoUpdated.getActivities());
         return  ResponseEntity.ok().body(userDtoUpdated);
+    }
+
+    @PutMapping("/update/password")
+    public ResponseEntity<String> updatePassword(@RequestBody UpdatePassword obj){
+
+        String response=userService
+                .updateUserPassword(obj.getOldPassword(),obj.getNewPassword());
+
+        if(response.equalsIgnoreCase("password updated"))
+            return ResponseEntity.ok(response);
+        return ResponseEntity.status(403).body(response);
     }
 
 
