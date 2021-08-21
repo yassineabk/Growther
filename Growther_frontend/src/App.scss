@@ -86,7 +86,6 @@ html, body{
   .list-title-container{
     margin-bottom: 0.5em;
     width: 100%;
-    
     #addNewButton{
         display: none !important;
         @media only screen and (max-width: 450px) {
@@ -111,6 +110,36 @@ html, body{
       display: flex !important;
       @media only screen and (max-width: 450px) {
         display: none !important;
+      }
+    }
+    &.winners-container{
+      .winners-container-title{
+        font-size: 30px;
+        font-family: Poppins-SemiBold;
+      }
+      .winners-container-subtitle{
+        font-size: 15px;
+        font-family: Poppins-Medium;
+        color: grey;
+      }
+      .draw-button{
+        font-size: 15px;
+        z-index: 10000;
+        background-color: $sideBar-color;
+        padding: 12px 20px;
+        border-radius: 25px;
+        color: white;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        margin-top: 1em;
+        & > span{
+          margin: 0 0.25em;
+        }
+        img{
+          width: 25px;
+          height: auto;
+        }
       }
     }
   }

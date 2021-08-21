@@ -89,7 +89,7 @@ export const SupportPage = ()=>{
             <div className="is-flex bottomContainer">
                 <div className="is-flex is-flex-direction-column generalInfosForm is-justify-content-center is-align-items-center">
                     <div className="generalInfos">
-                        <img src={require("../../../src/assets/icons/security.png").default} />
+                        <img src={require("../../../src/assets/icons/support.png").default} />
                     </div>
                 </div>
                 <div className="is-flex is-flex-direction-column newContestFrom">
