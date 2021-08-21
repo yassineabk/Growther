@@ -20,7 +20,7 @@ export const InitState = (dispatch)=>{
         endHour = endHour > 23 ? ("0" + parseInt(startHour - 24)).slice(-2) : ("0" + parseInt(startHour)).slice(-2)
         var startTime =  startHour + ":" + startMin
         var endTime = endHour + ":" + endMin
-        var timeZone = date.getTimezoneOffset() //Intl.DateTimeFormat().resolvedOptions().timeZone
+        var timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone //date.getTimezoneOffset()
         dispatch({type: ContestTypes.SET_INITIAL_STATE, payload: {startDate, endDate, startTime, endTime, timeZone}})
     }catch(err){
         dispatch({type: ContestTypes.SET_NEW_CONTEST_DATA_FAIL})
@@ -171,16 +171,29 @@ export const NextStep = (dispatch, information)=>{
                                 var currentDate = new Date()
                                 var currentHour = currentDate.getHours()
                                 var currentMin = currentDate.getMinutes()
+                                var currentDay = ("0"+currentDate.getDate()).slice(-2)
+                                var currentMonth = ("0"+parseInt(currentDate.getMonth() + 1 === 13 ? 1 : currentDate.getMonth() + 1)).slice(-2)
+                                var currentYear = currentDate.getFullYear()
+                                var date = new Date(`${currentYear}-${currentMonth}-${currentDay}`)
                                 var timeStart = data.startTime.split(":")
                                 var timeEnd = data.endTime.split(":")
-                                var dateStart = new Date(data.startDate)
-                                var dateEnd = new Date(data.endDate)
+                                var dateStart = new Date(Array.isArray(data.startDate) ? data.startDate : data.startDate.split("T")[0])
+                                var dateEnd = new Date(Array.isArray(data.endDate) ? data.endDate : data.endDate.split("T")[0])
                                 var timediff = Math.abs(Math.ceil((dateEnd - dateStart)/(1000*60*60*24)))
                                 if(!Array.isArray(timeStart)){
                                     return result["startTime"] = false
                                 }
                                 if(Array.isArray(timeStart) && timeStart.length === 1){
                                     return result["startTime"] = false
+                                }
+                                var timediff2 = Math.ceil((dateStart - date))
+                                if(timediff2 === 0){
+                                    if(parseInt(timeStart[0]) === currentHour && parseInt(currentMin) > parseInt(timeStart[1])){
+                                        return result["startTime"] = false
+                                    }
+                                    if(parseInt(currentHour) > parseInt(timeStart[0])){
+                                        return result["startTime"] = false
+                                    }
                                 }
                                 if(timediff === 0){
                                     if(parseInt(timeStart[0]) === parseInt(timeEnd[0]) && parseInt(timeStart[1]) > parseInt(timeEnd[1]) - 10){
@@ -200,16 +213,29 @@ export const NextStep = (dispatch, information)=>{
                             var currentDate = new Date()
                             var currentHour = currentDate.getHours()
                             var currentMin = currentDate.getMinutes()
+                            var currentDay = ("0"+currentDate.getDate()).slice(-2)
+                            var currentMonth = ("0"+parseInt(currentDate.getMonth() + 1 === 13 ? 1 : currentDate.getMonth() + 1)).slice(-2)
+                            var currentYear = currentDate.getFullYear()
+                            var date = new Date(`${currentYear}-${currentMonth}-${currentDay}`)
                             var timeStart = data.startTime.split(":")
                             var timeEnd = data.endTime.split(":")
-                            var dateStart = new Date(data.startDate)
-                            var dateEnd = new Date(data.endDate)
+                            var dateStart = new Date(Array.isArray(data.startDate) ? data.startDate : data.startDate.split("T")[0])
+                            var dateEnd = new Date(Array.isArray(data.endDate) ? data.endDate : data.endDate.split("T")[0])
                             var timediff = Math.abs(Math.ceil((dateEnd - dateStart)/(1000*60*60*24)))
+                            var timediff2 = Math.ceil((dateEnd - date))
                             if(!Array.isArray(timeStart)){
                                 return result["endTime"] = false
                             }
                             if(Array.isArray(timeStart) && timeStart.length === 1){
                                 return result["endTime"] = false
+                            }
+                            if(timediff2 === 0){
+                                if(parseInt(timeEnd[0]) === currentHour && parseInt(currentMin) > parseInt(timeEnd[1])){
+                                    return result["endTime"] = false
+                                }
+                                if(parseInt(currentHour) > parseInt(timeEnd[0])){
+                                    return result["endTime"] = false
+                                }
                             }
                             if(timediff === 0){
                                 if(parseInt(timeStart[0]) === parseInt(timeEnd[0]) && parseInt(timeStart[1]) > parseInt(timeEnd[1]) - 10){

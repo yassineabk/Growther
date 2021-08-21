@@ -23,18 +23,19 @@ export const EditContestFirstStep = ()=>{
         if(typeof(location.state) === "object"){
             SetStateToEditFromLocation(dispatch, location.state, id).then(value =>{
                 if(!value){
-                    history.push("/landing-page")
+                    history.goBack()
                 }
             })
         }else{
-            SetStateToEdit(dispatch, params.id, id).then(value=>{
-                if(!value){
-                    history.push("/landing-page")
-                }
-            })
+            if(information === null || typeof(information) !== "object" || information.idContest !== parseInt(params.id)){
+                SetStateToEdit(dispatch, params.id, id).then(value=>{
+                    if(!value){
+                        history.goBack()
+                    }
+                })
+            }
         }
     }, [dispatch])
-    var dispatch = useDispatch()
     var changeHandler = (event)=>{
         var id = event.target.id
         var result = information

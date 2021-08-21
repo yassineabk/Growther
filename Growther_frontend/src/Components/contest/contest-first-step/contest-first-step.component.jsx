@@ -109,8 +109,9 @@ export const ContestFirstStep = ()=>{
         var currentMonth = ("0"+parseInt(currentDate.getMonth() + 1 === 13 ? 1 : currentDate.getMonth() + 1)).slice(-2)
         var currentYear = currentDate.getFullYear()
         var fulldate = `${currentYear}-${currentMonth}-${currentDay}`
-        var date = Math.ceil((new Date(information.endDate) - new Date(information.startDate))/(1000*60*60*24))
-        var date2 = Math.ceil((new Date(information.startDate) - new Date(fulldate))/(1000*60*60*24))
+        var date = Math.ceil((new Date(information.endDate.split("T")[0]) - new Date(information.startDate.split("T")[0]))/(1000*60*60*24))
+        var date2 = Math.ceil((new Date(information.startDate.split("T")[0]) - new Date(fulldate))/(1000*60*60*24))
+        var date3 = Math.ceil((new Date(information.endDate.split("T")[0]) - new Date(fulldate))/(1000*60*60*24))
         if(id === "startTime"){
             endTime = endTime.split(":")
             if(date2 === 0){
@@ -129,7 +130,7 @@ export const ContestFirstStep = ()=>{
                 if(parseInt(time[0]) === parseInt(endTime[0]) && parseInt(time[1]) < parseInt(endTime[1]) - 10 /*parseInt(time[0]) === currentHour && parseInt(time[1]) > currentMin ||*/ ){
                     return changeHandler(event)
                 }
-                if(/*parseInt(time[0]) > currentHour && */ parseInt(time[0]) < parseInt(endTime[0])){
+                if(parseInt(time[0]) < parseInt(endTime[0])){
                     return changeHandler(event)
                 }
                 return false
@@ -138,11 +139,23 @@ export const ContestFirstStep = ()=>{
         }
         if(id === "endTime"){
             startTime = startTime.split(":")
+            if(date3 === 0){
+                if(parseInt(time[0]) < currentHour){
+                    var data = information
+                    data.startTime = `${currentHour}:${currentMin}`
+                    return StateChange(dispatch, data)
+                }
+                if(parseInt(time[0]) === currentHour && parseInt(time[1]) < currentMin){
+                    var data = information
+                    data.startTime = `${currentHour}:${currentMin}`
+                    return StateChange(dispatch, data)
+                }
+            }
             if(date === 0){
-                if(/*parseInt(time[0]) === currentHour && parseInt(time[1]) - 10 > currentMin ||*/ parseInt(time[0]) === parseInt(startTime[0]) && (parseInt(time[1]) - 10 > parseInt(startTime[1]))){
+                if( parseInt(time[0]) === parseInt(startTime[0]) && (parseInt(time[1]) - 10 > parseInt(startTime[1]))){
                     return changeHandler(event)
                 }
-                if(/*parseInt(time[0]) > currentHour &&*/ parseInt(time[0]) > parseInt(startTime[0])){
+                if(parseInt(time[0]) > parseInt(startTime[0])){
                     return changeHandler(event)
                 }
                 return false
