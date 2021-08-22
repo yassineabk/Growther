@@ -1,15 +1,19 @@
 import axios from "axios"
 import { decode } from "jsonwebtoken"
 import React, { useEffect, useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
 import { ContestButton } from "../../Components/contest/contest-buttons/contest-buttons.component"
 import { ContestDescription } from "../../Components/contest/contest-description-input/contest-description-input.component"
 import { ContestInput } from "../../Components/contest/contest-input/contest-input.component"
 import { SelectInput } from "../../Components/contest/select-input/select-input.component"
 import { Spinner } from "../../Components/spinner/spinner.component"
 import { UrlValidation } from "../../redux/contest/contest-actions"
+import { setUserInfos } from "../../redux/user-infos/user-infos-actions"
 import { SettingsModal } from "./settings-modal.component"
-export const SettingsComponent = ({infos})=>{
+export const SettingsComponent = ()=>{
     const language = localStorage.getItem("lang")
+    var infos = useSelector(state => state.userInfos)
+    var dispatch = useDispatch()
     var [show, showModal] = useState(false)
     var [userInfos, setInfos] = useState(infos)
     var [error, setError] = useState({
@@ -108,6 +112,7 @@ export const SettingsComponent = ({infos})=>{
         axios.put(`https://staging-backendapp.herokuapp.com/api/users/update/${userInfos.id}`, userInfos ,config)
             .then(response =>{
                 setLoading(false)
+                setUserInfos(dispatch, userInfos)
             }).catch(err => {
                 setLoading(false)
             })
@@ -184,12 +189,12 @@ export const SettingsComponent = ({infos})=>{
                         </div>
                     </div>
                     <div className="contestButtons is-flex is-flex-direction-row is-justify-content-flex-end">
-                        <ContestButton 
+                        {infos.authProvider.toLowerCase() === "local" ? <ContestButton 
                             color={"#5E2691"} 
                             bgColor={"#FFFFFF"}
                             borderColor={"#5E2691"}
                             text={"Edit Password"} 
-                            clickEvent={()=> showModal(true)}/>
+                            clickEvent={()=> showModal(true)}/> : null}
                         <ContestButton 
                             color={"#FFFFFF"}
                             bgColor={"#5E2691"} 

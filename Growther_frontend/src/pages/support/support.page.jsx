@@ -1,16 +1,28 @@
 import axios from "axios"
 import { decode } from "jsonwebtoken"
 import React, { useEffect, useState } from "react"
+import { useSelector } from "react-redux"
 import { ContestButton } from "../../Components/contest/contest-buttons/contest-buttons.component"
 import { ContestDescription } from "../../Components/contest/contest-description-input/contest-description-input.component"
 import { ContestInput } from "../../Components/contest/contest-input/contest-input.component"
 import { SelectInput } from "../../Components/contest/select-input/select-input.component"
 import { Spinner } from "../../Components/spinner/spinner.component"
 import { UrlValidation } from "../../redux/contest/contest-actions"
+var checkEmail = (mail)=>{
+    if(/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/.test(mail)){
+        return true
+    }
+    return false
+
+}
 export const SupportPage = ()=>{
     const language = localStorage.getItem("lang")
+    var { name, email } = useSelector(state => state.userInfos)
     var [show, showModal] = useState(false)
-    var [userInfos, setInfos] = useState({})
+    var [userInfos, setInfos] = useState({
+        name: name && name !== null && typeof(name) === "string" !== null ? name : "",
+        email: email && email !== null && typeof(email) === "string" && checkEmail(email) ? email : ""
+    })
     var [error, setError] = useState({
         name: {isValid: true, message: ""},
         email: {isValid: true, message: ""},
@@ -73,13 +85,6 @@ export const SupportPage = ()=>{
             })
         }
         return result.length === 0
-    }
-    var checkEmail = (mail)=>{
-        if(/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/.test(mail)){
-            return true
-        }
-        return false
-
     }
     var SendMessage = ()=>{
         console.log("sent")

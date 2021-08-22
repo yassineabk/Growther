@@ -6,8 +6,10 @@ import { GetSpotifyToken } from "../../../../../services/tokens"
 import { SpotifyAuthComponent } from "../../spotify-login/spotify-login.compnent"
 export const SpotifyFollowArtist = ({url, action_done})=>{
     var [token, setToken] = useState(GetSpotifyToken())
-    window.addEventListener("storage", ()=>{
-        setToken(GetSpotifyToken())
+    window.addEventListener("storage", event =>{
+        if(event.key === "spotifyAccessToken"){
+            setToken(event.newValue)
+        }
     })    
     var [active, setActive] = useState(true)
     var AlbumId = (url)=>{
