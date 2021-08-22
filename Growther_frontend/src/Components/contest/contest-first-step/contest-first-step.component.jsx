@@ -17,7 +17,6 @@ export const ContestFirstStep = ()=>{
     var history = useHistory()
     var {information, isValidData, validData, savedInfos, isPublished} = useSelector(state => state.contest)
     var infos, {isBrand} = useSelector(state => state.userInfos)
-
     var [userId, setId] = useState("")
     useEffect(async ()=>{
         if(location.state !== null && typeof(location.state) === "object"){
@@ -308,7 +307,7 @@ export const ContestFirstStep = ()=>{
                         validData={isValidData === false ? 
                             {
                                 isValid: validData.description,
-                                message: "Please, Describe your contest in few lines"
+                                message: "Please, Describe your contest in few lines (maximum 250 charachter)"
                             } : undefined}
                     />
                     <ContestInput 
@@ -361,7 +360,7 @@ export const ContestFirstStep = ()=>{
                         validData={isValidData === false ? 
                             {
                                 isValid: validData.startTime,
-                                message: "Please, Pick a valid date"
+                                message: "Please, Pick a valid time"
                             } : undefined
                         }
                     />]}
@@ -391,7 +390,7 @@ export const ContestFirstStep = ()=>{
                         validData={isValidData === false ? 
                             {
                                 isValid: validData.endTime,
-                                message: "Please, Pick a valid date"
+                                message: "Please, Pick a valid time"
                             } : undefined
                         }
                     />

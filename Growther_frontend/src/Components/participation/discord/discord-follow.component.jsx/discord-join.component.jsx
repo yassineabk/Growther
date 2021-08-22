@@ -8,9 +8,11 @@ export const DiscordJoin = ({url, action_done, closeModal})=>{
     const oauthUrl = DISCORD_AUTH_URL
     var history = useHistory()
     var [active, setActive] = useState(true)
-    var [token, setToken] = useState(GetDiscordToken)
+    var [token, setToken] = useState(GetDiscordToken())
     window.addEventListener("storage", event=>{
-        setToken(GetDiscordToken)
+        if(event.key === "discordAccessToken"){
+            setToken(event.newValue)
+        }
     })
     const config = {
         "headers": {
