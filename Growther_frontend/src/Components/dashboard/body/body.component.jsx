@@ -1,5 +1,5 @@
 import React from "react"
-export const DashboardBody = ({templates, todo, recent, brandname, child}) =>{
+export const DashboardBody = ({child}) =>{
     var showSideBar = ()=>{
         document.getElementById("sideBar").classList.toggle("showSideBar")
     }

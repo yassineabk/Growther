@@ -6,6 +6,7 @@ import { GetContests } from "../../redux/contests/contests-actions"
 
 const Dashboard = ({child})=> {
     var dispatch = useDispatch()
+    var infos, { isBrand } = useSelector(state => state.userInfos)
     var {contests, isLoading} = useSelector(state => state.get_contests)
     useEffect(()=>{
         if(((Array.isArray(contests) && contests.length === 0 ) || !Array.isArray(contests)) && !isLoading){
@@ -14,7 +15,7 @@ const Dashboard = ({child})=> {
     }, [dispatch])
     return(
         <div className="is-flex is-flex-direction-row">
-            <DashboradSideBar />
+            <DashboradSideBar isBrand={isBrand} />
             <DashboardBody child={child}/>
         </div>
     )

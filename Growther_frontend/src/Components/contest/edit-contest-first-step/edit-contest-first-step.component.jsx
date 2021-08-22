@@ -11,6 +11,7 @@ import { PreviewContainer } from "../preview-container/preview-container.compone
 import { SelectInput } from "../select-input/select-input.component"
 export const EditContestFirstStep = ()=>{
     var { information, actions, isValidData, validData, isLoading, error } = useSelector(state => state.contest_edit)
+    var infos, {isBrand} = useSelector(state => state.userInfos)
     var dispatch = useDispatch()
     var location = useLocation()
     var params = useParams()
@@ -160,6 +161,7 @@ export const EditContestFirstStep = ()=>{
         }
         return changeHandler(event)
     }
+    if(isBrand !== "true") return <Redirect to="/" />
     if(typeof(information) !== "object") return <Redirect to={"/dashboard"} />
     if(information.status !== null && typeof(information.status) === "string" && information.status.toLowerCase() === "done") return <Redirect to={`/dashboard/My%20Contests/result/${information.idContest}`} />
     return(

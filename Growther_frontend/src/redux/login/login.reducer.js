@@ -10,7 +10,6 @@ const INITIAL_STATE={
     isError:false,
     errorMessage:'',
     isLoading: false
-    
 }
 
 export const loginReducer=(state=INITIAL_STATE,action)=>{
@@ -18,7 +17,6 @@ export const loginReducer=(state=INITIAL_STATE,action)=>{
 
         case loginType.SET_INITIAL_STATE:
             return INITIAL_STATE
-        
         case loginType.SET_EMAIL:
             return {
                 ...state,
@@ -59,6 +57,12 @@ export const loginReducer=(state=INITIAL_STATE,action)=>{
                     ...state,
                     currentUser:localStorage.getItem("accessToken"),
                     isLoading: false,
+            }
+        case loginType.SET_CURRENT_TOKEN: 
+            return {
+                ...state,
+                currentUser: action.payload,
+                isLoading: false
             }
         case loginType.LOGOUT:
             return{

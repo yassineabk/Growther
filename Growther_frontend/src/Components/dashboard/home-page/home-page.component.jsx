@@ -7,6 +7,7 @@ import { TemplatesContainer } from "../templates-container/templates-container.c
 export const DashboardHomePage = () =>{
     var dispatch = useDispatch()
     var {contests, isLoading} = useSelector(state => state.get_contests)
+    var infos, {isBrand} = useSelector(state => state.userInfos)
     useEffect(()=>{
         if(((Array.isArray(contests) && contests.length === 0) || !Array.isArray(contests)) && !isLoading){
             GetContests(dispatch)
@@ -29,9 +30,9 @@ export const DashboardHomePage = () =>{
                     Duplicate={(id, element)=> Duplicate(id, element)}
                 />
             </div>
-            <div className="mb-4">
+            {isBrand === "true" ? <div className="mb-4">
                 <TemplatesContainer title={"Templates"}/>
-            </div>
+            </div> : null}
         </div>
         /*<div className="column is-full recentContests">
             <RecentContests data={recent} />

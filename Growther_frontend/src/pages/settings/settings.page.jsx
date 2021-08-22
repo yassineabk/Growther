@@ -8,10 +8,10 @@ import { SelectInput } from "../../Components/contest/select-input/select-input.
 import { Spinner } from "../../Components/spinner/spinner.component"
 import { UrlValidation } from "../../redux/contest/contest-actions"
 import { SettingsModal } from "./settings-modal.component"
-export const SettingsComponent = ()=>{
+export const SettingsComponent = ({infos})=>{
     const language = localStorage.getItem("lang")
     var [show, showModal] = useState(false)
-    var [userInfos, setInfos] = useState({})
+    var [userInfos, setInfos] = useState(infos)
     var [error, setError] = useState({
         name: {isValid: true, message: ""},
         url: {isValid: true, message: ""},
@@ -31,15 +31,17 @@ export const SettingsComponent = ()=>{
                     "Authorization" : `Bearer ${token}`
                 } 
             }
-            setLoading(true)
-            axios.get(`https://staging-backendapp.herokuapp.com/api/users/${sub}`, config)
-                .then(response =>{
-                    setInfos(response.data)
-                    setLoading(false)
-                }).catch(err => {
-                    console.log(err.response)
-                    setLoading(false)
-                })
+            if(!infos || infos === null || typeof(infos) !== "object" || infos.id !== parseInt(sub)){
+                setLoading(true)
+                axios.get(`https://staging-backendapp.herokuapp.com/api/users/${sub}`, config)
+                    .then(response =>{
+                        setInfos(response.data)
+                        setLoading(false)
+                    }).catch(err => {
+                        setLoading(false)
+                    })
+            }
+            
         }
     }, [setInfos, setLoading])
     var changeHandler = (event)=>{
