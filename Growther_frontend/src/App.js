@@ -41,15 +41,20 @@ const App = ()=> {
   var [token, setToken] = useState(localStorage.getItem("accessToken"))
   var history = useHistory()
   var dispatch = useDispatch()
-  window.addEventListener("storage", ()=>{
-    var newToken = localStorage.getItem("accessToken")
+  window.addEventListener("storage", (event)=>{
+    var key = event.key
+    if(key !== "accessToken" || key === null || !key) return false
+    var oldValue = event.oldValue
+    var newToken = event.newValue
     SetCurrentToken(dispatch, newToken)
     setToken(newToken)
     if(newToken === null || !newToken){
       setUserInfosFail(dispatch)
       return history.push("/")
     }
-    console.log(newToken, "here")
+    if(newToken === oldValue){
+      return true
+    }
     var decodedToken = decode(newToken)
     if(decodedToken !== null && typeof(decodedToken) === "object"){
         var sub = decodedToken.sub
@@ -64,7 +69,7 @@ const App = ()=> {
                 .then(response =>{
                   setUserInfos(dispatch, response.data)
                 }).catch(err => {
-                  setUserInfos(dispatch, {})
+                  setUserInfosFail(dispatch)
                 })
         }
     }
