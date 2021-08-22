@@ -13,6 +13,7 @@ export const ContestSecondStep = ()=>{
     var {information, isValidData, validActions, isPublished, isLoading} = useSelector(state => state.contest)
     var location = useLocation()
     var history = useHistory()
+    var infos, {isBrand} = useSelector(state => state.userInfos)
     /*useEffect(()=>{
         CheckFirstStepData()
     }, [dispatch, isValidActions])
@@ -54,6 +55,7 @@ export const ContestSecondStep = ()=>{
         }
         SaveDraft(dispatch, information, userId)
     }
+    if(isBrand !== "true") return <Redirect to="/" />
     if(location.pathname !== "/dashboard/My Contests/new/secondStep") return null
     if(!isValidData) return <Redirect to="/dashboard/My Contests/new/firstStep" />
     return(

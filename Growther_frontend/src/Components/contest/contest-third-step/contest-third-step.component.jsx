@@ -9,6 +9,7 @@ import {
 } from "react-share";
 export const ContestThirdStep = () =>{
     var {isValidData, isValidActions, isPublished, contestLink} = useSelector(state => state.contest)
+    var infos, {isBrand} = useSelector(state => state.userInfos)
     var location = useLocation()
     var copyClipoard = ()=>{
         navigator.clipboard.writeText(contestLink)
@@ -19,6 +20,7 @@ export const ContestThirdStep = () =>{
             }
         }, 2000)
     }
+    if(isBrand !== "true") return <Redirect to="/" />
     if(location.pathname !== "/dashboard/My Contests/new/thirdStep") return null
     if(isValidActions === false || isPublished === false) return <Redirect  to="/dashboard/My Contests/new/secondStep"/>
     if(isValidData === false) return <Redirect  to="/dashboard/My Contests/new/firstStep"/>

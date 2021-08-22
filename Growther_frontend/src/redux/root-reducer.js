@@ -9,6 +9,7 @@ import ContestsReducer from './contests/contests-reducer'
 import LoadingReducer from './loading/loading-reducer'
 import ErrorsReducer from './errors/errors-reducer'
 import ParticipationReducer from './participation/participation-reducer'
+import { UserInfosReducer } from './user-infos/user-infos-reducer'
 
 
 const rootReducer=combineReducers({
@@ -21,7 +22,8 @@ const rootReducer=combineReducers({
     get_contests: ContestsReducer,
     participation: ParticipationReducer,
     isLoading: LoadingReducer,
-    errors: ErrorsReducer
+    errors: ErrorsReducer,
+    userInfos: UserInfosReducer,
 })
 
 

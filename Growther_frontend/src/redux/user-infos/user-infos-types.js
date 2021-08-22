@@ -1,0 +1,4 @@
+export const UserInfosTypes ={
+    SET_USER_INFOS: "SET_USER_INFOS",
+    SET_USER_INFOS_FAIL: "SET_USER_INFOS_FAIL"
+}
