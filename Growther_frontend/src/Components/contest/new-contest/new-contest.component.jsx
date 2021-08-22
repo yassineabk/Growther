@@ -2,6 +2,7 @@ import React, { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { 
     BrowserRouter as Router,
+    Redirect,
     Route,
     Switch,
     useHistory, 
@@ -9,13 +10,11 @@ import {
 from "react-router-dom"
 import { InitState, PreviewSelectedAction } from "../../../redux/contest/contest-actions"
 import { Spinner } from "../../spinner/spinner.component"
-import { ContestFirstStep } from "../contest-first-step/contest-first-step.component"
-import { ContestSecondStep } from "../contest-second-step/contest-second-step.component"
-import { ContestThirdStep } from "../contest-third-step/contest-third-step.component"
 import { NewContestTabs } from "../new-contest-tabs/new-contest-tabs.component"
 import { PreviewContainer } from "../preview-container/preview-container.component"
 export const NewContest = ({child})=>{
     var { information, activePage, actions, previewActions, isLoading, isPublished } = useSelector(state => state.contest)
+    var infos, {isBrand} = useSelector(state => state.userInfos)
     var dispatch = useDispatch()
     var history = useHistory()
     var previewChangeHandler = (event, provider)=>{
@@ -25,6 +24,7 @@ export const NewContest = ({child})=>{
     useEffect(()=>{
         InitState(dispatch)   
     }, [dispatch])
+    if(isBrand !== "true") return <Redirect to="/" />
     return(
         [            
             <Spinner show={isLoading} />,

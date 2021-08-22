@@ -1,5 +1,5 @@
 import React, { useEffect } from "react"
-import { Link, useHistory, useParams } from "react-router-dom"
+import { Link, Redirect, useHistory, useParams } from "react-router-dom"
 import { CSVLink } from "react-csv";
 import { useDispatch, useSelector } from "react-redux";
 import { decode } from "jsonwebtoken";
@@ -57,6 +57,7 @@ export const EditContestSecondStep = ({ data })=>{
         }
     ]
     var {information, isLoading} = useSelector(state => state.contest_edit)
+    var infos, {isBrand} = useSelector(state => state.userInfos)
     const tableHead = [
         {label: "Email", key: "email"},
         {label: "Location", key: "location"},
@@ -92,6 +93,7 @@ export const EditContestSecondStep = ({ data })=>{
             })
         }
     }, [dispatch])
+    if(isBrand !== "true") return <Redirect to="/" />
     return(
         [
             <Spinner show={isLoading} />,

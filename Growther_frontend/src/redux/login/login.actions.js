@@ -1,16 +1,18 @@
 import { userService } from "../../services/user-service";
 import { ShowErrorModal } from "../errors/errors-actions";
+import { setUserInfosFail } from "../user-infos/user-infos-actions";
 import { loginType } from "./login.types";
 
 
 export const InitState = (dispatch)=>{
     dispatch({type: loginType.SET_INITIAL_STATE})
 }
-
 export const setCurrentUser=(user)=>{ 
     return ({ type: loginType.LOGIN_SUCCESS, payload: user })
 }
-
+export const SetCurrentToken = (dispatch, token)=>{
+    dispatch({type: loginType.SET_CURRENT_TOKEN, payload: token})
+}
 export const setEmail =(email) =>{
     return ({type: loginType.SET_EMAIL ,payload:email})
 }
@@ -55,6 +57,7 @@ export function loginWithEmailAndPassword(user) {
 
 export async function logout(dispatch) {
     userService.logout();
+    setUserInfosFail(dispatch)
     dispatch({ type: loginType.LOGOUT })
     return { type: loginType.LOGOUT };
 }

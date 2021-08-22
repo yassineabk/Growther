@@ -1,7 +1,7 @@
 import { decode } from "jsonwebtoken"
 import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { useHistory, useLocation } from "react-router-dom"
+import { Redirect, useHistory, useLocation } from "react-router-dom"
 import { Edit } from "../../../redux/contest-edit/contest-edit-actions"
 import { EditDraft, InitState, NextStep, PrizesChange, RemovePrize, ResestNewContest, SaveContestFirstStep, SaveContestPrizes, SaveDraft, SetDuration, SetImmediately, SetTime, StateChange, WinnersNumChange } from "../../../redux/contest/contest-actions"
 import { ContestButton } from "../contest-buttons/contest-buttons.component"
@@ -16,6 +16,8 @@ export const ContestFirstStep = ()=>{
     var location = useLocation()
     var history = useHistory()
     var {information, isValidData, validData, savedInfos, isPublished} = useSelector(state => state.contest)
+    var infos, {isBrand} = useSelector(state => state.userInfos)
+
     var [userId, setId] = useState("")
     useEffect(async ()=>{
         if(location.state !== null && typeof(location.state) === "object"){
@@ -277,6 +279,7 @@ export const ContestFirstStep = ()=>{
     var CheckBoxHandler = (event)=>{
         SetImmediately(dispatch, information.immediately)
     }
+    if(isBrand !== "true") return <Redirect to="/" />
     if(location.pathname !== "/dashboard/My Contests/new/firstStep") return null
     return(
         <div className="is-flex is-flex-direction-column newContestFrom">
