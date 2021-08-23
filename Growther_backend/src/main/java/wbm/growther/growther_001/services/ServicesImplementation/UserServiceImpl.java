@@ -2,12 +2,12 @@ package wbm.growther.growther_001.services.ServicesImplementation;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import wbm.growther.growther_001.dtos.UserDto;
+import wbm.growther.growther_001.exceptions.ResourceNotFoundException;
 import wbm.growther.growther_001.models.users.User;
 import wbm.growther.growther_001.repository.UserRepository;
 import wbm.growther.growther_001.security.SecurityModel.SecurityUser;
@@ -48,29 +48,48 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto updateUserInfos(UserDto userDto) {
-        User user = mapToUser(userDto);
+    @Transactional
+    public UserDto updateUserInfos(UserDto userInfos,Long userId)
+            throws ResourceNotFoundException {
 
-        // TODO : verify the email using the jwt token before update
+        UserDto userDto=this.getUserById(userId);
+
+        // if the user does not exist, throw an exception
+        if(userDto==null)
+            throw new ResourceNotFoundException("No user exist with  ID : "+userId.toString());
+
+        //update informations
+        // a user cannot update his email or his status as brand or a normal user
+        //userDto.setIsBrand(userInfos.getIsBrand());
+        if(userInfos.getName() != null)
+            userDto.setName(userInfos.getName());
+        if( userDto.getIsBrand()!= null
+                && userDto.getIsBrand().equalsIgnoreCase("true"))
+        {   if(userInfos.getUrl() != null)
+                userDto.setUrl(userInfos.getUrl());
+            if(userInfos.getActivities() != null)
+                userDto.setActivities(userInfos.getActivities());
+        }
+
+        User user = mapToUser(userDto);
         userRepository.save(user);
         return userDto;
     }
 
     @Override
-    public void deleteUser(UserDto userDto) {
-        User user=mapToUser(userDto);
-        // TODO : verify the email using the jwt token before delete
+    public void deleteUser(Long userId) throws ResourceNotFoundException {
 
+        UserDto userDto=this.getUserById(userId);
+        if(userDto==null)
+            throw new ResourceNotFoundException("No user exist with  ID : "+userId);
+        User user=mapToUser(userDto);
         userRepository.delete(user);
     }
 
-    @Override
-    public UserDto getUserByName(String userName) {
-       User user = userRepository.findUserByName(userName);
-       return mapToDto(user);
-    }
+
 
     @Override
+    @Transactional
     public String updateUserPassword(String oldPassword, String newPassword) {
 
         SecurityUser securityUser= (SecurityUser) SecurityContextHolder.
@@ -79,12 +98,6 @@ public class UserServiceImpl implements UserService {
         Long userId= securityUser.getId();
 
         UserDto user=this.getUserById(userId);
-        String a="hamza";
-        System.out.println(passwordEncoder.encode(a));
-
-        System.out.println(user.getPassword());
-        System.out.println(passwordEncoder);
-        System.out.println(oldPassword);
 
         boolean doesMatch= passwordEncoder.matches(oldPassword,user.getPassword());
         String hashedNewPassword=passwordEncoder.encode(newPassword);
@@ -97,7 +110,7 @@ public class UserServiceImpl implements UserService {
 
         if(!doesMatch)
             return "your password is incorrect";
-        if(oldPassword == newPassword)
+        if(oldPassword.equals(newPassword))
             return "password updated";
         user.setPassword(hashedNewPassword);
         userRepository.save(mapToUser(user));
@@ -106,14 +119,12 @@ public class UserServiceImpl implements UserService {
     }
 
     private UserDto mapToDto(User user){
-        UserDto userDto=modelMapper.map(user,UserDto.class);
-        return userDto;
+        return modelMapper.map(user,UserDto.class);
     }
 
     //convert Dto to model
     private User mapToUser(UserDto userDto){
-        User user=modelMapper.map(userDto,User.class);
-        return user;
+        return modelMapper.map(userDto,User.class);
     }
 
     // returns a list of users DTO
@@ -127,8 +138,8 @@ public class UserServiceImpl implements UserService {
         return userDtos;
     }
 
-    public int enableUser(String email) {
-        return userRepository.enableAppUser(email);
+    public void enableUser(String email) {
+        userRepository.enableAppUser(email);
     }
 
 }

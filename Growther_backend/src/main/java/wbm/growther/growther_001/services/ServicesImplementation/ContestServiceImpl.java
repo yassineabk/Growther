@@ -3,20 +3,20 @@ package wbm.growther.growther_001.services.ServicesImplementation;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import wbm.growther.growther_001.UpdateContestStateJob;
-import wbm.growther.growther_001.models.Participation;
-import wbm.growther.growther_001.threadPoolTaskSchedulerClass;
 import wbm.growther.growther_001.dtos.ContestDto;
 import wbm.growther.growther_001.models.Contest;
+import wbm.growther.growther_001.models.Participation;
 import wbm.growther.growther_001.models.Prize;
 import wbm.growther.growther_001.models.actions.Action;
 import wbm.growther.growther_001.models.users.User;
 import wbm.growther.growther_001.repository.*;
 import wbm.growther.growther_001.services.ContestService;
+import wbm.growther.growther_001.threadPoolTaskSchedulerClass;
 
 import javax.persistence.EntityManager;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
@@ -41,9 +41,6 @@ public class ContestServiceImpl implements ContestService {
     private ModelMapper modelMapper;
 
     @Autowired
-    private EntityManager entityManager;
-
-    @Autowired
     private threadPoolTaskSchedulerClass taskScheduler;
 
 
@@ -54,6 +51,7 @@ public class ContestServiceImpl implements ContestService {
     }
 
     @Override
+    @Transactional
     public Long createNewContest(ContestDto NewContestDto, String email) throws ParseException {
 
         User user = userRepository.findUserByEmail(email);
@@ -72,22 +70,15 @@ public class ContestServiceImpl implements ContestService {
         Set<Prize> prizes = contest.getPrizes();
         Set<Action> actions = contest.getActions();
 
-        actions.forEach( action -> {
-            action.setContest(contest);
-        });
+        actions.forEach( action -> action.setContest(contest));
 
-        prizes.forEach( prize -> {
-            prize.setContest(contest);
-        });
+        prizes.forEach( prize -> prize.setContest(contest));
 
         repository.save(contest);
 
-        prizes.forEach( prize -> {
-            prizeRepository.save(prize);
-        });
-        actions.forEach( action -> {
-            actionRepository.save(action);
-        });
+        prizes.forEach( prize -> prizeRepository.save(prize));
+
+        actions.forEach( action -> actionRepository.save(action));
 
 
         System.out.println(contest.getStartDate());
@@ -128,6 +119,7 @@ public class ContestServiceImpl implements ContestService {
     }
 
     @Override
+    @Transactional
     public Long createNewDraftContest(ContestDto NewContestDto, String email) throws ParseException {
 
         User user = userRepository.findUserByEmail(email);
@@ -146,22 +138,14 @@ public class ContestServiceImpl implements ContestService {
         Set<Prize> prizes = contest.getPrizes();
         Set<Action> actions = contest.getActions();
 
-        actions.forEach( action -> {
-            action.setContest(contest);
-        });
+        actions.forEach( action -> action.setContest(contest));
 
-        prizes.forEach( prize -> {
-            prize.setContest(contest);
-        });
+        prizes.forEach( prize -> prize.setContest(contest));
 
         repository.save(contest);
 
-        prizes.forEach( prize -> {
-            prizeRepository.save(prize);
-        });
-        actions.forEach( action -> {
-            actionRepository.save(action);
-        });
+        prizes.forEach( prize -> prizeRepository.save(prize));
+        actions.forEach( action -> actionRepository.save(action));
 
         System.out.println(contest.getIdContest());
 
@@ -169,7 +153,10 @@ public class ContestServiceImpl implements ContestService {
         return contest.getIdContest();
     }
 
+
+    //TODO what does this function do
     @Override
+    @Transactional
     public ContestDto draftContest(Long contestID) {
 
         Contest contestExist = repository.findContestByIdContest(contestID);
@@ -190,10 +177,8 @@ public class ContestServiceImpl implements ContestService {
         });
 
 
-        prizes.forEach( prize -> {
-            newPrizes.add(new Prize(prize));
-            //prize.setContest(contest);
-        });
+        prizes.forEach( prize -> newPrizes.add(new Prize(prize)));
+
         newPrizes.forEach( prize -> {
             prize.setId(0L);
             prize.setContest(contest);
@@ -204,13 +189,9 @@ public class ContestServiceImpl implements ContestService {
 
         repository.save(contest);
 
-        newPrizes.forEach( prize -> {
-            prizeRepository.save(prize);
-        });
-        newActions.forEach( action -> {
-            actionRepository.save(action);
-        });
-        return (contest==null)? null :  toDto(contest);
+        newPrizes.forEach( prize -> prizeRepository.save(prize));
+        newActions.forEach( action -> actionRepository.save(action));
+        return toDto(contest);
     }
 
 
@@ -253,18 +234,20 @@ public class ContestServiceImpl implements ContestService {
     }
 
     @Override
+    @Transactional
     public ContestDto publishContest(Long contestID) {
         Contest contest = repository.findContestByIdContest(contestID);
+        if(contest == null)return  null;
+
         contest.setStatus("Published");
         repository.save(contest);
-        return (contest==null)? null :  toDto(contest);
+        return toDto(contest);
     }
 
 
     //convert model to DTO
     private ContestDto mapToDto(Contest contest){
-        ContestDto contestDto = modelMapper.map(contest,ContestDto.class);
-        return contestDto;
+        return modelMapper.map(contest,ContestDto.class);
     }
 
     public ContestDto toDto(Contest contest){
@@ -305,7 +288,7 @@ public class ContestServiceImpl implements ContestService {
         // contestDto.setStartDate(contest.getStartDate());
         //contestDto.setEndDate(contest.getEndDate());
 
-        // TODO: set date in user TimeZone
+        // not TODO: set date in user TimeZone
         contestDto.setDateInUserTimezone(
                 contest.getStartDate(),contest.getEndDate(),TimeZone.getDefault().toString()
         );
@@ -322,8 +305,7 @@ public class ContestServiceImpl implements ContestService {
 
     //convert Dto to model
     private Contest mapToContest(ContestDto contestDto){
-        Contest contest = modelMapper.map(contestDto,Contest.class);
-        return contest;
+        return modelMapper.map(contestDto,Contest.class);
     }
 
     public Contest toContest(ContestDto contestDto) throws ParseException {
@@ -348,7 +330,6 @@ public class ContestServiceImpl implements ContestService {
         contest.setEndTime(contestDto.getEndTime());
         contest.setTimeZone(contestDto.getTimeZone());
         contest.setImmediately(contestDto.getImmediately());
-        contest.setMaxReach(contestDto.getMaxReach());
         contest.setActions(contestDto.getActions());
         contest.setPrizes(contestDto.getPrizes());
         return contest;
@@ -373,10 +354,8 @@ public class ContestServiceImpl implements ContestService {
         contestDto.setDescription(contest.getDescription());
         contestDto.setWinnersNbr(contest.getWinnersNbr());
         contestDto.setActionsNbr(contest.getActionsNbr());
-        // contestDto.setStartDate(contest.getStartDate());
-        //contestDto.setEndDate(contest.getEndDate());
 
-        // TODO: set date in user TimeZone
+        //TODO get contest and convert dates to user timezone
         contestDto.setDateInUserTimezone(
                 contest.getStartDate(),contest.getEndDate(),TimeZone.getDefault().toString()
         );
@@ -384,7 +363,6 @@ public class ContestServiceImpl implements ContestService {
         contestDto.setEndTime(contest.getEndTime());
         contestDto.setTimeZone(contest.getTimeZone());
         contestDto.setImmediately(contest.getImmediately());
-        contestDto.setMaxReach(contest.getMaxReach());
         contestDto.setActions(contest.getActions());
         contestDto.setPrizes(contest.getPrizes());
         contestDto.setNumOfParticipation(this.GetNumOfParticipation(contest.getIdContest()));

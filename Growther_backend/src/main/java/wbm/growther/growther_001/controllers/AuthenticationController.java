@@ -24,10 +24,6 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@RequestBody UserDto loginRequest ) {
-
-        System.out.println(loginRequest.getEmail());
-        System.out.println(loginRequest.getPassword());
-
         String token= authenticationService.authenticateUser(loginRequest);
         return ResponseEntity.ok(new AuthResponse(token));
     }
@@ -36,17 +32,15 @@ public class AuthenticationController {
     public ResponseEntity<?> registerUser(@RequestBody UserDto signUpRequest) {
 
         String token=authenticationService.registerUser(signUpRequest);
-
-        return ResponseEntity.ok(new ApiResponse(true, "User registered successfully token:" +
+        return ResponseEntity.ok(new ApiResponse(true,
+                        "User registered successfully token:" +
                 " is  "+ token));
     }
 
 
     @GetMapping(path = "confirmEmail")
     public String confirmEmail(@RequestParam("token") String token){
-
         return authenticationService.confirm(token);
-
     }
 
 

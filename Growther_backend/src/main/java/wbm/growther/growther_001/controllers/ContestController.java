@@ -3,8 +3,6 @@ package wbm.growther.growther_001.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import wbm.growther.growther_001.dtos.ContestDto;
@@ -13,10 +11,7 @@ import wbm.growther.growther_001.exceptions.ResourceNotFoundException;
 import wbm.growther.growther_001.security.SecurityModel.SecurityUser;
 import wbm.growther.growther_001.services.ContestService;
 import wbm.growther.growther_001.services.ParticipationService;
-import wbm.growther.growther_001.utils.JwtUtils;
 
-import javax.servlet.http.HttpServletRequest;
-import java.security.Principal;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
@@ -38,33 +33,45 @@ public class ContestController {
         return contestService.getAllContests();
     }
 
+
     //Get contest by id
     @GetMapping("/{id}")
-    public ResponseEntity<ContestDto> getContestById(@PathVariable(value = "id") Long contestId) throws ResourceNotFoundException {
+    public ResponseEntity<ContestDto> getContestById(@PathVariable(value = "id") Long contestId)
+            throws ResourceNotFoundException {
+
         ContestDto contestDto = contestService.getContestById(contestId);
         if(contestDto==null)
-            throw new ResourceNotFoundException("No contest exist with ID : "+contestId.toString());
+            throw new ResourceNotFoundException("No contest exist with ID : "
+                    +contestId.toString());
 
         return ResponseEntity.ok().body(contestDto);
 
     }
-    //Get contest by id
+    //Publish contest by id
     @GetMapping("/{id}/publish")
-    public ResponseEntity<ContestDto> publishContestById(@PathVariable(value = "id") Long contestId) throws ResourceNotFoundException {
+    public ResponseEntity<ContestDto> publishContestById(@PathVariable(value = "id") Long contestId)
+            throws ResourceNotFoundException {
+
         ContestDto contestDto = contestService.publishContest(contestId);
+
         if(contestDto==null)
             throw new ResourceNotFoundException("No contest exist with ID : "+contestId.toString());
 
         return ResponseEntity.ok().body(contestDto);
 
     }
-    //Get user by id contest
+
+    //Get the user  who created a contest by the contest id
+    // TODO : should be deleted ??
     @GetMapping("/{id}/user")
     public ResponseEntity<String> getUserContestById(@PathVariable(value = "id") Long contestId)
             throws ResourceNotFoundException {
 
         ContestDto contestDto = contestService.getContestById(contestId);
-        if(contestDto==null) throw new ResourceNotFoundException("No contest exist with ID : "+contestId.toString());
+        if(contestDto==null)
+            throw new ResourceNotFoundException("No contest exist with ID : "
+                    +contestId.toString());
+
         return ResponseEntity.ok().body(contestDto.getUser().getEmail());
     }
 
@@ -100,39 +107,47 @@ public class ContestController {
                                                     @RequestParam("timezone")String timezone)
             throws ResourceNotFoundException {
 
-
-        ContestDto contestDto = contestService.getContestByInfos(contestTitle,contestId,timezone);
-        if(contestDto==null)
-            throw new ResourceNotFoundException("No contest exist with ID : "+contestId.toString());
-
         Long userId=null;
         SecurityUser principal;
 
-        // load the principal (authenticated user)
+        // load the principal (authenticated user) if he exist
+
         try {
             principal= (SecurityUser) SecurityContextHolder
                     .getContext().getAuthentication().getPrincipal();
             //get the user id from security context
-
             userId=principal.getId();
+
         }catch (Exception e){
             System.out.println("do nothing");
         }
 
-        //get the id of the brand who created that contest
-        Long brandId=contestDto.getUser().getId();
+        // get the contest
+        ContestDto contestDto = contestService
+                .getContestByInfos(contestTitle,contestId,timezone);
 
-        ParticipationDto participationDto=participationService
-                .getParticipationByContestIdAndUserId(contestId,userId);
+        if(contestDto==null)
+            throw new ResourceNotFoundException("No contest exist with ID : "
+                    +contestId.toString());
+
+        //get the id of the brand who created that contest
+        long brandId=contestDto.getUser().getId();
+
 
         //Show the contest for the brand and the participation for the normal user
+
         if (userId!=null && userId==brandId)
             return ResponseEntity.ok().body(contestDto);
         else{
+            //then we have a normal user
             if(contestDto.getStatus().equalsIgnoreCase("Published"))
+            {
+                ParticipationDto participationDto=participationService
+                        .getParticipationByContestIdAndUserId(contestId,userId);
                 if(participationDto == null )
                     return ResponseEntity.ok().body(contestDto);
                 else  return ResponseEntity.ok().body(participationDto);
+            }
             else return ResponseEntity.
                     status(403).
                     body("You are not allowed to see this contest right now. COME BACK SOON !");
@@ -152,14 +167,15 @@ public class ContestController {
 
 
         Long contestCreated = contestService.createNewContest(contestDto,email);
-        if(contestCreated != Long.decode("0")) return contestCreated;
+        if(!contestCreated.equals(Long.decode("0"))) return contestCreated;
+        //TODO : delete println
         System.out.println(contestCreated);
         throw new RejectedExecutionException("A Contest with that ID already exist !!");
     }
 
     @PostMapping("/create/draft")
-    public Long createDraftContest(@RequestBody ContestDto contestDto
-            ,HttpServletRequest request) throws RejectedExecutionException, ParseException {
+    public Long createDraftContest(@RequestBody ContestDto contestDto)
+            throws RejectedExecutionException, ParseException {
 
         // load the principal (authenticated user)
         SecurityUser principal= (SecurityUser) SecurityContextHolder
@@ -169,7 +185,7 @@ public class ContestController {
         String email= principal.getEmail();
 
         Long contestCreated = contestService.createNewDraftContest(contestDto,email);
-        if(contestCreated != Long.decode("0")) return contestCreated;
+        if(!contestCreated.equals(Long.decode("0"))) return contestCreated;
         System.out.println(contestCreated);
         throw new RejectedExecutionException("A Contest with that ID already exist !!");
     }
@@ -177,7 +193,6 @@ public class ContestController {
     @GetMapping("/draft/{id}")
     public Long draftContest(@PathVariable(value = "id") Long contestID)
             throws RejectedExecutionException{
-
 
         ContestDto contestCreated = contestService.draftContest(contestID);
         if(contestCreated != null) return contestCreated.getIdContest();
