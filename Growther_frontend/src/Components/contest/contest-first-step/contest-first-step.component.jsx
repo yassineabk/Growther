@@ -2,21 +2,18 @@ import { decode } from "jsonwebtoken"
 import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Redirect, useHistory, useLocation } from "react-router-dom"
-import { Edit } from "../../../redux/contest-edit/contest-edit-actions"
 import { EditDraft, InitState, NextStep, PrizesChange, RemovePrize, ResestNewContest, SaveContestFirstStep, SaveContestPrizes, SaveDraft, SetDuration, SetImmediately, SetTime, StateChange, WinnersNumChange } from "../../../redux/contest/contest-actions"
 import { ContestButton } from "../contest-buttons/contest-buttons.component"
 import { ContestCheckBox } from "../contest-checkbox/contest-checkbox.component"
 import { ContestDescription } from "../contest-description-input/contest-description-input.component"
 import { ContestInput } from "../contest-input/contest-input.component"
-import { EditContest } from "../edit-contest/edit-contest.component"
 import { PrizesInputs } from "../prizes-inputs/prizes-inputs.component"
-import { SelectInput } from "../select-input/select-input.component"
-export const ContestFirstStep = ()=>{
+const ContestFirstStep = ()=>{
     var dispatch = useDispatch()
     var location = useLocation()
     var history = useHistory()
-    var {information, isValidData, validData, savedInfos, isPublished} = useSelector(state => state.contest)
-    var infos, {isBrand} = useSelector(state => state.userInfos)
+    var {information, isValidData, validData, isPublished} = useSelector(state => state.contest)
+    var { isBrand } = useSelector(state => state.userInfos)
     var [userId, setId] = useState("")
     useEffect(async ()=>{
         if(location.state !== null && typeof(location.state) === "object"){
@@ -33,16 +30,14 @@ export const ContestFirstStep = ()=>{
         var token = decode(localStorage.getItem("accessToken"))
         var sub = token !== null && typeof(token) === "object" ? token.sub : ""
         setId(sub)
-        /*setInterval(()=>{
-            updateTimeEveryMinute(information)
-        }, 60000)*/
     }, [dispatch, isValidData])
     var changeHandler = (event)=>{
         var id = event.target.id
+        var value = event.target.value
         var result = information
         var numIds = ["winnersNbr", "duration", "maxParticipants"]
         if(id in result){
-            result[id] = numIds.includes(id) ?  parseInt(event.target.value) : event.target.value
+            result[id] = numIds.includes(id) ?  parseInt(value) : value
             StateChange(dispatch, result, id)
         }
     }
@@ -225,11 +220,6 @@ export const ContestFirstStep = ()=>{
         var year = date.getFullYear()
         return year + "-" + month + "-" + day
     }
-    var durationTypeHandler = (event) =>{
-        var startDate = dateConvert(information.startDate)
-        var endDate = addDaystoDate(startDate, information.duration.value, event.target.value)
-        SetDuration(dispatch, event.target.value, information.duration.value, startDate, endDate)
-    }
     var numWinnersHandler = (event)=>{
         var newValue = parseInt(event.target.value)
         var oldValue = parseInt(information.winnersNbr)
@@ -240,7 +230,8 @@ export const ContestFirstStep = ()=>{
             newValue = 1
         }
         if(oldValue > newValue){
-            for(var i = newValue + 1; i < oldValue; i++){
+            for(var i = newValue; i < oldValue; i++){
+                console.log("here")
                 RemovePrize(dispatch, i, newValue)
             }
         }else{
@@ -257,16 +248,6 @@ export const ContestFirstStep = ()=>{
         var isValid = NextStep(dispatch, information)
         if(isValid){
             history.push("/dashboard/My Contests/new/secondStep")
-
-            /*SaveContestFirstStep(dispatch, information, isValid).then(id =>{
-                if(typeof(id) === "number"){
-                    SaveContestPrizes(dispatch, information.prizes, isValid, id).then(value =>{
-                        if(value){
-                            history.push("/dashboard/My Contests/new/secondStep")
-                        }
-                    })
-                }
-            })*/
         }
     }
     var saveDraft = ()=>{
@@ -411,16 +392,16 @@ export const ContestFirstStep = ()=>{
                         min={1}
                         value={typeof(information) === "object" && typeof(information.duration) === "object" && information.duration !== null ? information.duration.value : 1}
                     />*/}
-                    <ContestInput 
+                    {/*<ContestInput 
                         type={"number"}
                         id="maxReach"
                         name="maxReach"
                         placeholder="Number of participants"
                         label="Or stop when we reach"
                         changeHandler={(event)=> changeHandler(event)}
-                        min={1}
-                        value={typeof(information) === "object" ? information.maxReach : 0}
-                    />
+                        min={20}
+                        value={typeof(information) === "object" ? information.maxReach : 20}
+                    />*/}
                 </div>
             </div>
             <div className="prizes is-flex is-flex-direction-column">
@@ -450,3 +431,4 @@ export const ContestFirstStep = ()=>{
         </div>
     )
 }
+export default ContestFirstStep;

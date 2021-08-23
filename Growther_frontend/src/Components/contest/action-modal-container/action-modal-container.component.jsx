@@ -1,17 +1,14 @@
-import axios from "axios"
 import React, { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
 import { ActionDone, CloseActionModal } from "../../../redux/contest-card/contest-card-actions"
 import { HideErrorModal } from "../../../redux/errors/errors-actions"
-import { BACKEND_API } from "../../../services/links"
 import { ActionModal } from "../action-modal/action-modal.component"
 import { PreviewAction } from "../preview-action/preview-action.component"
-export const ActionModalContainer = ({action, show, idContest})=>{
+const ActionModalContainer = ({action, show, idContest})=>{
     var dispatch = useDispatch()
     var [activeButton, setActiveButton] = useState(false)
     var [countdown, setCount] = useState(10)
     var [withCountDown, setCountDown] = useState(false)
-    var [isLoading, setLoading] = useState(true)
     var [error, setError] = useState({isError: false, message: ""})
     useEffect(()=>{
         window.onpopstate = e =>{
@@ -114,3 +111,4 @@ export const ActionModalContainer = ({action, show, idContest})=>{
         </div>
     )
 }
+export default ActionModalContainer;

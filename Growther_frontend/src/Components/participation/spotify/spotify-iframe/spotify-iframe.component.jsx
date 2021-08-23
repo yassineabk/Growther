@@ -5,11 +5,13 @@ import { GetSpotifyToken } from "../../../../services/tokens";
 import { SpotifyAuthComponent } from "../spotify-login/spotify-login.compnent";
 export const SpotifyIframe = ({url, action_done, onError, closeModal})=>{
     var [token, setToken] = useState(GetSpotifyToken())
-    window.addEventListener("storage", event =>{
-        if(event.key === "spotifyAccessToken"){
-            setToken(event.newValue)
-        }
-    })    
+    useEffect(()=>{
+        window.addEventListener("storage", event=>{
+            if(event.key === "discordAccessToken"){
+                setToken(event.newValue)
+            }
+        })
+    }, [setToken])
     var iframeBlur = ()=>{
         var listener = window.addEventListener('blur', event => {
             if (document.activeElement === document.getElementById('spotifyIframe')) {

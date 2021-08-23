@@ -4,10 +4,10 @@ import { DuplicateContest } from "../../../redux/contest/contest-actions"
 import { GetContests } from "../../../redux/contests/contests-actions"
 import { CardsContainer } from "../cards-container/cards-container.component"
 import { TemplatesContainer } from "../templates-container/templates-container.component"
-export const DashboardHomePage = () =>{
+const DashboardHomePage = () =>{
     var dispatch = useDispatch()
     var {contests, isLoading} = useSelector(state => state.get_contests)
-    var infos, {isBrand} = useSelector(state => state.userInfos)
+    var { isBrand } = useSelector(state => state.userInfos)
     useEffect(()=>{
         if(((Array.isArray(contests) && contests.length === 0) || !Array.isArray(contests)) && !isLoading){
             GetContests(dispatch)
@@ -18,9 +18,6 @@ export const DashboardHomePage = () =>{
     }
     return(
         <div className="is-flex is-flex-direction-column column is-full">
-            {/*<div className="mb-4">
-                <TaskList data={todo} brandname={brandname} />
-            </div>*/}
             <div className="mb-4">
                 <CardsContainer 
                     data={Array.isArray(contests) ? contests.reverse().slice(0,3) : []} 
@@ -34,8 +31,6 @@ export const DashboardHomePage = () =>{
                 <TemplatesContainer title={"Templates"}/>
             </div> : null}
         </div>
-        /*<div className="column is-full recentContests">
-            <RecentContests data={recent} />
-        </div>*/
     )
 }
+export default DashboardHomePage;

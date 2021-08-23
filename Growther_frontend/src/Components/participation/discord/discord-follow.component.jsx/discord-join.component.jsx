@@ -1,5 +1,5 @@
 import axios from "axios"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useHistory } from "react-router-dom"
 import { BACKEND_API, DISCORD_AUTH_URL, DISCORD_BOT_TOKEN, DISCORD_CLIENT_ID } from "../../../../services/links"
 import { GetDiscordToken } from "../../../../services/tokens"
@@ -9,11 +9,13 @@ export const DiscordJoin = ({url, action_done, closeModal})=>{
     var history = useHistory()
     var [active, setActive] = useState(true)
     var [token, setToken] = useState(GetDiscordToken())
-    window.addEventListener("storage", event=>{
-        if(event.key === "discordAccessToken"){
-            setToken(event.newValue)
-        }
-    })
+    useEffect(()=>{
+        window.addEventListener("storage", event=>{
+            if(event.key === "discordAccessToken"){
+                setToken(event.newValue)
+            }
+        })
+    }, [setToken])
     const config = {
         "headers": {
             "Content-Type" : "application/x-www-form-urlencoded",

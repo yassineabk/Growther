@@ -6,7 +6,7 @@ import { PreviewCard } from "../../Components/contest/preview-card/preview-card.
 import { Spinner } from "../../Components/spinner/spinner.component"
 import { OpenActionModal, SelectAction, SetData, SetDataFromLocation } from "../../redux/contest-card/contest-card-actions"
 import { TimeLeft } from "../../services/timeLeft"
-export const Contest = ({currentUser})=>{
+const Contest = ({currentUser})=>{
     var [token, setToken] = useState(localStorage.getItem("accessToken"))
     var dispatch = useDispatch()
     var params = useParams()
@@ -14,6 +14,13 @@ export const Contest = ({currentUser})=>{
     var [userId, setId] = useState("")
     var {information, selected, isLoading, error, points, canParticipate} = useSelector(state => state.contest_card)
     useEffect(()=>{
+        window.addEventListener("storage", event =>{
+            var value = event.newValue
+            setToken(value)
+            if(value && value !== null){
+                SetData(dispatch, params.title, params.description, params.id)
+            }
+        })
         token = decode(token)
         var sub = token !== null && typeof(token) === "object" ? token.sub : ""
         setId(sub)
@@ -23,13 +30,6 @@ export const Contest = ({currentUser})=>{
                 SetData(dispatch, params.title, params.description, params.id)
             }
     }, [dispatch, location])
-    window.addEventListener("storage", ()=>{
-        var value = localStorage.getItem("accessToken")
-        setToken(value)
-        if(value && value !== null){
-            SetData(dispatch, params.title, params.description, params.id)
-        }
-    })
     var changeHandler = (event, provider)=>{
         var index = parseInt(event.target.selectedIndex)
         SelectAction(dispatch, provider, index)
@@ -58,7 +58,7 @@ export const Contest = ({currentUser})=>{
         OpenActionModal(dispatch, index, element)
     }
     var showLoginForm = (value)=>{
-        if(value && token && token !== null){
+        if(value){
             window.open("/login")
         }
     }
@@ -94,3 +94,4 @@ export const Contest = ({currentUser})=>{
         </div>
     )
 }
+export default Contest;
