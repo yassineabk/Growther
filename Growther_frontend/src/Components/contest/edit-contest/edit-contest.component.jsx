@@ -1,17 +1,12 @@
-import { decode } from "jsonwebtoken"
-import React, { useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
+import React from "react"
+import { useSelector } from "react-redux"
 import { 
     BrowserRouter as Router,
-    Redirect,
-    Switch,
-    useHistory,
-    useLocation,
     useParams,
 } 
 from "react-router-dom"
 import { NewContestTabs } from "../new-contest-tabs/new-contest-tabs.component"
-export const EditContest = ({child})=>{
+const EditContest = ({child})=>{
     var params = useParams()
     var { information } = useSelector(state => state.contest_edit)
     if(typeof(information) !== "object") return null
@@ -39,3 +34,4 @@ export const EditContest = ({child})=>{
         </div>
     )
 }
+export default EditContest;
