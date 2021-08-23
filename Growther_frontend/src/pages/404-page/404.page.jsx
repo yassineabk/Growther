@@ -1,7 +1,7 @@
 import React from "react"
 import { useHistory } from "react-router-dom"
 import SubmitButton from "../../Components/submit-button/submit-button.component"
-export const Page404 = ()=>{
+const Page404 = ()=>{
     var history = useHistory()
     return(
         <div className="page404 is-flex is-flex-direction-column is-justify-content-center is-align-items-center">
@@ -12,3 +12,4 @@ export const Page404 = ()=>{
         </div>
     )
 }
+export default Page404;

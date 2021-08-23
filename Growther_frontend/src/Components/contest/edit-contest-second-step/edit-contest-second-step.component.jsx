@@ -1,11 +1,11 @@
 import React, { useEffect } from "react"
-import { Link, Redirect, useHistory, useParams } from "react-router-dom"
+import { Redirect, useHistory, useParams } from "react-router-dom"
 import { CSVLink } from "react-csv";
 import { useDispatch, useSelector } from "react-redux";
 import { decode } from "jsonwebtoken";
 import { SetStateToEdit } from "../../../redux/contest-edit/contest-edit-actions";
 import { Spinner } from "../../spinner/spinner.component";
-export const EditContestSecondStep = ({ data })=>{
+const EditContestSecondStep = ({ data })=>{
     var test = [
         {
             email: "abkari@gmail.com",
@@ -56,8 +56,8 @@ export const EditContestSecondStep = ({ data })=>{
             status: "pending"
         }
     ]
-    var {information, isLoading} = useSelector(state => state.contest_edit)
-    var infos, {isBrand} = useSelector(state => state.userInfos)
+    var { information, isLoading } = useSelector(state => state.contest_edit)
+    var { isBrand } = useSelector(state => state.userInfos)
     const tableHead = [
         {label: "Email", key: "email"},
         {label: "Location", key: "location"},
@@ -177,3 +177,4 @@ export const EditContestSecondStep = ({ data })=>{
         ]
     )
 }
+export default EditContestSecondStep;

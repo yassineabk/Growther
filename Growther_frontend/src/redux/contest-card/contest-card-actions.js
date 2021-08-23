@@ -73,10 +73,17 @@ export const ActionDone = async (dispatch, action, id, index, points, idContest)
             participationActions[key] = action[key]
         }
     })
+    var date = new Date()
+    var day = ("0"+date.getDate()).slice(-2)
+    var month = ("0"+parseInt(date.getDate() + 1 === 13 ? 1 : date.getDate() + 1)).slice(-2)
+    var year = date.getFullYear()
+    var hour = date.getHours()
+    var min = date.getMinutes()
     var data = {
-        partipationDate: new Date().toUTCString(),
+        partipationDate: `${year}-${month}-${day}T${hour}:${min}`,
         participationActions: [participationActions]
     }
+    console.log(data)
     return axios.post(`${BACKEND_API}/api/participations/create/${idContest}`, data, config)
         .then(response =>{
             dispatch({type: Contest_Card_Types.ACTION_DONE, payload: {id, index, points}})

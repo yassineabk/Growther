@@ -2,24 +2,18 @@ import { decode } from "jsonwebtoken"
 import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Redirect, useHistory, useLocation } from "react-router-dom"
-import { AddAction, EditDraft, NextStep, PublishContest, RemoveAction, ResestNewContest, SaveContest, SaveDraft, UpdateAction } from "../../../redux/contest/contest-actions"
+import { AddAction, EditDraft, PublishContest, RemoveAction, SaveDraft, UpdateAction } from "../../../redux/contest/contest-actions"
 import { AppendContest } from "../../../redux/contests/contests-actions"
 import { actions } from "../../../services/actions"
 import { ActionsList } from "../actions-list/actions-list.component"
 import { ContestActions } from "../contest-actions/contest-actions.component"
 import { ContestButton } from "../contest-buttons/contest-buttons.component"
-export const ContestSecondStep = ()=>{
+const ContestSecondStep = ()=>{
     var dispatch = useDispatch()
     var {information, isValidData, validActions, isPublished, isLoading} = useSelector(state => state.contest)
     var location = useLocation()
     var history = useHistory()
-    var infos, {isBrand} = useSelector(state => state.userInfos)
-    /*useEffect(()=>{
-        CheckFirstStepData()
-    }, [dispatch, isValidActions])
-    var CheckFirstStepData = ()=>{
-        NextStep(dispatch, information)
-    }*/
+    var { isBrand } = useSelector(state => state.userInfos)
     var [userId, setId] = useState("")
     useEffect(()=>{
         var token = decode(localStorage.getItem("accessToken"))
@@ -96,3 +90,4 @@ export const ContestSecondStep = ()=>{
         </div>
     )
 }
+export default ContestSecondStep;

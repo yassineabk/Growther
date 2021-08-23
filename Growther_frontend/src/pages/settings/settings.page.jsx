@@ -8,9 +8,9 @@ import { ContestInput } from "../../Components/contest/contest-input/contest-inp
 import { SelectInput } from "../../Components/contest/select-input/select-input.component"
 import { Spinner } from "../../Components/spinner/spinner.component"
 import { UrlValidation } from "../../redux/contest/contest-actions"
-import { setUserInfos } from "../../redux/user-infos/user-infos-actions"
+import { EditUserInfos, setUserInfos } from "../../redux/user-infos/user-infos-actions"
 import { SettingsModal } from "./settings-modal.component"
-export const SettingsComponent = ()=>{
+const SettingsComponent = ()=>{
     const language = localStorage.getItem("lang")
     var infos = useSelector(state => state.userInfos)
     var dispatch = useDispatch()
@@ -47,7 +47,7 @@ export const SettingsComponent = ()=>{
             }
             
         }
-    }, [setInfos, setLoading])
+    }, [setInfos, setLoading, dispatch])
     var changeHandler = (event)=>{
         canSave(false)
         var key = event.target.id
@@ -56,6 +56,7 @@ export const SettingsComponent = ()=>{
             ...userInfos,
             [key]: value
         })
+        EditUserInfos(dispatch, key, value)
         if(value.length === 0){
             return setError({
                 ...error,
@@ -144,7 +145,7 @@ export const SettingsComponent = ()=>{
                                 type="text"
                                 label="Username"
                                 placeholder="Username"
-                                value={userInfos.name}
+                                value={infos.name}
                                 id="name"
                                 changeHandler={event => changeHandler(event)}
                                 validData={error.name}
@@ -153,7 +154,7 @@ export const SettingsComponent = ()=>{
                                 type="email"
                                 label="Email"
                                 placeholder="Email"
-                                value={userInfos.email}
+                                value={infos.email}
                                 readonly={true}
                                 id="email"
                             />
@@ -165,20 +166,20 @@ export const SettingsComponent = ()=>{
                                 changeHandler={event => changeHandler(event)}
                                 readonly={true}
                             />
-                            {userInfos.isBrand === "true" ? 
+                            {infos.isBrand === "true" ? 
                                 [
                                     <ContestInput 
                                         type="url"
                                         label="Url"
                                         placeholder="Your Url"
-                                        value={userInfos.url}
+                                        value={infos.url}
                                         changeHandler={event => changeHandler(event)}
                                         id="url"
                                         validData={error.url}
                                     />,
                                     <ContestDescription 
                                         label="Activities"
-                                        value={userInfos.activities}
+                                        value={infos.activities}
                                         placeholder="Your Activities"
                                         changeHandler={event => changeHandler(event)}
                                         id="activities"
@@ -209,3 +210,4 @@ export const SettingsComponent = ()=>{
         
     )
 }
+export default SettingsComponent;
