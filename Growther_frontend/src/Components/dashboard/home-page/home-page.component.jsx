@@ -20,11 +20,12 @@ const DashboardHomePage = () =>{
         <div className="is-flex is-flex-direction-column column is-full">
             <div className="mb-4">
                 <CardsContainer 
-                    data={Array.isArray(contests) ? contests.reverse().slice(0,3) : []} 
+                    data={Array.isArray(contests) ? isBrand === "true" ?  contests.reverse().slice(0,3) : contests.reverse() : []} 
                     title={"Recent Contests"} 
                     showMore={"/dashboard/My Contests"} 
                     addNew={"/dashboard/My Contests/new"}
                     Duplicate={(id, element)=> Duplicate(id, element)}
+                    isBrand={isBrand}
                 />
             </div>
             {isBrand === "true" ? <div className="mb-4">

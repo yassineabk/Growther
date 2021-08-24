@@ -105,7 +105,7 @@ const App = ()=> {
               (currentUser && isBrand === "true") ? (<Dashboard child={<NewContest child={ <ContestThirdStep />}/>} />) : (<Redirect to="/"/>)
           )} />
           <Route exact path='/dashboard/My Contests' render={()=>
-            (currentUser) ? (<Dashboard child={<DashboardContestPage />} />) : (<Redirect to="/" />)
+            (currentUser && isBrand === "true") ? (<Dashboard child={<DashboardContestPage />} />) : (<Redirect to="/" />)
           }/>
           <Route exact path='/dashboard/My Contests/edit/:id' render={()=> (
               (currentUser && isBrand === "true") ? (<Dashboard child={<EditContest child={<EditContestFirstStep />} />} />):(<Redirect to='/'/>)
