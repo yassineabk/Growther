@@ -1,8 +1,8 @@
 // Window Location
 export const location = window.location.href
 
-export const BACKEND_API = "http://localhost:5000"
-export const FRONTEND_API = "http://localhost:3000"
+export const BACKEND_API = "https://staging-backendapp.herokuapp.com"
+export const FRONTEND_API = "https://staging-frontendapp.herokuapp.com"
 
 // Spotify
 export const SPOTIFY_REDIRECT_URL = location.includes("localhost:3000") ? "http:%2F%2Flocalhost:3000%2Fspotify%2Fredirect&show_dialog=true" : "https:%2F%2Fstaging-frontendapp.herokuapp.com%2Fspotify%2Fredirect&show_dialog=true"
