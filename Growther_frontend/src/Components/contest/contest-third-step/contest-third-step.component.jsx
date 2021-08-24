@@ -7,9 +7,9 @@ import {
     FacebookShareButton,
     TwitterShareButton
 } from "react-share";
-export const ContestThirdStep = () =>{
+const ContestThirdStep = () =>{
     var {isValidData, isValidActions, isPublished, contestLink} = useSelector(state => state.contest)
-    var infos, {isBrand} = useSelector(state => state.userInfos)
+    var { isBrand } = useSelector(state => state.userInfos)
     var location = useLocation()
     var copyClipoard = ()=>{
         navigator.clipboard.writeText(contestLink)
@@ -54,3 +54,4 @@ export const ContestThirdStep = () =>{
         </div>
     )
 }
+export default ContestThirdStep;

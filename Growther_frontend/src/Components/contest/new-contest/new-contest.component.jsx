@@ -1,10 +1,7 @@
 import React, { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { 
-    BrowserRouter as Router,
     Redirect,
-    Route,
-    Switch,
     useHistory, 
 } 
 from "react-router-dom"
@@ -12,11 +9,10 @@ import { InitState, PreviewSelectedAction } from "../../../redux/contest/contest
 import { Spinner } from "../../spinner/spinner.component"
 import { NewContestTabs } from "../new-contest-tabs/new-contest-tabs.component"
 import { PreviewContainer } from "../preview-container/preview-container.component"
-export const NewContest = ({child})=>{
-    var { information, activePage, actions, previewActions, isLoading, isPublished } = useSelector(state => state.contest)
-    var infos, {isBrand} = useSelector(state => state.userInfos)
+const NewContest = ({child})=>{
+    var { information, activePage, previewActions, isLoading, isPublished } = useSelector(state => state.contest)
+    var { isBrand } = useSelector(state => state.userInfos)
     var dispatch = useDispatch()
-    var history = useHistory()
     var previewChangeHandler = (event, provider)=>{
         var index = parseInt(event.target.selectedIndex)
         PreviewSelectedAction(dispatch, provider, index)
@@ -62,3 +58,4 @@ export const NewContest = ({child})=>{
         ]
     )
 }
+export default NewContest;

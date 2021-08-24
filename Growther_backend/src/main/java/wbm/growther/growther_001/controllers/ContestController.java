@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.*;
 import wbm.growther.growther_001.dtos.ContestDto;
 import wbm.growther.growther_001.dtos.ParticipationDto;
 import wbm.growther.growther_001.exceptions.ResourceNotFoundException;
+import wbm.growther.growther_001.models.Prize;
+import wbm.growther.growther_001.models.actions.Action;
+import wbm.growther.growther_001.payload.WinnersResponse;
 import wbm.growther.growther_001.security.SecurityModel.SecurityUser;
 import wbm.growther.growther_001.services.ContestService;
 import wbm.growther.growther_001.services.ParticipationService;
@@ -16,6 +19,7 @@ import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.RejectedExecutionException;
 
 @RestController
@@ -310,5 +314,28 @@ public class ContestController {
         Map<String, Boolean> response = new HashMap<>();
         response.put("Contest Deleted successfully",Boolean.TRUE);
         return  response;
+    }
+    @GetMapping("/winners/{id}")
+    public List<WinnersResponse>
+    getWinnersOfContest(@PathVariable(value = "id") Long contestId ) throws ResourceNotFoundException {
+
+        double seuil=0.8;
+        double totalpoints=0.0;
+        ContestDto contestDto = contestService.getContestById(contestId);
+        Set<Action> actions=contestDto.getActions();
+        for(Action action:actions)totalpoints+=action.getPoints();
+
+        List<ParticipationDto> participationDtos=participationService
+                .getParticipationsByContest(contestId);
+        double finalTotalpoints = totalpoints;
+        participationDtos
+                .stream()
+                .filter(participationDto ->
+                        (participationDto.getTotalPoints())/ finalTotalpoints >= seuil);
+
+        Set<Prize> prizes= contestDto.getPrizes();
+
+        return contestService
+                .getContestWinners(participationDtos,prizes);
     }
 }
