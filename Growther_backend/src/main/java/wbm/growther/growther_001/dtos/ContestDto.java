@@ -197,6 +197,8 @@ public class ContestDto {
 
 
     public Date getDateInServerTimezone(String timezone,String date) throws ParseException {
+        System.out.println(timezone);
+        System.out.println(TimeZone.getDefault().getID());
         dateformat.setTimeZone(TimeZone.getTimeZone(timezone));
         return dateformat.parse(convertDate(date));
     }
@@ -208,13 +210,13 @@ public class ContestDto {
         this.startDate=dateformat.format(startDate);
     }
     public String convertDate(String date){
-        System.out.println(date);
+
         StringBuilder convertedDate=new StringBuilder();
         for(int i=0;i<date.length();i++){
             if(date.charAt(i)!='T')convertedDate.append(date.charAt(i));
             else convertedDate.append(' ');
         }
-        System.out.println(convertedDate.toString());
+
         return convertedDate.toString();
     }
 
