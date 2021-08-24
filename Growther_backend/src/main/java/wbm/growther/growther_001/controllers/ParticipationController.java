@@ -53,6 +53,7 @@ public class ParticipationController {
         ContestDto contestDto = contestService.getContestById(contestID);
         return service.getParticipationsByContest(contestID);
     }
+
     //Get total entries of a contest
     @GetMapping("/{id}/entries")
     public int getTotalEntries(@PathVariable(value = "id") Long contestID) throws ResourceNotFoundException {

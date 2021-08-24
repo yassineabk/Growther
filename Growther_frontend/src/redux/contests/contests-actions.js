@@ -6,7 +6,10 @@ import { CONTESTS_TYPES } from "./contests-types"
 export const GetContests = async (dispatch)=>{
     var token = localStorage.getItem("accessToken")
     var config = {
-        headers: {"Authorization" : `Bearer ${token}`} 
+        headers: {
+            "Content-Type" : "application/json",
+            "Authorization" : `Bearer ${token}`
+                } 
     }
     dispatch({type: CONTESTS_TYPES.GET_CONTESTS_LOADING})
     return axios.get(`${BACKEND_API}/api/contests/GetContests`, config)

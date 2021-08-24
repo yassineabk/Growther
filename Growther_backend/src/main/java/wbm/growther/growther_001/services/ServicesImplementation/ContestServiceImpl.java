@@ -4,13 +4,16 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import wbm.growther.growther_001.ContestWinners;
 import wbm.growther.growther_001.UpdateContestStateJob;
 import wbm.growther.growther_001.dtos.ContestDto;
+import wbm.growther.growther_001.dtos.ParticipationDto;
 import wbm.growther.growther_001.models.Contest;
 import wbm.growther.growther_001.models.Participation;
 import wbm.growther.growther_001.models.Prize;
 import wbm.growther.growther_001.models.actions.Action;
 import wbm.growther.growther_001.models.users.User;
+import wbm.growther.growther_001.payload.WinnersResponse;
 import wbm.growther.growther_001.repository.*;
 import wbm.growther.growther_001.services.ContestService;
 import wbm.growther.growther_001.threadPoolTaskSchedulerClass;
@@ -284,6 +287,7 @@ public class ContestServiceImpl implements ContestService {
 
     public Contest toContest(ContestDto contestDto) throws ParseException {
 
+        System.out.println(TimeZone.getDefault().getID());
         Contest contest = new Contest();
         contest.setIdContest(contestDto.getIdContest());
         contest.setTitle(contestDto.getTitle());
@@ -293,11 +297,11 @@ public class ContestServiceImpl implements ContestService {
         contest.setWinnersNbr(contestDto.getWinnersNbr());
         contest.setActionsNbr(contestDto.getActionsNbr());
         contest.setStartDate(contestDto.getDateInServerTimezone(
-                TimeZone.getDefault().toString(),
+                "Africa/Casablanca",
                 contestDto.convertDate(contestDto.getStartDate())
         ));
         contest.setEndDate(contestDto.getDateInServerTimezone(
-                TimeZone.getDefault().toString(),
+                "Africa/Casablanca",
                 contestDto.convertDate(contestDto.getEndDate())
         ));
         contest.setStartTime(contestDto.getStartTime());
@@ -331,7 +335,7 @@ public class ContestServiceImpl implements ContestService {
 
         //TODO get contest and convert dates to user timezone
         contestDto.setDateInUserTimezone(
-                contest.getStartDate(),contest.getEndDate(),TimeZone.getDefault().toString()
+                contest.getStartDate(),contest.getEndDate(),timezone
         );
         contestDto.setStartTime(contest.getStartTime());
         contestDto.setEndTime(contest.getEndTime());
@@ -340,6 +344,7 @@ public class ContestServiceImpl implements ContestService {
         contestDto.setActions(contest.getActions());
         contestDto.setPrizes(contest.getPrizes());
         contestDto.setNumOfParticipation(this.GetNumOfParticipation(contest.getIdContest()));
+        System.out.println(timezone);
         return contestDto;
     }
 
@@ -349,5 +354,31 @@ public class ContestServiceImpl implements ContestService {
                 .findAllByContestIdContest(idContest);
         return participations.size();
     }
+
+    @Override
+    public List<WinnersResponse> getContestWinners(List<ParticipationDto> participationDtos,
+                                                   Set<Prize> prizes){
+
+        ContestWinners contestWinners=new ContestWinners();
+        for(ParticipationDto participationDto: participationDtos){
+
+        contestWinners.addParticipant(participationDto.getUser().getEmail(),
+                        participationDto.getTotalPoints());
+
+        }
+
+        contestWinners.setNumberOfWinners(prizes.size());
+
+        List<WinnersResponse> winners=contestWinners.getAllWinners();
+        int winnerIndex=0;
+
+        for(Prize prize:prizes){
+            winners.get(winnerIndex).setPrize(prize);
+            winnerIndex++;
+        }
+
+        return winners;
+    }
+
 
 }
