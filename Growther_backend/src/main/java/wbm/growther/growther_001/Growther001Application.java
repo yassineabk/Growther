@@ -11,7 +11,9 @@ import org.springframework.scheduling.Trigger;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import wbm.growther.growther_001.configurations.appConfiguration;
 
+import javax.annotation.PostConstruct;
 import java.util.Date;
+import java.util.TimeZone;
 import java.util.concurrent.ScheduledFuture;
 
 
@@ -30,7 +32,10 @@ public class Growther001Application  {
         return new ModelMapper();
     }
 
-
+    @PostConstruct
+    public void init(){
+        TimeZone.setDefault(TimeZone.getTimeZone("Africa/Casablanca"));
+    }
 
 
 }

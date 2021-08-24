@@ -65,7 +65,7 @@ public class User implements UserDetails {
     private Boolean enabled=false;
 
     public Boolean getLocked() {
-        return isLocked;
+        return this.isLocked;
     }
 
     public void setLocked(Boolean locked) {
@@ -73,7 +73,7 @@ public class User implements UserDetails {
     }
 
     public Boolean getEnabled() {
-        return enabled;
+        return this.enabled;
     }
 
     public void setEnabled(Boolean enabled) {
@@ -93,14 +93,6 @@ public class User implements UserDetails {
                 ", isBrand='" + isBrand + '\'' +
                 '}';
     }
-
-    /*public Participation getParticipation() {
-        return participation;
-    }
-
-    public void setParticipation(Participation participation) {
-        this.participation = participation;
-    }*/
 
     public Set<Participation> getParticipations() {
         return participations;

@@ -15,7 +15,6 @@ import wbm.growther.growther_001.repository.UserRepository;
 import wbm.growther.growther_001.security.EmailVerification.ConfirmationToken;
 import wbm.growther.growther_001.security.EmailVerification.ConfirmationTokenService;
 import wbm.growther.growther_001.security.EmailVerification.EmailService;
-import wbm.growther.growther_001.security.EmailVerification.EmailServiceImpl;
 import wbm.growther.growther_001.utils.JwtUtils;
 
 import java.time.LocalDateTime;
@@ -59,18 +58,21 @@ public class AuthenticationServiceImpl  implements wbm.growther.growther_001.ser
         User user =userRepository.findUserByEmail(signUpRequest.getEmail());
         if(user == null) user=new User();
         System.out.println(signUpRequest.getEmail());
-        user.setName(signUpRequest.getName());
-        user.setEmail(signUpRequest.getEmail());
-        user.setPassword(signUpRequest.getPassword());
-        user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
+        if(signUpRequest.getName() != null)
+            user.setName(signUpRequest.getName());
+        if(signUpRequest.getEmail() != null)
+            user.setEmail(signUpRequest.getEmail());
+        if(signUpRequest.getPassword() != null)
+            user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
         user.setAuthProvider(AuthenticationProvider.LOCAL);
         if(signUpRequest.getIsBrand().equalsIgnoreCase("true")){
-            user.setUrl(signUpRequest.getUrl());
+            if(signUpRequest.getUrl()!=null)
+                user.setUrl(signUpRequest.getUrl());
             user.setIsBrand("true");
         }
         else user.setIsBrand("false");
 
-        User result = userRepository.save(user);
+        userRepository.save(user);
 
         /*URI location = ServletUriComponentsBuilder
                 .fromCurrentContextPath().path("/user/me")
@@ -92,10 +94,10 @@ public class AuthenticationServiceImpl  implements wbm.growther.growther_001.ser
 
 
         //TODO : app email
-        emailService.sendMessage(
+        /*emailService.sendMessage(
                 signUpRequest.getEmail(),
                 buildEmail(signUpRequest.getName(), link)
-                );
+                );*/
 
         //the email is not enabled yet
 
@@ -116,9 +118,8 @@ public class AuthenticationServiceImpl  implements wbm.growther.growther_001.ser
         );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String token = jwtUtils.createToken(authentication);
 
-        return token;
+        return jwtUtils.createToken(authentication);
     }
 
     @Override
@@ -139,10 +140,9 @@ public class AuthenticationServiceImpl  implements wbm.growther.growther_001.ser
             throw new IllegalStateException("token expired");
         }
 
-        User user = userRepository.findUserById(confirmationToken.getUser().getId());
-
         int a=confirmationTokenService.setConfirmedAt(token);
         System.out.println(a);
+
         userService.enableUser(
                 confirmationToken.getUser().getEmail());
         ConfirmationToken confirmationToken1=confirmationTokenService.getToken(token);

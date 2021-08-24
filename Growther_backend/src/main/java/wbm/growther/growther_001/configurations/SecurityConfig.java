@@ -58,7 +58,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.cors().and()
+        httpSecurity.cors().configurationSource(corsConfigurationSource()).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .csrf().disable()
@@ -85,7 +85,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    protected void configure(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(authenticationProvider());
     }
 
@@ -121,12 +121,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         configuration.addExposedHeader("Authorization");
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS"));
 
-        configuration.setAllowedHeaders(Arrays.asList("Access-Control-Allow-Headers",
-                "Access-Control-Allow-Origin", "Access-Control-Request-Method",
+        configuration.setAllowedHeaders(Arrays.asList("Access-Control-Allow-Origin",
+                "Access-Control-Allow-Headers", "Access-Control-Request-Method",
                 "Access-Control-Request-Headers","Accept","Accept-Language","Content-Language",
                 "Origin", "Cache-Control", "Authorization", "Content-Type"));
 
-        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }

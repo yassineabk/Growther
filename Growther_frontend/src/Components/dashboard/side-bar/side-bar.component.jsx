@@ -49,12 +49,13 @@ export const DashboradSideBar = ({isBrand})=>{
                             <span className="tooltip-text">Home</span>
                         </div>
                     </div>
-                    {isBrand === "true" ? [<div onClick={()=>changeHandler("/dashboard/My Contests")} className={location.pathname.includes("/dashboard/My Contests") ? "sideBar_item active" : "sideBar_item"}>
+                    <div onClick={()=>changeHandler("/dashboard/My Contests")} className={location.pathname.includes("/dashboard/My Contests") ? "sideBar_item active" : "sideBar_item"}>
                         <img alt="" src={require("../../../assets/icons/trophy.png").default}/>
                         <div className="tooltip is-flex">
                             <span className="tooltip-text">Contests</span>
                         </div>
-                    </div>,
+                    </div>
+                    {isBrand === "true" ? [
                     <div onClick={()=>changeHandler("/dashboard/Templates")} className={templateLocations.includes(location.pathname) ? "sideBar_item active" : "sideBar_item"}>
                         <img alt="" src={require("../../../assets/icons/file.png").default}/>
                         <div className="tooltip is-flex">

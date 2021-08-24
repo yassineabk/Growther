@@ -10,6 +10,9 @@ import java.util.List;
 public interface ParticipationService {
     List<ParticipationDto> getAllParticipations();
     List<ParticipationDto> getParticipationsByContest(Long contestID) throws ResourceNotFoundException;
+
+    List<ParticipationDto> getParticipationsByUser(Long userID) throws ResourceNotFoundException;
+
     Participation createNewParticipation(ParticipationDto participationDto, String email, Long contestID) throws ParseException;
     ParticipationDto getParticipationById(Long participationID);
     ParticipationDto getParticipationByContestIdAndUserId(Long contestID,Long userID);

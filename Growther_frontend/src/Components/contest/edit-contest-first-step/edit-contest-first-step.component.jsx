@@ -209,7 +209,7 @@ const EditContestFirstStep = ()=>{
                             placeholder="dd-mm-yyyy"
                             label="End date"
                             changeHandler={(event)=> dateHandler(event)}
-                            value={typeof(information.endDate) === "string" ? information.endDate.split("T")[0] : ""}
+                            value={typeof(information.endDate) === "string" ? information.endDate.trim().replace(" ", "T").split("T")[0] : ""}
                             validData={isValidData === false ? 
                                 {
                                     isValid: validData.endDate,

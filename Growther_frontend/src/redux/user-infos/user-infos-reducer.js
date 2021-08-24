@@ -21,6 +21,11 @@ export const UserInfosReducer=(state=INITIAL_STATE,action)=>{
                 ...action.payload,
                 isLoading: false
             }
+        case UserInfosTypes.IS_LOADING_USER_INFOS:
+            return {
+                ...state,
+                isLoading: true
+            }
         case UserInfosTypes.EDIT_USER_INFOS:
             return {
                 ...state,
@@ -30,6 +35,7 @@ export const UserInfosReducer=(state=INITIAL_STATE,action)=>{
         case UserInfosTypes.SET_USER_INFOS_FAIL:
             return {
                 ...INITIAL_STATE,
+                isLoading: false
             }
         default:
             return {

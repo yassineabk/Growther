@@ -53,6 +53,13 @@ public class ParticipationController {
         ContestDto contestDto = contestService.getContestById(contestID);
         return service.getParticipationsByContest(contestID);
     }
+
+    //Get total entries of a contest
+    @GetMapping("/{id}/entries")
+    public int getTotalEntries(@PathVariable(value = "id") Long contestID) throws ResourceNotFoundException {
+        ContestDto contestDto = contestService.getContestById(contestID);
+        return service.getParticipationsByContest(contestID).size();
+    }
     @GetMapping("/{id}")
     public ResponseEntity<ParticipationDto> getParticipationById(@PathVariable(value = "id") Long participationId) throws ResourceNotFoundException{
         ParticipationDto participationDto = service.getParticipationById(participationId);

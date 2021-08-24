@@ -67,6 +67,21 @@ public class ParticipationServiceImpl implements ParticipationService {
     }
 
     @Override
+    public List<ParticipationDto> getParticipationsByUser(Long userID) throws ResourceNotFoundException {
+        // load the principal (authenticated user)
+        SecurityUser principal= (SecurityUser) SecurityContextHolder
+                .getContext().getAuthentication().getPrincipal();
+        //get the user id from security context
+        Long userId=principal.getId();
+
+        List<Participation> participations = repository.findAllByUserId(userID);
+        //return participations just for the Brand who created the Contest
+        if (!participations.isEmpty())
+            return getParticipationsDto(participations);
+        else return null;
+    }
+
+    @Override
     public Participation createNewParticipation(ParticipationDto participationDto,String email,Long contestID) throws ParseException {
         User user = userRepository.findUserByEmail(email);
         if(!user.getIsBrand().equalsIgnoreCase("false")) Long.decode("0");
@@ -83,6 +98,7 @@ public class ParticipationServiceImpl implements ParticipationService {
             action.setParticipation(participation);
         });
 
+        //participation.setId(0L);
         participation.setUser(user);
         participation.setContest(contest);
 
@@ -156,7 +172,8 @@ public class ParticipationServiceImpl implements ParticipationService {
         Participation participation = new Participation();
         participation.setId(participationDto.getId());
         participation.setPartipationDate(participationDto.getPartipationDate());
-        participation.setContest(contestService.toContest(participationDto.getContestDto()));
+        //participation.setContest(contestService.toContest(participationDto.getContestDto()));
+        participation.setContest(participationDto.getContest());
         participation.setUser(participationDto.getUser());
         participation.setParticipationActions(participationDto.getParticipationActions());
         participation.setTotalPoints(participationDto.getTotalPoints());
@@ -168,7 +185,8 @@ public class ParticipationServiceImpl implements ParticipationService {
         ParticipationDto participationDto = new ParticipationDto();
         participationDto.setId(participation.getId());
         participationDto.setPartipationDate(participation.getPartipationDate());
-        participationDto.setContestDto(contestService.toDto(participation.getContest()));
+        //participationDto.setContestDto(contestService.toDto(participation.getContest()));
+        participationDto.setContest(participation.getContest());
         participationDto.setUser(participation.getUser());
         participationDto.setParticipationActions(participation.getParticipationActions());
         participationDto.setTotalPoints(participation.getTotalPoints());
