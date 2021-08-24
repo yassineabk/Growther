@@ -108,7 +108,7 @@ export const SettingsModal = ({show, closeModal})=>{
                         changeHandler={event => changeHandler(event, "confirmPassword")}
                         validData={error.confirmPassword}
                     />
-                    <div>
+                    <div className={`password-update-message ${updateSuccess.success ? "has-text-success" : "has-text-danger"}`}>
                         {updateSuccess.message}
                     </div>
                 </div>
