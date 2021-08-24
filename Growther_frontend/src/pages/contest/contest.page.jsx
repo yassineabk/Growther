@@ -65,27 +65,28 @@ const Contest = ({currentUser})=>{
     return(
         <div className="is-flex is-flex-direction-column contest is-justify-content-center is-align-items-center">
             <Spinner show={isLoading} />
-            {information !== null && typeof(information) === "object" && !isLoading && typeof(information.user) === "object" ? 
+            {information !== null && information !== undefined && typeof(information) === "object" && !isLoading && typeof(information.user) === "object" ? 
                 <PreviewCard
                     element={information}
                     title={information.title}
                     points={points}
                     id={information.idContest}
                     description={information.description}
-                    timeLeft={information.endDate ? TimeLeft(information.endDate, information.endTime).date : ""}
+                    timeLeft={information.endDate ? TimeLeft(information.endDate.trim().replace(" ","T"), information.endTime).date : ""}
                     dateType={TimeLeft(information.endDate, information.endTime).type}
                     actions={Array.isArray(information.actions) ? information.actions : []}
                     prizes={information.prizes}
                     previewActions={selected}
                     changeHandler={(event, provider)=> changeHandler(event, provider)}
                     buttons={information.user !== null && typeof(information.user) === "object" && information.user.isBrand === "true" ? userId.toString() === information.user.id.toString() : false}
-                    hasStarted={typeof(information.startDate) === "string" ? hasStarted(information.startDate.split("T")[0]) : false}
-                    hasEnded={typeof(information.endDate) === "string" ? hasEnded(information.endDate.split("T")[0]) : true}
+                    hasStarted={typeof(information.startDate) === "string" ? hasStarted(information.startDate.trim().replace(" ","T").split("T")[0]) : false}
+                    hasEnded={typeof(information.endDate) === "string" ? hasEnded(information.endDate.trim().replace(" ","T").split("T")[0]) : true}
                     user_id={typeof(information.user) === "object" ? information.user.id.toString() : ""}
                     isPublished={information.status !== "DRAFT" ? true  : false}
                     immediately={information.immediately === "true" || information.immediately === true ? true : false}
                     canParticipate={canParticipate}
                     error={error}
+                    totalPoints={information}
                     status={information.status}
                     DoAction={(index, element)=> DoAction(index, element)}
                     showLoginForm={showLoginForm && {}.toString.call(DoAction) === '[object Function]' ? (value)=> showLoginForm(value) : ()=> false}

@@ -1,6 +1,5 @@
 import axios from "axios"
 import { BACKEND_API } from "../../services/links"
-import { ShowErrorModal } from "../errors/errors-actions"
 import { CONTESTS_TYPES } from "./contests-types"
 
 export const GetContests = async (dispatch)=>{
@@ -12,9 +11,29 @@ export const GetContests = async (dispatch)=>{
                 } 
     }
     dispatch({type: CONTESTS_TYPES.GET_CONTESTS_LOADING})
-    return axios.get(`${BACKEND_API}/api/contests/GetContests`, config)
+    return axios.get(`${BACKEND_API}/api/contests/all`, config)
         .then(response =>{
-            dispatch({type: CONTESTS_TYPES.GET_CONTESTS, payload: response.data})
+            var {data} = response
+            console.log(response)
+            if(Array.isArray(data)){
+                var payload = data.map(item =>{
+                    if(item && typeof(item) === "object" && item.contest !== null && typeof(item.contest) === "object"){
+                        var {contest, user, participationActions, partipationDate, id, totalPoints, done} = item
+                        var {startDate, endDate} = contest
+                        startDate = startDate.trim().replace(" ", "T")
+                        endDate = endDate.trim().replace(" ", "T")
+                        contest = {
+                            ...contest,
+                            startDate,
+                            endDate
+                        }
+                        return {...contest, actions: participationActions, user, partipationDate, participationId: id, totalPoints, done}
+                    }
+                    return item
+                })
+                dispatch({type: CONTESTS_TYPES.GET_CONTESTS, payload: payload})
+            }
+            dispatch({type: CONTESTS_TYPES.GET_CONTESTS_FAIL})
         }).catch(err =>{
             dispatch({type: CONTESTS_TYPES.GET_CONTESTS_FAIL})
             //ShowErrorModal(dispatch, "Something went wrong please try again later")
