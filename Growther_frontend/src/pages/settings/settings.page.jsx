@@ -9,6 +9,7 @@ import { SelectInput } from "../../Components/contest/select-input/select-input.
 import { Spinner } from "../../Components/spinner/spinner.component"
 import { UrlValidation } from "../../redux/contest/contest-actions"
 import { EditUserInfos, setUserInfos } from "../../redux/user-infos/user-infos-actions"
+import { BACKEND_API } from "../../services/links"
 import { SettingsModal } from "./settings-modal.component"
 const SettingsComponent = ()=>{
     const language = localStorage.getItem("lang")
@@ -37,7 +38,7 @@ const SettingsComponent = ()=>{
             }
             if(!infos || infos === null || typeof(infos) !== "object" || infos.id !== parseInt(sub)){
                 setLoading(true)
-                axios.get(`https://staging-backendapp.herokuapp.com/api/users/${sub}`, config)
+                axios.get(`${BACKEND_API}/api/users/${sub}`, config)
                     .then(response =>{
                         setInfos(response.data)
                         setLoading(false)
@@ -110,7 +111,7 @@ const SettingsComponent = ()=>{
             } 
         }
         setLoading(true)
-        axios.put(`https://staging-backendapp.herokuapp.com/api/users/update/${userInfos.id}`, userInfos ,config)
+        axios.put(`${BACKEND_API}/api/users/update/${userInfos.id}`, userInfos ,config)
             .then(response =>{
                 setLoading(false)
                 setUserInfos(dispatch, userInfos)

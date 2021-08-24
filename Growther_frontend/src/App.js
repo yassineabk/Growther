@@ -57,7 +57,7 @@ const EditContestThirdStep = lazy(()=> import('./Components/contest/edit-contest
 
 const App = ()=> {
   var { currentUser } = useSelector(state => state.login)
-  var infos, {isBrand} = useSelector(state => state.userInfos)
+  var infos, {isBrand, isLoading} = useSelector(state => state.userInfos)
   var { actionModal, action, information } = useSelector(state => state.contest_card)
   var dispatch = useDispatch()
   useEffect(()=>{
