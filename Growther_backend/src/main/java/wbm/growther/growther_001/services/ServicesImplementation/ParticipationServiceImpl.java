@@ -67,6 +67,21 @@ public class ParticipationServiceImpl implements ParticipationService {
     }
 
     @Override
+    public List<ParticipationDto> getParticipationsByUser(Long userID) throws ResourceNotFoundException {
+        // load the principal (authenticated user)
+        SecurityUser principal= (SecurityUser) SecurityContextHolder
+                .getContext().getAuthentication().getPrincipal();
+        //get the user id from security context
+        Long userId=principal.getId();
+
+        List<Participation> participations = repository.findAllByUserId(userID);
+        //return participations just for the Brand who created the Contest
+        if (!participations.isEmpty())
+            return getParticipationsDto(participations);
+        else return null;
+    }
+
+    @Override
     public Participation createNewParticipation(ParticipationDto participationDto,String email,Long contestID) throws ParseException {
         User user = userRepository.findUserByEmail(email);
         if(!user.getIsBrand().equalsIgnoreCase("false")) Long.decode("0");

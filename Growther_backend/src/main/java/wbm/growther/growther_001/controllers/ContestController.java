@@ -32,7 +32,33 @@ public class ContestController {
     public List<ContestDto> getContests(){
         return contestService.getAllContests();
     }
+    //Get All Contests
+    @GetMapping("/all")
+    public List<? extends Object> getContestsByUser() throws ResourceNotFoundException {
+        Long userId=null;
+        SecurityUser principal;
 
+        // load the principal (authenticated user) if he exist
+        try {
+            principal= (SecurityUser) SecurityContextHolder
+                    .getContext().getAuthentication().getPrincipal();
+            //get the user id from security context
+            userId=principal.getId();
+
+        }catch (Exception e){
+            System.out.println("do nothing");
+        }
+        List<ContestDto> contests = contestService.getAllContestsByUser(userId);
+        List<ParticipationDto> participations = participationService.getParticipationsByUser(userId);
+//        if (!contests.isEmpty())
+//            return contests;
+//        else
+//            return participationService.getParticipationsByUser(userId);
+        if (! participations.isEmpty())
+            return participations;
+        else
+            return contests;
+    }
 
     //Get contest by id
     @GetMapping("/{id}")

@@ -51,6 +51,12 @@ public class ContestServiceImpl implements ContestService {
     }
 
     @Override
+    public List<ContestDto> getAllContestsByUser(Long userID) {
+        List<Contest> contests = repository.findAllByUserId(userID);
+        return getContestsDto(contests);
+    }
+
+    @Override
     @Transactional
     public Long createNewContest(ContestDto NewContestDto, String email) throws ParseException {
 
