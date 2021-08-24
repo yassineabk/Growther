@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from "react-redux"
 import { DuplicateContest } from "../../../redux/contest/contest-actions"
 import { DeleteDraft, GetContests } from "../../../redux/contests/contests-actions"
 import { CardsContainer } from "../cards-container/cards-container.component"
-export const DraftPage = ()=>{
+const DraftPage = ()=>{
     var dispatch = useDispatch()
-    var {contests, isLoading, draft} = useSelector(state => state.get_contests)
+    var { isLoading, draft } = useSelector(state => state.get_contests)
     useEffect(()=>{
         if(((Array.isArray(draft) && draft.length === 0) || !Array.isArray(draft)) && !isLoading){
             GetContests(dispatch)
@@ -31,3 +31,4 @@ export const DraftPage = ()=>{
         </div>
     )
 }
+export default DraftPage;

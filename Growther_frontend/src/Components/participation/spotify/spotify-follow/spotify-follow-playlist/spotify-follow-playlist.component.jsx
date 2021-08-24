@@ -1,17 +1,17 @@
 import axios from "axios"
-import React, { useState } from "react"
-import { SpotifyAuth, Scopes } from 'react-spotify-auth'
-import { SPOTIFY_CLIENT_ID } from "../../../../../services/links"
+import React, { useEffect, useState } from "react"
 import { GetSpotifyToken } from "../../../../../services/tokens"
 import { SpotifyAuthComponent } from "../../spotify-login/spotify-login.compnent"
 export const SpotifyFollowPlaylist = ({url, action_done})=>{
     var [token, setToken] = useState(GetSpotifyToken())
-    window.addEventListener("storage", event =>{
-        if(event.key === "spotifyAccessToken"){
-            setToken(event.newValue)
-        }
-    })     
     var [active, setActive] = useState(true)
+    useEffect(()=>{
+        window.addEventListener("storage", event=>{
+            if(event.key === "discordAccessToken"){
+                setToken(event.newValue)
+            }
+        })
+    }, [setToken])
     var AlbumId = (url)=>{
         while(url[url.length - 1] === "/"){
             url = url.slice(0, url.length - 1)

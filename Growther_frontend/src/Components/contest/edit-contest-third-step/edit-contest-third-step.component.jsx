@@ -4,9 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { SetStateToEdit } from "../../../redux/contest-edit/contest-edit-actions";
 import { decode } from "jsonwebtoken";
 import { Spinner } from "../../spinner/spinner.component";
-export const EditContestThirdStep = ()=>{
+const EditContestThirdStep = ()=>{
     var {information, isLoading} = useSelector(state => state.contest_edit)
-    var infos, {isBrand} = useSelector(state => state.userInfos)
+    var { isBrand } = useSelector(state => state.userInfos)
     var params = useParams()
     var dispatch = useDispatch()
     var history = useHistory()
@@ -50,3 +50,4 @@ export const EditContestThirdStep = ()=>{
         ]
     )
 }
+export default EditContestThirdStep;

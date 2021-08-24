@@ -2,7 +2,7 @@ import React, { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from "react-router-dom"
 import { HideErrorModal } from "../../redux/errors/errors-actions"
-export const ErrorsModal = ()=>{
+const ErrorsModal = ()=>{
     var errors = useSelector(state => state.errors)
     var dispatch = useDispatch()
     var history = useHistory()
@@ -39,3 +39,4 @@ export const ErrorsModal = ()=>{
         </div>
     )
 }
+export default ErrorsModal;

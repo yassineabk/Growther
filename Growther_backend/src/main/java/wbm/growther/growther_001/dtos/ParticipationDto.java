@@ -11,7 +11,8 @@ public class ParticipationDto {
 
     private Long id;
     private Date partipationDate;
-    private ContestDto contest;
+    //private ContestDto contest;
+    private Contest contest;
     private User user;
     private Set<ParticipationAction> participationActions;
     private boolean isDone;
@@ -33,11 +34,19 @@ public class ParticipationDto {
         this.partipationDate = partipationDate;
     }
 
-    public ContestDto getContestDto() {
+   /* public ContestDto getContestDto() {
         return contest;
     }
 
     public void setContestDto(ContestDto contest) {
+        this.contest = contest;
+    }*/
+
+    public Contest getContest() {
+        return contest;
+    }
+
+    public void setContest(Contest contest) {
         this.contest = contest;
     }
 

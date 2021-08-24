@@ -216,13 +216,18 @@ public class ContestController {
         //update informations
 
 
-        contestDto.setTitle(contestDetails.getTitle());
-        contestDto.setDescription(contestDetails.getDescription());
-        contestDto.setEndDate(contestDetails.getEndDate());
-        contestDto.setMaxReach(contestDetails.getMaxReach());
-        contestDto.setEndTime(contestDetails.getEndTime());
-        System.out.println(contestDetails.getEndTime());
-        contestDto.setStatus(contestDetails.getStatus());
+        if(contestDetails.getTitle() != null)
+            contestDto.setTitle(contestDetails.getTitle());
+        if(contestDetails.getDescription() != null)
+            contestDto.setDescription(contestDetails.getDescription());
+        if(contestDetails.getEndDate() != null)
+            contestDto.setEndDate(contestDetails.getEndDate());
+        if(contestDetails.getMaxReach() != 0)
+            contestDto.setMaxReach(contestDetails.getMaxReach());
+        if(contestDetails.getEndTime() != null)
+            contestDto.setEndTime(contestDetails.getEndTime());
+        if(contestDetails.getStatus() != null)
+            contestDto.setStatus(contestDetails.getStatus());
 
         ContestDto contestDtoUpdated=contestService.updateContestInfos(contestDto);
         return  ResponseEntity.ok().body(contestDtoUpdated);
@@ -237,22 +242,36 @@ public class ContestController {
         // if the contest does not exist, throw an exception
         if(contestDto==null) throw new ResourceNotFoundException("No Contest exist with  ID : "+contestId.toString());
         System.out.println(contestId.toString());
-        //update informations
+        //update information if available
 
-        contestDto.setTitle(contestDetails.getTitle());
-        contestDto.setDescription(contestDetails.getDescription());
-        contestDto.setImmediately(contestDetails.getImmediately());
-        contestDto.setStartDate(contestDetails.getStartDate());
-        contestDto.setEndDate(contestDetails.getEndDate());
-        contestDto.setTimeZone(contestDetails.getTimeZone());
-        contestDto.setMaxReach(contestDetails.getMaxReach());
-        contestDto.setActionsNbr(contestDetails.getActionsNbr());
-        contestDto.setWinnersNbr(contestDetails.getWinnersNbr());
-        contestDto.setStartTime(contestDetails.getStartTime());
-        contestDto.setEndTime(contestDetails.getEndTime());
-        contestDto.setStatus(contestDetails.getStatus());
-        contestDto.setActions(contestDetails.getActions());
-        contestDto.setPrizes(contestDetails.getPrizes());
+        if(contestDetails.getTitle() != null)
+            contestDto.setTitle(contestDetails.getTitle());
+        if(contestDetails.getDescription() != null)
+            contestDto.setDescription(contestDetails.getDescription());
+        if(contestDetails.getImmediately() != null)
+            contestDto.setImmediately(contestDetails.getImmediately());
+        if(contestDetails.getStartDate() != null)
+            contestDto.setStartDate(contestDetails.getStartDate());
+        if(contestDetails.getEndDate() != null)
+            contestDto.setEndDate(contestDetails.getEndDate());
+        if(contestDetails.getTimeZone() != null)
+            contestDto.setTimeZone(contestDetails.getTimeZone());
+        if(contestDetails.getMaxReach() != 0)
+            contestDto.setMaxReach(contestDetails.getMaxReach());
+        if(contestDetails.getActionsNbr() != 0)
+            contestDto.setActionsNbr(contestDetails.getActionsNbr());
+        if(contestDetails.getWinnersNbr() != 0)
+            contestDto.setWinnersNbr(contestDetails.getWinnersNbr());
+        if(contestDetails.getStartTime() != null)
+            contestDto.setStartTime(contestDetails.getStartTime());
+        if(contestDetails.getEndTime() != null)
+            contestDto.setEndTime(contestDetails.getEndTime());
+        if(contestDetails.getStatus() != null)
+            contestDto.setStatus(contestDetails.getStatus());
+        if(contestDetails.getActions() != null)
+            contestDto.setActions(contestDetails.getActions());
+        if(contestDetails.getPrizes() != null)
+            contestDto.setPrizes(contestDetails.getPrizes());
 
         ContestDto contestDtoUpdated=contestService.updateContestInfos(contestDto);
         return  ResponseEntity.ok().body(contestDtoUpdated);

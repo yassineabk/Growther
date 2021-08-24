@@ -8,10 +8,9 @@ import { ContestButton } from "../contest-buttons/contest-buttons.component"
 import { ContestDescription } from "../contest-description-input/contest-description-input.component"
 import { ContestInput } from "../contest-input/contest-input.component"
 import { PreviewContainer } from "../preview-container/preview-container.component"
-import { SelectInput } from "../select-input/select-input.component"
-export const EditContestFirstStep = ()=>{
-    var { information, actions, isValidData, validData, isLoading, error } = useSelector(state => state.contest_edit)
-    var infos, {isBrand} = useSelector(state => state.userInfos)
+const EditContestFirstStep = ()=>{
+    var { information, isValidData, validData, isLoading } = useSelector(state => state.contest_edit)
+    var { isBrand } = useSelector(state => state.userInfos)
     var dispatch = useDispatch()
     var location = useLocation()
     var params = useParams()
@@ -265,3 +264,4 @@ export const EditContestFirstStep = ()=>{
         ]
     )
 }
+export default EditContestFirstStep;

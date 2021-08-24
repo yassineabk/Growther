@@ -1,5 +1,6 @@
 import axios from "axios"
 import { BACKEND_API } from "../../services/links"
+import { TimeZone } from "../../services/timeLeft"
 import { ShowErrorModal } from "../errors/errors-actions"
 import { Contest_Card_Types } from "./contest-card-types"
 export const SetData = (dispatch, title, description, id) =>{
@@ -73,8 +74,17 @@ export const ActionDone = async (dispatch, action, id, index, points, idContest)
             participationActions[key] = action[key]
         }
     })
+    var date = new Date()
+    var day = ("0"+date.getDate()).slice(-2)
+    var month = ("0"+parseInt(date.getDate() + 1 === 13 ? 1 : date.getDate() + 1)).slice(-2)
+    var year = date.getFullYear()
+    var hour = ("0"+date.getHours()).slice(-2)
+    var min = ("0"+date.getMinutes()).slice(-2)
+    var seconds = ("0"+date.getSeconds()).slice(-2)
+    var mseconds = ("0"+date.getMilliseconds()).slice(-3)
+    var timeZone = date.getTimezoneOffset()
     var data = {
-        partipationDate: new Date().toUTCString(),
+        partipationDate: `${year}-${month}-${day}T${hour}:${min}:${seconds}.${mseconds}${TimeZone(timeZone)}`,
         participationActions: [participationActions]
     }
     return axios.post(`${BACKEND_API}/api/participations/create/${idContest}`, data, config)

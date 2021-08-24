@@ -83,6 +83,7 @@ public class ParticipationServiceImpl implements ParticipationService {
             action.setParticipation(participation);
         });
 
+        //participation.setId(0L);
         participation.setUser(user);
         participation.setContest(contest);
 
@@ -156,7 +157,8 @@ public class ParticipationServiceImpl implements ParticipationService {
         Participation participation = new Participation();
         participation.setId(participationDto.getId());
         participation.setPartipationDate(participationDto.getPartipationDate());
-        participation.setContest(contestService.toContest(participationDto.getContestDto()));
+        //participation.setContest(contestService.toContest(participationDto.getContestDto()));
+        participation.setContest(participationDto.getContest());
         participation.setUser(participationDto.getUser());
         participation.setParticipationActions(participationDto.getParticipationActions());
         participation.setTotalPoints(participationDto.getTotalPoints());
@@ -168,7 +170,8 @@ public class ParticipationServiceImpl implements ParticipationService {
         ParticipationDto participationDto = new ParticipationDto();
         participationDto.setId(participation.getId());
         participationDto.setPartipationDate(participation.getPartipationDate());
-        participationDto.setContestDto(contestService.toDto(participation.getContest()));
+        //participationDto.setContestDto(contestService.toDto(participation.getContest()));
+        participationDto.setContest(participation.getContest());
         participationDto.setUser(participation.getUser());
         participationDto.setParticipationActions(participation.getParticipationActions());
         participationDto.setTotalPoints(participation.getTotalPoints());
