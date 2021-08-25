@@ -4,7 +4,7 @@ import { ActionDone, CloseActionModal } from "../../../redux/contest-card/contes
 import { HideErrorModal } from "../../../redux/errors/errors-actions"
 import { ActionModal } from "../action-modal/action-modal.component"
 import { PreviewAction } from "../preview-action/preview-action.component"
-const ActionModalContainer = ({action, show, idContest})=>{
+const ActionModalContainer = ({action, show, idContest, canParticipate, participationId, actions})=>{
     var dispatch = useDispatch()
     var [activeButton, setActiveButton] = useState(false)
     var [countdown, setCount] = useState(10)
@@ -87,7 +87,7 @@ const ActionModalContainer = ({action, show, idContest})=>{
                             {error.isError ? <div id="countdown"><span>{error.message}</span></div> : null}
                             {withCountDown && !error.isError ? <div id="countdown"><span>00:{("0"+countdown).slice(-2)}</span></div> : null}
                             <div onClick={activeButton ? (event)=> {
-                                ActionDone(dispatch, action, action.id, action.index, action.points, idContest)
+                                ActionDone(dispatch, action, action.id, action.index, action.points, idContest, canParticipate, participationId, actions)
                                     .then(value =>{
                                         if(value){
                                             setActiveButton(false)

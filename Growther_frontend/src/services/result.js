@@ -20,50 +20,53 @@ export const MakeResultState = async (id)=>{
         .then(response =>{
             var data = response.data
             var result = []
-            var keys = ["text", "emails", "username", "link"]
             if(Array.isArray(data)){
                 try{data.map(item =>{
-                    var res = {}
-                    var keysFilter = {
-                        text: "",
-                        emails: "",
-                        username: "",
-                        link: ""
+                    var res = {
+                        text: [],
+                        emails: [],
+                        usernames: [],
+                        links: []
                     }
                     if(typeof(item) === "object" && item !== null){
-                        var { contest, participationActions, done, totalPoints, user, partipationDate } = item
+                        var { contest, participationActions, done, user, partipationDate } = item
                         var { actionsNbr } = contest
                         var actionsDone = 0
-                        keys.map(key =>{
-                            if(item[key] && item[key] !== null && typeof(item[key]) === "string"){
-                                console.log(item, key)
-                                if(item.provider === "string" && item.provider.toLowerCase() === "question"){
-                                    tableHead = [...tableHead, {label: `${keysFilter.text.length > 0 ? "Answer " + keysFilter.text.length : "Answer"}`, key: "answer"}]
-                                }else{
-                                    tableHead = [...tableHead, {label: `${item.provider} ${key} ${keysFilter[key].length > 0 ? keysFilter[key].length : ""}`, key: "url"}]  
-                                }
-                                keysFilter[key] = item[key]
-                            }
-                        })
+                        var totalPoints = 0
                         if(Array.isArray(participationActions)){
                             actionsDone = participationActions.length
+                            participationActions.map(item =>{
+                                if(typeof(item) === "object" && item !== null){
+                                    totalPoints += item.points
+                                    Object.keys(item).map(key =>{
+                                        switch(key){
+                                            case "text":
+                                            case "email":
+                                            case "link":
+                                            case "username":
+                                                if(item[key] !== null && typeof(item[key]) === "string"){
+                                                    tableHead.push({label: `${item.provider} ${item.type} ${key}`, key: `${item.provider} ${item.type} ${key}`})
+                                                    return res.text.push(item[key])
+                                                }
+                                                return true
+                                            default:
+                                                return false
+                                        }
+                                    })
+                                }
+                                
+                            })
                         }
-                        res.numActions = `${actionsNbr}`
-                        res.status = done ? "Done" : "Pending"
+                        res.numActions = `${actionsDone}/${actionsNbr}`
+                        res.status = done || actionsDone === actionsNbr ? "Done" : "Pending"
                         res.points = totalPoints ? totalPoints : 0
                         if(user && typeof(user) === "object" && user !== null ){
                             res.email = user.email
                             res.name = user.name
                         }
                         res.date = partipationDate && partipationDate !== null && typeof(partipationDate) === "string" ? partipationDate.split("T")[0] : ""
-                        keys.map(key =>{
-                            if(keysFilter[key] && typeof(keysFilter[key]) === "string"){
-                                res[key] = keysFilter[key]
-                            }
-                        })
                         result.push(res)
                     }
-                    console.log({result, tableHead})
                 })}catch(err){
                     return {result: [], tableHead: []}
                 }

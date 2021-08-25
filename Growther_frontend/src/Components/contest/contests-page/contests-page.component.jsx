@@ -17,7 +17,7 @@ const DashboardContestPage = () =>{
     var Duplicate = (id, data)=> {
         DuplicateContest(dispatch, id, data)
     }
-    if(isBrand === "true") return <Redirect to="/" />
+    if(isBrand !== "true") return <Redirect to="/dashboard" />
     return(
         <div className="is-flex is-flex-direction-column column is-full">
             <div className="mb-4">
