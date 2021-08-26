@@ -17,14 +17,12 @@ export const TimeLeft = (endDate, endTime)=>{
             }
             if(daysDiff === 0){
                 endTime = Array.isArray(endTime) ? endTime : endTime.split(":")
-                var minsDiff = Math.abs(parseInt(endTime[1]) - currentMin)
+                var minsDiff = parseInt(endTime[1]) - currentMin
                 var hoursDiff = ((parseInt(endTime[0]) - currentHour)).toFixed(0)
-                console.log(hoursDiff, minsDiff, "herre")
                 if(hoursDiff < 0){
                     return {date: "Ended", type: ""}
                 }
                 if(hoursDiff < 1){
-                    console.log(minsDiff)
                     if(hoursDiff === 0){
                         return {date: minsDiff, type: "minute"}
                     }

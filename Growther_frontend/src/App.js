@@ -57,7 +57,7 @@ const EditContestThirdStep = lazy(()=> import('./Components/contest/edit-contest
 
 const App = ()=> {
   var { currentUser } = useSelector(state => state.login)
-  var infos, {isBrand, isLoading} = useSelector(state => state.userInfos)
+  var infos, {isBrand} = useSelector(state => state.userInfos)
   var { actionModal, action, information, canParticipate } = useSelector(state => state.contest_card)
   var dispatch = useDispatch()
   useEffect(()=>{
@@ -70,7 +70,7 @@ const App = ()=> {
       setUserInfos(dispatch, newToken, infos, true)
     })
     setUserInfos(dispatch, token, infos, false)
-  }, [dispatch])
+  }, [dispatch, infos])
   return (
     <div className={"App"}>
       <Suspense fallback={<Spinner show={true} />}>

@@ -10,7 +10,6 @@ import Contact from '../../Components/landing-page/contact/contact.componenet';
 import SocialMedia from '../../Components/landing-page/social-media/social-media.component';
 import Footer from '../../Components/landing-page/footer/footer.component';
 import Auxi from '../../Components/landing-page/hoc/auxi.componenet';
-import LanguageSelect from '../../Components/language-select/language.select';
 class LandingPage extends React.Component {
   render() {
 
@@ -37,7 +36,7 @@ class LandingPage extends React.Component {
                                         </div>
                                         {/*<LanguageSelect/>*/}
                                         <div className="margin-t-30">
-                                            <iframe src="http://player.vimeo.com/video/69988283?color=f15b72&amp;title=0&amp;byline=0&amp;portrait=0" width="555" height="321" className="frame-border"></iframe>
+                                            <iframe title="landing-page-iframe" src="http://player.vimeo.com/video/69988283?color=f15b72&amp;title=0&amp;byline=0&amp;portrait=0" width="555" height="321" className="frame-border"></iframe>
                                         </div>
                                     </div>
                                 </div>

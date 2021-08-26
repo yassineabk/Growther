@@ -1,5 +1,4 @@
 import axios from "axios"
-import { decode } from "jsonwebtoken"
 import React, { useEffect, useState } from "react"
 import { ContestButton } from "../../Components/contest/contest-buttons/contest-buttons.component"
 import { ContestInput } from "../../Components/contest/contest-input/contest-input.component"
@@ -66,6 +65,7 @@ export const SettingsModal = ({show, closeModal})=>{
             if(!error[key]){
                 result.push(false)
             }
+            return true
         })
         return result.length === 0
     }

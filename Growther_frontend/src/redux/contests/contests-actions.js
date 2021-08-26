@@ -64,6 +64,13 @@ export const AppendEditedContest = (dispatch, id, data)=>{
         dispatch({type: CONTESTS_TYPES.GET_CONTESTS_FAIL})
     }
 }
+export const AppendEditedDraft = (dispatch, id, data)=>{
+    try{
+        dispatch({type: CONTESTS_TYPES.APPEND_EDITED_DRAFT, payload: {id, data}})
+    }catch{
+        dispatch({type: CONTESTS_TYPES.GET_CONTESTS_FAIL})
+    }
+}
 export const DeleteDraft = (dispatch, id) =>{
     var token = localStorage.getItem("accessToken")
     var config = {

@@ -15,11 +15,12 @@ export const SetData = (dispatch, title, description, id) =>{
     axios.get(`${BACKEND_API}/api/contests/${title}/${id}?timezone=${timeZone}`, config)
         .then(response =>{
             if(typeof(response.data) === "object"){
+                var startDate, endDate;
                 var data = response.data
-                console.log(data)
                 if(data.contest !== undefined  && data.contest !== null && typeof(data.contest) === "object"){
                     var {contest, user, participationActions, partipationDate, id, totalPoints, done} = data
-                    var {startDate, endDate} = contest
+                    startDate = contest.startDate
+                    endDate = contest.endDate
                     startDate = startDate.trim().replace(" ", "T")
                     endDate = endDate.trim().replace(" ", "T")
                     contest = {
@@ -30,7 +31,8 @@ export const SetData = (dispatch, title, description, id) =>{
                     var payload = {...contest, actions: participationActions, user, partipationDate, participationId: id, totalPoints, done}
                     dispatch({type: Contest_Card_Types.SET_CONTEST_STATE, payload: {data: payload, canParticipate: true}})
                 }else{
-                    var {startDate, endDate} = data
+                    startDate = contest.startDate
+                    endDate = contest.endDate
                     startDate = startDate.trim().replace(" ", "T")
                     endDate = endDate.trim().replace(" ", "T")
                     data = {
@@ -45,7 +47,6 @@ export const SetData = (dispatch, title, description, id) =>{
                 ShowErrorModal(dispatch, "Couldn't get this contest please try again later")
             }
         }).catch(err =>{
-            console.log(err.response)
             dispatch({type: Contest_Card_Types.CONTEST_CARD_ERROR})
             ShowErrorModal(dispatch, "Couldn't get this contest please try again later")
         })
@@ -91,6 +92,7 @@ export const ActionDone = async (dispatch, action, id, index, points, idContest,
         if(!["id", "index"].includes(key)){
             participationActions[key] = action[key]
         }
+        return true
     })
     participationActions.done = true
     var date = new Date()
@@ -118,6 +120,7 @@ export const ActionDone = async (dispatch, action, id, index, points, idContest,
             if(!["id", "index"].includes(key)){
                 newElement[key] = element[key]
             }
+            return true
         })
         return newElement
     })

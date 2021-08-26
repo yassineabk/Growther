@@ -6,7 +6,7 @@ export const SpotifyAuthComponent = ()=>{
         <div id="spotifyAuthContainer" className="is-flex is-justify-content-center is-align-items-center">
             <div onClick={(event)=> window.open(oauth, "_blank")} className="spotifyAuthButton is-flex">
                 <span>
-                    <img className="spotifyAuthLogo" src={require("../../../../assets/icons/spotify.png").default} />
+                    <img alt="" className="spotifyAuthLogo" src={require("../../../../assets/icons/spotify.png").default} />
                 </span>
                 <span >
                     Login with spotify

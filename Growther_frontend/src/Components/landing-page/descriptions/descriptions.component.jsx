@@ -13,7 +13,7 @@ class Descriptions extends React.Component {
                         <div className="is-flex is-justify-content-center">
                             <p className="padding-t-15 pt-4 home-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                         </div>
-                        <Link to="JavaScript:Void(0);" className="btn btn-bg-white margin-t-30 mb-5">View Plan & Pricing</Link>
+                        <Link to="#" className="btn btn-bg-white margin-t-30 mb-5">View Plan & Pricing</Link>
                     </div>
                 </div>
             </div>

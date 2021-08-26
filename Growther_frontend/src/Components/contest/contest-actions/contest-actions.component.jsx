@@ -16,7 +16,7 @@ export const ContestActions = ({data, removeAction, updateAction, validActions})
                         element.isDiscord ? 
                             <div className="is-flex is-flex-direction-column">
                                 <p className={`discordBotLink ${validActions && validActions[index] ? "is-danger" : ""}`}>
-                                    Please add our Bot to your <a href={DISCROD_BOT_URL} target="_blank">server</a>
+                                    Please add our Bot to your <a href={DISCROD_BOT_URL} target="_blank" rel="noreferrer">server</a>
                                 </p> 
                             </div> : null
     

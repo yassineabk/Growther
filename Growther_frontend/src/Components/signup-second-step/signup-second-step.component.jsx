@@ -1,8 +1,5 @@
 import React from 'react'
-import EmailInput from '../email-input/email-input.component';
-import PasswordInput from '../password-input/password-input.component';
 import SubmitButton from '../submit-button/submit-button.component';
-import SocialMediaButton from '../social-media-button/social-media-button.component';
 import FormInput from '../form-input/form-input.component';
 import TextAreaInput from '../text-area-input/text-area-input.component';
 

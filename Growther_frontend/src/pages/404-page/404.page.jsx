@@ -6,7 +6,7 @@ const Page404 = ()=>{
     return(
         <div className="page404 is-flex is-flex-direction-column is-justify-content-center is-align-items-center">
             <div>
-                <img src={require("../../assets/icons/404.png").default} />
+                <img alt="" src={require("../../assets/icons/404.png").default} />
             </div>
             <SubmitButton onClick={()=> history.goBack()} label={"Go Back"} />
         </div>
