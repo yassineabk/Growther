@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import { useSelector } from "react-redux"
 import { ContestButton } from "../../Components/contest/contest-buttons/contest-buttons.component"
 import { ContestDescription } from "../../Components/contest/contest-description-input/contest-description-input.component"
@@ -14,7 +14,7 @@ const SupportPage = ()=>{
     }
     var { name, email } = useSelector(state => state.userInfos)
     var [userInfos, setInfos] = useState({
-        name: name && name !== null && typeof(name) === "string" !== null ? name : "",
+        name: name && name !== null && typeof(name) === "string" ? name : "",
         email: email && email !== null && typeof(email) === "string" && checkEmail(email) ? email : ""
     })
     var [error, setError] = useState({
@@ -23,10 +23,8 @@ const SupportPage = ()=>{
         subject: {isValid: true, message: ""},
         message: {isValid: true, message: ""}
     })
-    var [save, canSend] = useState(false)
     var [isLoading, setLoading] = useState(false)
     var changeHandler = (event)=>{
-        canSend(false)
         var key = event.target.id
         var value = event.target.value
         setInfos({
@@ -73,6 +71,7 @@ const SupportPage = ()=>{
                         }
                     }
                 }
+                return true
             })
         }
         return result.length === 0
@@ -85,7 +84,7 @@ const SupportPage = ()=>{
             <div className="is-flex bottomContainer">
                 <div className="is-flex is-flex-direction-column generalInfosForm is-justify-content-center is-align-items-center">
                     <div className="generalInfos">
-                        <img src={require("../../../src/assets/icons/support.png").default} />
+                        <img alt="" src={require("../../../src/assets/icons/support.png").default} />
                     </div>
                 </div>
                 <div className="is-flex is-flex-direction-column newContestFrom">

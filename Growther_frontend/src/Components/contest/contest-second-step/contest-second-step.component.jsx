@@ -10,7 +10,7 @@ import { ContestActions } from "../contest-actions/contest-actions.component"
 import { ContestButton } from "../contest-buttons/contest-buttons.component"
 const ContestSecondStep = ()=>{
     var dispatch = useDispatch()
-    var {information, isValidData, validActions, isPublished, isLoading} = useSelector(state => state.contest)
+    var {information, isValidData, validActions, isLoading} = useSelector(state => state.contest)
     var location = useLocation()
     var history = useHistory()
     var { isBrand } = useSelector(state => state.userInfos)
@@ -19,7 +19,7 @@ const ContestSecondStep = ()=>{
         var token = decode(localStorage.getItem("accessToken"))
         var sub = token !== null && typeof(token) === "object" ? token.sub : ""
         setId(sub)
-    })
+    }, [userId])
     var addAction = (action)=>{
         AddAction(dispatch, action)
     }

@@ -11,7 +11,7 @@ export const SpotifyFollowPlaylist = ({url, action_done})=>{
                 setToken(event.newValue)
             }
         })
-    }, [setToken])
+    }, [token])
     var AlbumId = (url)=>{
         while(url[url.length - 1] === "/"){
             url = url.slice(0, url.length - 1)
@@ -26,14 +26,6 @@ export const SpotifyFollowPlaylist = ({url, action_done})=>{
         var Spotify_Url = `https://api.spotify.com/v1/playlists/${id}/followers`
         var config = {
             Method: "PUT",
-            headers: {
-                "Accept" : "application/json",
-                "Content-Type" : "application/json",
-                "Authorization" : `Bearer ${token}`
-            },
-        }
-        var config2 = {
-            Method: "GET",
             headers: {
                 "Accept" : "application/json",
                 "Content-Type" : "application/json",

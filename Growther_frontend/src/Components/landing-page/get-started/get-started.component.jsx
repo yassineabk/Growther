@@ -14,7 +14,7 @@ class GetStarted extends React.Component {
                         <div className="is-flex is-justify-content-center">
                             <p className="padding-t-15 pt-4 home-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sit amet tortor scelerisque, aliquam leo vel, mattis ex. Phasellus hendrerit nulla eget lectus sodales luctus. </p>
                         </div>
-                        <Link to="JavaScript:Void(0);" className="btn btn-bg-white waves-effect margin-t-20 mb-4">Get Started <i className="mdi mdi-arrow-right"></i> </Link>
+                        <Link to="#" className="btn btn-bg-white waves-effect margin-t-20 mb-4">Get Started <i className="mdi mdi-arrow-right"></i> </Link>
                     </div>
                 </div>
             </div>

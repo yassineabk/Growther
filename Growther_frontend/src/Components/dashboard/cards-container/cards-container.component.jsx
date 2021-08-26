@@ -15,7 +15,7 @@ export const CardsContainer = ({data, title, showMore, addNew, Duplicate, Delete
             var sub = token.sub
             setId(sub)
         }
-    })
+    }, [userId])
     return(
         <div className="is-flex is-flex-direction-column list-container">
             <Spinner show={isLoading} />
