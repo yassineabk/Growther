@@ -10,7 +10,7 @@ export const SpotifySave = ({url, action_done})=>{
                 setToken(event.newValue)
             }
         })
-    }, [setToken])
+    }, [token])
     var [active, setActive] = useState(true)
     var AlbumId = (url)=>{
         while(url[url.length - 1] === "/"){

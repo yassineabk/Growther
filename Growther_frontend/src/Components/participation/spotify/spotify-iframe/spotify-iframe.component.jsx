@@ -9,7 +9,7 @@ export const SpotifyIframe = ({url, action_done, onError, closeModal})=>{
                 setToken(event.newValue)
             }
         })
-    }, [setToken])
+    }, [token])
     var iframeBlur = ()=>{
         var listener = window.addEventListener('blur', event => {
             if (document.activeElement === document.getElementById('spotifyIframe')) {

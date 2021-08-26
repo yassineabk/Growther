@@ -12,7 +12,7 @@ const Dashboard = ({child})=> {
         if(((Array.isArray(contests) && contests.length === 0 ) || !Array.isArray(contests)) && !isLoading){
             GetContests(dispatch)
         }
-    }, [dispatch, contests, isLoading])
+    }, [dispatch])
     return(
         <div className="is-flex is-flex-direction-row">
             <DashboradSideBar isBrand={isBrand} />

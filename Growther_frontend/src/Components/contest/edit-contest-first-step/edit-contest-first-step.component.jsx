@@ -35,7 +35,7 @@ const EditContestFirstStep = ()=>{
                 })
             }
         }
-    }, [dispatch, information, history, location.state, params.id])
+    }, [dispatch])
     var changeHandler = (event)=>{
         var id = event.target.id
         var result = information

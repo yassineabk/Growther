@@ -11,7 +11,7 @@ export const SpotifyFollowPlaylist = ({url, action_done})=>{
                 setToken(event.newValue)
             }
         })
-    }, [setToken])
+    }, [token])
     var AlbumId = (url)=>{
         while(url[url.length - 1] === "/"){
             url = url.slice(0, url.length - 1)

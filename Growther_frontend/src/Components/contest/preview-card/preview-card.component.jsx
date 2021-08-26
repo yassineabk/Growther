@@ -27,7 +27,7 @@ export const PreviewCard = ({title, description, timeLeft, dateType, views, poin
                 
             }
         }
-    }, [userId, buttons, isPreview, user_id])
+    }, [userId])
     if(hasStarted || buttons || isPreview || userId || isPublished || error || immediately){
         return(
             <div id="card" className="is-flex previewCard">

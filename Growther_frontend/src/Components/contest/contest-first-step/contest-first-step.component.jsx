@@ -30,7 +30,7 @@ const ContestFirstStep = ()=>{
         var token = decode(localStorage.getItem("accessToken"))
         var sub = token !== null && typeof(token) === "object" ? token.sub : ""
         setId(sub)
-    }, [dispatch, isValidData, information, isPublished, location.state])
+    }, [dispatch])
     var changeHandler = (event)=>{
         var id = event.target.id
         var value = event.target.value

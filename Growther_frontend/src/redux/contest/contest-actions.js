@@ -1,6 +1,6 @@
 import { ContestTypes } from "./contest-types";
 import axios from "axios"
-import { AppendDraft } from "../contests/contests-actions";
+import { AppendDraft, AppendEditedDraft } from "../contests/contests-actions";
 import { BACKEND_API, FRONTEND_API } from "../../services/links";
 export const InitState = (dispatch)=>{
     try{    
@@ -380,8 +380,17 @@ export const EditDraft = (dispatch, data, id)=>{
             "Authorization" : `Bearer ${token}`
         },
     }
+    var payload = {}
+    var keys = ["idContest"]
+    Object.keys(data).map(key =>{
+        if(!keys.includes(key)){
+            payload[key] = data[key]
+        }
+        return true
+    })
+    console.log(payload)
     dispatch({type: ContestTypes.NEW_CONTEST_LOADING})
-    axios.put(`${BACKEND_API}/api/contests/update/draft/${id}`, data, config)
+    axios.put(`${BACKEND_API}/api/contests/update/draft/${id}`, payload, config)
         .then(response =>{
             dispatch({type: ContestTypes.SAVE_DRAFT})
             return response.data
@@ -390,7 +399,7 @@ export const EditDraft = (dispatch, data, id)=>{
             return false
         }).then(value =>{
             if(value){
-                AppendDraft(dispatch, data, value, id)
+                AppendEditedDraft(dispatch, data, value, id)
             }
         })
 }

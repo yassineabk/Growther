@@ -47,7 +47,7 @@ const SettingsComponent = ()=>{
             }
             
         }
-    }, [dispatch, infos, isLoading])
+    }, [dispatch])
     var changeHandler = (event)=>{
         var key = event.target.id
         var value = event.target.value

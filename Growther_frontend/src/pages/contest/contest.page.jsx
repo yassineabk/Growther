@@ -29,7 +29,7 @@ const Contest = ()=>{
             }else{
                 SetData(dispatch, params.title, params.description, params.id)
             }
-    }, [dispatch, location, userId, token])
+    }, [dispatch, token, userId])
     var changeHandler = (event, provider)=>{
         var index = parseInt(event.target.selectedIndex)
         SelectAction(dispatch, provider, index)
@@ -73,7 +73,7 @@ const Contest = ()=>{
                     id={information.idContest}
                     description={information.description}
                     timeLeft={information.endDate ? TimeLeft(information.endDate.trim().replace(" ","T"), information.endTime).date : ""}
-                    dateType={TimeLeft(information.endDate, information.endTime).type}
+                    dateType={TimeLeft(information.endDate.trim().replace(" ","T"), information.endTime).type}
                     actions={Array.isArray(information.actions) ? information.actions : []}
                     prizes={information.prizes}
                     previewActions={selected}

@@ -8,6 +8,7 @@ import DashboardReducer from './dashboard/dashboard-reducer'
 import ContestsReducer from './contests/contests-reducer'
 import ErrorsReducer from './errors/errors-reducer'
 import { UserInfosReducer } from './user-infos/user-infos-reducer'
+import { WinnersReducer } from './winners/winners-reducer'
 
 
 const rootReducer=combineReducers({
@@ -20,6 +21,7 @@ const rootReducer=combineReducers({
     get_contests: ContestsReducer,
     errors: ErrorsReducer,
     userInfos: UserInfosReducer,
+    winners: WinnersReducer
 })
 
 

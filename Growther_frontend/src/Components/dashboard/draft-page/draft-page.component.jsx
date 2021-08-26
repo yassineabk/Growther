@@ -10,7 +10,7 @@ const DraftPage = ()=>{
         if(((Array.isArray(draft) && draft.length === 0) || !Array.isArray(draft)) && !isLoading){
             GetContests(dispatch)
         }
-    }, [dispatch, draft, isLoading])
+    }, [dispatch])
     var Duplicate = (id)=> {
         DuplicateContest(dispatch, id)
     }

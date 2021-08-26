@@ -40,7 +40,7 @@ const EditContestSecondStep = ()=>{
             setData(res.result)
             setTableHead(res.tableHead)
         })
-    }, [dispatch, data, history, information, params.id])
+    }, [dispatch])
     if(isBrand !== "true") return <Redirect to="/" />
     return(
         [
