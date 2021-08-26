@@ -63,6 +63,7 @@ public class UserServiceImpl implements UserService {
         //userDto.setIsBrand(userInfos.getIsBrand());
         if(userInfos.getName() != null)
             userDto.setName(userInfos.getName());
+        if(userInfos.getIsBrand()!= null) userDto.setIsBrand(userInfos.getIsBrand());
         if( userDto.getIsBrand()!= null
                 && userDto.getIsBrand().equalsIgnoreCase("true"))
         {   if(userInfos.getUrl() != null)
@@ -97,7 +98,7 @@ public class UserServiceImpl implements UserService {
 
         Long userId= securityUser.getId();
 
-        UserDto user=this.getUserById(userId);
+        User user=userRepository.findUserById(userId);
 
         boolean doesMatch= passwordEncoder.matches(oldPassword,user.getPassword());
         String hashedNewPassword=passwordEncoder.encode(newPassword);
@@ -113,7 +114,7 @@ public class UserServiceImpl implements UserService {
         if(oldPassword.equals(newPassword))
             return "password updated";
         user.setPassword(hashedNewPassword);
-        userRepository.save(mapToUser(user));
+        userRepository.save(user);
         return "password updated";
 
     }

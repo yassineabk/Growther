@@ -90,6 +90,7 @@ public class ParticipationServiceImpl implements ParticipationService {
         repository.save(participation);
 
         actions.forEach( action -> {
+            System.out.println(action.isDone());
             actionRepository.save(action);
         });
 
@@ -115,37 +116,30 @@ public class ParticipationServiceImpl implements ParticipationService {
         return toDto(repository.save(participation));
     }
 
-    @Override
-    public void checkParticipation(Participation participation) {
-        final int[] cmp = {0};
-        final int[] sum = {0};
-        Set<ParticipationAction> actions = participation.getParticipationActions();
-        Set<Action> contestActions = participation.getContest().getActions();
-        actions.forEach( action -> {
-            contestActions.forEach( action1 -> {
-                if (action.getType().equalsIgnoreCase(action1.getType())
-                        && action.getProvider().equalsIgnoreCase(action1.getProvider())
-                        && action.getUrl().equalsIgnoreCase(action1.getUrl())){
-                    action.setDone(true);
-                    action.setPoints(action1.getPoints());
-                    sum[0] += action.getPoints() ;
+        @Override
+        public void checkParticipation(Participation participation) {
+
+            int totalDoneActions=0;
+            int totalParticipatinPoints=0;
+            Set<ParticipationAction> actions = participation.getParticipationActions();
+
+            for(ParticipationAction action:actions){
+                if(action.isDone()) {
+                    totalParticipatinPoints++;
+                    totalDoneActions++;
                 }
+            }
+            if (totalDoneActions == actions.size())
+                participation.setDone(true);
+
+            participation.setTotalPoints(totalParticipatinPoints);
+
+            repository.save(participation);
+
+            actions.forEach( action -> {
+                actionRepository.save(action);
             });
-        });
-        actions.forEach( action -> {
-            if (action.isDone())
-                cmp[0] +=1;
-        });
-        if (cmp[0] == contestActions.size())
-            participation.setDone(true);
-        participation.setTotalPoints(sum[0]);
-
-        repository.save(participation);
-
-        actions.forEach( action -> {
-            actionRepository.save(action);
-        });
-    }
+        }
 
     @Override
     public void deleteParticipation(ParticipationDto participationDto) throws ParseException {
