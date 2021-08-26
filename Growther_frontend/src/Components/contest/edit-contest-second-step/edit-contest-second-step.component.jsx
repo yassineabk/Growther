@@ -1,77 +1,22 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { Redirect, useHistory, useParams } from "react-router-dom"
 import { CSVLink } from "react-csv";
 import { useDispatch, useSelector } from "react-redux";
 import { decode } from "jsonwebtoken";
 import { SetStateToEdit } from "../../../redux/contest-edit/contest-edit-actions";
 import { Spinner } from "../../spinner/spinner.component";
-const EditContestSecondStep = ({ data })=>{
-    var test = [
-        {
-            email: "abkari@gmail.com",
-            location: "Agadir",
-            date: "22 June 2021",
-            points: 5,
-            numActions: "2 of 5",
-            status: "pending"
-        },
-        {
-            email: "hijazi@gmail.com",
-            location: "Agadir",
-            date: "22 June 2021",
-            points: 5,
-            numActions: "2 of 5",
-            status: "pending"
-        },
-        {
-            email: "hijazi@gmail.com",
-            location: "Agadir",
-            date: "22 June 2021",
-            points: 5,
-            numActions: "2 of 5",
-            status: "pending"
-        },
-        {
-            email: "hijazi@gmail.com",
-            location: "Agadir",
-            date: "22 June 2021",
-            points: 5,
-            numActions: "2 of 5",
-            status: "pending"
-        },
-        {
-            email: "hijazi@gmail.com",
-            location: "Agadir",
-            date: "22 June 2021",
-            points: 5,
-            numActions: "2 of 5",
-            status: "pending"
-        },
-        {
-            email: "hijazi@gmail.com",
-            location: "Agadir",
-            date: "22 June 2021",
-            points: 5,
-            numActions: "2 of 5",
-            status: "pending"
-        }
-    ]
+import { MakeResultState } from "../../../services/result";
+import { TableData } from "./table-data.component";
+const EditContestSecondStep = ()=>{
     var { information, isLoading } = useSelector(state => state.contest_edit)
     var { isBrand } = useSelector(state => state.userInfos)
-    const tableHead = [
-        {label: "Email", key: "email"},
-        {label: "Location", key: "location"},
-        {label: "Date", key: "date"},
-        {label: "Points", key: "points"},
-        {label: "Number of actions", key: "NumActions"},
-        {label: "Winning status", key: "status"}
-    ]
+    var [data, setData] = useState([])
+    var [tableHead, setTableHead] = useState([])
+    var params = useParams()
     var MakeCSVFile = ()=>{
         var result = []
         if(Array.isArray(data) && data.length > 0){
             result = data
-        }else{
-            result = test
         }
         return {
             data: result,
@@ -92,7 +37,11 @@ const EditContestSecondStep = ({ data })=>{
                 }
             })
         }
-    }, [dispatch])
+        MakeResultState(params.id).then(data =>{
+            setData(data.result)
+            setTableHead(data.tableHead)
+        })
+    }, [dispatch, setData])
     if(isBrand !== "true") return <Redirect to="/" />
     return(
         [
@@ -112,22 +61,19 @@ const EditContestSecondStep = ({ data })=>{
                     </div>
                 </div>
                 <div className="table-container">
-                    <table id="participationTable" className="table" style={{height: Array.isArray(data) ? data.length * 58.8 : test.length * 58.8}} >
+                    <table id="participationTable" className="table" style={{height: Array.isArray(data) ? data.length * 58.8 : 58.8}} >
                         <tbody className="tbody">
                             <tr className="tr tds is-flex is-flex-direction-row">
                                 {tableHead.map(item =>{
                                     return <th>{item.label}</th>
                                 })}
                             </tr>
-                            {!Array.isArray(data) ? data.map(item =>{
+                            {Array.isArray(data) ? data.map(item =>{
                                 return(
                                 <tr className={"tr tds is-flex is-flex-direction-row"}>
-                                    {typeof(item) === "object" ? [
+                                    {item !== null && typeof(item) === "object" ? [
                                         <td>
                                             {item.email}
-                                        </td>,
-                                        <td>
-                                            {item.location}
                                         </td>,
                                         <td>
                                             {item.date}
@@ -140,36 +86,15 @@ const EditContestSecondStep = ({ data })=>{
                                         </td>,
                                         <td>
                                             {item.status}
-                                        </td>
-                                    ] : null}
+                                        </td>,
+                                        <TableData data={item.text} />,
+                                        <TableData data={item.emails} />,
+                                        <TableData data={item.username} />,
+                                        <TableData data={item.link} />
+                                    ]  : null}
                                 </tr>
                             )
-                        }) : test.map(item =>{
-                            return(
-                                <tr className="tr tds is-flex is-flex-direction-row">
-                                    {typeof(item) === "object" ? [
-                                        <th>
-                                            {item.email}
-                                        </th>,
-                                        <th>
-                                            {item.location}
-                                        </th>,
-                                        <th>
-                                            {item.date}
-                                        </th>,
-                                        <th>
-                                            {item.points}
-                                        </th>,
-                                        <th>
-                                            {item.numActions}
-                                        </th>,
-                                        <th>
-                                            {item.status}
-                                        </th>
-                                    ] : null}
-                                </tr>
-                            )
-                        })}
+                        }) : null}
                         </tbody>
                     </table>
                 </div>

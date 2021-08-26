@@ -30,7 +30,7 @@ const EditContestThirdStep = ()=>{
                     <span className="winners-container-title">
                         <h3>Winners</h3>
                     </span>
-                    {information !== null && typeof(information) === "object" ? 
+                    {information !== null && information !== undefined && typeof(information) === "object" ? 
                         [
                             <span className="winners-container-subtitle">
                                 <h5>Your contest has {`${information.winnersNbr} ${information.winnersNbr > 1 ? "winners" : "winner"}`} </h5>

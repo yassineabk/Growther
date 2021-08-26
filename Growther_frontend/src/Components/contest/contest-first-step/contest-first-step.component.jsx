@@ -16,11 +16,11 @@ const ContestFirstStep = ()=>{
     var { isBrand } = useSelector(state => state.userInfos)
     var [userId, setId] = useState("")
     useEffect(async ()=>{
-        if(location.state !== null && typeof(location.state) === "object"){
+        if(location.state !== null && location.state !== undefined && typeof(location.state) === "object"){
             StateChange(dispatch, location.state)
-        }else if(information === null || typeof(information) !== "object"){
+        }else if(information === null || information === undefined || typeof(information) !== "object"){
             InitState(dispatch)
-        }else if(information !== null &&  typeof(information) === "object"){
+        }else if(information !== null && information !== undefined &&  typeof(information) === "object"){
             if(isPublished === true){
                 ResestNewContest(dispatch)
             }

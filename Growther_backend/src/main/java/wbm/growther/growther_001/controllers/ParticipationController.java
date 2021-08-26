@@ -67,7 +67,7 @@ public class ParticipationController {
         return ResponseEntity.ok().body(participationDto);
     }
     @PostMapping("/create/{id}")
-    public Map<String, String> createParticipation(@PathVariable(value = "id") Long contestID,
+    public ParticipationDto createParticipation(@PathVariable(value = "id") Long contestID,
                                     @RequestBody ParticipationDto participationDto
             ,HttpServletRequest request) throws RejectedExecutionException, ParseException {
 
@@ -82,11 +82,12 @@ public class ParticipationController {
         Participation newParticipation = service.createNewParticipation(participationDto,email,contestID);
         //service.checkParticipation(newParticipation);
         if(newParticipation != null) {
-            Map<String, String> response = new HashMap<>();
-            response.put("id", String.valueOf(newParticipation.getId()));
-            response.put("isDone", String.valueOf(newParticipation.isDone()));
-            response.put("nbrPoints", String.valueOf(newParticipation.getTotalPoints()));
-            return response;
+            //Map<String, String> response = new HashMap<>();
+            //response.put("id", String.valueOf(newParticipation.getId()));
+            //response.put("isDone", String.valueOf(newParticipation.isDone()));
+            //response.put("nbrPoints", String.valueOf(newParticipation.getTotalPoints()));
+            //return response;
+            return service.toDto(newParticipation);
         }else
             throw new RejectedExecutionException("A Participation with that ID already exist !!");
 

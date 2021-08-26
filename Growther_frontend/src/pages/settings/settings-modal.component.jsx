@@ -3,6 +3,7 @@ import { decode } from "jsonwebtoken"
 import React, { useEffect, useState } from "react"
 import { ContestButton } from "../../Components/contest/contest-buttons/contest-buttons.component"
 import { ContestInput } from "../../Components/contest/contest-input/contest-input.component"
+import { BACKEND_API } from "../../services/links"
 export const SettingsModal = ({show, closeModal})=>{
     var [password, setPassword] = useState({
         oldPassword: "",
@@ -14,7 +15,10 @@ export const SettingsModal = ({show, closeModal})=>{
         newPassword: {isValid: false, message: ""},
         confrimPassword: {isValid: false, message: ""}
     })
-    var [save, canSave] = useState(false)
+    var [updateSuccess, successMessage] = useState({
+        success: false,
+        message: ""
+    })
     var CloseModal = ()=>{
         if(closeModal && {}.toString.call(closeModal) === '[object Function]'){
             closeModal()
@@ -30,7 +34,6 @@ export const SettingsModal = ({show, closeModal})=>{
         }
     }))
     var changeHandler = (event, key)=>{
-        canSave(false)
         var value = event.target.value
         setPassword({
             ...password,
@@ -56,7 +59,30 @@ export const SettingsModal = ({show, closeModal})=>{
                 [key]: {isValid: true, message: ""},
             })
         }
-        canSave(true)
+    }
+    var CanSave = ()=>{
+        var result = []
+        Object.keys(error).map(key =>{
+            if(!error[key]){
+                result.push(false)
+            }
+        })
+        return result.length === 0
+    }
+    var UpdatePassword = ()=>{
+        var token = localStorage.getItem("accessToken")
+        var config = {
+            headers: {
+                "Content-Type" : "application/json",
+                "Authorization" : `Bearer ${token}`
+            } 
+        }
+        axios.put(`${BACKEND_API}/api/users/update/password`, password, config)
+            .then(response =>{
+                successMessage({success: true, message: "Successfully Updated"})
+            }).catch(err =>{
+                successMessage({success: false, message: "Cannot update your password please check data you entred"})
+            })
     }
     if(!show) return null
     return(
@@ -82,6 +108,9 @@ export const SettingsModal = ({show, closeModal})=>{
                         changeHandler={event => changeHandler(event, "confirmPassword")}
                         validData={error.confirmPassword}
                     />
+                    <div className={`password-update-message ${updateSuccess.success ? "has-text-success" : "has-text-danger"}`}>
+                        {updateSuccess.message}
+                    </div>
                 </div>
                 <div className="contestButtons is-flex is-flex-direction-column is-justify-content-flex-end">
                     <ContestButton
@@ -95,7 +124,7 @@ export const SettingsModal = ({show, closeModal})=>{
                         bgColor={"#5E2691"} 
                         borderColor={"#5E2691"}
                         text={"Save"} 
-                        clickEvent={()=> false}
+                        clickEvent={CanSave() ? ()=>  UpdatePassword() : ()=> false }
                     />
                 </div>
             </div>

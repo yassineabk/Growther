@@ -57,8 +57,8 @@ const EditContestThirdStep = lazy(()=> import('./Components/contest/edit-contest
 
 const App = ()=> {
   var { currentUser } = useSelector(state => state.login)
-  var infos, {isBrand} = useSelector(state => state.userInfos)
-  var { actionModal, action, information } = useSelector(state => state.contest_card)
+  var infos, {isBrand, isLoading} = useSelector(state => state.userInfos)
+  var { actionModal, action, information, canParticipate } = useSelector(state => state.contest_card)
   var dispatch = useDispatch()
   useEffect(()=>{
     var token = localStorage.getItem("accessToken")
@@ -85,7 +85,14 @@ const App = ()=> {
           <Route exact path='/signup' render={()=> currentUser ? (<Redirect to='/'/>) : (<SignUpPage/>) } />
           <Route exact path='/contest/:title/:id' render={()=> ([
             <ErrorsModal />,
-            <ActionModalContainer idContest={information.idContest} show={actionModal} action={action} />,
+            <ActionModalContainer 
+              idContest={information.idContest} 
+              show={actionModal} 
+              action={action} 
+              canParticipate={canParticipate}
+              participationId={information.participationId}
+              actions={Array.isArray(information.actions) ? information.actions.filter(element => element.id !== action.id) : []}
+            />,
             <Contest />
           ])}/>
           <Route exact path='/dashboard/pie' render={()=> (currentUser && isBrand === "true") ? (<Dashboard />) : (<Redirect to='/'/>)} />
@@ -105,7 +112,7 @@ const App = ()=> {
               (currentUser && isBrand === "true") ? (<Dashboard child={<NewContest child={ <ContestThirdStep />}/>} />) : (<Redirect to="/"/>)
           )} />
           <Route exact path='/dashboard/My Contests' render={()=>
-            (currentUser) ? (<Dashboard child={<DashboardContestPage />} />) : (<Redirect to="/" />)
+            (currentUser && isBrand === "true") ? (<Dashboard child={<DashboardContestPage />} />) : (<Redirect to="/" />)
           }/>
           <Route exact path='/dashboard/My Contests/edit/:id' render={()=> (
               (currentUser && isBrand === "true") ? (<Dashboard child={<EditContest child={<EditContestFirstStep />} />} />):(<Redirect to='/'/>)

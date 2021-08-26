@@ -6,7 +6,7 @@ import { EmptyList } from "../../contest/empty-list/empty-list.component"
 import { Spinner } from "../../spinner/spinner.component"
 import { CardTitle } from "../card-title/card-title.component"
 import { CardComponent } from "../card/card.component"
-export const CardsContainer = ({data, title, showMore, addNew, Duplicate, Delete})=>{
+export const CardsContainer = ({data, title, showMore, addNew, Duplicate, Delete, isBrand})=>{
     var { isLoading } = useSelector(state => state.get_contests)
     var [userId, setId] = useState("")
     useEffect(()=>{
@@ -30,7 +30,7 @@ export const CardsContainer = ({data, title, showMore, addNew, Duplicate, Delete
                             date={element.date}
                             views={element.views}
                             description={element.description}
-                            timeLeft={TimeLeft(element.endDate, element.endTime)}
+                            timeLeft={TimeLeft(element.endDate ? element.endDate.trim().replace(" ", "T") : "", element.endTime)}
                             entries={element.entries}
                             id={element.idContest ? element.idContest : undefined}
                             userId={userId}
@@ -38,6 +38,7 @@ export const CardsContainer = ({data, title, showMore, addNew, Duplicate, Delete
                             key={element.idContest ? `card${element.idContest}` : `card${index}`}
                             Duplicate={Duplicate && {}.toString.call(Duplicate) === '[object Function]' ? (id)=> {Duplicate(id,  element)} : () => false}
                             Delete={(id)=> Delete(id)}
+                            isBrand={isBrand}
                         />                    
                     )
                 }): <EmptyList isLoading={isLoading} /> /*test.slice(0,3).map((element, index)=>{

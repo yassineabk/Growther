@@ -90,7 +90,6 @@ public class ParticipationServiceImpl implements ParticipationService {
         Contest contest = contestRepository.findContestByIdContest(contestID);
         if(contest==null) System.out.println("No contest with ID: "+contestID);
         else System.out.println("contest with ID: "+contest.getIdContest());
-
         Participation participation = toParticipation(participationDto);
 
 
@@ -110,6 +109,7 @@ public class ParticipationServiceImpl implements ParticipationService {
 
         actions.forEach( action -> {
             action.setParticipation(participation);
+            System.out.println(action.isDone());
         });
 
         participation.setUser(user);
@@ -156,38 +156,22 @@ public class ParticipationServiceImpl implements ParticipationService {
 
     @Override
     public void checkParticipation(Participation participation) {
-        final int[] cmp = {0};
-        final int[] sum = {0};
+
+        int totalDoneActions=0;
+        int totalParticipatinPoints=0;
         Set<ParticipationAction> actions = participation.getParticipationActions();
-        Set<Action> contestActions = participation.getContest().getActions();
 
-//        actions.forEach(action -> {
-//            actions.forEach(action1 -> {
-//                if (action.getType().equalsIgnoreCase(action1.getType())
-//                        && action.getProvider().equalsIgnoreCase(action1.getProvider())
-//                        && action.getUrl().equalsIgnoreCase(action1.getUrl()))
-//                    actionRepository.delete(action1);
-//            });
-//        });
 
-        actions.forEach( action -> {
-            contestActions.forEach( action1 -> {
-                if (action.getType().equalsIgnoreCase(action1.getType())
-                        && action.getProvider().equalsIgnoreCase(action1.getProvider())
-                        && action.getUrl().equalsIgnoreCase(action1.getUrl())){
-                    action.setDone(true);
-                    action.setPoints(action1.getPoints());
-                    sum[0] += action.getPoints() ;
-                }
-            });
-        });
-        actions.forEach( action -> {
-            if (action.isDone())
-                cmp[0] +=1;
-        });
-        if (cmp[0] == contestActions.size())
+        for(ParticipationAction action:actions){
+            if(action.isDone()) {
+                totalParticipatinPoints++;
+                totalDoneActions++;
+            }
+        }
+        if (totalDoneActions == actions.size())
             participation.setDone(true);
-        participation.setTotalPoints(sum[0]);
+
+        participation.setTotalPoints(totalParticipatinPoints);
 
         repository.save(participation);
 
@@ -215,7 +199,7 @@ public class ParticipationServiceImpl implements ParticipationService {
         return participation;
     }
     //convert model to DTO
-    private ParticipationDto toDto(Participation participation){
+    public ParticipationDto toDto(Participation participation){
         ParticipationDto participationDto = new ParticipationDto();
         participationDto.setId(participation.getId());
         participationDto.setPartipationDate(participation.getPartipationDate());

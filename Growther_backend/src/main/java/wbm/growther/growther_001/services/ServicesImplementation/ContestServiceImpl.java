@@ -95,12 +95,18 @@ public class ContestServiceImpl implements ContestService {
 
 
 
-        UpdateContestStateJob publishContestJob=new UpdateContestStateJob(
-                contest.getIdContest(),
-                "Published",
-                contest.getStartDate(),
-                repository
-        );
+        if(! contest.getImmediately()) {
+            UpdateContestStateJob publishContestJob = new UpdateContestStateJob(
+                    contest.getIdContest(),
+                    "Published",
+                    contest.getStartDate(),
+                    repository
+            );
+            taskScheduler.doTask(publishContestJob);
+        }
+        else {
+            contest.setStatus("Published");
+        }
 
         UpdateContestStateJob endContestJob=new UpdateContestStateJob(
                 contest.getIdContest(),
@@ -118,7 +124,7 @@ public class ContestServiceImpl implements ContestService {
 
 
 
-        taskScheduler.doTask(publishContestJob);
+        //taskScheduler.doTask(publishContestJob);
         taskScheduler.doTask(endContestJob);
 
          //this one if you wanna test
