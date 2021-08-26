@@ -13,7 +13,7 @@ const DashboardContestPage = () =>{
         if((Array.isArray(contests) && contests.length === 0) || !Array.isArray(contests)){
             GetContests(dispatch)
         }
-    }, [dispatch])
+    }, [dispatch, contests])
     var Duplicate = (id, data)=> {
         DuplicateContest(dispatch, id, data)
     }

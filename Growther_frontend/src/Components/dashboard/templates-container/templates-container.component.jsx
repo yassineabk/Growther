@@ -10,7 +10,7 @@ export const TemplatesContainer = ()=>{
             <div className="columns is-multiline is-flex is-flex-direction-row cards">
                 <div className="card column is-flex">
                     <div className="templateImg left-side is-flex">
-                        <img src={require("../../../assets/icons/email.png").default} />
+                        <img alt="" src={require("../../../assets/icons/email.png").default} />
                     </div>
                     <div className="right-side">
                         <div className="card-infos is-flex is-flex-direction-column">
@@ -29,7 +29,7 @@ export const TemplatesContainer = ()=>{
                 </div>
                 <div className="card column is-flex">
                     <div className="templateImg left-side is-flex">
-                        <img src={require("../../../assets/icons/friends.png").default} />
+                        <img alt="" src={require("../../../assets/icons/friends.png").default} />
                     </div>
                     <div className="right-side">
                         <div className="card-infos is-flex is-flex-direction-column">
@@ -48,7 +48,7 @@ export const TemplatesContainer = ()=>{
                 </div>
                 <div className="card column is-flex">
                     <div className="templateImg left-side is-flex">
-                        <img src={require("../../../assets/icons/google-play.png").default} />
+                        <img alt="" src={require("../../../assets/icons/google-play.png").default} />
                     </div>
                     <div className="right-side">
                         <div className="card-infos is-flex is-flex-direction-column">

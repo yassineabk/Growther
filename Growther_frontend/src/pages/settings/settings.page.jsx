@@ -22,7 +22,6 @@ const SettingsComponent = ()=>{
         url: {isValid: true, message: ""},
         activities: {isValid: true, message: ""}
     })
-    var [save, canSave] = useState(false)
     var [isLoading, setLoading] = useState(false)
     var [lang, setLang] = useState(language !== null && typeof(language) === "string" ? language : "English")
     useEffect(()=>{
@@ -48,9 +47,8 @@ const SettingsComponent = ()=>{
             }
             
         }
-    }, [setInfos, setLoading, dispatch])
+    }, [dispatch, infos, isLoading])
     var changeHandler = (event)=>{
-        canSave(false)
         var key = event.target.id
         var value = event.target.value
         setInfos({
@@ -98,6 +96,7 @@ const SettingsComponent = ()=>{
                         }
                     }
                 }
+                return true
             })
         }
         return canSave.length === 0
@@ -128,7 +127,7 @@ const SettingsComponent = ()=>{
             <div className="is-flex bottomContainer">
                 <div className="is-flex is-flex-direction-column generalInfosForm is-justify-content-center is-align-items-center">
                     <div className="generalInfos">
-                        <img src={require("../../../src/assets/icons/security.png").default} />
+                        <img alt="" src={require("../../../src/assets/icons/security.png").default} />
                     </div>
                 </div>
                 <div className="is-flex is-flex-direction-column newContestFrom">

@@ -14,7 +14,7 @@ class Footer extends React.Component {
                         </div>
                         <form className="form subscribe">
                             <input placeholder="Email" className="form-control" required />
-                            <Link to="JavaScript:Void(0);" className="submit"><i className="pe-7s-paper-plane"></i></Link>
+                            <Link to="#" className="submit"><i className="pe-7s-paper-plane"></i></Link>
                         </form>
                     </div>
                 </div>

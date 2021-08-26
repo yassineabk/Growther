@@ -1,4 +1,3 @@
-import { TimeZone } from "../../services/timeLeft";
 import { ContestTypes } from "./contest-types";
 
 const INITIAL_STATE={

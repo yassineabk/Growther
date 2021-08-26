@@ -9,10 +9,10 @@ class SocialMedia extends React.Component {
                 <div className="columns">
                     <div className="column is-6-desktop has-text-centered-mobile">
                         <ul className="list-inline social margin-t-20">
-                            <li className="list-inline-item"> <Link to="JavaScript:Void(0);" className="social-icon"><i className="mdi mdi-facebook"></i></Link></li>
-                            <li className="list-inline-item"> <Link to="JavaScript:Void(0);" className="social-icon"><i className="mdi mdi-twitter"></i></Link></li>
-                            <li className="list-inline-item"> <Link to="JavaScript:Void(0);" className="social-icon"><i className="mdi mdi-linkedin"></i></Link></li>
-                            <li className="list-inline-item"> <Link to="JavaScript:Void(0);" className="social-icon"><i className="mdi mdi-google-plus"></i></Link></li>
+                            <li className="list-inline-item"> <Link to="#" className="social-icon"><i className="mdi mdi-facebook"></i></Link></li>
+                            <li className="list-inline-item"> <Link to="#" className="social-icon"><i className="mdi mdi-twitter"></i></Link></li>
+                            <li className="list-inline-item"> <Link to="#" className="social-icon"><i className="mdi mdi-linkedin"></i></Link></li>
+                            <li className="list-inline-item"> <Link to="#" className="social-icon"><i className="mdi mdi-google-plus"></i></Link></li>
                         </ul>
                     </div>
                     <div className="column is-3-desktop has-text-centered-mobile margin-t-30">

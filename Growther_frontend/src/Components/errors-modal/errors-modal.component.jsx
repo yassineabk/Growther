@@ -23,7 +23,7 @@ const ErrorsModal = ()=>{
                 <div className="errorHead is-flex is-flex-direction-row">
                     <div>Error</div>
                     <div>
-                        <img onClick={()=> HideErrorModal(dispatch)} src={require("../../assets/icons/close.png").default} />
+                        <img alt="" onClick={()=> HideErrorModal(dispatch)} src={require("../../assets/icons/close.png").default} />
                     </div>
                 </div>
                 <div className="errorBody is-flex">

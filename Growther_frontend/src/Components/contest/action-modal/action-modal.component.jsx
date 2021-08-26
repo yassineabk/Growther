@@ -1,5 +1,4 @@
-import React, { useEffect } from "react"
-import { useDispatch } from "react-redux"
+import React from "react"
 import { SpotifyFollowArtist } from "../../participation/spotify/spotify-follow/spotify-follow-artist/spotify-follow-artist.component"
 import { SpotifyFollowPlaylist } from "../../participation/spotify/spotify-follow/spotify-follow-playlist/spotify-follow-playlist.component"
 import { SpotifyIframe } from "../../participation/spotify/spotify-iframe/spotify-iframe.component"

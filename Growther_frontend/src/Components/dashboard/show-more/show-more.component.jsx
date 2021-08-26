@@ -6,7 +6,7 @@ export const ShowMoreButton = ({showMore, icon, id})=>{
         <div id={id ? id : ""} className="arrow-button-container is-flex is-justify-content-flex-end">
             <div className="arrow-button">
                 <Link to={showMore} >
-                    <img src={icon ? icon : ""}/>
+                    <img alt="" src={icon ? icon : ""}/>
                 </Link>
             </div>
         </div>

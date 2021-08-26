@@ -1,7 +1,5 @@
-import React, { useState } from "react"
-import { Link } from "react-router-dom"
+import React from "react"
 export const VisitSocialMedia = ({link, action_done})=>{
-    var [count, setCount] = useState(false)
     var VisitLink = (event, bool)=>{
         window.open(link)
         if(bool){

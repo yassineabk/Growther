@@ -18,7 +18,7 @@ class Features extends React.Component {
                             <li className="">Lorem ipsum dolor sit amet.</li>
                             <li className="">Lorem ipsum dolor sit amet.</li>
                         </ul>
-                        <Link to="JavaScript:Void(0);" className="btn btn-primary mt-4 margin-t-30">Learn More <i className="mdi mdi-arrow-right"></i></Link>
+                        <Link to="#" className="btn btn-primary mt-4 margin-t-30">Learn More <i className="mdi mdi-arrow-right"></i></Link>
                     </div>
                 </div>
                 <div className="column is-5-desktop is-6-tablet is-centered">

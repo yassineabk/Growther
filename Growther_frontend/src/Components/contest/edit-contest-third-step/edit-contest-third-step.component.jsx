@@ -20,7 +20,7 @@ const EditContestThirdStep = ()=>{
                 }
             })
         }
-    }, [dispatch])
+    }, [dispatch, history, information, params.id])
     if(isBrand !== "true") return <Redirect to="/" />
     return(
         [
@@ -37,7 +37,7 @@ const EditContestThirdStep = ()=>{
                             </span>,
                             <div className="is-flex draw-button">
                                 <span>
-                                    <img src={require("../../../assets/icons/trophy3.png").default} />
+                                    <img alt="" src={require("../../../assets/icons/trophy3.png").default} />
                                 </span>
                                 <span className="">
                                     Draw winners

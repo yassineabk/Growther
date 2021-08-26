@@ -32,14 +32,6 @@ export const SpotifyFollowPlaylist = ({url, action_done})=>{
                 "Authorization" : `Bearer ${token}`
             },
         }
-        var config2 = {
-            Method: "GET",
-            headers: {
-                "Accept" : "application/json",
-                "Content-Type" : "application/json",
-                "Authorization" : `Bearer ${token}`
-            },
-        }
         var body = {
             "public": false
         }

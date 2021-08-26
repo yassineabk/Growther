@@ -1,6 +1,4 @@
 import React, { useState } from 'react'
-import { useEffect } from 'react';
-
 
 const PasswordInput=({handleChange,handleBlur,label,isError,value,message,placeholder})=>{
     
