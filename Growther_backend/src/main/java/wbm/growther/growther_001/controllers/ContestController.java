@@ -54,14 +54,12 @@ public class ContestController {
         }
         List<ContestDto> contests = contestService.getAllContestsByUser(userId);
         List<ParticipationDto> participations = participationService.getParticipationsByUser(userId);
-//        if (!contests.isEmpty())
-//            return contests;
-//        else
-//            return participationService.getParticipationsByUser(userId);
         if (! participations.isEmpty())
             return participations;
-        else
+        else if (! contests.isEmpty())
             return contests;
+        else throw new ResourceNotFoundException("No contests exist with USER ID : " +userId);
+
     }
 
     //Get contest by id

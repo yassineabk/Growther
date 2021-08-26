@@ -21,6 +21,7 @@ import wbm.growther.growther_001.services.ParticipationService;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 @Service
@@ -94,11 +95,23 @@ public class ParticipationServiceImpl implements ParticipationService {
 
 
         Set<ParticipationAction> actions = participation.getParticipationActions();
+        Set<ParticipationAction> contestActions = new HashSet<>();
+        Set<Action> actionsContest = contest.getActions();
+
+        actionsContest.forEach(action -> {
+            contestActions.add(new ParticipationAction(action.getProvider(),action.getType(),action.getUrl(),action.getPoints()));
+            //System.out.println(action.getType()+"--"+action.getUrl()+"--"+action.getProvider());
+        });
+
+        contestActions.forEach(action -> {
+            action.setId(0L);
+            action.setParticipation(participation);
+        });
+
         actions.forEach( action -> {
             action.setParticipation(participation);
         });
 
-        //participation.setId(0L);
         participation.setUser(user);
         participation.setContest(contest);
 
@@ -106,6 +119,17 @@ public class ParticipationServiceImpl implements ParticipationService {
 
         actions.forEach( action -> {
             actionRepository.save(action);
+        });
+        contestActions.forEach(action -> {
+            actionsContest.forEach(action1 -> {
+                if (action.getType().equalsIgnoreCase(action1.getType())
+                        && action.getProvider().equalsIgnoreCase(action1.getProvider())
+                        && action.getUrl().equalsIgnoreCase(action1.getUrl()))
+                    actionRepository.delete(action);
+                    //System.out.println(action.getType()+"--"+action.getUrl()+"--"+action.getProvider());
+                else
+                    actionRepository.save(action);
+            });
         });
 
         return participation;
@@ -136,6 +160,16 @@ public class ParticipationServiceImpl implements ParticipationService {
         final int[] sum = {0};
         Set<ParticipationAction> actions = participation.getParticipationActions();
         Set<Action> contestActions = participation.getContest().getActions();
+
+//        actions.forEach(action -> {
+//            actions.forEach(action1 -> {
+//                if (action.getType().equalsIgnoreCase(action1.getType())
+//                        && action.getProvider().equalsIgnoreCase(action1.getProvider())
+//                        && action.getUrl().equalsIgnoreCase(action1.getUrl()))
+//                    actionRepository.delete(action1);
+//            });
+//        });
+
         actions.forEach( action -> {
             contestActions.forEach( action1 -> {
                 if (action.getType().equalsIgnoreCase(action1.getType())

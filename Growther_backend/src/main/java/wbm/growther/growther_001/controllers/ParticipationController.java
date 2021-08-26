@@ -80,7 +80,7 @@ public class ParticipationController {
         String email= principal.getEmail();
 
         Participation newParticipation = service.createNewParticipation(participationDto,email,contestID);
-        service.checkParticipation(newParticipation);
+        //service.checkParticipation(newParticipation);
         if(newParticipation != null) {
             Map<String, String> response = new HashMap<>();
             response.put("id", String.valueOf(newParticipation.getId()));
@@ -101,6 +101,22 @@ public class ParticipationController {
                     return actionRepository.save(action);
                 })
                 .orElseThrow(() -> new NotFoundException("Participation not found!"));
+    }
+
+    @PutMapping("/update/participation/{participationActionID}")
+    public ParticipationAction updateParticipationAction(@PathVariable(value = "participationActionID") Long participationActionId
+            ,@Validated @RequestBody ParticipationAction participationAction){
+
+        return actionRepository.findById(participationActionId)
+                .map(action -> {
+                    action.setProvider(participationAction.getProvider());
+                    action.setPoints(participationAction.getPoints());
+                    action.setType(participationAction.getType());
+                    action.setUrl(participationAction.getUrl());
+                    action.setDone(participationAction.isDone());
+
+                    return actionRepository.save(action);
+                }).orElseThrow(() -> new NotFoundException("Action not found!"));
     }
 
     @PutMapping("/update/{id}")
