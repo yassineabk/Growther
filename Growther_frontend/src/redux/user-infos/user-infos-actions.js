@@ -16,7 +16,7 @@ export const setUserInfos = (dispatch, token, infos, tokenChanged)=>{
     if(decodedToken !== null && typeof(decodedToken) === "object"){
         var sub = decodedToken.sub
         if(!infos || infos === null || typeof(infos) !== "object" || infos.id !== parseInt(sub) || tokenChanged){
-            axios.get(`${BACKEND_API}/api/users/${sub}`, config)
+            return axios.get(`${BACKEND_API}/api/users/${sub}`, config)
             .then(response =>{
                 dispatch({ type: UserInfosTypes.SET_USER_INFOS, payload: response.data })
                 SuccessAlert(dispatch, "Get Infos Successfully")
@@ -25,9 +25,10 @@ export const setUserInfos = (dispatch, token, infos, tokenChanged)=>{
                 FailAlert(dispatch, "Get Infos Failure")
             })
         }
+        FailAlert(dispatch, "Get Infos Failure")
+        return dispatch({type: UserInfosTypes.SET_USER_INFOS_FAIL})
     }
-    FailAlert(dispatch, "Get Infos Failure")
-    dispatch({type: UserInfosTypes.SET_USER_INFOS_FAIL})
+    
 }
 export const EditUserInfos = (dispatch, key, value)=>{
     dispatch({type: UserInfosTypes.IS_LOADING_USER_INFOS})

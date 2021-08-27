@@ -2,7 +2,7 @@ import { decode } from "jsonwebtoken"
 import React from "react"
 import { ActionIcon } from "../actions-icons/actions-icons.component"
 import { ContestInput } from "../contest-input/contest-input.component"
-export const PreviewAction = ({provider, links, points, status, changeHandler, DoAction, done, index, isOwner, canParticipate, showLoginForm})=>{
+export const PreviewAction = ({provider, links, points, status, changeHandler, DoAction, DoBonus, done, index, isOwner, canParticipate, showLoginForm, contestDone})=>{
     var showLogin = (value)=>{
         if(showLoginForm && {}.toString.call(DoAction) === '[object Function]' && typeof(status) === "string" && status.toLowerCase() === "published"){
             showLoginForm(value)
@@ -18,9 +18,18 @@ export const PreviewAction = ({provider, links, points, status, changeHandler, D
         if(!decodedToken || decodedToken === null || typeof(decodedToken) !== "object"){
             return showLogin(true)
         }
-        if(DoAction && {}.toString.call(DoAction) === '[object Function]' && done !== true && typeof(status) === "string" && status.toLowerCase() === "published"){
-            DoAction()
+        if(provider.toLowerCase() === "bonus"){
+            if(!contestDone){
+                if(DoBonus && {}.toString.call(DoBonus) === '[object Function]' && done !== true && typeof(status) === "string" && status.toLowerCase() === "published"){
+                    DoBonus()
+                }
+            }
+        }else{
+            if(DoAction && {}.toString.call(DoAction) === '[object Function]' && done !== true && typeof(status) === "string" && status.toLowerCase() === "published"){
+                DoAction()
+            }
         }
+        
     }
     return(
         <div key={`previewAction-${provider}-${index}`} className="is-flex is-flex-direction-row prev-action">
