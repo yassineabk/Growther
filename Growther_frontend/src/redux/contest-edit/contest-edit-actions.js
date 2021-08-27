@@ -2,7 +2,7 @@ import { CONTEST_EDIT_TYPES } from "./contest-edit-types";
 import axios from "axios"
 import { BACKEND_API } from "../../services/links";
 import { AppendEditedContest } from "../contests/contests-actions";
-import { ShowErrorModal } from "../errors/errors-actions";
+import { FailAlert, SuccessAlert } from "../alert/alert-actions";
 export const SetInitialState = (dispatch)=>{
     try{
         dispatch({type: CONTEST_EDIT_TYPES.INIT_EDIT_STATE})
@@ -25,25 +25,33 @@ export const SetStateToEdit = async (dispatch, id, userId)=>{
             return true
         }else{
             dispatch({type: CONTEST_EDIT_TYPES.EDIT_FAIL})
-            //ShowErrorModal(dispatch, "Please make sure this contest is yours")
             return false
         }
     }).catch(err=>{
         dispatch({type: CONTEST_EDIT_TYPES.EDIT_FAIL})
-        //ShowErrorModal(dispatch, "Please make sure this contest exist")
         return false
+    }).then(value =>{
+        if(value){
+            SuccessAlert(dispatch, "Get Contest Successfuly")
+        }else{
+            FailAlert(dispatch, "Get Contest Failure")
+        }
+        return value
     })
 }
 export const SetStateToEditFromLocation = async (dispatch, data, userId)=>{
     try{
         if(data.user.id.toString() === userId.toString()){
             dispatch({type: CONTEST_EDIT_TYPES.SET_STATE_TO_EDIT, payload: data})
+            SuccessAlert(dispatch, "Get Contest Successfuly")
             return true
         }
         dispatch({type: CONTEST_EDIT_TYPES.EDIT_FAIL})
+        FailAlert(dispatch, "Get Contest Failure")
         return false
     }catch{
         dispatch({type: CONTEST_EDIT_TYPES.EDIT_ERROR})
+        FailAlert(dispatch, "Get Contest Failure")
         return false
     }
     
@@ -77,6 +85,7 @@ export const CheckEdits = (dispatch, information) =>{
             var validData = {}
             var isValidData = true
             Object.keys(data).map(key=>{
+                var dateStart, dateEnd;
                 switch(key){
                     case "title":
                         if(data["title"] === null || (typeof(data["title"]) === "string" && data["title"].length === 0)){
@@ -97,8 +106,8 @@ export const CheckEdits = (dispatch, information) =>{
                         if(data["endDate"] === null || (typeof(data["endDate"]) === "string" && data["endDate"].length === 0)){
                             result["endDate"] = false
                         }else{
-                            var dateStart = new Date(data.startDate)
-                            var dateEnd = new Date(data.endDate)
+                            dateStart = new Date(data.startDate)
+                            dateEnd = new Date(data.endDate)
                             if(dateStart >= dateEnd){
                                 result["endDate"] = false
                             }
@@ -117,30 +126,30 @@ export const CheckEdits = (dispatch, information) =>{
                             var date = new Date(`${currentYear}-${currentMonth}-${currentDay}`)
                             var timeStart = data.startTime.split(":")
                             var timeEnd = data.endTime.split(":")
-                            var dateStart = new Date(data.startDate.split("T")[0])
-                            var dateEnd = new Date(data.endDate.split("T")[0])
+                            dateStart = new Date(data.startDate.split("T")[0])
+                            dateEnd = new Date(data.endDate.split("T")[0])
                             var timediff = Math.abs(Math.ceil((dateEnd - dateStart)/(1000*60*60*24)))
                             var timediff2 = Math.ceil((dateEnd - date))
                             if(!Array.isArray(timeStart)){
-                                return result["endTime"] = false
+                                result["endTime"] = false
                             }
                             if(Array.isArray(timeStart) && timeStart.length === 1){
-                                return result["endTime"] = false
+                                result["endTime"] = false
                             }
                             if(timediff2 === 0){
                                 if(parseInt(timeEnd[0]) === currentHour && parseInt(currentMin) > parseInt(timeEnd[1])){
-                                    return result["endTime"] = false
+                                    result["endTime"] = false
                                 }
                                 if(parseInt(currentHour) > parseInt(timeEnd[0])){
-                                    return result["endTime"] = false
+                                    result["endTime"] = false
                                 }
                             }
                             if(timediff === 0){
                                 if(parseInt(timeStart[0]) === parseInt(timeEnd[0]) && parseInt(timeStart[1]) > parseInt(timeEnd[1]) - 10){
-                                    return result["endTime"] = false
+                                    result["endTime"] = false
                                 }
                                 if(parseInt(timeStart[0]) > parseInt(timeEnd[0])){
-                                    return result["endTime"] = false
+                                    result["endTime"] = false
                                 }
                             }
                         }
@@ -148,6 +157,7 @@ export const CheckEdits = (dispatch, information) =>{
                     default:
                         break
                 }
+                return true
             })
             validData = result
             isValidData = Object.keys(result).length === 0
@@ -174,6 +184,7 @@ export const Edit = async (dispatch, information, id, userId)=>{
             if(key !== "actions"){
                 Data[key] = information[key] 
             }
+            return true
         })
         dispatch({type: CONTEST_EDIT_TYPES.EDIT_LOADING})
         return axios.put(`${BACKEND_API}/api/contests/update/${id}`, Data, config)
@@ -181,16 +192,18 @@ export const Edit = async (dispatch, information, id, userId)=>{
             dispatch({type: CONTEST_EDIT_TYPES.EDIT_SUCCESS})
             return response.data
         }).catch(err =>{
-            //ShowErrorModal(dispatch, "Couldn't update your contest")
             dispatch({type: CONTEST_EDIT_TYPES.EDIT_FAIL})
             return false
         }).then(value =>{
             if(value){
                 AppendEditedContest(dispatch, id, Data)
+                SuccessAlert(dispatch, "Successfully Edited")
+            }else{
+                FailAlert(dispatch, "Edit Failure")
             }
         })
     }
-    //ShowErrorModal(dispatch, "Please check the data you entered")
     dispatch({type: CONTEST_EDIT_TYPES.EDIT_FAIL})
+    FailAlert(dispatch, "Edit Failure")
     return false
 }

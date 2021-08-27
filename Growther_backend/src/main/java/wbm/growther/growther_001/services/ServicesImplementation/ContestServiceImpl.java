@@ -229,17 +229,22 @@ public class ContestServiceImpl implements ContestService {
         });
 
         prizes.forEach( prize -> {
-            if (prize.getId()==null)
+            if (prize.getId()== null)
                 prize.setContest(contest);
         });
-
-        prizes.forEach( prize -> {
-            if (prize.getId()==null)
-                prizeRepository.save(prize);
+        contest.getPrizes().forEach( prize -> {
+            if (prize.getId()== null){
+                prize.setId(0L);
+                Prize prize1 = prizeRepository.save(prize);
+                prize.setId(prize1.getId());
+            }
         });
-        actions.forEach( action -> {
-            if(action.getId()==null)
-            actionRepository.save(action);
+        contest.getActions().forEach( action -> {
+            if(action.getId()==null){
+                action.setId(0L);
+                Action action1 = actionRepository.save(action);
+                action.setId(action1.getId());
+            }
         });
         repository.save(contest);
         return toDto(contest);

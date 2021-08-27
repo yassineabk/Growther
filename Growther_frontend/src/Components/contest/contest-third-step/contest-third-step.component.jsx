@@ -35,17 +35,17 @@ const ContestThirdStep = () =>{
                     <div className="socialIcons is-flex is-justify-content-space-between is-align-items-center">
                         <div>
                             <TwitterShareButton url={contestLink.replace(" ", "%20")}>
-                                    <img src={require("../../../assets/icons/twitter2.png").default} width={"40px"}/>
+                                    <img alt="" src={require("../../../assets/icons/twitter2.png").default} width={"40px"}/>
                             </TwitterShareButton>
                         </div>
                         <div>
                             <FacebookShareButton url={contestLink.replace(" ", "%20")}>
-                                    <img src={require("../../../assets/icons/facebook2.png").default} width={"40px"}/>
+                                    <img alt="" src={require("../../../assets/icons/facebook2.png").default} width={"40px"}/>
                             </FacebookShareButton>
                         </div>
                         <div>
                             <EmailShareButton url={contestLink.replace(" ", "%20")}>
-                                <img src={require("../../../assets/icons/google.png").default} width={"40px"}/>
+                                <img alt="" src={require("../../../assets/icons/google.png").default} width={"40px"}/>
                             </EmailShareButton>
                         </div>
                     </div>

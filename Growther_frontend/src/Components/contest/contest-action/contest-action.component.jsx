@@ -10,6 +10,7 @@ export const ContestAction = ({data, removeAction, updateAction, validAction})=>
             if(action.provider === data.provider){
                 result = action.actions
             }
+            return true
         })
         return result
     }
@@ -55,7 +56,7 @@ export const ContestAction = ({data, removeAction, updateAction, validAction})=>
                 />
             </div>
             <div className="removeAction">
-                <img onClick={()=> removeAction(data.provider)} src={require("../../../assets/icons/close.png").default} />
+                <img alt="" onClick={()=> removeAction(data.provider)} src={require("../../../assets/icons/close.png").default} />
             </div>
         </div>
     )

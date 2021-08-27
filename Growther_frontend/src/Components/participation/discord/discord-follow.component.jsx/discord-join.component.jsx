@@ -1,13 +1,10 @@
 import axios from "axios"
 import React, { useEffect, useState } from "react"
-import { useHistory } from "react-router-dom"
-import { BACKEND_API, DISCORD_AUTH_URL, DISCORD_BOT_TOKEN, DISCORD_CLIENT_ID } from "../../../../services/links"
+import { DISCORD_AUTH_URL } from "../../../../services/links"
 import { GetDiscordToken } from "../../../../services/tokens"
 export const DiscordJoin = ({url, action_done, closeModal})=>{
     //var token = GetDiscordToken()
     const oauthUrl = DISCORD_AUTH_URL
-    var history = useHistory()
-    var [active, setActive] = useState(true)
     var [token, setToken] = useState(GetDiscordToken())
     useEffect(()=>{
         window.addEventListener("storage", event=>{
@@ -15,7 +12,7 @@ export const DiscordJoin = ({url, action_done, closeModal})=>{
                 setToken(event.newValue)
             }
         })
-    }, [setToken])
+    }, [token])
     const config = {
         "headers": {
             "Content-Type" : "application/x-www-form-urlencoded",
@@ -54,9 +51,9 @@ export const DiscordJoin = ({url, action_done, closeModal})=>{
                 <div>
                     To complete this action, click on Join Guild:
                 </div>
-                {active ? <div className="link-container">
+                <div className="link-container">
                     <div onClick={(event)=> Follow(event, url)}>Join Guild</div>
-                </div> : null}
+                </div>
             </div>
         )
     }
@@ -64,7 +61,7 @@ export const DiscordJoin = ({url, action_done, closeModal})=>{
         <div id="discordAuthContainer">
             <div onClick={()=> window.open(oauthUrl, "_blank")} id="discordAuthButton" className="is-flex">
                 <span>
-                    <img src={require("../../../../assets/icons/discord.png").default} />
+                    <img alt="" src={require("../../../../assets/icons/discord.png").default} />
                 </span>
                 <span>
                     Discord Auth

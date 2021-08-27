@@ -27,7 +27,7 @@ class Pricing extends React.Component {
                             <p><b className="text-custom">No </b> access to maillist</p>
 
                         </div>
-                        <Link to="JavaScript:Void(0);" className="btn btn-primary  margin-t-30">Join Now</Link>
+                        <Link to="#" className="btn btn-primary  margin-t-30">Join Now</Link>
                     </div>
                 </div>
                 <div className="column is-4-desktop">
@@ -42,7 +42,7 @@ class Pricing extends React.Component {
                             <p><b className="text-custom">Standard </b> templates avalaible</p>
                             <p><b className="text-custom">No </b> access to maillist</p>
                         </div>
-                        <Link to="JavaScript:Void(0);" className="btn btn-primary  margin-t-30">Join Now</Link>
+                        <Link to="#" className="btn btn-primary  margin-t-30">Join Now</Link>
                     </div>
                 </div>
                 <div className="column is-4-desktop">
@@ -57,7 +57,7 @@ class Pricing extends React.Component {
                             <p><b className="text-custom">unlimited </b> templates avalaible</p>
                             <p><b className="text-custom ">access</b>  to maillist</p>
                         </div>
-                        <Link to="JavaScript:Void(0);" className="btn btn-primary  margin-t-30">Join Now</Link>
+                        <Link to="#" className="btn btn-primary  margin-t-30">Join Now</Link>
                     </div>
                 </div>
             </div>

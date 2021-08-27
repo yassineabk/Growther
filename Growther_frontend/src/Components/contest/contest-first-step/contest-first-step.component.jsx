@@ -2,7 +2,7 @@ import { decode } from "jsonwebtoken"
 import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Redirect, useHistory, useLocation } from "react-router-dom"
-import { EditDraft, InitState, NextStep, PrizesChange, RemovePrize, ResestNewContest, SaveContestFirstStep, SaveContestPrizes, SaveDraft, SetDuration, SetImmediately, SetTime, StateChange, WinnersNumChange } from "../../../redux/contest/contest-actions"
+import { EditDraft, InitState, NextStep, PrizesChange, RemovePrize, ResestNewContest, SaveDraft, SetDuration, SetImmediately, StateChange, WinnersNumChange } from "../../../redux/contest/contest-actions"
 import { ContestButton } from "../contest-buttons/contest-buttons.component"
 import { ContestCheckBox } from "../contest-checkbox/contest-checkbox.component"
 import { ContestDescription } from "../contest-description-input/contest-description-input.component"
@@ -15,7 +15,7 @@ const ContestFirstStep = ()=>{
     var {information, isValidData, validData, isPublished} = useSelector(state => state.contest)
     var { isBrand } = useSelector(state => state.userInfos)
     var [userId, setId] = useState("")
-    useEffect(async ()=>{
+    useEffect(()=>{
         if(location.state !== null && location.state !== undefined && typeof(location.state) === "object"){
             StateChange(dispatch, location.state)
         }else if(information === null || information === undefined || typeof(information) !== "object"){
@@ -30,7 +30,7 @@ const ContestFirstStep = ()=>{
         var token = decode(localStorage.getItem("accessToken"))
         var sub = token !== null && typeof(token) === "object" ? token.sub : ""
         setId(sub)
-    }, [dispatch, isValidData])
+    }, [dispatch])
     var changeHandler = (event)=>{
         var id = event.target.id
         var value = event.target.value
@@ -51,18 +51,19 @@ const ContestFirstStep = ()=>{
             var currentMonth = ("0"+parseInt(currentDate.getMonth()+1 === 13 ? 1 : currentDate.getMonth()+1)).slice(-2)
             var currentYear = currentDate.getFullYear()
             currentDate = currentYear + "-" + currentMonth + "-" + currentDay
+            var date, date2, endMin, endHour, endHourInt, endMinInt, newEndTime, data;
             if(id === "startDate"){
-                var date = Math.ceil((new Date(event.target.value) - new Date(currentDate))/(100*60*60*24))
-                var date2 = Math.ceil((new Date(information.endDate.split("T")[0]) - new Date(event.target.value))/(100*60*60*24))
+                date = Math.ceil((new Date(event.target.value) - new Date(currentDate))/(100*60*60*24))
+                date2 = Math.ceil((new Date(information.endDate.split("T")[0]) - new Date(event.target.value))/(100*60*60*24))
                 if(date >= 0 && date2 >= 0){
                     if(date2 === 0){
                         if(parseInt(startTime[0]) > parseInt(endTime[0]) || (parseInt(startTime[0]) === parseInt(endTime[0]) && parseInt(startTime[1]) > parseInt(endTime[1]))){
-                            var endMinInt = parseInt(startTime[1])
-                            var endHourInt = endMinInt + 10 > 59 ? parseInt(startTime[0]) + 1 : parseInt(startTime[0])
-                            var endMin = endMinInt + 10 > 59 ? (endMinInt - 60 + 10) : endMinInt + 10
-                            var endHour =   endHourInt > 23 ? (endHourInt - 24) : endHourInt
-                            var newEndTime = ("0"+endHour).slice(-2) + ":" + ("0"+endMin).slice(-2)
-                            var data = information
+                            endMinInt = parseInt(startTime[1])
+                            endHourInt = endMinInt + 10 > 59 ? parseInt(startTime[0]) + 1 : parseInt(startTime[0])
+                            endMin = endMinInt + 10 > 59 ? (endMinInt - 60 + 10) : endMinInt + 10
+                            endHour =   endHourInt > 23 ? (endHourInt - 24) : endHourInt
+                            newEndTime = ("0"+endHour).slice(-2) + ":" + ("0"+endMin).slice(-2)
+                            data = information
                             data.endTime = `${newEndTime}`
                             StateChange(dispatch, data)
                         }
@@ -72,17 +73,17 @@ const ContestFirstStep = ()=>{
                 }
             }
             if(id === "endDate"){
-                var date = Math.ceil((new Date(event.target.value) - new Date(information.startDate.split("T")[0]))/(100*60*60*24))
-                var date2 = Math.ceil((new Date(event.target.value) - new Date(currentDate))/(100*60*60*24))
+                date = Math.ceil((new Date(event.target.value) - new Date(information.startDate.split("T")[0]))/(100*60*60*24))
+                date2 = Math.ceil((new Date(event.target.value) - new Date(currentDate))/(100*60*60*24))
                 if(date >= 0 && date2 >= 0){
                     if(date2 === 0){
                         if(parseInt(startTime[0]) > parseInt(endTime[0]) || (parseInt(startTime[0]) === parseInt(endTime[0]) && parseInt(startTime[1]) > parseInt(endTime[1]))){
-                            var endMinInt = parseInt(startTime[1])
-                            var endHourInt = endMinInt + 10 > 59 ? parseInt(startTime[0]) + 1 : parseInt(startTime[0])
-                            var endMin = endMinInt + 10 > 59 ? (endMinInt - 60 + 10) : endMinInt + 10
-                            var endHour =   endHourInt > 23 ? (endHourInt - 24) : endHourInt
-                            var newEndTime = ("0"+endHour).slice(-2) + ":" + ("0"+endMin).slice(-2)
-                            var data = information
+                            endMinInt = parseInt(startTime[1])
+                            endHourInt = endMinInt + 10 > 59 ? parseInt(startTime[0]) + 1 : parseInt(startTime[0])
+                            endMin = endMinInt + 10 > 59 ? (endMinInt - 60 + 10) : endMinInt + 10
+                            endHour =   endHourInt > 23 ? (endHourInt - 24) : endHourInt
+                            newEndTime = ("0"+endHour).slice(-2) + ":" + ("0"+endMin).slice(-2)
+                            data = information
                             data.endTime = newEndTime
                             StateChange(dispatch, data)
                         }
@@ -108,16 +109,17 @@ const ContestFirstStep = ()=>{
         var date = Math.ceil((new Date(information.endDate.split("T")[0]) - new Date(information.startDate.split("T")[0]))/(1000*60*60*24))
         var date2 = Math.ceil((new Date(information.startDate.split("T")[0]) - new Date(fulldate))/(1000*60*60*24))
         var date3 = Math.ceil((new Date(information.endDate.split("T")[0]) - new Date(fulldate))/(1000*60*60*24))
+        var data;
         if(id === "startTime"){
             endTime = endTime.split(":")
             if(date2 === 0){
                 if(parseInt(time[0]) < currentHour){
-                    var data = information
+                    data = information
                     data.startTime = `${currentHour}:${currentMin}`
                     return StateChange(dispatch, data)
                 }
                 if(parseInt(time[0]) === currentHour && parseInt(time[1]) < currentMin){
-                    var data = information
+                    data = information
                     data.startTime = `${currentHour}:${currentMin}`
                     return StateChange(dispatch, data)
                 }
@@ -137,12 +139,12 @@ const ContestFirstStep = ()=>{
             startTime = startTime.split(":")
             if(date3 === 0){
                 if(parseInt(time[0]) < currentHour){
-                    var data = information
+                    data = information
                     data.startTime = `${currentHour}:${currentMin}`
                     return StateChange(dispatch, data)
                 }
                 if(parseInt(time[0]) === currentHour && parseInt(time[1]) < currentMin){
-                    var data = information
+                    data = information
                     data.startTime = `${currentHour}:${currentMin}`
                     return StateChange(dispatch, data)
                 }
@@ -160,9 +162,10 @@ const ContestFirstStep = ()=>{
         }
     }
     var durationHandler = (event)=>{
+        var startDate, endDate;
         if(event === undefined){
-            var startDate = information.startDate.split("T")[0]
-            var endDate = information.endDate.split("T")[0]
+            startDate = information.startDate.split("T")[0]
+            endDate = information.endDate.split("T")[0]
             var startTime = information.startTime.split(":")
             var endTime = information.endTime.split(":")
             var date1 = new Date(startDate)
@@ -187,8 +190,8 @@ const ContestFirstStep = ()=>{
             }
             SetDuration(dispatch, "days", diffDays, information.startDate, information.endDate)
         }else{
-            var startDate = dateConvert(information.startDate)
-            var endDate = addDaystoDate(startDate, parseInt(event.target.value), information.duration.type)
+            startDate = dateConvert(information.startDate)
+            endDate = addDaystoDate(startDate, parseInt(event.target.value), information.duration.type)
             SetDuration(dispatch, information.duration.type, parseInt(event.target.value), startDate, endDate)
         }
         
@@ -223,6 +226,7 @@ const ContestFirstStep = ()=>{
     var numWinnersHandler = (event)=>{
         var newValue = parseInt(event.target.value)
         var oldValue = parseInt(information.winnersNbr)
+        var i;
         if(newValue > 10){
             newValue = 10
         }
@@ -230,12 +234,12 @@ const ContestFirstStep = ()=>{
             newValue = 1
         }
         if(oldValue > newValue){
-            for(var i = newValue; i < oldValue; i++){
+            for(i = newValue; i < oldValue; i++){
                 console.log("here")
                 RemovePrize(dispatch, i, newValue)
             }
         }else{
-            for(var i = oldValue; i < newValue; i++){
+            for(i = oldValue; i < newValue; i++){
                 WinnersNumChange(dispatch, i, newValue)
             }
         }

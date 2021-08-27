@@ -13,6 +13,8 @@ const EditContestSecondStep = ()=>{
     var [data, setData] = useState([])
     var [tableHead, setTableHead] = useState([])
     var params = useParams()
+    var dispatch = useDispatch()
+    var history = useHistory()
     var MakeCSVFile = ()=>{
         var result = []
         if(Array.isArray(data) && data.length > 0){
@@ -24,9 +26,6 @@ const EditContestSecondStep = ()=>{
             filename: 'Participants_Report.csv'
         }
     }
-    var dispatch = useDispatch()
-    var params = useParams()
-    var history = useHistory()
     useEffect(()=>{
         var token = decode(localStorage.getItem("accessToken"))
         var id = token !== null && typeof(token) === "object" ? token.sub : ""
@@ -37,11 +36,11 @@ const EditContestSecondStep = ()=>{
                 }
             })
         }
-        MakeResultState(params.id).then(data =>{
-            setData(data.result)
-            setTableHead(data.tableHead)
+        MakeResultState(params.id).then(res =>{
+            setData(res.result)
+            setTableHead(res.tableHead)
         })
-    }, [dispatch, setData])
+    }, [dispatch])
     if(isBrand !== "true") return <Redirect to="/" />
     return(
         [
@@ -55,7 +54,7 @@ const EditContestSecondStep = ()=>{
                         </div>
                         <div id="addNewButton" className="arrow-button-container is-flex is-justify-content-flex-end">
                             <div className="arrow-button">
-                                <img src={require("../../../assets/icons/csv.png").default} width={"22px"} />
+                                <img alt="" src={require("../../../assets/icons/csv.png").default} width={"22px"} />
                             </div>
                         </div>
                     </div>

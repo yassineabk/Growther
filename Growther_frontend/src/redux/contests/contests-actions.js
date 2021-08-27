@@ -1,5 +1,6 @@
 import axios from "axios"
 import { BACKEND_API } from "../../services/links"
+import { FailAlert, SuccessAlert } from "../alert/alert-actions"
 import { CONTESTS_TYPES } from "./contests-types"
 
 export const GetContests = async (dispatch)=>{
@@ -31,12 +32,20 @@ export const GetContests = async (dispatch)=>{
                     return item
                 })
                 dispatch({type: CONTESTS_TYPES.GET_CONTESTS, payload: payload})
+                return true
             }
             dispatch({type: CONTESTS_TYPES.GET_CONTESTS_FAIL})
+            return false
         }).catch(err =>{
             dispatch({type: CONTESTS_TYPES.GET_CONTESTS_FAIL})
-            //ShowErrorModal(dispatch, "Something went wrong please try again later")
             return false
+        }).then(value =>{
+            if(value){
+                SuccessAlert(dispatch, "Get Contests Successfuly")
+            }else{
+                FailAlert(dispatch, "Get Contests Failure")
+            }
+            return value
         })
 }
 export const AppendDraft = (dispatch, data, idContest, userId) =>{
@@ -64,6 +73,13 @@ export const AppendEditedContest = (dispatch, id, data)=>{
         dispatch({type: CONTESTS_TYPES.GET_CONTESTS_FAIL})
     }
 }
+export const AppendEditedDraft = (dispatch, id, data)=>{
+    try{
+        dispatch({type: CONTESTS_TYPES.APPEND_EDITED_DRAFT, payload: {id, data}})
+    }catch{
+        dispatch({type: CONTESTS_TYPES.GET_CONTESTS_FAIL})
+    }
+}
 export const DeleteDraft = (dispatch, id) =>{
     var token = localStorage.getItem("accessToken")
     var config = {
@@ -81,5 +97,12 @@ export const DeleteDraft = (dispatch, id) =>{
             //ShowErrorModal(dispatch, "Couldn't delete this contest please try again laters")
             dispatch({type: CONTESTS_TYPES.GET_CONTESTS_FAIL})
             return false
+        }).then(value =>{
+            if(value){
+                SuccessAlert(dispatch, "Deleted Successfuly")
+            }else{
+                FailAlert(dispatch, "Deletion Failure")
+            }
+            return value
         })
 }

@@ -1,4 +1,3 @@
-import axios from "axios";
 import { decode } from "jsonwebtoken";
 import { BACKEND_API } from "./links";
 
@@ -45,7 +44,6 @@ function loginWithEmailAndPassword(user) {
     return fetch(`${USERS_REST_API_URL}/authentication/login`, requestOptions)
         .then(handleResponse)
         .then(token => {
-            console.log(token, "here")
             // store user details and jwt token in local storage to keep user logged in between page refreshes
             // localStorage.setItem('user', JSON.stringify(user));
             localStorage.setItem("accessToken",token.accessToken);

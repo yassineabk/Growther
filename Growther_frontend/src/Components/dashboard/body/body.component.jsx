@@ -8,7 +8,7 @@ export const DashboardBody = ({child}) =>{
             <div className="column is-full big_title is-flex is-flex-direction-row">
                 <div>Dashboard</div>
                 <div onClick={()=> showSideBar()} className="burgerIcon">
-                    <img id="burgerIcon" src={require("../../../assets/icons/burger.png").default} />
+                    <img alt="" id="burgerIcon" src={require("../../../assets/icons/burger.png").default} />
                 </div>
             </div>
             {child ? child : null}

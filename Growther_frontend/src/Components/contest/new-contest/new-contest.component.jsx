@@ -2,7 +2,6 @@ import React, { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { 
     Redirect,
-    useHistory, 
 } 
 from "react-router-dom"
 import { InitState, PreviewSelectedAction } from "../../../redux/contest/contest-actions"

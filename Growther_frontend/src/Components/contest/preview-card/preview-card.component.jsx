@@ -27,7 +27,7 @@ export const PreviewCard = ({title, description, timeLeft, dateType, views, poin
                 
             }
         }
-    })
+    }, [userId])
     if(hasStarted || buttons || isPreview || userId || isPublished || error || immediately){
         return(
             <div id="card" className="is-flex previewCard">
@@ -73,14 +73,14 @@ export const PreviewCard = ({title, description, timeLeft, dateType, views, poin
                             <div className="is-flex is-flex-direction-row headButtons">
                                 {buttons ? 
                                     [<div onClick={(event)=> editContest(event)}>
-                                        <img src={require("../../../assets/icons/edit.png").default} width={"20px"} /> 
+                                        <img alt="" src={require("../../../assets/icons/edit.png").default} width={"20px"} /> 
                                     </div>,
                                     <div>
-                                        <img src={require("../../../assets/icons/ending.png").default} width={"20px"} /> 
+                                        <img alt="" src={require("../../../assets/icons/ending.png").default} width={"20px"} /> 
                                     </div>]
                                 : null }
                                 <div>
-                                    <img onClick={()=> hoverCard()} src={require("../../../assets/icons/trophy2.png").default} width={"20px"} />
+                                    <img alt="" onClick={()=> hoverCard()} src={require("../../../assets/icons/trophy2.png").default} width={"20px"} />
                                 </div>
                             </div>
                         </div>
@@ -103,7 +103,7 @@ export const PreviewCard = ({title, description, timeLeft, dateType, views, poin
                     <div onClick={()=> hoverCard()} className="prizesTitle is-flex is-flex-direction-row is-justify-content-space-between">
                         <div>Prizes</div>
                         <div>
-                            <img src={require("../../../assets/icons/back.png").default} width={"20px"} />
+                            <img alt="" src={require("../../../assets/icons/back.png").default} width={"20px"} />
                         </div>
                     </div>
                     <div id="previewPrizes" className="is-flex is-flex-direction-column">

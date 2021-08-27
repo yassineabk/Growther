@@ -3,7 +3,6 @@ import { useDispatch } from "react-redux"
 import { SetActionText } from "../../../redux/contest-card/contest-card-actions"
 import { UrlValidation } from "../../../redux/contest/contest-actions"
 import UrlSubmit from "../../contest/action-modal-container/action-submit-url.component"
-import EmailInput from "../../email-input/email-input.component"
 export const SubmitUrlAction = ({valid_url_check, provider, id, index})=>{
     var [message, setMessage] = useState("")
     var dispatch = useDispatch()

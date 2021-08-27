@@ -1,5 +1,4 @@
 import React from "react"
-import { useHistory } from "react-router-dom"
 export const FacebookViewPost = ({url, action_done, closeModal})=>{
     var LinkMaker = (url)=>{
         while(url[url.length - 1] === "/"){
@@ -10,6 +9,7 @@ export const FacebookViewPost = ({url, action_done, closeModal})=>{
     }
     return (
         <iframe
+            title="facebook-iframe"
             id={"iframe"}
             onLoad={(event)=> action_done(event, true)}
             onError={()=> closeModal()}

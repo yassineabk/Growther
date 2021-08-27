@@ -1,8 +1,8 @@
 import { ContestTypes } from "./contest-types";
 import axios from "axios"
-import { AppendDraft } from "../contests/contests-actions";
+import { AppendDraft, AppendEditedDraft } from "../contests/contests-actions";
 import { BACKEND_API, FRONTEND_API } from "../../services/links";
-import { ShowErrorModal } from "../errors/errors-actions";
+import { FailAlert, SuccessAlert } from "../alert/alert-actions";
 export const InitState = (dispatch)=>{
     try{    
         var date =  new Date()
@@ -115,6 +115,7 @@ export const NextStep = (dispatch, information)=>{
             var validData = {}
             var isValidData = true
             Object.keys(data).map(key=>{
+                var dateEnd, dateStart, currentDate, currentDay, currentMonth, currentYear, currentHour, currentMin, timeStart, timeEnd, date, timediff, timediff2;
                 switch(key){
                     case "title":
                         if(data["title"] === null || (typeof(data["title"]) === "string" && data["title"].length === 0)){
@@ -135,13 +136,13 @@ export const NextStep = (dispatch, information)=>{
                         if(data["startDate"] === null || (typeof(data["startDate"]) === "string" && data["startDate"].length === 0)){
                             result["startDate"] = false
                         }else{
-                            var dateStart = new Date(data.startDate.split("T")[0])
-                            var dateEnd = new Date(data.endDate.split("T")[0])
-                            var currentDate = new Date()
-                            var currentDay = ("0"+currentDate.getDate()).slice(-2)
-                            var currentMonth = ("0"+parseInt(currentDate.getMonth()+1 === 13 ? 1 : currentDate.getMonth()+1))
-                            var currentYear = currentDate.getFullYear()
-                            var date = new Date(currentYear + "-" + currentMonth + "-" + currentDay)
+                            dateStart = new Date(data.startDate.split("T")[0])
+                            dateEnd = new Date(data.endDate.split("T")[0])
+                            currentDate = new Date()
+                            currentDay = ("0"+currentDate.getDate()).slice(-2)
+                            currentMonth = ("0"+parseInt(currentDate.getMonth()+1 === 13 ? 1 : currentDate.getMonth()+1))
+                            currentYear = currentDate.getFullYear()
+                            date = new Date(currentYear + "-" + currentMonth + "-" + currentDay)
                             if(dateEnd - dateStart < 0 || dateStart - date < 0){
                                 result["startDate"] = false
                             }
@@ -151,13 +152,13 @@ export const NextStep = (dispatch, information)=>{
                         if(data["endDate"] === null || (typeof(data["endDate"]) === "string" && data["endDate"].length === 0)){
                             result["endDate"] = false
                         }else{
-                            var dateStart = new Date(data.startDate.split("T")[0])
-                            var dateEnd = new Date(data.endDate.split("T")[0])
-                            var currentDate = new Date()
-                            var currentDay = ("0"+currentDate.getDate()).slice(-2)
-                            var currentMonth = ("0"+parseInt(currentDate.getMonth()+1 === 13 ? 1 : currentDate.getMonth()+1))
-                            var currentYear = currentDate.getFullYear()
-                            var date = new Date(currentYear + "-" + currentMonth + "-" + currentDay)
+                            dateStart = new Date(data.startDate.split("T")[0])
+                            dateEnd = new Date(data.endDate.split("T")[0])
+                            currentDate = new Date()
+                            currentDay = ("0"+currentDate.getDate()).slice(-2)
+                            currentMonth = ("0"+parseInt(currentDate.getMonth()+1 === 13 ? 1 : currentDate.getMonth()+1))
+                            currentYear = currentDate.getFullYear()
+                            date = new Date(currentYear + "-" + currentMonth + "-" + currentDay)
                             if(dateEnd - dateStart < 0 || dateEnd -  date < 0){
                                 result["endDate"] = false
                             }
@@ -168,25 +169,25 @@ export const NextStep = (dispatch, information)=>{
                             if(data["startTime"] === null || (typeof(data["startTime"]) === "string" && data["startTime"].length === 0)){
                                 result["startTime"] = false
                             }else{
-                                var currentDate = new Date()
-                                var currentHour = currentDate.getHours()
-                                var currentMin = currentDate.getMinutes()
-                                var currentDay = ("0"+currentDate.getDate()).slice(-2)
-                                var currentMonth = ("0"+parseInt(currentDate.getMonth() + 1 === 13 ? 1 : currentDate.getMonth() + 1)).slice(-2)
-                                var currentYear = currentDate.getFullYear()
-                                var date = new Date(`${currentYear}-${currentMonth}-${currentDay}`)
-                                var timeStart = data.startTime.split(":")
-                                var timeEnd = data.endTime.split(":")
-                                var dateStart = new Date(Array.isArray(data.startDate) ? data.startDate : data.startDate.split("T")[0])
-                                var dateEnd = new Date(Array.isArray(data.endDate) ? data.endDate : data.endDate.split("T")[0])
-                                var timediff = Math.abs(Math.ceil((dateEnd - dateStart)/(1000*60*60*24)))
+                                currentDate = new Date()
+                                currentHour = currentDate.getHours()
+                                currentMin = currentDate.getMinutes()
+                                currentDay = ("0"+currentDate.getDate()).slice(-2)
+                                currentMonth = ("0"+parseInt(currentDate.getMonth() + 1 === 13 ? 1 : currentDate.getMonth() + 1)).slice(-2)
+                                currentYear = currentDate.getFullYear()
+                                date = new Date(`${currentYear}-${currentMonth}-${currentDay}`)
+                                timeStart = data.startTime.split(":")
+                                timeEnd = data.endTime.split(":")
+                                dateStart = new Date(Array.isArray(data.startDate) ? data.startDate : data.startDate.split("T")[0])
+                                dateEnd = new Date(Array.isArray(data.endDate) ? data.endDate : data.endDate.split("T")[0])
+                                timediff = Math.abs(Math.ceil((dateEnd - dateStart)/(1000*60*60*24)))
+                                timediff2 = Math.ceil((dateStart - date))
                                 if(!Array.isArray(timeStart)){
                                     return result["startTime"] = false
                                 }
                                 if(Array.isArray(timeStart) && timeStart.length === 1){
                                     return result["startTime"] = false
                                 }
-                                var timediff2 = Math.ceil((dateStart - date))
                                 if(timediff2 === 0){
                                     if(parseInt(timeStart[0]) === currentHour && parseInt(currentMin) > parseInt(timeStart[1])){
                                         return result["startTime"] = false
@@ -210,19 +211,19 @@ export const NextStep = (dispatch, information)=>{
                         if(data["endTime"] === null || (typeof(data["endTime"]) === "string" && data["endTime"].length === 0)){
                             result["endTime"] = false
                         }else{
-                            var currentDate = new Date()
-                            var currentHour = currentDate.getHours()
-                            var currentMin = currentDate.getMinutes()
-                            var currentDay = ("0"+currentDate.getDate()).slice(-2)
-                            var currentMonth = ("0"+parseInt(currentDate.getMonth() + 1 === 13 ? 1 : currentDate.getMonth() + 1)).slice(-2)
-                            var currentYear = currentDate.getFullYear()
-                            var date = new Date(`${currentYear}-${currentMonth}-${currentDay}`)
-                            var timeStart = data.startTime.split(":")
-                            var timeEnd = data.endTime.split(":")
-                            var dateStart = new Date(Array.isArray(data.startDate) ? data.startDate : data.startDate.split("T")[0])
-                            var dateEnd = new Date(Array.isArray(data.endDate) ? data.endDate : data.endDate.split("T")[0])
-                            var timediff = Math.abs(Math.ceil((dateEnd - dateStart)/(1000*60*60*24)))
-                            var timediff2 = Math.ceil((dateEnd - date))
+                            currentDate = new Date()
+                            currentHour = currentDate.getHours()
+                            currentMin = currentDate.getMinutes()
+                            currentDay = ("0"+currentDate.getDate()).slice(-2)
+                            currentMonth = ("0"+parseInt(currentDate.getMonth() + 1 === 13 ? 1 : currentDate.getMonth() + 1)).slice(-2)
+                            currentYear = currentDate.getFullYear()
+                            date = new Date(`${currentYear}-${currentMonth}-${currentDay}`)
+                            timeStart = data.startTime.split(":")
+                            timeEnd = data.endTime.split(":")
+                            dateStart = new Date(Array.isArray(data.startDate) ? data.startDate : data.startDate.split("T")[0])
+                            dateEnd = new Date(Array.isArray(data.endDate) ? data.endDate : data.endDate.split("T")[0])
+                            timediff = Math.abs(Math.ceil((dateEnd - dateStart)/(1000*60*60*24)))
+                            timediff2 = Math.ceil((dateEnd - date))
                             if(!Array.isArray(timeStart)){
                                 return result["endTime"] = false
                             }
@@ -256,14 +257,17 @@ export const NextStep = (dispatch, information)=>{
                                 }else{
                                     res = [...res, {id: item.id, description: true}]
                                 }
+                                return true
                             })
                             if(res.length > 0){
                                 result.prizes = res
                             }
                         }
+                        break
                     default:
                         break
                 }
+                return true
             })
             validData = result
             var isValidPrizes = ()=>{
@@ -315,9 +319,11 @@ export const SaveContest = (dispatch, actions)=>{
                         if(key === "points" && (item[key] < 1 || item[key] > 5)){
                             res = {...res, [key]: false, isValid: false}
                         }
+                        return true
                     })
                     result = [...result, res]
                 }
+                return true
             })
             var validActions = ()=>{
                 var IsValid = true
@@ -360,11 +366,13 @@ export const SaveDraft = (dispatch, data, id)=>{
             return response.data
         }).catch(err => {
             dispatch({type: ContestTypes.PUBLISH_FAIL})
-            //ShowErrorModal(dispatch, "Couldn't save this contest as a draft, please try again later")
             return false
         }).then(value =>{
             if(value){
                 AppendDraft(dispatch, data, value, id)
+                SuccessAlert(dispatch, "Saved as Draft")
+            }else{
+                FailAlert(dispatch, "Save Failure")
             }
         })
 }
@@ -376,18 +384,28 @@ export const EditDraft = (dispatch, data, id)=>{
             "Authorization" : `Bearer ${token}`
         },
     }
+    var payload = {}
+    var keys = ["idContest"]
+    Object.keys(data).map(key =>{
+        if(!keys.includes(key)){
+            payload[key] = data[key]
+        }
+        return true
+    })
     dispatch({type: ContestTypes.NEW_CONTEST_LOADING})
-    axios.put(`${BACKEND_API}/api/contests/update/draft/${id}`, data, config)
+    axios.put(`${BACKEND_API}/api/contests/update/draft/${id}`, payload, config)
         .then(response =>{
             dispatch({type: ContestTypes.SAVE_DRAFT})
             return response.data
         }).catch(err => {
             dispatch({type: ContestTypes.PUBLISH_FAIL})
-            //ShowErrorModal(dispatch, "Couldn't save this contest as a draft, please try again later")
             return false
         }).then(value =>{
             if(value){
-                AppendDraft(dispatch, data, value, id)
+                AppendEditedDraft(dispatch, data, value, id)
+                SuccessAlert(dispatch, "Draft Updated")
+            }else{
+                FailAlert(dispatch, "Update Failure")
             }
         })
 }
@@ -408,14 +426,19 @@ export const PublishContest = async (dispatch, data)=>{
                 dispatch({type: ContestTypes.PUBLISH_SUCCESS, payload: `${FRONTEND_API}/contest/${data.information.title}/${response.data}`})
                 return response.data
             }).catch(err => {
-                console.log(err.response)
                 dispatch({type: ContestTypes.PUBLISH_FAIL})
-                //ShowErrorModal(dispatch, "Please try again later")
                 return false
+            }).then(value =>{
+                if(value){
+                    SuccessAlert(dispatch, "Published Successfully")
+                }else{
+                    FailAlert(dispatch, "Publish Failure")
+                }
+                return value
             })
     }
     dispatch({type: ContestTypes.PUBLISH_FAIL})
-    //ShowErrorModal(dispatch, "Please, check data you entred")
+    FailAlert(dispatch, "Publish Failure")
     return false
 }
 export const DuplicateContest = (dispatch, id, data)=>{
@@ -432,11 +455,13 @@ export const DuplicateContest = (dispatch, id, data)=>{
         return response.data
     }).catch(err=>{
         dispatch({type: ContestTypes.PUBLISH_FAIL})
-        //ShowErrorModal(dispatch, "Couldn't duplicate this contest please try again later")
         return false
     }).then(value => {
         if(value){
             AppendDraft(dispatch, data, id)
+            SuccessAlert(dispatch, "Successfully Duplicated")
+        }else{
+            FailAlert(dispatch, "Duplcation Failure")
         }
     })
 }

@@ -65,9 +65,10 @@ const EditContestFirstStep = ()=>{
         }
     }
     var durationHandler = (event)=>{
+        var startDate, endDate;
         if(event === undefined){
-            var startDate = information.startDate.split("T")[0]
-            var endDate = information.endDate.split("T")[0]
+            startDate = information.startDate.split("T")[0]
+            endDate = information.endDate.split("T")[0]
             var date1 = new Date(startDate)
             var date2 = new Date(endDate)
             var diff = Math.abs(date1 - date2)
@@ -82,8 +83,8 @@ const EditContestFirstStep = ()=>{
             }
             EditDuration(dispatch, "days", diffDays, information.startDate, information.endDate)
         }else{
-            var startDate = dateConvert(information.startDate.split("T")[0])
-            var endDate = addDaystoDate(startDate, information.endDate.split("T")[0], parseInt(event.target.value), information.duration.type)
+            startDate = dateConvert(information.startDate.split("T")[0])
+            endDate = addDaystoDate(startDate, information.endDate.split("T")[0], parseInt(event.target.value), information.duration.type)
             EditDuration(dispatch, information.duration.type, parseInt(event.target.value), startDate, endDate)
         }
         

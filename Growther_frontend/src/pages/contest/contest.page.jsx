@@ -6,12 +6,12 @@ import { PreviewCard } from "../../Components/contest/preview-card/preview-card.
 import { Spinner } from "../../Components/spinner/spinner.component"
 import { OpenActionModal, SelectAction, SetData, SetDataFromLocation } from "../../redux/contest-card/contest-card-actions"
 import { TimeLeft } from "../../services/timeLeft"
-const Contest = ({currentUser})=>{
+const Contest = ()=>{
     var [token, setToken] = useState(localStorage.getItem("accessToken"))
+    var [userId, setId] = useState("")
     var dispatch = useDispatch()
     var params = useParams()
     var location = useLocation()
-    var [userId, setId] = useState("")
     var {information, selected, isLoading, error, points, canParticipate} = useSelector(state => state.contest_card)
     useEffect(()=>{
         window.addEventListener("storage", event =>{
@@ -29,7 +29,7 @@ const Contest = ({currentUser})=>{
             }else{
                 SetData(dispatch, params.title, params.description, params.id)
             }
-    }, [dispatch, location])
+    }, [dispatch, token, userId])
     var changeHandler = (event, provider)=>{
         var index = parseInt(event.target.selectedIndex)
         SelectAction(dispatch, provider, index)
@@ -73,7 +73,7 @@ const Contest = ({currentUser})=>{
                     id={information.idContest}
                     description={information.description}
                     timeLeft={information.endDate ? TimeLeft(information.endDate.trim().replace(" ","T"), information.endTime).date : ""}
-                    dateType={TimeLeft(information.endDate, information.endTime).type}
+                    dateType={TimeLeft(information.endDate.trim().replace(" ","T"), information.endTime).type}
                     actions={Array.isArray(information.actions) ? information.actions : []}
                     prizes={information.prizes}
                     previewActions={selected}

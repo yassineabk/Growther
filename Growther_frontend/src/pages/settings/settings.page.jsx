@@ -7,6 +7,7 @@ import { ContestDescription } from "../../Components/contest/contest-description
 import { ContestInput } from "../../Components/contest/contest-input/contest-input.component"
 import { SelectInput } from "../../Components/contest/select-input/select-input.component"
 import { Spinner } from "../../Components/spinner/spinner.component"
+import { FailAlert, SuccessAlert } from "../../redux/alert/alert-actions"
 import { UrlValidation } from "../../redux/contest/contest-actions"
 import { EditUserInfos, setUserInfos } from "../../redux/user-infos/user-infos-actions"
 import { BACKEND_API } from "../../services/links"
@@ -22,7 +23,6 @@ const SettingsComponent = ()=>{
         url: {isValid: true, message: ""},
         activities: {isValid: true, message: ""}
     })
-    var [save, canSave] = useState(false)
     var [isLoading, setLoading] = useState(false)
     var [lang, setLang] = useState(language !== null && typeof(language) === "string" ? language : "English")
     useEffect(()=>{
@@ -42,15 +42,16 @@ const SettingsComponent = ()=>{
                     .then(response =>{
                         setInfos(response.data)
                         setLoading(false)
+                        SuccessAlert(dispatch, "Get Infos Successfully")
                     }).catch(err => {
                         setLoading(false)
+                        FailAlert(dispatch, "Get Infos Failure")
                     })
             }
             
         }
-    }, [setInfos, setLoading, dispatch])
+    }, [dispatch])
     var changeHandler = (event)=>{
-        canSave(false)
         var key = event.target.id
         var value = event.target.value
         setInfos({
@@ -98,6 +99,7 @@ const SettingsComponent = ()=>{
                         }
                     }
                 }
+                return true
             })
         }
         return canSave.length === 0
@@ -115,8 +117,10 @@ const SettingsComponent = ()=>{
             .then(response =>{
                 setLoading(false)
                 setUserInfos(dispatch, userInfos)
+                SuccessAlert(dispatch, "Succesfully Updated")
             }).catch(err => {
                 setLoading(false)
+                FailAlert(dispatch, "Update Failure")
             })
     }
     var setLanguage = (event)=>{
@@ -128,7 +132,7 @@ const SettingsComponent = ()=>{
             <div className="is-flex bottomContainer">
                 <div className="is-flex is-flex-direction-column generalInfosForm is-justify-content-center is-align-items-center">
                     <div className="generalInfos">
-                        <img src={require("../../../src/assets/icons/security.png").default} />
+                        <img alt="" src={require("../../../src/assets/icons/security.png").default} />
                     </div>
                 </div>
                 <div className="is-flex is-flex-direction-column newContestFrom">
