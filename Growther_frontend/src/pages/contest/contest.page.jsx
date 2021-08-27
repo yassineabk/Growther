@@ -59,6 +59,7 @@ const Contest = ()=>{
         OpenActionModal(dispatch, index, element)
     }
     var DoBonus = (index, element)=>{
+        dispatch({type: Contest_Card_Types.CONTEST_CARD_DOING_ACTION})
         if(information !== null && information !== undefined && typeof(information) === "object" && Array.isArray(information.actions)){
             var result = true
             information.actions.map((item, index) =>{

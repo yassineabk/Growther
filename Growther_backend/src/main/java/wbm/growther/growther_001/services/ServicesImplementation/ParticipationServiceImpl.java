@@ -21,7 +21,7 @@ import wbm.growther.growther_001.services.ParticipationService;
 
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 @Service
@@ -99,7 +99,6 @@ public class ParticipationServiceImpl implements ParticipationService {
             System.out.println(action.isDone());
         });
 
-        //participation.setId(0L);
         participation.setUser(user);
         participation.setContest(contest);
 
@@ -111,6 +110,7 @@ public class ParticipationServiceImpl implements ParticipationService {
 
         return participation;
     }
+
 
     @Override
     public ParticipationDto getParticipationById(Long participationID) {
@@ -137,6 +137,7 @@ public class ParticipationServiceImpl implements ParticipationService {
         int totalDoneActions=0;
         int totalParticipatinPoints=0;
         Set<ParticipationAction> actions = participation.getParticipationActions();
+
 
         for(ParticipationAction action:actions){
             if(action.isDone()) {
