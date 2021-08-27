@@ -114,6 +114,10 @@ public class ParticipationController {
                     action.setPoints(participationAction.getPoints());
                     action.setType(participationAction.getType());
                     action.setUrl(participationAction.getUrl());
+                    action.setEmail(participationAction.getEmail());
+                    action.setText(participationAction.getText());
+                    action.setLink(participationAction.getLink());
+                    action.setUsername(participationAction.getUsername());
                     action.setDone(participationAction.isDone());
 
                     return actionRepository.save(action);

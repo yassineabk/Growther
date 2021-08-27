@@ -220,8 +220,29 @@ public class ContestServiceImpl implements ContestService {
     @Override
     public ContestDto updateContestInfos(ContestDto contestDto) throws ParseException {
         Contest contest=toContest(contestDto);
+        Set<Prize> prizes = contest.getPrizes();
+        Set<Action> actions = contest.getActions();
+
+        actions.forEach( action -> {
+            if(action.getId()==null)
+                action.setContest(contest);
+        });
+
+        prizes.forEach( prize -> {
+            if (prize.getId()==null)
+                prize.setContest(contest);
+        });
+
+        prizes.forEach( prize -> {
+            if (prize.getId()==null)
+                prizeRepository.save(prize);
+        });
+        actions.forEach( action -> {
+            if(action.getId()==null)
+            actionRepository.save(action);
+        });
         repository.save(contest);
-        return toDto(repository.save(contest));
+        return toDto(contest);
     }
 
     @Override
