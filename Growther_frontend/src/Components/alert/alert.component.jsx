@@ -8,15 +8,15 @@ export const AlertComponent = ({alerts})=>{
                     if(item.message && item.show){
                         if(item.isSuccess){
                             return(
-                                <div key={`alert-${index}}`} id="alert-success" className="alert">
-                                    {item.message}
+                                <div key={`alert-${index}}`} id="alert-success" className="alert is-flex">
+                                    <span>{item.message}</span>
                                 </div>
                             )
                         }
                         if(item.isFail){
                             return(
                                 <div key={`alert-${index}}`} id="alert-fail" className="alert">
-                                    {item.message}
+                                    <span>{item.message}</span>
                                 </div>
                             )
                         }

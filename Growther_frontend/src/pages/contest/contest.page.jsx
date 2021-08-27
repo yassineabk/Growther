@@ -4,7 +4,8 @@ import { useDispatch, useSelector } from "react-redux"
 import { useLocation, useParams } from "react-router-dom"
 import { PreviewCard } from "../../Components/contest/preview-card/preview-card.component"
 import { Spinner } from "../../Components/spinner/spinner.component"
-import { OpenActionModal, SelectAction, SetData, SetDataFromLocation } from "../../redux/contest-card/contest-card-actions"
+import { ActionDone, OpenActionModal, SelectAction, SetData, SetDataFromLocation } from "../../redux/contest-card/contest-card-actions"
+import { Contest_Card_Types } from "../../redux/contest-card/contest-card-types"
 import { TimeLeft } from "../../services/timeLeft"
 const Contest = ()=>{
     var [token, setToken] = useState(localStorage.getItem("accessToken"))
@@ -24,12 +25,12 @@ const Contest = ()=>{
         token = decode(token)
         var sub = token !== null && typeof(token) === "object" ? token.sub : ""
         setId(sub)
-            if(location.state){
-                SetDataFromLocation(dispatch, location.state)
-            }else{
-                SetData(dispatch, params.title, params.description, params.id)
-            }
-    }, [dispatch, token, userId])
+        if(location.state){
+            SetDataFromLocation(dispatch, location.state)
+        }else{
+            SetData(dispatch, params.title, params.description, params.id)
+        }
+    }, [dispatch, userId, location])
     var changeHandler = (event, provider)=>{
         var index = parseInt(event.target.selectedIndex)
         SelectAction(dispatch, provider, index)
@@ -57,6 +58,26 @@ const Contest = ()=>{
     var DoAction = (index, element)=>{
         OpenActionModal(dispatch, index, element)
     }
+    var DoBonus = (index, element)=>{
+        if(information !== null && information !== undefined && typeof(information) === "object" && Array.isArray(information.actions)){
+            var result = true
+            information.actions.map((item, index) =>{
+                if(item !== null && typeof(item) === "object"){
+                    if(item.provider.toLowerCase() === "bonus" && (item.isDone || item.done)){
+                        result = result && false
+                    }
+                    if(item.provider.toLowerCase() !== "bonus"){
+                        result = result && (item.isDone || item.done)
+                    }
+                }else{
+                    result = result && false
+                }
+            })
+            if(result && !isLoading){
+                ActionDone(dispatch, element, element.id, index, element.points, information.idContest, information.canParticipate, information.participationId, information.actions)
+            }
+        }
+    }
     var showLoginForm = (value)=>{
         if(value){
             window.open("/login")
@@ -77,6 +98,7 @@ const Contest = ()=>{
                     actions={Array.isArray(information.actions) ? information.actions : []}
                     prizes={information.prizes}
                     previewActions={selected}
+                    contestDone={information.done || information.isDone}
                     changeHandler={(event, provider)=> changeHandler(event, provider)}
                     buttons={information.user !== null && typeof(information.user) === "object" && information.user.isBrand === "true" ? userId.toString() === information.user.id.toString() : false}
                     hasStarted={typeof(information.startDate) === "string" ? hasStarted(information.startDate.trim().replace(" ","T").split("T")[0]) : false}
@@ -89,7 +111,8 @@ const Contest = ()=>{
                     totalPoints={information}
                     status={information.status}
                     DoAction={(index, element)=> DoAction(index, element)}
-                    showLoginForm={showLoginForm && {}.toString.call(DoAction) === '[object Function]' ? (value)=> showLoginForm(value) : ()=> false}
+                    DoBonus={(index, element) => DoBonus(index, element)}
+                    showLoginForm={showLoginForm && {}.toString.call(showLoginForm) === '[object Function]' ? (value)=> showLoginForm(value) : ()=> false}
                 /> 
             : null}
         </div>
