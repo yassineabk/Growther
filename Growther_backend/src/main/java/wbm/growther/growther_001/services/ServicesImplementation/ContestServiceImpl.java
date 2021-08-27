@@ -54,6 +54,12 @@ public class ContestServiceImpl implements ContestService {
     }
 
     @Override
+    public List<ContestDto> getAllContestsByUser(Long userID) {
+        List<Contest> contests = repository.findAllByUserId(userID);
+        return getContestsDto(contests);
+    }
+
+    @Override
     @Transactional
     public Long createNewContest(ContestDto NewContestDto, String email) throws ParseException {
 
@@ -89,7 +95,7 @@ public class ContestServiceImpl implements ContestService {
 
 
 
-        if(contest.getImmediately()) {
+        if(! contest.getImmediately()) {
             UpdateContestStateJob publishContestJob = new UpdateContestStateJob(
                     contest.getIdContest(),
                     "Published",
@@ -116,6 +122,9 @@ public class ContestServiceImpl implements ContestService {
                 repository
         );*/
 
+
+
+        //taskScheduler.doTask(publishContestJob);
         taskScheduler.doTask(endContestJob);
 
          //this one if you wanna test
@@ -211,8 +220,34 @@ public class ContestServiceImpl implements ContestService {
     @Override
     public ContestDto updateContestInfos(ContestDto contestDto) throws ParseException {
         Contest contest=toContest(contestDto);
+        Set<Prize> prizes = contest.getPrizes();
+        Set<Action> actions = contest.getActions();
+
+        actions.forEach( action -> {
+            if(action.getId()== null)
+                action.setContest(contest);
+        });
+
+        prizes.forEach( prize -> {
+            if (prize.getId()== null)
+                prize.setContest(contest);
+        });
+        contest.getPrizes().forEach( prize -> {
+            if (prize.getId()== null){
+                prize.setId(0L);
+                Prize prize1 = prizeRepository.save(prize);
+                prize.setId(prize1.getId());
+            }
+        });
+        contest.getActions().forEach( action -> {
+            if(action.getId()==null){
+                action.setId(0L);
+                Action action1 = actionRepository.save(action);
+                action.setId(action1.getId());
+            }
+        });
         repository.save(contest);
-        return toDto(repository.save(contest));
+        return toDto(contest);
     }
 
     @Override

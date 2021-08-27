@@ -6,10 +6,9 @@ import ContestCard from './contest-card/contest-card-reducer'
 import EditReducer from './contest-edit/contest-edit-reducer'
 import DashboardReducer from './dashboard/dashboard-reducer'
 import ContestsReducer from './contests/contests-reducer'
-import LoadingReducer from './loading/loading-reducer'
 import ErrorsReducer from './errors/errors-reducer'
-import ParticipationReducer from './participation/participation-reducer'
 import { UserInfosReducer } from './user-infos/user-infos-reducer'
+import { WinnersReducer } from './winners/winners-reducer'
 
 
 const rootReducer=combineReducers({
@@ -20,10 +19,9 @@ const rootReducer=combineReducers({
     contest_edit: EditReducer,
     dashboard: DashboardReducer,
     get_contests: ContestsReducer,
-    participation: ParticipationReducer,
-    isLoading: LoadingReducer,
     errors: ErrorsReducer,
     userInfos: UserInfosReducer,
+    winners: WinnersReducer
 })
 
 

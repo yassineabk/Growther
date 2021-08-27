@@ -1,10 +1,8 @@
 import React, { useState } from "react"
 import { useDispatch } from "react-redux";
-import Snapcode from 'react-snapcode';
 import { SetActionText } from "../../../redux/contest-card/contest-card-actions";
 import UrlSubmit from "../../contest/action-modal-container/action-submit-url.component";
-import { SubmitUrlAction } from "../submit-information/submit-url.component";
-export const SnapchatFollow = ({url, valid_url_check, closeModal, id, index,})=>{
+export const SnapchatFollow = ({url, valid_url_check, closeModal, id, index})=>{
     var [username, setUsername] = useState("")
     var [message, setMessage] = useState("")
     var [userInput, showInput] = useState(false)
@@ -42,7 +40,7 @@ export const SnapchatFollow = ({url, valid_url_check, closeModal, id, index,})=>
     if(!userInput) return (<div id="snapchatFollow">
         <div onClick={()=> buttonClick()} id='snapchatFollowButton' className="is-flex">
             <span>
-                <img src={require("../../../assets/icons/snapchat.png").default} />
+                <img alt="" src={require("../../../assets/icons/snapchat.png").default} />
             </span>
             <span>Snapchat</span>
         </div>
@@ -56,6 +54,7 @@ export const SnapchatFollow = ({url, valid_url_check, closeModal, id, index,})=>
                 message={message}
                 handleChange={event => changeHandler(event)}
                 hideIcon={true}
+                value={username}
             />
         </div>
     )

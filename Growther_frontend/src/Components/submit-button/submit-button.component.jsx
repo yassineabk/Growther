@@ -1,11 +1,6 @@
 import React from 'react'
-import { Redirect, useHistory } from "react-router-dom";
 
 const SubmitButton=({handleChange,label,type,placeholder,isError,message,onClick, className, id})=>{
-    var history = useHistory()
-    /* var redirect = ()=>{
-        history.push("/dashboard")
-    } */
     return(
         <div className="field">
             <p className="control"/>

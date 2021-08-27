@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import wbm.growther.growther_001.dtos.ContestDto;
 import wbm.growther.growther_001.dtos.ParticipationDto;
 import wbm.growther.growther_001.exceptions.ResourceNotFoundException;
+import wbm.growther.growther_001.models.Participation;
 import wbm.growther.growther_001.models.Prize;
 import wbm.growther.growther_001.models.actions.Action;
 import wbm.growther.growther_001.payload.WinnersResponse;
@@ -16,10 +17,7 @@ import wbm.growther.growther_001.services.ContestService;
 import wbm.growther.growther_001.services.ParticipationService;
 
 import java.text.ParseException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.RejectedExecutionException;
 
 @RestController
@@ -36,7 +34,47 @@ public class ContestController {
     public List<ContestDto> getContests(){
         return contestService.getAllContests();
     }
+    //Get All Contests
+    @GetMapping("/all")
+    public List<? extends Object> getContestsByUser() throws ResourceNotFoundException {
+        Long userId=null;
+        SecurityUser principal;
 
+        // load the principal (authenticated user) if he exist
+        try {
+            principal= (SecurityUser) SecurityContextHolder
+                    .getContext().getAuthentication().getPrincipal();
+            //get the user id from security context
+            userId=principal.getId();
+
+        }catch (Exception e){
+            System.out.println("do nothing");
+        }
+        List<ContestDto> contests = contestService.getAllContestsByUser(userId);
+        List<ParticipationDto> participations = participationService.getParticipationsByUser(userId);
+
+
+        if (! contests.isEmpty())
+            return contests;
+        else if (! participations.isEmpty()) {
+            /*HashMap<Long, ArrayList<Set<Participation>>> filtredParticipation = new HashMap<Long, ArrayList<Set<Participation>>>();
+            for (int i = 0; i < participations.size(); i++) {
+                Long index = participations.get(i).getContest().getIdContest();
+                if (!filtredParticipation.containsKey(index)) {
+                    filtredParticipation.put(index, new ArrayList<Set<Participation>>>());
+                }
+                filtredParticipation.get(index).add(participations.get(i).getParticipationActions());
+            }
+            Iterator it = filtredParticipation.entrySet().iterator();
+            while (it.hasNext()) {
+                Map.Entry pair = (Map.Entry)it.next();
+                System.out.println(pair.getKey() + " = " + pair.getValue());
+                it.remove(); // avoids a ConcurrentModificationException
+            }*/
+            return participations;
+        }
+        else throw new ResourceNotFoundException("No contests exist with USER ID : " +userId);
+    }
 
     //Get contest by id
     @GetMapping("/{id}")

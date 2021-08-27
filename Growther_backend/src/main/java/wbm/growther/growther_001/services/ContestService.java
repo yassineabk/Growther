@@ -11,6 +11,7 @@ import java.util.Set;
 
 public interface ContestService {
     List<ContestDto> getAllContests();
+    List<ContestDto> getAllContestsByUser(Long userID);
     Long createNewContest(ContestDto contestDto, String email) throws ParseException;
     Long createNewDraftContest(ContestDto contestDto, String email) throws ParseException;
     ContestDto getContestById(Long contestID);

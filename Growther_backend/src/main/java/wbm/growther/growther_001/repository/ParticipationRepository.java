@@ -9,4 +9,5 @@ public interface ParticipationRepository extends JpaRepository<Participation,Lon
     Participation findParticipationById(Long ID);
     Participation findParticipationByContestIdContestAndUserId(Long ContestID,Long UserID);
     List findAllByContestIdContest(Long ContestID);
+    List findAllByUserId(Long userID);
 }

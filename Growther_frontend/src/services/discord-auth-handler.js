@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom'
-import {setCurrentUser, SetCurrentUser} from '../redux/login/login.actions'
-import { registerWithFacebookAndGoogle } from '../redux/registration/registration.action';
 import { SetDiscordToken } from './tokens';
 import { DISCORD_APP_ID, DISCORD_CLIENT_ID, FRONTEND_API } from './links';
 class DiscordAuthHandler extends Component {
-    async getUrlParameter(name) {
+    async getUrlParameter() {
         try{
             var search = this.props.location.search
             var regex = new RegExp(("(?<=code=).+"));
@@ -45,20 +43,6 @@ class DiscordAuthHandler extends Component {
         });
         return <Redirect to="/" />
     }
-}
-
-const mapStateToProps=(state)=>{
-    return({
-        individual:state.registration.individual,
-        brand:state.registration.brand,
-        isBrand:state.registration.isBrand,
-
-    })
-
-}
-const mapDispatcToProps={
-    SetCurrentUser:(user)=>setCurrentUser(user),
-    registerWithFacebookAndGoogle:registerWithFacebookAndGoogle
 }
 
 export default DiscordAuthHandler;

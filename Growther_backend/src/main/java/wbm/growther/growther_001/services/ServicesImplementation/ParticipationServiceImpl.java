@@ -21,6 +21,7 @@ import wbm.growther.growther_001.services.ParticipationService;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 @Service
@@ -67,6 +68,21 @@ public class ParticipationServiceImpl implements ParticipationService {
     }
 
     @Override
+    public List<ParticipationDto> getParticipationsByUser(Long userID) throws ResourceNotFoundException {
+        // load the principal (authenticated user)
+        SecurityUser principal= (SecurityUser) SecurityContextHolder
+                .getContext().getAuthentication().getPrincipal();
+        //get the user id from security context
+        Long userId=principal.getId();
+
+        List<Participation> participations = repository.findAllByUserId(userID);
+        //return participations just for the Brand who created the Contest
+        if (!participations.isEmpty())
+            return getParticipationsDto(participations);
+        else return null;
+    }
+
+    @Override
     public Participation createNewParticipation(ParticipationDto participationDto,String email,Long contestID) throws ParseException {
         User user = userRepository.findUserByEmail(email);
         if(!user.getIsBrand().equalsIgnoreCase("false")) Long.decode("0");
@@ -74,13 +90,26 @@ public class ParticipationServiceImpl implements ParticipationService {
         Contest contest = contestRepository.findContestByIdContest(contestID);
         if(contest==null) System.out.println("No contest with ID: "+contestID);
         else System.out.println("contest with ID: "+contest.getIdContest());
-
         Participation participation = toParticipation(participationDto);
 
 
         Set<ParticipationAction> actions = participation.getParticipationActions();
+        Set<ParticipationAction> contestActions = new HashSet<>();
+        Set<Action> actionsContest = contest.getActions();
+
+        actionsContest.forEach(action -> {
+            contestActions.add(new ParticipationAction(action.getProvider(),action.getType(),action.getUrl(),action.getPoints()));
+            //System.out.println(action.getType()+"--"+action.getUrl()+"--"+action.getProvider());
+        });
+
+        contestActions.forEach(action -> {
+            action.setId(0L);
+            action.setParticipation(participation);
+        });
+
         actions.forEach( action -> {
             action.setParticipation(participation);
+            System.out.println(action.isDone());
         });
 
         //participation.setId(0L);
@@ -90,8 +119,18 @@ public class ParticipationServiceImpl implements ParticipationService {
         repository.save(participation);
 
         actions.forEach( action -> {
-            System.out.println(action.isDone());
             actionRepository.save(action);
+        });
+        contestActions.forEach(action -> {
+            actionsContest.forEach(action1 -> {
+                if (action.getType().equalsIgnoreCase(action1.getType())
+                        && action.getProvider().equalsIgnoreCase(action1.getProvider())
+                        && action.getUrl().equalsIgnoreCase(action1.getUrl()))
+                    actionRepository.delete(action);
+                    //System.out.println(action.getType()+"--"+action.getUrl()+"--"+action.getProvider());
+                else
+                    actionRepository.save(action);
+            });
         });
 
         return participation;
@@ -116,23 +155,24 @@ public class ParticipationServiceImpl implements ParticipationService {
         return toDto(repository.save(participation));
     }
 
-        @Override
-        public void checkParticipation(Participation participation) {
+    @Override
+    public void checkParticipation(Participation participation) {
 
-            int totalDoneActions=0;
-            int totalParticipatinPoints=0;
-            Set<ParticipationAction> actions = participation.getParticipationActions();
+        int totalDoneActions=0;
+        int totalParticipatinPoints=0;
+        Set<ParticipationAction> actions = participation.getParticipationActions();
 
-            for(ParticipationAction action:actions){
-                if(action.isDone()) {
-                    totalParticipatinPoints++;
-                    totalDoneActions++;
-                }
+
+        for(ParticipationAction action:actions){
+            if(action.isDone()) {
+                totalParticipatinPoints++;
+                totalDoneActions++;
             }
-            if (totalDoneActions == actions.size())
-                participation.setDone(true);
+        }
+        if (totalDoneActions == actions.size())
+            participation.setDone(true);
 
-            participation.setTotalPoints(totalParticipatinPoints);
+        participation.setTotalPoints(totalParticipatinPoints);
 
             repository.save(participation);
 
@@ -160,7 +200,7 @@ public class ParticipationServiceImpl implements ParticipationService {
         return participation;
     }
     //convert model to DTO
-    private ParticipationDto toDto(Participation participation){
+    public ParticipationDto toDto(Participation participation){
         ParticipationDto participationDto = new ParticipationDto();
         participationDto.setId(participation.getId());
         participationDto.setPartipationDate(participation.getPartipationDate());

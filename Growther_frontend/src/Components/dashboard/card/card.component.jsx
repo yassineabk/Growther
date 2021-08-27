@@ -1,6 +1,6 @@
 import React from "react"
 import { useHistory } from "react-router-dom"
-export const CardComponent = ({element, title, description, views, entries, id, userId, status, Duplicate, Delete, timeLeft})=>{
+export const CardComponent = ({element, title, description, views, entries, id, userId, status, Duplicate, Delete, timeLeft, isBrand})=>{
     var history = useHistory()
     var openContest = ()=>{
         if(typeof(element.user === "object")){
@@ -55,9 +55,14 @@ export const CardComponent = ({element, title, description, views, entries, id, 
                     </div>
                 </div>
                 {status !== "DRAFT" ? 
-                    <div className="card-buttons is-flex is-flex-direction-row">
-                        <div className="details-button" onClick={()=> openContest()}>Details</div>
-                        <div className="duplicate-button" onClick={Duplicate && {}.toString.call(Duplicate) === '[object Function]' ? ()=> Duplicate(id) : () => false}>Duplicate</div>
+                    <div className={`card-buttons is-flex ${isBrand === "true" ? "is-flex-direction-row" : "is-flex-direction-row-reverse"}`}>
+                        {isBrand === "true" ? 
+                            [
+                                <div className={`details-button ${isBrand !== "true" ? "is-justify-self-flex-end" : ""}`} onClick={()=> openContest()}>Details</div>,
+                                <div className="duplicate-button" onClick={Duplicate && {}.toString.call(Duplicate) === '[object Function]' ? ()=> Duplicate(id) : () => false}>Duplicate</div>
+                            ] :  [
+                                <div className="duplicate-button" onClick={()=> openContest()}>Details</div>
+                            ]}
                     </div> : 
                     <div className="card-buttons is-flex is-flex-direction-row">
                         <div className="details-button" onClick={Delete && {}.toString.call(Delete) === '[object Function]' ? ()=> Delete(id) : () => false}>Delete</div>

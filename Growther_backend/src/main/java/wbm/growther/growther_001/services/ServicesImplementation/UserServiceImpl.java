@@ -98,6 +98,7 @@ public class UserServiceImpl implements UserService {
 
         Long userId= securityUser.getId();
 
+        //UserDto user=this.getUserById(userId);
         User user=userRepository.findUserById(userId);
 
         boolean doesMatch= passwordEncoder.matches(oldPassword,user.getPassword());
@@ -114,6 +115,8 @@ public class UserServiceImpl implements UserService {
         if(oldPassword.equals(newPassword))
             return "password updated";
         user.setPassword(hashedNewPassword);
+        //userRepository.save(mapToUser(user));
+        //User user1=mapToUser(user);
         userRepository.save(user);
         return "password updated";
 

@@ -1,4 +1,3 @@
-import axios from "axios";
 import { decode } from "jsonwebtoken";
 import { BACKEND_API } from "./links";
 
@@ -82,6 +81,7 @@ function registerWithEmailAndPassword(user) {
 
 
 function handleResponse(response) {
+    console.log(response)
     return response.text().then(text => {
         const data = text && JSON.parse(text);
         if (!response.ok) {

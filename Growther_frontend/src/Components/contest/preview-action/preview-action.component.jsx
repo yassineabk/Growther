@@ -1,9 +1,8 @@
 import { decode } from "jsonwebtoken"
 import React from "react"
-import { useSelector } from "react-redux"
 import { ActionIcon } from "../actions-icons/actions-icons.component"
 import { ContestInput } from "../contest-input/contest-input.component"
-export const PreviewAction = ({provider, links, points, status, selected, changeHandler, DoAction, done, index, isOwner, canParticipate, showLoginForm})=>{
+export const PreviewAction = ({provider, links, points, status, changeHandler, DoAction, done, index, isOwner, canParticipate, showLoginForm})=>{
     var showLogin = (value)=>{
         if(showLoginForm && {}.toString.call(DoAction) === '[object Function]' && typeof(status) === "string" && status.toLowerCase() === "published"){
             showLoginForm(value)
@@ -43,7 +42,7 @@ export const PreviewAction = ({provider, links, points, status, selected, change
                 <div onClick={(!isOwner || canParticipate) && status === "Published" ? ()=> doAction() : ()=> showLogin(!isOwner && !canParticipate)} className="actionPoints">
                     +{points}
                 </div> : <div className="actionPoints">
-                    <img src={require("../../../assets/icons/done.png").default} width={25} />
+                    <img alt="" src={require("../../../assets/icons/done.png").default} width={25} />
                 </div>
             }
         </div>

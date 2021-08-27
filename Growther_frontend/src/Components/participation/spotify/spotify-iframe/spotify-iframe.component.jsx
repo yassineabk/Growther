@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react"
-import { useUser } from 'react-spotify-api';
-import { SPOTIFY_CLIENT_ID } from "../../../../services/links";
 import { GetSpotifyToken } from "../../../../services/tokens";
 import { SpotifyAuthComponent } from "../spotify-login/spotify-login.compnent";
 export const SpotifyIframe = ({url, action_done, onError, closeModal})=>{
@@ -11,7 +9,7 @@ export const SpotifyIframe = ({url, action_done, onError, closeModal})=>{
                 setToken(event.newValue)
             }
         })
-    }, [setToken])
+    }, [token])
     var iframeBlur = ()=>{
         var listener = window.addEventListener('blur', event => {
             if (document.activeElement === document.getElementById('spotifyIframe')) {
@@ -32,6 +30,7 @@ export const SpotifyIframe = ({url, action_done, onError, closeModal})=>{
     }
     if(token) return(
         <iframe 
+            title="spotify-iframe"
             onLoad={()=> iframeBlur()} 
             onError={()=> closeModal()}
             id="spotifyIframe" 

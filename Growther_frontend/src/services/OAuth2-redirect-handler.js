@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom'
-import {setCurrentUser, SetCurrentUser} from '../redux/login/login.actions'
+import {setCurrentUser} from '../redux/login/login.actions'
 import { connect } from 'react-redux';
 import { registerWithFacebookAndGoogle } from '../redux/registration/registration.action';
 class OAuth2RedirectHandler extends Component {
@@ -12,7 +12,6 @@ class OAuth2RedirectHandler extends Component {
     };
     render() {        
         const token = this.getUrlParameter('token');
-        const error = this.getUrlParameter('error');
         if(token) {
             localStorage.setItem('accessToken', token);
             var user = localStorage.getItem("user")

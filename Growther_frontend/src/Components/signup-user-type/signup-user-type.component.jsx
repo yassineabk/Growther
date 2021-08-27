@@ -23,13 +23,13 @@ export const SignupUserType = ({handleSubmit, handleClick,isBrand})=>{
                                 <div className="control pb-4 is-center is-flex userTypeContainer" >
                                     <div className="is-flex is-flex-direction-column">
                                         <div className={`${isBrand ? '' :'isSelected'} typeIcon`} onClick={handleClick}>
-                                            <img name="individual" src={require("../../assets/icons/individual.png").default} />
+                                            <img alt="" name="individual" src={require("../../assets/icons/individual.png").default} />
                                         </div>
                                         <div>Individual</div>
                                     </div>
                                     <div className="is-flex is-flex-direction-column">
                                         <div className={`${isBrand ? 'isSelected' :''} typeIcon`}  onClick={handleClick}>
-                                            <img name="brand" src={require("../../assets/icons/brand.png").default} />
+                                            <img alt="" name="brand" src={require("../../assets/icons/brand.png").default} />
                                         </div>
                                         <div>Brand</div>
                                     </div>

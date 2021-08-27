@@ -1,4 +1,3 @@
-import { decode } from "jsonwebtoken"
 import { CONTESTS_TYPES } from "./contests-types"
 
 const INITIAL_STATE = {
@@ -51,24 +50,30 @@ const ContestsReducer = (state = INITIAL_STATE, action)=>{
                     return item
                 })
             }
+            case CONTESTS_TYPES.APPEND_EDITED_DRAFT:
+                return {
+                    ...state,
+                    draft: state.contests.map(item=>{
+                        if(item.idContest.toString() === action.payload.id.toString()){
+                            return {
+                                ...action.payload.data,
+                            }
+                        }
+                        return item
+                    })
+                }
         case CONTESTS_TYPES.GET_CONTESTS:
-            var token = decode(localStorage.getItem("accessToken"))
-            var sub = token !== null &&  typeof(token) === "object" ? token.sub : ""
             return {
                 ...state,
                 contests: Array.isArray(action.payload) ? action.payload.filter(item =>{
                     if(typeof(item.user) === "object" && item.status !== "DRAFT"){
-                        if(item.user.id.toString() === sub.toString()){
-                            return true
-                        }
+                        return true
                     }
                     return false
                 }).reverse() : [],
                 draft: Array.isArray(action.payload) ? action.payload.filter(item => {
                     if(typeof(item.user) === "object" && item.status === "DRAFT"){
-                        if(item.user.id.toString() === sub.toString()){
-                            return true
-                        }
+                        return true
                     }
                     return false
                 }) : [],
