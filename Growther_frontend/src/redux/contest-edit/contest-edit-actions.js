@@ -2,6 +2,7 @@ import { CONTEST_EDIT_TYPES } from "./contest-edit-types";
 import axios from "axios"
 import { BACKEND_API } from "../../services/links";
 import { AppendEditedContest } from "../contests/contests-actions";
+import { FailAlert, SuccessAlert } from "../alert/alert-actions";
 export const SetInitialState = (dispatch)=>{
     try{
         dispatch({type: CONTEST_EDIT_TYPES.INIT_EDIT_STATE})
@@ -29,18 +30,28 @@ export const SetStateToEdit = async (dispatch, id, userId)=>{
     }).catch(err=>{
         dispatch({type: CONTEST_EDIT_TYPES.EDIT_FAIL})
         return false
+    }).then(value =>{
+        if(value){
+            SuccessAlert(dispatch, "Get Contest Successfuly")
+        }else{
+            FailAlert(dispatch, "Get Contest Failure")
+        }
+        return value
     })
 }
 export const SetStateToEditFromLocation = async (dispatch, data, userId)=>{
     try{
         if(data.user.id.toString() === userId.toString()){
             dispatch({type: CONTEST_EDIT_TYPES.SET_STATE_TO_EDIT, payload: data})
+            SuccessAlert(dispatch, "Get Contest Successfuly")
             return true
         }
         dispatch({type: CONTEST_EDIT_TYPES.EDIT_FAIL})
+        FailAlert(dispatch, "Get Contest Failure")
         return false
     }catch{
         dispatch({type: CONTEST_EDIT_TYPES.EDIT_ERROR})
+        FailAlert(dispatch, "Get Contest Failure")
         return false
     }
     
@@ -186,9 +197,13 @@ export const Edit = async (dispatch, information, id, userId)=>{
         }).then(value =>{
             if(value){
                 AppendEditedContest(dispatch, id, Data)
+                SuccessAlert(dispatch, "Successfully Edited")
+            }else{
+                FailAlert(dispatch, "Edit Failure")
             }
         })
     }
     dispatch({type: CONTEST_EDIT_TYPES.EDIT_FAIL})
+    FailAlert(dispatch, "Edit Failure")
     return false
 }

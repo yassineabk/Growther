@@ -2,6 +2,7 @@ import { ContestTypes } from "./contest-types";
 import axios from "axios"
 import { AppendDraft, AppendEditedDraft } from "../contests/contests-actions";
 import { BACKEND_API, FRONTEND_API } from "../../services/links";
+import { FailAlert, SuccessAlert } from "../alert/alert-actions";
 export const InitState = (dispatch)=>{
     try{    
         var date =  new Date()
@@ -369,6 +370,9 @@ export const SaveDraft = (dispatch, data, id)=>{
         }).then(value =>{
             if(value){
                 AppendDraft(dispatch, data, value, id)
+                SuccessAlert(dispatch, "Saved as Draft")
+            }else{
+                FailAlert(dispatch, "Save Failure")
             }
         })
 }
@@ -388,7 +392,6 @@ export const EditDraft = (dispatch, data, id)=>{
         }
         return true
     })
-    console.log(payload)
     dispatch({type: ContestTypes.NEW_CONTEST_LOADING})
     axios.put(`${BACKEND_API}/api/contests/update/draft/${id}`, payload, config)
         .then(response =>{
@@ -400,6 +403,9 @@ export const EditDraft = (dispatch, data, id)=>{
         }).then(value =>{
             if(value){
                 AppendEditedDraft(dispatch, data, value, id)
+                SuccessAlert(dispatch, "Draft Updated")
+            }else{
+                FailAlert(dispatch, "Update Failure")
             }
         })
 }
@@ -422,9 +428,17 @@ export const PublishContest = async (dispatch, data)=>{
             }).catch(err => {
                 dispatch({type: ContestTypes.PUBLISH_FAIL})
                 return false
+            }).then(value =>{
+                if(value){
+                    SuccessAlert(dispatch, "Published Successfully")
+                }else{
+                    FailAlert(dispatch, "Publish Failure")
+                }
+                return value
             })
     }
     dispatch({type: ContestTypes.PUBLISH_FAIL})
+    FailAlert(dispatch, "Publish Failure")
     return false
 }
 export const DuplicateContest = (dispatch, id, data)=>{
@@ -445,6 +459,9 @@ export const DuplicateContest = (dispatch, id, data)=>{
     }).then(value => {
         if(value){
             AppendDraft(dispatch, data, id)
+            SuccessAlert(dispatch, "Successfully Duplicated")
+        }else{
+            FailAlert(dispatch, "Duplcation Failure")
         }
     })
 }
