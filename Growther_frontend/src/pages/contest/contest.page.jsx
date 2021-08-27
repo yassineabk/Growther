@@ -74,7 +74,7 @@ const Contest = ()=>{
                 }
             })
             if(result && !isLoading){
-                ActionDone(dispatch, element, element.id, index, element.points, information.idContest, information.canParticipate, information.participationId, information.actions)
+                ActionDone(dispatch, element, element.id, index, element.points, information.idContest, canParticipate, information.participationId, information.actions)
             }
         }
     }
