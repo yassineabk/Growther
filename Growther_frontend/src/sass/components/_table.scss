@@ -36,12 +36,6 @@
                     &:nth-child(1){
                         border-top: 1px solid $border-color;
                     }
-                    padding: 10px;
-                    font-size: 15px !important;
-                    border-bottom: 1px solid $border-color;
-                    font-family: Poppins-Medium;
-                    justify-content: center;
-                    align-items: center;
                     & > *{
                         min-width: 200px;
                         flex: 1;
@@ -50,8 +44,18 @@
                     &:nth-child(2n + 0){
                         background-color: $border-color !important;
                     }
+                    font-size: 15px !important;
+                    border-bottom: 1px solid $border-color;
+                    font-family: Poppins-Medium;
+                    justify-content: center;
+                    align-items: center;
                 }
                 .tds{
+                    td{
+                        flex: 1;
+                        width: 100%;
+                    }
+                    padding: 10px;
                     color: gray;
                     font-family: Montserrat-Regular;
                 }

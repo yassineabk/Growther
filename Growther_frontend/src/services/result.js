@@ -34,7 +34,7 @@ export const MakeResultState = async (id)=>{
                                 participationActions.map((item, index) =>{
                                     if(typeof(item) === "object" && item !== null){
                                         totalPoints += item.points
-                                        Object.keys(item).map(key =>{
+                                        Object.keys(item).map((key, ix) =>{
                                             switch(key){
                                                 case "text":
                                                 case "email":
@@ -42,7 +42,7 @@ export const MakeResultState = async (id)=>{
                                                 case "username":
                                                     if(item[key] !== null && typeof(item[key]) === "string"){
                                                         tableHead.push({label: `${item.provider} ${item.type} ${key}`, key: `${item.provider}_${item.type}_${key}_${index}`})
-                                                        return res[`${item.provider}_${item.type}_${key}_${index}`] = item[key]
+                                                        return res[`${item.provider}_${item.type}_${key}_${ix}`] = item[index]
                                                     }
                                                     return true
                                                 default:
@@ -61,6 +61,7 @@ export const MakeResultState = async (id)=>{
                                 res.name = user.name
                             }
                             res.date = partipationDate && partipationDate !== null && typeof(partipationDate) === "string" ? partipationDate.split("T")[0] : ""
+                            console.log(res, tableHead)
                             result.push(res)
                         }
                         return true

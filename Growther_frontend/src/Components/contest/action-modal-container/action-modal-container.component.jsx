@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { ActionDone, CloseActionModal } from "../../../redux/contest-card/contest-card-actions"
 import { HideErrorModal } from "../../../redux/errors/errors-actions"
 import { ActionModal } from "../action-modal/action-modal.component"
 import { PreviewAction } from "../preview-action/preview-action.component"
-const ActionModalContainer = ({action, show, idContest, canParticipate, participationId, actions})=>{
+const ActionModalContainer = ({action, show, idContest, canParticipate, participationId, actions, isLoading})=>{
     var dispatch = useDispatch()
     var [activeButton, setActiveButton] = useState(false)
     var [countdown, setCount] = useState(10)
     var [withCountDown, setCountDown] = useState(false)
     var [error, setError] = useState({isError: false, message: ""})
+    var {isBrand} = useSelector(state => state.userInfos)
+    var {information} = useSelector(state => state.contest_card)
     useEffect(()=>{
         window.onpopstate = e =>{
             setActiveButton(false)
@@ -86,8 +88,8 @@ const ActionModalContainer = ({action, show, idContest, canParticipate, particip
                         <div className="button-container is-flex is-justify-content-flex-end">
                             {error.isError ? <div id="countdown"><span>{error.message}</span></div> : null}
                             {withCountDown && !error.isError ? <div id="countdown"><span>00:{("0"+countdown).slice(-2)}</span></div> : null}
-                            <div onClick={activeButton ? (event)=> {
-                                ActionDone(dispatch, action, action.id, action.index, action.points, idContest, canParticipate, participationId, actions)
+                            <div onClick={activeButton && !isLoading ? (event)=> {
+                                ActionDone(dispatch, action, action.id, action.index, action.points, idContest, canParticipate, participationId, actions, information, isBrand === "true")
                                     .then(value =>{
                                         if(value){
                                             setActiveButton(false)
