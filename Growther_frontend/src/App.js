@@ -32,6 +32,7 @@ import OAuth2RedirectHandler from './services/OAuth2-redirect-handler';
 import SpotifyAuthHandler from './services/Spotify-auth-handler';
 import DiscordAuthHandler from './services/discord-auth-handler';
 import DiscordBotAuthHandler from './services/discord-bot-auth-handler';
+import { AlertComponent } from './Components/alert/alert.component';
 const LandingPage = lazy(()=> import('./pages/landing-page/landing-page.page'))
 const SignUpPage = lazy(()=> import('./pages/sign-up/sign-up.page'))
 const LoginPage = lazy(()=> import('./pages/login/login.page'))
@@ -59,6 +60,7 @@ const App = ()=> {
   var { currentUser } = useSelector(state => state.login)
   var infos, {isBrand} = useSelector(state => state.userInfos)
   var { actionModal, action, information, canParticipate } = useSelector(state => state.contest_card)
+  var {alerts} = useSelector(state => state.alerts)
   var dispatch = useDispatch()
   useEffect(()=>{
     var token = localStorage.getItem("accessToken")
@@ -129,6 +131,7 @@ const App = ()=> {
           }/>):(<Redirect to='/'/>) } />
           <Route render={()=> (<Page404 />)} />
         </Switch>
+        <AlertComponent alerts={alerts} />
       </Suspense>
     </div>
   );

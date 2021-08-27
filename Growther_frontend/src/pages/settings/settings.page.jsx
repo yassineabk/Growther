@@ -7,6 +7,7 @@ import { ContestDescription } from "../../Components/contest/contest-description
 import { ContestInput } from "../../Components/contest/contest-input/contest-input.component"
 import { SelectInput } from "../../Components/contest/select-input/select-input.component"
 import { Spinner } from "../../Components/spinner/spinner.component"
+import { FailAlert, SuccessAlert } from "../../redux/alert/alert-actions"
 import { UrlValidation } from "../../redux/contest/contest-actions"
 import { EditUserInfos, setUserInfos } from "../../redux/user-infos/user-infos-actions"
 import { BACKEND_API } from "../../services/links"
@@ -41,8 +42,10 @@ const SettingsComponent = ()=>{
                     .then(response =>{
                         setInfos(response.data)
                         setLoading(false)
+                        SuccessAlert(dispatch, "Get Infos Successfully")
                     }).catch(err => {
                         setLoading(false)
+                        FailAlert(dispatch, "Get Infos Failure")
                     })
             }
             
@@ -114,8 +117,10 @@ const SettingsComponent = ()=>{
             .then(response =>{
                 setLoading(false)
                 setUserInfos(dispatch, userInfos)
+                SuccessAlert(dispatch, "Succesfully Updated")
             }).catch(err => {
                 setLoading(false)
+                FailAlert(dispatch, "Update Failure")
             })
     }
     var setLanguage = (event)=>{
