@@ -3,7 +3,7 @@ import { actions } from "../../../services/actions"
 import { ContestInput } from "../contest-input/contest-input.component"
 import { SelectInput } from "../select-input/select-input.component"
 export const ContestAction = ({data, removeAction, updateAction, validAction})=>{
-    const TextActions = ["tweet", "answer question", "submit url", "submit video", "submit", "subscribe to newsletter", "write a blog post"]
+    const TextActions = ["tweet", "answer question", "submit url", "submit video", "submit", "subscribe to newsletter", "write a blog post", "get completion bonus"]
     var getActionsList = (actions)=>{
         var result = []
         actions.map(action=> {

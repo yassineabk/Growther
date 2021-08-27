@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react"
 import { Redirect, useHistory } from "react-router-dom"
 import { PreviewActionsList } from "../preview-actions-list/preview-actions-list.component"
 import { PreviewPrizesList } from "../preview-prizes-list/preview-prizes-list.component"
-export const PreviewCard = ({title, description, timeLeft, dateType, views, points, entries, status, actions, previewActions, changeHandler, prizes, buttons, hasStarted, hasEnded, canParticipate, isPublished, id, element, isPreview, user_id, error, immediately, DoAction, showLoginForm})=>{
+export const PreviewCard = ({title, description, timeLeft, dateType, views, points, entries, status, actions, previewActions, changeHandler, prizes, buttons, hasStarted, hasEnded, canParticipate, isPublished, id, element, isPreview, user_id, error, immediately, DoAction, DoBonus, showLoginForm, contestDone})=>{
     var history = useHistory()
     var hoverCard = (event)=>{
         document.getElementById("card").classList.toggle("backface")
@@ -89,14 +89,17 @@ export const PreviewCard = ({title, description, timeLeft, dateType, views, poin
                         </div>
                     </div>
                     <PreviewActionsList 
+                        isPreview={isPreview}
                         previewActions={previewActions} 
                         actions={actions} 
                         changeHandler={changeHandler && {}.toString.call(changeHandler) === '[object Function]' ? (event, provider) => changeHandler(event, provider) : ()=> false}
                         DoAction={DoAction && {}.toString.call(DoAction) === '[object Function]' ? (index, element)=> DoAction(index, element) : ()=> false}
+                        DoBonus={DoBonus && {}.toString.call(DoBonus) === '[object Function]' ? (index, element) => DoBonus(index, element) : ()=> false}
                         isOwner={buttons}
                         showLoginForm={showLoginForm && {}.toString.call(showLoginForm) === '[object Function]' ? (value)=> showLoginForm(value) : ()=> false}
                         canParticipate={canParticipate}
                         status={status}
+                        contestDone={contestDone}
                     />
                 </div>
                 <div className="is-flex is-flex-column is-align-items-center back previewPrizes">

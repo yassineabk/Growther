@@ -31,8 +31,8 @@ export const SetData = (dispatch, title, description, id) =>{
                     var payload = {...contest, actions: participationActions, user, partipationDate, participationId: id, totalPoints, done}
                     dispatch({type: Contest_Card_Types.SET_CONTEST_STATE, payload: {data: payload, canParticipate: true}})
                 }else{
-                    startDate = contest.startDate
-                    endDate = contest.endDate
+                    startDate = data.startDate
+                    endDate = data.endDate
                     startDate = startDate.trim().replace(" ", "T")
                     endDate = endDate.trim().replace(" ", "T")
                     data = {
@@ -105,9 +105,10 @@ export const ActionDone = async (dispatch, action, id, index, points, idContest,
     var mseconds = ("0"+date.getMilliseconds()).slice(-3)
     var timeZone = date.getTimezoneOffset()
     if(canParticpate && canParticpate !== undefined && participationId && participationId !== undefined){
+        console.log("here")
         return axios.put(`${BACKEND_API}/api/participations/update/participation/${action.id}`, participationActions, config)
         .then(response =>{
-            dispatch({type: Contest_Card_Types.ACTION_DONE, payload: {id, index, points}})
+            dispatch({type: Contest_Card_Types.ACTION_DONE, payload: {id, index, points, participationId, provider: action.provider}})
             return true
         }).catch(err =>{
             dispatch({type: Contest_Card_Types.ACTION_FAIL})
