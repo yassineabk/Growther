@@ -47,6 +47,7 @@ export const SetData = (dispatch, title, description, id) =>{
                 ShowErrorModal(dispatch, "Couldn't get this contest please try again later")
             }
         }).catch(err =>{
+            console.log(err)
             dispatch({type: Contest_Card_Types.CONTEST_CARD_ERROR})
             ShowErrorModal(dispatch, "Couldn't get this contest please try again later")
         })
@@ -95,6 +96,7 @@ export const ActionDone = async (dispatch, action, id, index, points, idContest,
         return true
     })
     participationActions.done = true
+    console.log(participationActions)
     var date = new Date()
     var day = ("0"+date.getDate()).slice(-2)
     var month = ("0"+parseInt(date.getDate() + 1 === 13 ? 1 : date.getDate() + 1)).slice(-2)
@@ -105,7 +107,6 @@ export const ActionDone = async (dispatch, action, id, index, points, idContest,
     var mseconds = ("0"+date.getMilliseconds()).slice(-3)
     var timeZone = date.getTimezoneOffset()
     if(canParticpate && canParticpate !== undefined && participationId && participationId !== undefined){
-        console.log("here")
         return axios.put(`${BACKEND_API}/api/participations/update/participation/${action.id}`, participationActions, config)
         .then(response =>{
             dispatch({type: Contest_Card_Types.ACTION_DONE, payload: {id, index, points, participationId, provider: action.provider}})
