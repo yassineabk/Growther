@@ -2,6 +2,7 @@ import { WINNERS_TYPES } from "./winners-types"
 
 const INITIAL_STATE = {
     winners: [],
+    idContest: null,
     isLoading: false,
     error: false
 }
@@ -10,7 +11,8 @@ export const WinnersReducer = (state = INITIAL_STATE, action)=>{
         case WINNERS_TYPES.GET_CONTEST_WINNERS:
             return {
                 ...state,
-                winners: action.payload,
+                winners: action.payload.winners,
+                idContest: action.payload.idContest,
                 isLoading: false,
                 error: false
             }
@@ -19,6 +21,10 @@ export const WinnersReducer = (state = INITIAL_STATE, action)=>{
                 ...state,
                 isLoading: true,
                 error: false
+            }
+        case WINNERS_TYPES.RESET_CONTEST_WINNERS:
+            return {
+                ...INITIAL_STATE,
             }
         case WINNERS_TYPES.GET_CONTEST_WINNERS_FAIL:
             return {
