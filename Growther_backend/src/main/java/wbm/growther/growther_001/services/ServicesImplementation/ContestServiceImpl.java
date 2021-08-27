@@ -224,7 +224,7 @@ public class ContestServiceImpl implements ContestService {
         Set<Action> actions = contest.getActions();
 
         actions.forEach( action -> {
-            if(action.getId()== null)
+            if(action.getId()==null)
                 action.setContest(contest);
         });
 

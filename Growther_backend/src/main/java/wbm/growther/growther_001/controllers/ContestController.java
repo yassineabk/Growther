@@ -52,6 +52,8 @@ public class ContestController {
         }
         List<ContestDto> contests = contestService.getAllContestsByUser(userId);
         List<ParticipationDto> participations = participationService.getParticipationsByUser(userId);
+
+
         if (! contests.isEmpty())
             return contests;
         else if (! participations.isEmpty()) {

@@ -32,6 +32,17 @@ public class ParticipationAction {
     @JsonIgnore
     private Participation participation;
 
+    public ParticipationAction(String provider, String type, String url, int points) {
+        this.provider = provider;
+        this.type = type;
+        this.url = url;
+        this.points = points;
+    }
+
+    public ParticipationAction() {
+
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
