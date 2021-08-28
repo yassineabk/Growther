@@ -19,6 +19,7 @@ export const SetData = (dispatch, title, description, id) =>{
             if(typeof(response.data) === "object"){
                 var startDate, endDate;
                 var data = response.data
+                console.log(data)
                 if(data.contest !== undefined  && data.contest !== null && typeof(data.contest) === "object"){
                     var {contest, user, participationActions, partipationDate, id, totalPoints, done} = data
                     startDate = contest.startDate
@@ -49,7 +50,6 @@ export const SetData = (dispatch, title, description, id) =>{
                 ShowErrorModal(dispatch, "Couldn't get this contest please try again later")
             }
         }).catch(err =>{
-            console.log(err)
             dispatch({type: Contest_Card_Types.CONTEST_CARD_ERROR})
             ShowErrorModal(dispatch, "Couldn't get this contest please try again later")
         })
@@ -99,7 +99,6 @@ export const ActionDone = async (dispatch, action, id, index, points, idContest,
         return true
     })
     participationActions.done = true
-    console.log(participationActions)
     var date = new Date()
     var day = ("0"+date.getDate()).slice(-2)
     var month = ("0"+parseInt(date.getDate() + 1 === 13 ? 1 : date.getDate() + 1)).slice(-2)
@@ -126,6 +125,7 @@ export const ActionDone = async (dispatch, action, id, index, points, idContest,
             }else{
                 FailAlert(dispatch, "Action Fail")
             }
+            return value
         })
     }
     actions = actions.map(element =>{
@@ -142,10 +142,8 @@ export const ActionDone = async (dispatch, action, id, index, points, idContest,
         partipationDate: `${year}-${month}-${day}T${hour}:${min}:${seconds}.${mseconds}${TimeZone(timeZone)}`,
         participationActions: [...actions, participationActions]
     }
-    console.log(data)
     return axios.post(`${BACKEND_API}/api/participations/create/${idContest}`, data, config)
         .then(response =>{
-            console.log('Hello !')
             var {participationActions} = response.data
             dispatch({type: Contest_Card_Types.ACTION_DONE, payload: {id, index, points, participationId: response.data.id, actions: participationActions}})
             return response.data.id
@@ -161,6 +159,7 @@ export const ActionDone = async (dispatch, action, id, index, points, idContest,
             }else{
                 FailAlert(dispatch, "Action Fail")
             }
+            return value
         })
 }
 export const SetActionText = (dispatch, id, text, type, index)=>{
