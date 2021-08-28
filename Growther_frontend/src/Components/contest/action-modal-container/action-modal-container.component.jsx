@@ -10,7 +10,7 @@ const ActionModalContainer = ({action, show, idContest, canParticipate, particip
     var [countdown, setCount] = useState(10)
     var [withCountDown, setCountDown] = useState(false)
     var [error, setError] = useState({isError: false, message: ""})
-    var [intervalIndex, setIntervalIndex] = useState(null)
+    var [intervalIndex, setIntervalIndex] = useState(0)
     var {isBrand} = useSelector(state => state.userInfos)
     var {information} = useSelector(state => state.contest_card)
     useEffect(()=>{
@@ -97,10 +97,12 @@ const ActionModalContainer = ({action, show, idContest, canParticipate, particip
                                             setActiveButton(false)
                                             setCountDown(false)
                                             setCount(10)
+                                            clearInterval(intervalIndex)
                                             setError({isError: false, message: ""})
                                         }else{
                                             setCountDown(false)
                                             setCount(10)
+                                            clearInterval(intervalIndex)
                                             setError({isError: true, message: "Something went wrong"})
                                         }
                                     })
