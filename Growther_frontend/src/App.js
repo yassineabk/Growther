@@ -33,6 +33,7 @@ import SpotifyAuthHandler from './services/Spotify-auth-handler';
 import DiscordAuthHandler from './services/discord-auth-handler';
 import DiscordBotAuthHandler from './services/discord-bot-auth-handler';
 import { AlertComponent } from './Components/alert/alert.component';
+import { TermsConditionsComponent } from './Components/terms-conditions/terms-conditions.component';
 const LandingPage = lazy(()=> import('./pages/landing-page/landing-page.page'))
 const SignUpPage = lazy(()=> import('./pages/sign-up/sign-up.page'))
 const LoginPage = lazy(()=> import('./pages/login/login.page'))
@@ -66,7 +67,6 @@ const App = ()=> {
     var token = localStorage.getItem("accessToken")
     window.addEventListener("storage", (event)=>{
       var key = event.key
-      console.log("here", key)
       if(key !== "accessToken" || key === null || !key) return false
       var newToken = event.newValue
       SetCurrentToken(dispatch, newToken)
@@ -86,7 +86,7 @@ const App = ()=> {
           <Route exact path='/landing-page' render={()=> <LandingPage />} />
           <Route exact path='/login' render={()=> currentUser ? (<Redirect to='/dashboard'/>) : (<LoginPage/>) } />
           <Route exact path='/signup' render={()=> currentUser ? (<Redirect to='/'/>) : (<SignUpPage/>) } />
-          <Route exact path='/terms' render={()=> null } />
+          <Route exact path='/terms' render={()=> <TermsConditionsComponent /> } />
           <Route exact path='/contest/:title/:id' render={()=> ([
             <ErrorsModal />,
             <ActionModalContainer 
