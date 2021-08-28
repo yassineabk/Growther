@@ -66,13 +66,14 @@ const App = ()=> {
     var token = localStorage.getItem("accessToken")
     window.addEventListener("storage", (event)=>{
       var key = event.key
+      console.log("here", key)
       if(key !== "accessToken" || key === null || !key) return false
       var newToken = event.newValue
       SetCurrentToken(dispatch, newToken)
       setUserInfos(dispatch, newToken, infos, true)
     })
     setUserInfos(dispatch, token, infos, false)
-  }, [dispatch, infos])
+  }, [dispatch])
   return (
     <div className={"App"}>
       <Suspense fallback={<Spinner show={true} />}>
@@ -85,6 +86,7 @@ const App = ()=> {
           <Route exact path='/landing-page' render={()=> <LandingPage />} />
           <Route exact path='/login' render={()=> currentUser ? (<Redirect to='/dashboard'/>) : (<LoginPage/>) } />
           <Route exact path='/signup' render={()=> currentUser ? (<Redirect to='/'/>) : (<SignUpPage/>) } />
+          <Route exact path='/terms' render={()=> null } />
           <Route exact path='/contest/:title/:id' render={()=> ([
             <ErrorsModal />,
             <ActionModalContainer 

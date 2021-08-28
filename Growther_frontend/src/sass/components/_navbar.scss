@@ -1,3 +1,19 @@
+#navbar{
+    transition: 0.5s all;
+    width: 100%;
+    &.is-fixed{
+        position: fixed;
+        animation: slide-navbar-in 500ms forwards alternate;
+        transform: translateY(-80px);
+        @keyframes slide-navbar-in {
+            from{
+                transform: translateY(-80px);
+            }to{
+                transform: translateY(0px);
+            }
+        }
+    }
+}
 .navbar-custom {
     color: transparent;
     padding: 20px 0px;
@@ -10,7 +26,38 @@
     -o-transition: all 0.5s ease-in-out;
     transition: all 0.5s ease-in-out;
 }
-
+.navbar-menu{
+    background-color: inherit !important;
+}
+#navbar-items{
+    flex-direction: row !important;
+    @media only screen and (max-width: 1023px){
+        flex-direction: column !important;
+        background-color: inherit !important;
+        & > *{
+            background-color: inherit !important;
+            color: white !important;
+            text-align: center;
+        }
+    }
+}
+.navbar-end{
+    .buttons{
+        justify-content: flex-end;
+        @media only screen and (max-width: 1023px){
+            margin-top: 0.5em;
+            justify-content: center;
+        }
+        #login{
+            border: 2px solid #fb3e3e;
+            padding: 4px 20px;
+            transition: .5s all;
+            &:hover{
+                background-color: #fb3e3e;
+            }
+        }
+    }
+}
 .sticky-wrapper {
     position: absolute;
     width: 100%;

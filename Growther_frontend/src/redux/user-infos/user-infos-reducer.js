@@ -1,3 +1,5 @@
+import { loginType } from '../login/login.types';
+import { RESET_ALL_TYPE } from '../reset-all/reset-all-type';
 import { UserInfosTypes } from './user-infos-types';
 // let user = JSON.parse(localStorage.getItem('accessToken'));
 // const currentUser = user ? user  :  null
@@ -36,6 +38,12 @@ export const UserInfosReducer=(state=INITIAL_STATE,action)=>{
             return {
                 ...INITIAL_STATE,
                 isLoading: false
+            }
+        case loginType.LOGOUT:
+        case RESET_ALL_TYPE.RESET_ALL:
+            return {
+                ...INITIAL_STATE,
+                currentUser: false
             }
         default:
             return {

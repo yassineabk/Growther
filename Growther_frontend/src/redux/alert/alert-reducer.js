@@ -1,3 +1,4 @@
+import { RESET_ALL_TYPE } from "../reset-all/reset-all-type"
 import { ALERT_TYPES } from "./alert-types"
 
 const INITIAL_STATE = {
@@ -44,6 +45,10 @@ export const AlertReducer = (state= INITIAL_STATE, action)=>{
                         }
                     })
                 ]
+            }
+        case RESET_ALL_TYPE.RESET_ALL:
+            return {
+                ...INITIAL_STATE
             }
         default:
             return {

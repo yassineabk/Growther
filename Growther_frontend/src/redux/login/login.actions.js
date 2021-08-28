@@ -1,5 +1,7 @@
 import { userService } from "../../services/user-service";
+import { ALERT_TYPES } from "../alert/alert-types";
 import { ShowErrorModal } from "../errors/errors-actions";
+import { RESET_ALL_TYPE } from "../reset-all/reset-all-type";
 import { setUserInfosFail } from "../user-infos/user-infos-actions";
 import { loginType } from "./login.types";
 
@@ -9,6 +11,9 @@ export const InitState = (dispatch)=>{
 }
 export const setCurrentUser=(user)=>{ 
     return ({ type: loginType.LOGIN_SUCCESS, payload: user })
+}
+export const setCurrentToken = (token)=>{
+    return ({type: loginType.SET_CURRENT_TOKEN, payload: token})
 }
 export const SetCurrentToken = (dispatch, token)=>{
     dispatch({type: loginType.SET_CURRENT_TOKEN, payload: token})
@@ -56,8 +61,19 @@ export function loginWithEmailAndPassword(user) {
 }
 
 export async function logout(dispatch) {
-    userService.logout();
-    setUserInfosFail(dispatch)
-    dispatch({ type: loginType.LOGOUT })
-    return { type: loginType.LOGOUT };
+    userService.logout().then(()=>{
+        setUserInfosFail(dispatch)
+        dispatch({ type: loginType.LOGOUT })
+        dispatch({ type: RESET_ALL_TYPE.RESET_ALL })
+        return { type: loginType.LOGOUT };
+    }).catch(err =>{
+        return false
+    }).then(value =>{
+        if(value){
+            dispatch({ type: ALERT_TYPES.SUCCESS_ALERT, payload: "Logged Out Successfully" })
+        }else{
+            dispatch({type: ALERT_TYPES.SUCCESS_ALERT, payload: "Log Out Failure"})
+        }
+    });
+    
 }

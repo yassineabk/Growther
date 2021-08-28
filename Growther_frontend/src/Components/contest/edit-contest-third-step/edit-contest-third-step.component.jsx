@@ -23,7 +23,7 @@ const EditContestThirdStep = ()=>{
                 }
             })
         }
-        if(params.id !== winners.idContest || typeof(winners.idContest) !== "string" || winners.idContest !== null || winners.idContest){
+        if(params.id !== winners.idContest || typeof(winners.idContest) !== "string" || winners.idContest === null || winners.idContest === undefined){
             ResetWinners(dispatch)
         }
     }, [dispatch])
@@ -31,7 +31,6 @@ const EditContestThirdStep = ()=>{
         var endDate = information !== null && typeof(information) === "object" && information.endDate !== null && typeof(information.endDate) === "string" ? information.endDate.trim().replace(" ","T") : false
         var endTime = information !== null && typeof(information) === "object" && information.endTime !== null && typeof(information.endTime) === "string" ? information.endTime : false
         var isDone = information !== null && typeof(information) === "object" ? information.status : false
-        console.log(TimeLeft(endDate, endTime))
         if(TimeLeft(endDate, endTime).date === "Ended" || (typeof(isDone) === "string" && isDone !== null && isDone.toLowerCase() === "done")){
             DrawWinners(dispatch, params.id)
         }
@@ -63,15 +62,15 @@ const EditContestThirdStep = ()=>{
                     {winners !== null && winners !== undefined && typeof(winners) === "object" && winners.winners && Array.isArray(winners.winners) && winners.winners.length > 0 ? 
                         <div className="table-container mt-5">
                             <table id="participationTable" className="table" style={{height: Array.isArray(winners.winners) ? winners.length * 58.8 : 58.8}} >
-                                <tbody className="tbody">
-                                    <tr className="tr tds is-flex is-flex-direction-row">
+                                <tbody className="tbody winners-table">
+                                    <tr className="tr-winners tds is-flex is-flex-direction-row">
                                         {[{label: "Rank"}, {label: "Email"}, {label: "Prize"}].map(item =>{
                                             return <th>{item.label}</th>
                                         })}
                                     </tr>
                                     {Array.isArray(winners.winners) ? winners.winners.map(item =>{
                                         return(
-                                        <tr className={"tr tds is-flex is-flex-direction-row"}>
+                                        <tr className={"tr-winners tds is-flex is-flex-direction-row"}>
                                             {item !== null && typeof(item) === "object" ? [
                                                 <td>
                                                     {item.rank}

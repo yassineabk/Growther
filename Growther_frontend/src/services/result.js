@@ -20,6 +20,7 @@ export const MakeResultState = async (id)=>{
         .then(response =>{
             var data = response.data
             var result = []
+            console.log(response.data)
             if(Array.isArray(data)){
                 try{
                     data.map(item =>{
@@ -30,10 +31,10 @@ export const MakeResultState = async (id)=>{
                             var actionsDone = 0
                             var totalPoints = 0
                             if(Array.isArray(participationActions)){
-                                actionsDone = participationActions.length
                                 participationActions.map((item, index) =>{
                                     if(typeof(item) === "object" && item !== null){
-                                        totalPoints += item.points
+                                        totalPoints += item.done ? item.points : 0
+                                        actionsDone += item.done ? 1 : 0
                                         Object.keys(item).map((key, ix) =>{
                                             switch(key){
                                                 case "text":
@@ -41,10 +42,17 @@ export const MakeResultState = async (id)=>{
                                                 case "link":
                                                 case "username":
                                                     if(item[key] !== null && typeof(item[key]) === "string" && item[key].length > 0){
-                                                        var newKey = `${item.provider}_${item.type}_${key}`.replace(" ", "_").toLowerCase()
-                                                        var newLabel =  `${item.provider} ${item.type} ${key}`
+                                                        var newKey = `${item.provider}_${item.type}${item.provider === "Newsletter" ? `_${key}` : ""}`.replace(" ", "_").toLowerCase()
+                                                        var newLabel =  `${item.provider} ${item.type} ${item.provider === "Newsletter" ? `_${key}` : ""}`
+                                                        var alreadyIn = false
+                                                        for(var i = 0; i < result.length; i++){
+                                                            if(result[i] !== null && typeof(result[i]) === "object" && result[i][newKey] !== undefined){
+                                                                alreadyIn = true
+                                                                break
+                                                            }
+                                                        }
                                                         tableHead.map(element =>{
-                                                            if(element.label === newLabel){
+                                                            if(element.label === newLabel && !alreadyIn){
                                                                 newLabel = `${newLabel} ${index}`
                                                                 newKey = `${newKey} ${index}`
                                                             }
