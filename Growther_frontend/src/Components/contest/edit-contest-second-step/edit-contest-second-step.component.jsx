@@ -64,10 +64,13 @@ const EditContestSecondStep = ()=>{
                         <tbody className="tbody">
                             <tr className="tr ths is-flex is-flex-direction-row">
                                 {tableHead.map(item =>{
-                                    return <th>{item.label}</th>
+                                    if(item.show){
+                                        return <th>{item.label}</th>
+                                    }
+                                    return null
                                 })}
                             </tr>
-                            {Array.isArray(data) ? data.map(item =>{
+                            {Array.isArray(data) ? data.map((item, index) =>{
                                 return(
                                 <tr className={"tr tds is-flex is-flex-direction-row"}>
                                     {item !== null && typeof(item) === "object" ? [
@@ -86,16 +89,11 @@ const EditContestSecondStep = ()=>{
                                         <td>
                                             {item.status}
                                         </td>,
-                                        Object.keys(item).map(key =>{
-                                            if(!["email", "date", "points", "numActions", "status"].includes(key)){
-                                                return(
-                                                    <td>
-                                                        {item[key]}
-                                                    </td>
-                                                )
-                                            }
-                                            return null
-                                        })
+                                        <TableData 
+                                            ignore={["email", "date", "points", "numActions", "status"]}
+                                            item={item}
+                                            tableHead={tableHead}
+                                        />
                                     ]  : null}
                                 </tr>
                             )

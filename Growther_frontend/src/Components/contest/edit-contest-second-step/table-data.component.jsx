@@ -1,10 +1,19 @@
 import React from "react"
-export const TableData = ({data})=>{
-    if(!Array.isArray(data)) return null
+export const TableData = ({tableHead = [], ignore = [], item = {}})=>{
+    if(!Array.isArray(tableHead)) return null
     return(
-        data.map(item =>{
-            if(!item || typeof(item) !== "string" || item === null) return null
-            return <td>{item}</td>
+        tableHead.sort((a = {}, b = {})=> a.key < b.key ? 1 : -1).map(element =>{
+            if(element !== null && typeof(element) === "object" && element.key !== undefined && typeof(element.key) === "string" && !ignore.includes(element.key)){
+                if(item[element.key] && item[element.key] !== null && item[element.key] !== undefined){
+                    return(
+                        <td>
+                            {item[element.key]}
+                        </td>
+                    )
+                }
+            }
+            return null
         })
-    )
+    ) 
+
 }

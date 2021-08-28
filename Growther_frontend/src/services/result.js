@@ -10,11 +10,11 @@ export const MakeResultState = async (id)=>{
         } 
     }
     var tableHead = [
-        {label: "Email", key: "email"},
-        {label: "Date", key: "date"},
-        {label: "Points", key: "points"},
-        {label: "Number of actions", key: "numActions"},
-        {label: "Winning status", key: "status"}
+        {label: "Email", key: "email", show: true},
+        {label: "Date", key: "date", show: true},
+        {label: "Points", key: "points", show: true},
+        {label: "Number of actions", key: "numActions", show: true},
+        {label: "Winning status", key: "status", show: true}
     ]
     return axios.get(`${BACKEND_API}/api/participations/all/${id}`, config)
         .then(response =>{
@@ -40,9 +40,17 @@ export const MakeResultState = async (id)=>{
                                                 case "email":
                                                 case "link":
                                                 case "username":
-                                                    if(item[key] !== null && typeof(item[key]) === "string"){
-                                                        tableHead.push({label: `${item.provider} ${item.type} ${key}`, key: `${item.provider}_${item.type}_${key}_${index}`})
-                                                        return res[`${item.provider}_${item.type}_${key}_${ix}`] = item[index]
+                                                    if(item[key] !== null && typeof(item[key]) === "string" && item[key].length > 0){
+                                                        var alreadyExistKey = false
+                                                        var newKey = `${item.provider}_${item.type}_${key}_${index}`.replace(" ", "_").toLowerCase()
+                                                        var newLabel =  `${item.provider} ${item.type} ${key}`
+                                                        tableHead.map(element =>{
+                                                            if(element.label === newLabel){
+                                                                alreadyExistKey = true
+                                                            }
+                                                        })
+                                                        tableHead.push({label: newLabel, key: newKey, show: !alreadyExistKey})
+                                                        return res[newKey] = item[key]
                                                     }
                                                     return true
                                                 default:
@@ -61,11 +69,10 @@ export const MakeResultState = async (id)=>{
                                 res.name = user.name
                             }
                             res.date = partipationDate && partipationDate !== null && typeof(partipationDate) === "string" ? partipationDate.split("T")[0] : ""
-                            console.log(res, tableHead)
                             result.push(res)
                         }
                         return true
-                    }
+                    }     
                 )}catch(err){
                     return {result: [], tableHead: []}
                 }

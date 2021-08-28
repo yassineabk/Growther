@@ -106,22 +106,24 @@ public class ParticipationController {
 
     @PutMapping("/update/participation/{participationActionID}")
     public ParticipationAction updateParticipationAction(@PathVariable(value = "participationActionID") Long participationActionId
-            ,@Validated @RequestBody ParticipationAction participationAction){
+            ,@Validated @RequestBody ParticipationAction participationAction) throws ResourceNotFoundException {
+        System.out.println(participationAction.getType()+""+participationAction.getProvider()+"---"+participationAction.getId());
+        ParticipationAction action =  actionRepository.findById(participationActionId).get();
+        if (action!=null){
+            action.setProvider(participationAction.getProvider());
+            action.setPoints(participationAction.getPoints());
+            action.setType(participationAction.getType());
+            action.setUrl(participationAction.getUrl());
+            action.setEmail(participationAction.getEmail());
+            action.setText(participationAction.getText());
+            action.setLink(participationAction.getLink());
+            action.setUsername(participationAction.getUsername());
+            action.setDone(participationAction.isDone());
+            actionRepository.save(action);
+        }else throw new ResourceNotFoundException("No action with ID:"+participationActionId);
 
-        return actionRepository.findById(participationActionId)
-                .map(action -> {
-                    action.setProvider(participationAction.getProvider());
-                    action.setPoints(participationAction.getPoints());
-                    action.setType(participationAction.getType());
-                    action.setUrl(participationAction.getUrl());
-                    action.setEmail(participationAction.getEmail());
-                    action.setText(participationAction.getText());
-                    action.setLink(participationAction.getLink());
-                    action.setUsername(participationAction.getUsername());
-                    action.setDone(participationAction.isDone());
+        return action;
 
-                    return actionRepository.save(action);
-                }).orElseThrow(() -> new NotFoundException("Action not found!"));
     }
 
     @PutMapping("/update/{id}")

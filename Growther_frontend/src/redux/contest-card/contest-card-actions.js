@@ -99,6 +99,7 @@ export const ActionDone = async (dispatch, action, id, index, points, idContest,
         return true
     })
     participationActions.done = true
+    console.log(participationActions)
     var date = new Date()
     var day = ("0"+date.getDate()).slice(-2)
     var month = ("0"+parseInt(date.getDate() + 1 === 13 ? 1 : date.getDate() + 1)).slice(-2)
@@ -119,7 +120,6 @@ export const ActionDone = async (dispatch, action, id, index, points, idContest,
         }).then(value =>{
             if(value){
                 if(!isBrand){
-                    console.log(dispatch)
                     AppendActionDone(dispatch, contest.idContest, id, action)
                 }
                 SuccessAlert(dispatch, "Action Done!")
@@ -142,8 +142,10 @@ export const ActionDone = async (dispatch, action, id, index, points, idContest,
         partipationDate: `${year}-${month}-${day}T${hour}:${min}:${seconds}.${mseconds}${TimeZone(timeZone)}`,
         participationActions: [...actions, participationActions]
     }
+    console.log(data)
     return axios.post(`${BACKEND_API}/api/participations/create/${idContest}`, data, config)
         .then(response =>{
+            console.log('Hello !')
             var {participationActions} = response.data
             dispatch({type: Contest_Card_Types.ACTION_DONE, payload: {id, index, points, participationId: response.data.id, actions: participationActions}})
             return response.data.id

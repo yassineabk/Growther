@@ -37,8 +37,10 @@
                         border-top: 1px solid $border-color;
                     }
                     & > *{
-                        min-width: 200px;
                         flex: 1;
+                        max-width: 250px;
+                        min-width: 250px;
+                        word-wrap: break-word;
                         border: 0px !important;
                     }
                     &:nth-child(2n + 0){
@@ -47,7 +49,6 @@
                     font-size: 15px !important;
                     border-bottom: 1px solid $border-color;
                     font-family: Poppins-Medium;
-                    justify-content: center;
                     align-items: center;
                 }
                 .tds{
