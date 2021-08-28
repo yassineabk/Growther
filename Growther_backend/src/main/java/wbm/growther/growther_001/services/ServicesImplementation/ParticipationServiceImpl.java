@@ -111,6 +111,7 @@ public class ParticipationServiceImpl implements ParticipationService {
         return participation;
     }
 
+
     @Override
     public ParticipationDto getParticipationById(Long participationID) {
         Participation participation = repository.findParticipationById(participationID);
