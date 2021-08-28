@@ -1,9 +1,15 @@
 import React from "react"
-export const VisitSocialMedia = ({link, action_done})=>{
+export const VisitSocialMedia = ({link = "", action_done})=>{
     var VisitLink = (event, bool)=>{
-        window.open(link)
+        var regex = new RegExp("^(https:\/\/|http:\/\/)")
+        var result = regex.exec(link)
+        if(result){
+            window.open(link)
+        }else{
+            window.open(`https://${link}`)
+        }
         if(bool){
-            action_done(event)
+            action_done(event, true)
         }else{
             VisitLink(event, true)
         }
