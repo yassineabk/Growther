@@ -3,12 +3,18 @@ import {Link} from 'react-router-dom'
 
 class Navbar extends React.Component {
     scroll = (id)=>{
-        document.getElementById(id).scrollIntoView({behavior: "smooth"})
+        var element = document.getElementById(id)
+        if(element !== null && element !== undefined && typeof(element) === "object"){
+            element.scrollIntoView({behavior: "smooth"})
+        }
     }
     navbarBurgerClickHandler = ()=>{
-        document.getElementById("navbar-burger").classList.toggle("is-active")
-        document.getElementById("navbarBasicExample").classList.toggle("is-active")
-        document.getElementById("navbar-items").classList.toggle("is-flex-direction-column")
+        var elements =  [document.getElementById("navbar-burger"), document.getElementById("navbarBasicExample"), document.getElementById("navbar-items")]
+        elements.map(element =>{
+            if(element !== null && element !== undefined && typeof(element) === "object"){
+                element.classList.toggle("is-active")
+            }
+        })
     }
     componentDidMount(){
         var listener =document.addEventListener("scroll", event=> {
@@ -41,7 +47,7 @@ class Navbar extends React.Component {
 
             <div id="navbarBasicExample" className="navbar-menu ">
                 <div id="navbar-items" className="navbar-start is-flex is-justify-content-center">
-                    <Link className="navbar-item" to="/landig-page">Home</Link >
+                    <Link className="navbar-item" to="/landing-page">Home</Link >
                     <Link onClick={()=> this.scroll("services")} className="navbar-item" to="#services">Services</Link >
                     <Link onClick={()=> this.scroll("features")} className="navbar-item" to="#features">Features</Link >
                     <Link onClick={()=> this.scroll("pricing")} className="navbar-item" to="#pricing"> Pricing</Link >
@@ -52,10 +58,10 @@ class Navbar extends React.Component {
 
             <div className="navbar-end">
                 <div className="navbar-item ">
-                        <div className="buttons ">
-                            <Link id="login" to="/login" style={{color: "white"}} className="mr-3 is-outlined center-cta">Login</Link>
-                            <Link to="/signup" className="btn btn-primary center-cta">Sign Up <i className="mdi mdi-arrow-right"></i></Link>
-                        </div>
+                    <div className="buttons ">
+                        <Link id="login" to="/login" style={{color: "white"}} className="mr-3 is-outlined center-cta">Login</Link>
+                        <Link to="/signup" className="btn btn-primary center-cta">Sign Up <i className="mdi mdi-arrow-right"></i></Link>
+                    </div>
                 </div>
             </div>
         </nav>
