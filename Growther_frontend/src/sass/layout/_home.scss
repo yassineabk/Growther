@@ -74,6 +74,9 @@
 
 .frame-border {
     border: 9px solid rgba(0, 0, 0, 0.3);
+    @media only screen and (max-width: 540px) {
+        border: 0px;
+    }
 }
 
 .slidero {

@@ -1,3 +1,4 @@
+import { RESET_ALL_TYPE } from '../reset-all/reset-all-type';
 import {registrationType} from './registration.types';
 
 
@@ -305,10 +306,10 @@ export const registrationReducer=(state=INITIAL_STATE,action)=>{
                 ...state,       
                 isLoading: true         
             }
-        
-            
-
-
+        case RESET_ALL_TYPE.RESET_ALL:
+            return {
+                ...INITIAL_STATE
+            }
         default:
             return state;
 

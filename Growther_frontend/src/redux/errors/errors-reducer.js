@@ -1,3 +1,4 @@
+import { RESET_ALL_TYPE } from "../reset-all/reset-all-type"
 import { ERRORS_TYPES } from "./errors-types"
 
 const INITIAL_STATE = {
@@ -13,6 +14,10 @@ const ErrorsReducer = (state = INITIAL_STATE, action)=>{
             }
         case ERRORS_TYPES.HIDE_ERROR_MODAL:
             return{
+                ...INITIAL_STATE
+            }
+        case RESET_ALL_TYPE.RESET_ALL:
+            return {
                 ...INITIAL_STATE
             }
         default:

@@ -1,3 +1,4 @@
+import { RESET_ALL_TYPE } from "../reset-all/reset-all-type"
 import { WINNERS_TYPES } from "./winners-types"
 
 const INITIAL_STATE = {
@@ -31,6 +32,10 @@ export const WinnersReducer = (state = INITIAL_STATE, action)=>{
                 ...state,
                 isLoading: false,
                 error: true
+            }
+        case RESET_ALL_TYPE.RESET_ALL:
+            return {
+                ...INITIAL_STATE
             }
         default:
             return {
