@@ -42,7 +42,7 @@ export const MakeResultState = async (id)=>{
                                                 case "username":
                                                     if(item[key] !== null && typeof(item[key]) === "string" && item[key].length > 0){
                                                         var alreadyExistKey = false
-                                                        var newKey = `${item.provider}_${item.type}_${key}_${index}`.replace(" ", "_").toLowerCase()
+                                                        var newKey = `${item.provider}_${item.type}_${key}`.replace(" ", "_").toLowerCase()
                                                         var newLabel =  `${item.provider} ${item.type} ${key}`
                                                         tableHead.map(element =>{
                                                             if(element.label === newLabel){
