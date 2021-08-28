@@ -21,7 +21,7 @@
             position: relative;
             overflow: auto;
             @extend .scroll;
-            .tbody{
+            .tbody, .winners-table{
                 position: absolute;
                 display: flex;
                 flex-direction: column;
@@ -31,17 +31,20 @@
                 left: 0;
                 top: 0;
                 @extend .scroll;
-                .tr{
+                .tr, .tr-winners{
                     //flex: 1;
                     &:nth-child(1){
                         border-top: 1px solid $border-color;
                     }
                     & > *{
                         flex: 1;
-                        max-width: 250px;
                         min-width: 250px;
                         word-wrap: break-word;
                         border: 0px !important;
+                    }
+                    &.tr > *{
+                        max-width: 250px;
+                        min-width: 250px;
                     }
                     &:nth-child(2n + 0){
                         background-color: $border-color !important;

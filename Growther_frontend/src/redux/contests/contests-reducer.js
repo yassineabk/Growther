@@ -1,3 +1,4 @@
+import { RESET_ALL_TYPE } from "../reset-all/reset-all-type"
 import { CONTESTS_TYPES } from "./contests-types"
 
 const INITIAL_STATE = {
@@ -110,6 +111,10 @@ const ContestsReducer = (state = INITIAL_STATE, action)=>{
             return {
                 ...state,
                 isLoading: true
+            }
+        case RESET_ALL_TYPE.RESET_ALL:
+            return {
+                ...INITIAL_STATE,
             }
         default:
             return state

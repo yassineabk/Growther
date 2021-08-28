@@ -1,3 +1,4 @@
+import { RESET_ALL_TYPE } from '../reset-all/reset-all-type';
 import {loginType} from './login.types';
 // let user = JSON.parse(localStorage.getItem('accessToken'));
 // const currentUser = user ? user  :  null
@@ -61,7 +62,7 @@ export const loginReducer=(state=INITIAL_STATE,action)=>{
         case loginType.SET_CURRENT_TOKEN: 
             return {
                 ...state,
-                currentUser: action.payload,
+                currentUser: localStorage.getItem("accessToken"),
                 isLoading: false
             }
         case loginType.LOGOUT:
@@ -69,13 +70,13 @@ export const loginReducer=(state=INITIAL_STATE,action)=>{
                 ...INITIAL_STATE,
                 currentUser: false
             }
-        
-
+        case RESET_ALL_TYPE.RESET_ALL:
+            return {
+                ...INITIAL_STATE,
+                currentUser: false
+            }
         default:
             return state;
-
-
-
     }
 
 

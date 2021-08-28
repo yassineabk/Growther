@@ -1,4 +1,5 @@
 import { ContestTypes } from "../contest/contest-types";
+import { RESET_ALL_TYPE } from "../reset-all/reset-all-type";
 import { Contest_Card_Types } from "./contest-card-types";
 const INITIAL_STATE = {
     id: "",
@@ -126,6 +127,10 @@ const ContestCard = (state = INITIAL_STATE, action)=>{
                 ...state,
                 isLoading: true,
                 error: false,
+            }
+        case RESET_ALL_TYPE.RESET_ALL:
+            return {
+                ...INITIAL_STATE
             }
         default:
             return state
