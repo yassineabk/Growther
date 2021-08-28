@@ -50,7 +50,7 @@ const EditContestSecondStep = ()=>{
                     <span className="list-title">Participants</span>
                     <div className="is-flex is-flex-direction-row is-align-items-center">
                         <div className="addNew">
-                            <CSVLink {...MakeCSVFile()}>Export a csv</CSVLink>
+                            <CSVLink {...MakeCSVFile()}>Export as csv</CSVLink>
                         </div>
                         <div id="addNewButton" className="arrow-button-container is-flex is-justify-content-flex-end">
                             <div className="arrow-button">
@@ -62,12 +62,12 @@ const EditContestSecondStep = ()=>{
                 <div className="table-container">
                     <table id="participationTable" className="table" style={{height: Array.isArray(data) ? data.length * 58.8 : 58.8}} >
                         <tbody className="tbody">
-                            <tr className="tr tds is-flex is-flex-direction-row">
+                            <tr className="tr ths is-flex is-flex-direction-row">
                                 {tableHead.map(item =>{
                                     return <th>{item.label}</th>
                                 })}
                             </tr>
-                            {Array.isArray(data) ? data.map(item =>{
+                            {Array.isArray(data) ? data.map((item, index) =>{
                                 return(
                                 <tr className={"tr tds is-flex is-flex-direction-row"}>
                                     {item !== null && typeof(item) === "object" ? [
@@ -86,10 +86,11 @@ const EditContestSecondStep = ()=>{
                                         <td>
                                             {item.status}
                                         </td>,
-                                        <TableData data={item.text} />,
-                                        <TableData data={item.emails} />,
-                                        <TableData data={item.username} />,
-                                        <TableData data={item.link} />
+                                        <TableData 
+                                            ignore={["email", "date", "points", "numActions", "status"]}
+                                            item={item}
+                                            tableHead={tableHead}
+                                        />
                                     ]  : null}
                                 </tr>
                             )

@@ -5,7 +5,6 @@ import { useLocation, useParams } from "react-router-dom"
 import { PreviewCard } from "../../Components/contest/preview-card/preview-card.component"
 import { Spinner } from "../../Components/spinner/spinner.component"
 import { ActionDone, OpenActionModal, SelectAction, SetData, SetDataFromLocation } from "../../redux/contest-card/contest-card-actions"
-import { Contest_Card_Types } from "../../redux/contest-card/contest-card-types"
 import { TimeLeft } from "../../services/timeLeft"
 const Contest = ()=>{
     var [token, setToken] = useState(localStorage.getItem("accessToken"))
@@ -13,7 +12,8 @@ const Contest = ()=>{
     var dispatch = useDispatch()
     var params = useParams()
     var location = useLocation()
-    var {information, selected, isLoading, error, points, canParticipate} = useSelector(state => state.contest_card)
+    var {information, selected, isLoading, error, points, canParticipate, isDoingAction} = useSelector(state => state.contest_card)
+    var {isBrand} = useSelector(state => state.userInfos)
     useEffect(()=>{
         window.addEventListener("storage", event =>{
             var value = event.newValue
@@ -59,7 +59,6 @@ const Contest = ()=>{
         OpenActionModal(dispatch, index, element)
     }
     var DoBonus = (index, element)=>{
-        dispatch({type: Contest_Card_Types.CONTEST_CARD_DOING_ACTION})
         if(information !== null && information !== undefined && typeof(information) === "object" && Array.isArray(information.actions)){
             var result = true
             information.actions.map((item, index) =>{
@@ -74,8 +73,8 @@ const Contest = ()=>{
                     result = result && false
                 }
             })
-            if(result && !isLoading){
-                ActionDone(dispatch, element, element.id, index, element.points, information.idContest, information.canParticipate, information.participationId, information.actions)
+            if(result && !isDoingAction){
+                ActionDone(dispatch, element, element.id, index, element.points, information.idContest, canParticipate, information.participationId, information.actions, information, isBrand === "true")
             }
         }
     }
