@@ -5,7 +5,7 @@ export const TableData = ({tableHead = [], ignore = [], item = {}})=>{
     return(
         [...tableHead.map((element, index) =>{
             if(element !== null && typeof(element) === "object" && element.key !== undefined && typeof(element.key) === "string"){
-                if(element.show && item[element.key] && item[element.key] !== null && item[element.key] !== undefined && !ignore.includes(element.key)){
+                if(item[element.key] && item[element.key] !== null && item[element.key] !== undefined && !ignore.includes(element.key)){
                     return(
                         <td>
                             {item[element.key]}

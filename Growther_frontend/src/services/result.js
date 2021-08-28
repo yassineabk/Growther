@@ -41,15 +41,15 @@ export const MakeResultState = async (id)=>{
                                                 case "link":
                                                 case "username":
                                                     if(item[key] !== null && typeof(item[key]) === "string" && item[key].length > 0){
-                                                        var alreadyExistKey = false
                                                         var newKey = `${item.provider}_${item.type}_${key}`.replace(" ", "_").toLowerCase()
                                                         var newLabel =  `${item.provider} ${item.type} ${key}`
                                                         tableHead.map(element =>{
                                                             if(element.label === newLabel){
-                                                                alreadyExistKey = true
+                                                                newLabel = `${newLabel} ${index}`
+                                                                newKey = `${newKey} ${index}`
                                                             }
                                                         })
-                                                        tableHead.push({label: newLabel, key: newKey, show: !alreadyExistKey})
+                                                        tableHead.push({label: newLabel, key: newKey})
                                                         return res[newKey] = item[key]
                                                     }
                                                     return true
@@ -76,6 +76,7 @@ export const MakeResultState = async (id)=>{
                 )}catch(err){
                     return {result: [], tableHead: []}
                 }
+                console.log(result, tableHead)
                 return {result, tableHead}
             }
         }).catch(err =>{

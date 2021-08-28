@@ -64,10 +64,7 @@ const EditContestSecondStep = ()=>{
                         <tbody className="tbody">
                             <tr className="tr ths is-flex is-flex-direction-row">
                                 {tableHead.map(item =>{
-                                    if(item.show){
-                                        return <th>{item.label}</th>
-                                    }
-                                    return null
+                                    return <th>{item.label}</th>
                                 })}
                             </tr>
                             {Array.isArray(data) ? data.map((item, index) =>{
