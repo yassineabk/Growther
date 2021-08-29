@@ -1,6 +1,6 @@
 import { ContestTypes } from "./contest-types";
 import axios from "axios"
-import { AppendDraft, AppendEditedDraft } from "../contests/contests-actions";
+import { AppendContest, AppendDraft, AppendEditedDraft, DeleteDraft } from "../contests/contests-actions";
 import { BACKEND_API, FRONTEND_API } from "../../services/links";
 import { FailAlert, SuccessAlert } from "../alert/alert-actions";
 export const InitState = (dispatch)=>{
@@ -425,7 +425,7 @@ export const EditDraft = (dispatch, data, id)=>{
             }
         })
 }
-export const PublishContest = async (dispatch, data)=>{
+export const PublishContest = async (dispatch, data = {information: {}, actions: {}})=>{
     var validInfos = NextStep(dispatch, data.information)
     var validActions = SaveContest(dispatch, data.actions)
     var token = localStorage.getItem("accessToken")
@@ -437,6 +437,28 @@ export const PublishContest = async (dispatch, data)=>{
     }
     dispatch({type: ContestTypes.NEW_CONTEST_LOADING})
     if(validInfos && validActions){
+        if(data.information.status === "DRAFT"){
+            return axios.put(`${BACKEND_API}/api/contests/update/draft/${data.information.idContest}`, {...data, information: {
+                ...data.information,
+                status: data.information.immediately ? "Published" : "in_Creation"
+            }}, config)
+            .then(response =>{
+                dispatch({type: ContestTypes.PUBLISH_SUCCESS, payload: `${FRONTEND_API}/contest/${data.information.title}/${response.data.idContest}`})
+                return response.data
+            }).catch(err => {
+                dispatch({type: ContestTypes.PUBLISH_FAIL})
+                return false
+            }).then(value =>{
+                if(value){
+                    SuccessAlert(dispatch, "Published Successfully")
+                    DeleteDraft(dispatch, data.information.idContest)
+                    return {idContest: data.information.idContest, status: data.information.immediately ? "Published" : "in_Creation"}
+                }else{
+                    FailAlert(dispatch, "Publish Failure")
+                    return value
+                }
+            })
+        }
         return axios.post(`${BACKEND_API}/api/contests/create`, data.information ,config)
             .then(response =>{
                 dispatch({type: ContestTypes.PUBLISH_SUCCESS, payload: `${FRONTEND_API}/contest/${data.information.title}/${response.data}`})
@@ -447,10 +469,11 @@ export const PublishContest = async (dispatch, data)=>{
             }).then(value =>{
                 if(value){
                     SuccessAlert(dispatch, "Published Successfully")
+                    return {idContest: value}
                 }else{
                     FailAlert(dispatch, "Publish Failure")
+                    return value
                 }
-                return value
             })
     }
     dispatch({type: ContestTypes.PUBLISH_FAIL})

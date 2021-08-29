@@ -36,10 +36,10 @@ const ContestSecondStep = ()=>{
                 history.push("/dashboard/My Contests/new/thirdStep")
                 var token = decode(localStorage.getItem("accessToken"))
                 var sub = token !== null && typeof(token) === "object" ? token.sub : ""
-                information.idContest = value
+                information.idContest = value.idContest
+                information.status = value.status
                 information.user = {id: sub, isBrand: "true"}
                 AppendContest(dispatch, information)
-                localStorage.removeItem("discordBotToken")
             }
         })
     }
