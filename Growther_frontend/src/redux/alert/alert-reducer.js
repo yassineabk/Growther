@@ -13,10 +13,10 @@ export const AlertReducer = (state= INITIAL_STATE, action)=>{
                     ...state.alerts.reverse().map((item, index)=>{
                         return {
                             ...item,
-                            show: index <= 1
+                            show: index <= 1 && item.show,
                         }
                     }).reverse(),
-                    {show: true, isSuccess: true, message: action.payload}
+                    {show: true, isSuccess: true, message: action.payload.message, timeout: action.payload.timeout}
                 ]
             }
         case ALERT_TYPES.FAIL_ALERT:
@@ -26,10 +26,10 @@ export const AlertReducer = (state= INITIAL_STATE, action)=>{
                     ...state.alerts.reverse().map((item, index)=>{
                         return {
                             ...item,
-                            show: index <= 1
+                            show: index <= 1 && item.show,
                         }
                     }).reverse(),
-                    {show: true, isFail: true, message: action.payload}
+                    {show: true, isFail: true, message: action.payload.message, timeout: action.payload.timeout}
                 ]
             }
         case ALERT_TYPES.HIDE_ALERT:
@@ -37,13 +37,18 @@ export const AlertReducer = (state= INITIAL_STATE, action)=>{
                 ...state,
                 alerts: [
                     ...state.alerts.reverse().map((item, index) => {
-                        if(index === 0){
+                        if(item.timeout === action.payload){
+                            clearTimeout(item.timeout)
                             return {
                                 ...item,
                                 show: false
                             }
                         }
-                    })
+                        return {
+                            ...item,
+                            show: index <= 1 && item.show
+                        }
+                    }).reverse()
                 ]
             }
         case RESET_ALL_TYPE.RESET_ALL:
