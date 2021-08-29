@@ -16,7 +16,7 @@ public class ParticipationDto {
     private Contest contest;
     private User user;
     private Set<ParticipationAction> participationActions;
-    private boolean isDone;
+    private boolean isDone=false;
     private int totalPoints;
 
     public Long getId() {
@@ -71,7 +71,7 @@ public class ParticipationDto {
         return isDone;
     }
 
-    public void setDone(boolean done) {
+    public void setDone(boolean done)  {
         isDone = done;
     }
 

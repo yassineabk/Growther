@@ -11,6 +11,7 @@ import wbm.growther.growther_001.dtos.ParticipationDto;
 import wbm.growther.growther_001.models.Contest;
 import wbm.growther.growther_001.models.Participation;
 import wbm.growther.growther_001.models.Prize;
+import wbm.growther.growther_001.models.Winners;
 import wbm.growther.growther_001.models.actions.Action;
 import wbm.growther.growther_001.models.users.User;
 import wbm.growther.growther_001.payload.WinnersResponse;
@@ -45,6 +46,9 @@ public class ContestServiceImpl implements ContestService {
 
     @Autowired
     private threadPoolTaskSchedulerClass taskScheduler;
+
+    @Autowired
+    private WinnersRepository winnersRepository;
 
 
     @Override
@@ -115,20 +119,8 @@ public class ContestServiceImpl implements ContestService {
                 repository
         );
 
-       /* UpdateContestStateJob testContestJob=new UpdateContestStateJob(
-                contest.getIdContest(),
-                "beggybone",
-               dd,
-                repository
-        );*/
 
-
-
-        //taskScheduler.doTask(publishContestJob);
         taskScheduler.doTask(endContestJob);
-
-         //this one if you wanna test
-        //taskScheduler.doTask(testContestJob);
 
         return contest.getIdContest();
     }
@@ -220,32 +212,49 @@ public class ContestServiceImpl implements ContestService {
     @Override
     public ContestDto updateContestInfos(ContestDto contestDto) throws ParseException {
         Contest contest=toContest(contestDto);
-        Set<Prize> prizes = contest.getPrizes();
-        Set<Action> actions = contest.getActions();
 
-        actions.forEach( action -> {
-            if(action.getId()==null)
-                action.setContest(contest);
-        });
 
-        prizes.forEach( prize -> {
-            if (prize.getId()== null)
-                prize.setContest(contest);
-        });
-        contest.getPrizes().forEach( prize -> {
-            if (prize.getId()== null){
-                prize.setId(0L);
-                Prize prize1 = prizeRepository.save(prize);
-                prize.setId(prize1.getId());
-            }
-        });
-        contest.getActions().forEach( action -> {
-            if(action.getId()==null){
+
+        Contest dbContest= repository
+                .findContestByIdContest(contest.getIdContest());
+
+
+        contest.getPrizes().forEach(
+                prize -> {
+                    if(prize.getId() == null){
+                        prize.setId(0L);
+                       // dbContest.getPrizes().add(prize);
+                    }
+                    prize.setContest(contest);
+                }
+        );
+        contest.getActions().forEach(action ->
+        {
+            if(action.getId() == null){
                 action.setId(0L);
-                Action action1 = actionRepository.save(action);
-                action.setId(action1.getId());
+               // dbContest.getActions().add(action);
             }
+            action.setContest(contest);
         });
+
+        boolean wasADraft=dbContest.getStatus()
+                .equalsIgnoreCase("DRAFT");
+
+        boolean willBePublished=contest.getStatus()
+                .equalsIgnoreCase("Published");
+
+        if(wasADraft && willBePublished){
+
+            UpdateContestStateJob endContestJob=new UpdateContestStateJob(
+                    contest.getIdContest(),
+                    "Done",
+                    contest.getEndDate(),
+                    repository
+            );
+
+            taskScheduler.doTask(endContestJob);
+        }
+
         repository.save(contest);
         return toDto(contest);
     }
@@ -395,7 +404,12 @@ public class ContestServiceImpl implements ContestService {
 
     @Override
     public List<WinnersResponse> getContestWinners(List<ParticipationDto> participationDtos,
-                                                   Set<Prize> prizes){
+                                                   Set<Prize> prizes,Long contestId){
+
+        //List<Winners> winners =winnersRepository.getAllByContestIdContest();
+
+        //if(winners!= null)return  winners;
+
 
         ContestWinners contestWinners=new ContestWinners();
         for(ParticipationDto participationDto: participationDtos){

@@ -63,7 +63,9 @@ public class ParticipationController {
     @GetMapping("/{id}")
     public ResponseEntity<ParticipationDto> getParticipationById(@PathVariable(value = "id") Long participationId) throws ResourceNotFoundException{
         ParticipationDto participationDto = service.getParticipationById(participationId);
-        if (participationDto == null) throw new ResourceNotFoundException("No participation exist with ID : "+participationId);
+        if (participationDto == null)
+            throw new ResourceNotFoundException("No participation exist with ID : "+
+                    participationId);
         return ResponseEntity.ok().body(participationDto);
     }
     @PostMapping("/create/{id}")
