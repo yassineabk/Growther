@@ -65,14 +65,6 @@ class SignUpPage extends React.Component{
             this.props.setRegistrationError(false)
             this.props.registerWithEmailAndPassword(user)
           }
-          
-          if(this.props.success){
-            this.handleClickLogin()
-          } 
-
-       
-
-
     }
 
   handleClickLogin() {

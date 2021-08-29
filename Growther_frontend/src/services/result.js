@@ -10,11 +10,11 @@ export const MakeResultState = async (id)=>{
         } 
     }
     var tableHead = [
-        {label: "Email", key: "email"},
-        {label: "Date", key: "date"},
-        {label: "Points", key: "points"},
-        {label: "Number of actions", key: "numActions"},
-        {label: "Winning status", key: "status"}
+        {label: "Email", key: "email", show: true},
+        {label: "Date", key: "date", show: true},
+        {label: "Points", key: "points", show: true},
+        {label: "Number of actions", key: "numActions", show: true},
+        {label: "Winning status", key: "status", show: true}
     ]
     return axios.get(`${BACKEND_API}/api/participations/all/${id}`, config)
         .then(response =>{
@@ -30,19 +30,34 @@ export const MakeResultState = async (id)=>{
                             var actionsDone = 0
                             var totalPoints = 0
                             if(Array.isArray(participationActions)){
-                                actionsDone = participationActions.length
                                 participationActions.map((item, index) =>{
                                     if(typeof(item) === "object" && item !== null){
-                                        totalPoints += item.points
-                                        Object.keys(item).map(key =>{
+                                        totalPoints += item.done ? item.points : 0
+                                        actionsDone += item.done ? 1 : 0
+                                        Object.keys(item).map((key, ix) =>{
                                             switch(key){
                                                 case "text":
                                                 case "email":
                                                 case "link":
                                                 case "username":
-                                                    if(item[key] !== null && typeof(item[key]) === "string"){
-                                                        tableHead.push({label: `${item.provider} ${item.type} ${key}`, key: `${item.provider}_${item.type}_${key}_${index}`})
-                                                        return res[`${item.provider}_${item.type}_${key}_${index}`] = item[key]
+                                                    if(item[key] !== null && typeof(item[key]) === "string" && item[key].length > 0){
+                                                        var newKey = `${item.provider}_${item.type}${item.provider === "Newsletter" ? `_${key}` : ""}`.replace(" ", "_").toLowerCase()
+                                                        var newLabel =  `${item.provider} ${item.type} ${item.provider === "Newsletter" ? `_${key}` : ""}`
+                                                        var alreadyIn = false
+                                                        for(var i = 0; i < result.length; i++){
+                                                            if(result[i] !== null && typeof(result[i]) === "object" && result[i][newKey] !== undefined){
+                                                                alreadyIn = true
+                                                                break
+                                                            }
+                                                        }
+                                                        tableHead.map(element =>{
+                                                            if(element.label === newLabel && !alreadyIn){
+                                                                newLabel = `${newLabel} ${index}`
+                                                                newKey = `${newKey} ${index}`
+                                                            }
+                                                        })
+                                                        tableHead.push({label: newLabel, key: newKey})
+                                                        return res[newKey] = item[key]
                                                     }
                                                     return true
                                                 default:
@@ -64,7 +79,7 @@ export const MakeResultState = async (id)=>{
                             result.push(res)
                         }
                         return true
-                    }
+                    }     
                 )}catch(err){
                     return {result: [], tableHead: []}
                 }

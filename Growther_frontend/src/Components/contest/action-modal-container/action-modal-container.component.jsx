@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from "react"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { ActionDone, CloseActionModal } from "../../../redux/contest-card/contest-card-actions"
 import { HideErrorModal } from "../../../redux/errors/errors-actions"
 import { ActionModal } from "../action-modal/action-modal.component"
 import { PreviewAction } from "../preview-action/preview-action.component"
-const ActionModalContainer = ({action, show, idContest, canParticipate, participationId, actions})=>{
+const ActionModalContainer = ({action, show, idContest, canParticipate, participationId, actions, isLoading})=>{
     var dispatch = useDispatch()
     var [activeButton, setActiveButton] = useState(false)
     var [countdown, setCount] = useState(10)
     var [withCountDown, setCountDown] = useState(false)
     var [error, setError] = useState({isError: false, message: ""})
+    var [intervalIndex, setIntervalIndex] = useState(0)
+    var {isBrand} = useSelector(state => state.userInfos)
+    var {information} = useSelector(state => state.contest_card)
     useEffect(()=>{
         window.onpopstate = e =>{
+            clearInterval(intervalIndex)
             setActiveButton(false)
             setCount(10)
             setCountDown(false)
@@ -24,9 +28,10 @@ const ActionModalContainer = ({action, show, idContest, canParticipate, particip
         if(container !== null && typeof(container) === "object"){
             if(event !== undefined){
                 if(!container.contains(event.target)){
+                    clearInterval(intervalIndex)
                     setActiveButton(false)
-                    setCount(10)
-                    setCountDown(false)
+                setCount(10)
+                setCountDown(false)
                     CloseActionModal(dispatch)
                 }
             }
@@ -34,24 +39,23 @@ const ActionModalContainer = ({action, show, idContest, canParticipate, particip
     }
     var action_done = (event, WithCountdown)=>{
         if(withCountDown) return false
-        startCountdown(WithCountdown)
-        setTimeout(()=>{
-            setActiveButton(true)
-        }, 10000)        
+        startCountdown(WithCountdown, false)     
     }
     var startCountdown = (start)=>{
+        var interval;
         if(start){
             setCountDown(true)
-            var value = countdown
-            var interval = setInterval(()=>{
-                if(value > 0){
-                    value -= 1
-                    setCount(prev => prev - 1)
-                }else{
-                    //setCountDown(false)
-                    clearInterval(interval)
-                }
+            interval = setInterval(()=>{
+                setCount(prev => {
+                    if(prev - 1 < 0){
+                        setActiveButton(true)
+                        return 0
+                    }else{
+                        return prev - 1
+                    }
+                })
             }, 1000)
+            setIntervalIndex(interval)
         }
     }
     var valid_answer_check = (value)=>{
@@ -86,17 +90,19 @@ const ActionModalContainer = ({action, show, idContest, canParticipate, particip
                         <div className="button-container is-flex is-justify-content-flex-end">
                             {error.isError ? <div id="countdown"><span>{error.message}</span></div> : null}
                             {withCountDown && !error.isError ? <div id="countdown"><span>00:{("0"+countdown).slice(-2)}</span></div> : null}
-                            <div onClick={activeButton ? (event)=> {
-                                ActionDone(dispatch, action, action.id, action.index, action.points, idContest, canParticipate, participationId, actions)
+                            <div onClick={activeButton && !isLoading ? (event)=> {
+                                ActionDone(dispatch, action, action.id, action.index, action.points, idContest, canParticipate, participationId, actions, information, isBrand === "true")
                                     .then(value =>{
                                         if(value){
                                             setActiveButton(false)
                                             setCountDown(false)
                                             setCount(10)
+                                            clearInterval(intervalIndex)
                                             setError({isError: false, message: ""})
                                         }else{
                                             setCountDown(false)
                                             setCount(10)
+                                            clearInterval(intervalIndex)
                                             setError({isError: true, message: "Something went wrong"})
                                         }
                                     })

@@ -296,7 +296,7 @@ export const NextStep = (dispatch, information)=>{
 }
 export const SaveContest = (dispatch, actions)=>{
     var result = []
-    var TextActions = ["tweet", "answer question", "submit url", "submit video", "submit", "subscribe to newsletter", "write a blog post"]
+    var TextActions = ["tweet", "answer question", "submit url", "submit video", "submit", "subscribe to newsletter", "write a blog post", "get completion bonus"]
     try{
         if(Array.isArray(actions) && actions.length > 0){
             actions.map((item, index) =>{

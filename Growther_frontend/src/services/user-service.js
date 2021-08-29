@@ -1,5 +1,5 @@
 import { decode } from "jsonwebtoken";
-import { BACKEND_API } from "./links";
+import { BACKEND_API, FRONTEND_API } from "./links";
 
 const USERS_REST_API_URL = BACKEND_API;
 
@@ -54,7 +54,7 @@ function loginWithEmailAndPassword(user) {
         });
 }
 
-function logout() {
+async function logout() {
     // remove user from local storage to log user out
     localStorage.removeItem('accessToken');
 }
@@ -72,6 +72,7 @@ function registerWithEmailAndPassword(user) {
     return fetch(`${USERS_REST_API_URL}/authentication/signup`, requestOptions)
     .then(handleResponse)
     .then(user => {
+        window.location.href=`${FRONTEND_API}/login`
         return user;
     }).catch(err =>{
         return false
@@ -81,13 +82,12 @@ function registerWithEmailAndPassword(user) {
 
 
 function handleResponse(response) {
-    console.log(response)
     return response.text().then(text => {
         const data = text && JSON.parse(text);
         if (!response.ok) {
             if (response.status === 401) {
                 // auto logout if 401 response returned from api
-                logout();
+                logout()
             }
 
             const error = (data && data.message) || response.statusText;

@@ -38,7 +38,7 @@
       background-color: $sideBar-color;
       color: white;
       border-radius: 20px 0 0 20px !important;
-      font-size: 25px;
+      font-size: 20px;
       padding: 10px 20px;
       justify-content: space-evenly;
       align-items: center;
@@ -63,6 +63,34 @@
       }
       > div{
         width: 100%;
+      }
+      #entries{
+        position: relative;
+        &:hover {
+          .tooltip{
+            visibility: visible;
+            opacity: 1;
+          }
+        }
+        .tooltip{
+          position: absolute;
+          height: 100%;
+          justify-content: center;
+          align-items: center;
+          bottom: -30px;
+          left: 10px;
+          opacity: 0;
+          visibility: hidden;
+          transition: .25s all;
+          //visibility: hidden;
+          .tooltip-text{
+            background-color: black;
+            color: white;
+            padding: 5px 10px; 
+            border-radius: 6px;
+            font-size: 12px;
+          }
+        }
       }
       &.templateImg{
         height: 100%;
@@ -182,7 +210,7 @@
     background-color: $sideBar-color;
     color: white;
     border-radius: 20px 0 0 20px !important;
-    font-size: 25px;
+    font-size: 20px;
     padding: 10px 20px;
     justify-content: space-evenly;
     align-items: center;
@@ -196,6 +224,34 @@
     }
     > div{
       width: 100%;
+    }
+    #entries{
+      position: relative;
+      &:hover {
+        .tooltip{
+          visibility: visible;
+          opacity: 1;
+        }
+      }
+      .tooltip{
+        position: absolute;
+        height: 100%;
+        justify-content: center;
+        align-items: center;
+        bottom: -30px;
+        left: 10px;
+        opacity: 0;
+        visibility: hidden;
+        transition: .25s all;
+        //visibility: hidden;
+        .tooltip-text{
+          background-color: black;
+          color: white;
+          padding: 5px 10px; 
+          border-radius: 6px;
+          font-size: 12px;
+        }
+      }
     }
     &.templateImg{
       height: 100%;
@@ -326,6 +382,7 @@
       font-family: Poppins-SemiBold;
       img{
         width: 20px;
+        cursor: pointer;
       }
     }
     #previewPrizes{

@@ -1,3 +1,4 @@
+import { RESET_ALL_TYPE } from "../reset-all/reset-all-type"
 import { CONTESTS_TYPES } from "./contests-types"
 
 const INITIAL_STATE = {
@@ -50,18 +51,38 @@ const ContestsReducer = (state = INITIAL_STATE, action)=>{
                     return item
                 })
             }
-            case CONTESTS_TYPES.APPEND_EDITED_DRAFT:
-                return {
-                    ...state,
-                    draft: state.contests.map(item=>{
-                        if(item.idContest.toString() === action.payload.id.toString()){
-                            return {
-                                ...action.payload.data,
-                            }
+        case CONTESTS_TYPES.APPEND_DONE_ACTION:
+            return {
+                ...state,
+                contests: state.contests.map(item=>{
+                    if(item.idContest.toString() === action.payload.id.toString()){
+                        return {
+                            ...item,
+                            actions: state.contests.actions.map(action =>{
+                                if(action.id === action.payload.actionId){
+                                    return {...action.payload.action}
+                                }
+                                return {
+                                    ...item
+                                }
+                            })
                         }
-                        return item
-                    })
-                }
+                    }
+                    return item
+                })
+            }
+        case CONTESTS_TYPES.APPEND_EDITED_DRAFT:
+            return {
+                ...state,
+                draft: state.contests.map(item=>{
+                    if(item.idContest.toString() === action.payload.id.toString()){
+                        return {
+                            ...action.payload.data,
+                        }
+                    }
+                    return item
+                })
+            }
         case CONTESTS_TYPES.GET_CONTESTS:
             return {
                 ...state,
@@ -90,6 +111,10 @@ const ContestsReducer = (state = INITIAL_STATE, action)=>{
             return {
                 ...state,
                 isLoading: true
+            }
+        case RESET_ALL_TYPE.RESET_ALL:
+            return {
+                ...INITIAL_STATE,
             }
         default:
             return state

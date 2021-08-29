@@ -1,4 +1,5 @@
 import { TimeZone } from "../../services/timeLeft"
+import { RESET_ALL_TYPE } from "../reset-all/reset-all-type"
 import { CONTEST_EDIT_TYPES } from "./contest-edit-types"
 const INITIAL_STATE={
     information:{
@@ -105,6 +106,10 @@ const EditReducer = (state = INITIAL_STATE, action)=>{
             return {
                 ...state,
                 error: true,
+            }
+        case RESET_ALL_TYPE.RESET_ALL:
+            return {
+                ...INITIAL_STATE
             }
         default:
             return state

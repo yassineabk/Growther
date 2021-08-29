@@ -7,8 +7,8 @@ export const PreviewContainer = ({information, actions, previewActions, changeHa
             <PreviewCard
                 title={information.title}
                 description={information.description}
-                timeLeft={information.endDate ? TimeLeft(information.endDate.split("T")[0], information.endTime.split(":")).date : false}
-                dateType={information.endDate ? TimeLeft(information.endDate.split("T")[0], information.endTime.split(":")).type : false}
+                timeLeft={information.endDate ? TimeLeft(information.endDate.trim().replace(" ", "T"), information.endTime).date : false}
+                dateType={information.endDate ? TimeLeft(information.endDate.trim().replace(" ", "T"), information.endTime).type : false}
                 actions={actions}
                 prizes={information.prizes}
                 previewActions={previewActions}

@@ -18,18 +18,15 @@ export const TimeLeft = (endDate, endTime)=>{
             if(daysDiff === 0){
                 endTime = Array.isArray(endTime) ? endTime : endTime.split(":")
                 var minsDiff = parseInt(endTime[1]) - currentMin
-                var hoursDiff = ((parseInt(endTime[0]) - currentHour)).toFixed(0)
+                var hoursDiff = parseInt(((parseInt(endTime[0]) - currentHour)).toFixed(0))
                 if(hoursDiff < 0){
                     return {date: "Ended", type: ""}
                 }
-                if(hoursDiff < 1){
-                    if(hoursDiff === 0){
-                        return {date: minsDiff, type: "minute"}
-                    }
+                if(hoursDiff === 0){
                     if(minsDiff === 1){
                         return {date: minsDiff, type: "minute"}
                     }
-                    if(minsDiff < 0){
+                    if(minsDiff <= 0){
                         return {date: "Ended", type: ""}
                     }
                     return {date: minsDiff, type: "minutes"}

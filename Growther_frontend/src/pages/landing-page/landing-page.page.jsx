@@ -36,7 +36,7 @@ class LandingPage extends React.Component {
                                         </div>
                                         {/*<LanguageSelect/>*/}
                                         <div className="margin-t-30">
-                                            <iframe title="landing-page-iframe" src="http://player.vimeo.com/video/69988283?color=f15b72&amp;title=0&amp;byline=0&amp;portrait=0" width="555" height="321" className="frame-border"></iframe>
+                                            <iframe title="landing-page-iframe" src="http://player.vimeo.com/video/69988283?color=f15b72&amp;title=0&amp;byline=0&amp;portrait=0"  width="555" height="321" className="frame-border"></iframe>
                                         </div>
                                     </div>
                                 </div>

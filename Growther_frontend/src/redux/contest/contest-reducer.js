@@ -1,3 +1,4 @@
+import { RESET_ALL_TYPE } from "../reset-all/reset-all-type";
 import { ContestTypes } from "./contest-types";
 
 const INITIAL_STATE={
@@ -353,6 +354,10 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
                 isPublished: false,
                 isLoading: false,
                 error: {isError: true, message: "FAILED TO PUBLISH CONTEST"},
+            }
+        case RESET_ALL_TYPE.RESET_ALL:
+            return {
+                ...INITIAL_STATE
             }
         default:
             return state;

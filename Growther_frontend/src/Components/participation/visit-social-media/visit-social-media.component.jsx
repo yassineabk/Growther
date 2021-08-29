@@ -1,9 +1,12 @@
 import React from "react"
-export const VisitSocialMedia = ({link, action_done})=>{
+import { useDispatch } from "react-redux"
+import { ALERT_TYPES } from "../../../redux/alert/alert-types"
+export const VisitSocialMedia = ({link = "", action_done})=>{
+    var dispatch = useDispatch()
     var VisitLink = (event, bool)=>{
-        window.open(link)
+        OpenLink(link, dispatch)
         if(bool){
-            action_done(event)
+            action_done(event, true)
         }else{
             VisitLink(event, true)
         }
@@ -18,4 +21,17 @@ export const VisitSocialMedia = ({link, action_done})=>{
             </div>
         </div>
     )
+}
+export const OpenLink = (link = "", dispatch) =>{
+    try{
+        var regex = new RegExp("^(https:\/\/|http:\/\/)")
+        var result = regex.exec(link)
+        if(result){
+            window.open(link)
+        }else{
+            window.open(`https://${link}`)
+        }
+    }catch(err){
+        dispatch({type: ALERT_TYPES.FAIL_ALERT, message: "Cannot open link"})
+    }
 }

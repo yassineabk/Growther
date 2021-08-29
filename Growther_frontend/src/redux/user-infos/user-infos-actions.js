@@ -2,6 +2,7 @@ import axios from "axios"
 import { decode } from "jsonwebtoken"
 import { BACKEND_API } from "../../services/links"
 import { FailAlert, SuccessAlert } from "../alert/alert-actions"
+import { RESET_ALL_TYPE } from "../reset-all/reset-all-type"
 import { UserInfosTypes } from "./user-infos-types"
 
 export const setUserInfos = (dispatch, token, infos, tokenChanged)=>{
@@ -16,7 +17,7 @@ export const setUserInfos = (dispatch, token, infos, tokenChanged)=>{
     if(decodedToken !== null && typeof(decodedToken) === "object"){
         var sub = decodedToken.sub
         if(!infos || infos === null || typeof(infos) !== "object" || infos.id !== parseInt(sub) || tokenChanged){
-            axios.get(`${BACKEND_API}/api/users/${sub}`, config)
+            return axios.get(`${BACKEND_API}/api/users/${sub}`, config)
             .then(response =>{
                 dispatch({ type: UserInfosTypes.SET_USER_INFOS, payload: response.data })
                 SuccessAlert(dispatch, "Get Infos Successfully")
@@ -25,9 +26,13 @@ export const setUserInfos = (dispatch, token, infos, tokenChanged)=>{
                 FailAlert(dispatch, "Get Infos Failure")
             })
         }
+        FailAlert(dispatch, "Get Infos Failure")
+        return dispatch({type: UserInfosTypes.SET_USER_INFOS_FAIL})
     }
+    localStorage.removeItem("accessToken")
+    dispatch({type: RESET_ALL_TYPE.RESET_ALL})
     FailAlert(dispatch, "Get Infos Failure")
-    dispatch({type: UserInfosTypes.SET_USER_INFOS_FAIL})
+    return dispatch({type: UserInfosTypes.SET_USER_INFOS_FAIL})
 }
 export const EditUserInfos = (dispatch, key, value)=>{
     dispatch({type: UserInfosTypes.IS_LOADING_USER_INFOS})

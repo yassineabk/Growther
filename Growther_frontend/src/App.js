@@ -33,6 +33,7 @@ import SpotifyAuthHandler from './services/Spotify-auth-handler';
 import DiscordAuthHandler from './services/discord-auth-handler';
 import DiscordBotAuthHandler from './services/discord-bot-auth-handler';
 import { AlertComponent } from './Components/alert/alert.component';
+import { TermsConditionsComponent } from './Components/terms-conditions/terms-conditions.component';
 const LandingPage = lazy(()=> import('./pages/landing-page/landing-page.page'))
 const SignUpPage = lazy(()=> import('./pages/sign-up/sign-up.page'))
 const LoginPage = lazy(()=> import('./pages/login/login.page'))
@@ -59,7 +60,7 @@ const EditContestThirdStep = lazy(()=> import('./Components/contest/edit-contest
 const App = ()=> {
   var { currentUser } = useSelector(state => state.login)
   var infos, {isBrand} = useSelector(state => state.userInfos)
-  var { actionModal, action, information, canParticipate } = useSelector(state => state.contest_card)
+  var { actionModal, action, information, canParticipate, isSubmitingAction } = useSelector(state => state.contest_card)
   var {alerts} = useSelector(state => state.alerts)
   var dispatch = useDispatch()
   useEffect(()=>{
@@ -72,7 +73,7 @@ const App = ()=> {
       setUserInfos(dispatch, newToken, infos, true)
     })
     setUserInfos(dispatch, token, infos, false)
-  }, [dispatch, infos])
+  }, [dispatch])
   return (
     <div className={"App"}>
       <Suspense fallback={<Spinner show={true} />}>
@@ -85,6 +86,7 @@ const App = ()=> {
           <Route exact path='/landing-page' render={()=> <LandingPage />} />
           <Route exact path='/login' render={()=> currentUser ? (<Redirect to='/dashboard'/>) : (<LoginPage/>) } />
           <Route exact path='/signup' render={()=> currentUser ? (<Redirect to='/'/>) : (<SignUpPage/>) } />
+          <Route exact path='/terms' render={()=> <TermsConditionsComponent /> } />
           <Route exact path='/contest/:title/:id' render={()=> ([
             <ErrorsModal />,
             <ActionModalContainer 
@@ -92,6 +94,7 @@ const App = ()=> {
               show={actionModal} 
               action={action} 
               canParticipate={canParticipate}
+              isLoading={isSubmitingAction}
               participationId={information.participationId}
               actions={Array.isArray(information.actions) ? information.actions.filter(element => element.id !== action.id) : []}
             />,
