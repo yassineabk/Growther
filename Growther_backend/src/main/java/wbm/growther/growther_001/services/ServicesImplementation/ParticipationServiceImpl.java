@@ -99,6 +99,7 @@ public class ParticipationServiceImpl implements ParticipationService {
             System.out.println(action.isDone());
         });
 
+        //participation.setId(0L);
         participation.setUser(user);
         participation.setContest(contest);
 
@@ -150,12 +151,12 @@ public class ParticipationServiceImpl implements ParticipationService {
 
         participation.setTotalPoints(totalParticipatinPoints);
 
-        repository.save(participation);
+            repository.save(participation);
 
-        actions.forEach( action -> {
-            actionRepository.save(action);
-        });
-    }
+            actions.forEach( action -> {
+                actionRepository.save(action);
+            });
+        }
 
     @Override
     public void deleteParticipation(ParticipationDto participationDto) throws ParseException {

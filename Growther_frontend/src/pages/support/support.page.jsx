@@ -1,9 +1,12 @@
 import React, { useState } from "react"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
+import { useHistory } from "react-router-dom"
 import { ContestButton } from "../../Components/contest/contest-buttons/contest-buttons.component"
 import { ContestDescription } from "../../Components/contest/contest-description-input/contest-description-input.component"
 import { ContestInput } from "../../Components/contest/contest-input/contest-input.component"
 import { Spinner } from "../../Components/spinner/spinner.component"
+import { FailAlert } from "../../redux/alert/alert-actions"
+import { SendEmail } from "../../services/send-email"
 const SupportPage = ()=>{
     var checkEmail = (mail)=>{
         if(/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/.test(mail)){
@@ -12,16 +15,16 @@ const SupportPage = ()=>{
         return false
     
     }
+    var dispatch = useDispatch()
+    var history = useHistory()
     var { name, email } = useSelector(state => state.userInfos)
     var [userInfos, setInfos] = useState({
         name: name && name !== null && typeof(name) === "string" ? name : "",
         email: email && email !== null && typeof(email) === "string" && checkEmail(email) ? email : ""
     })
     var [error, setError] = useState({
-        name: {isValid: true, message: ""},
-        email: {isValid: true, message: ""},
-        subject: {isValid: true, message: ""},
-        message: {isValid: true, message: ""}
+        subject: {isValid: false, message: ""},
+        message: {isValid: false, message: ""}
     })
     var [isLoading, setLoading] = useState(false)
     var changeHandler = (event)=>{
@@ -77,7 +80,10 @@ const SupportPage = ()=>{
         return result.length === 0
     }
     var SendMessage = ()=>{
-        
+        setLoading(true)
+        SendEmail(dispatch, email, userInfos.subject, userInfos.email).then(value =>{
+            setLoading(false)
+        })
     }
     return(
         <div className="column is-full is-flex is-flex-direction-column list-container newContest is-size-6 mb-4">
@@ -95,7 +101,7 @@ const SupportPage = ()=>{
                                 type="text"
                                 label="Name"
                                 placeholder="Your name"
-                                value={userInfos.name}
+                                value={name}
                                 changeHandler={(event)=> changeHandler(event)}
                                 validData={error.name}
                                 id="name"
@@ -104,7 +110,7 @@ const SupportPage = ()=>{
                                 type="email"
                                 label="Email"
                                 placeholder="Your email"
-                                value={userInfos.email}
+                                value={email}
                                 changeHandler={event => changeHandler(event)}
                                 validData={error.email}
                                 id="email"
@@ -133,14 +139,15 @@ const SupportPage = ()=>{
                             color={"#5E2691"} 
                             bgColor={"#FFFFFF"}
                             borderColor={"#5E2691"}
-                            text={"Cancel"} 
+                            text={"Cancel"}
+                            clickEvent={()=> history.push("/dashboard")}
                         />
                         <ContestButton 
                             color={"#FFFFFF"}
                             bgColor={"#5E2691"} 
                             borderColor={"#5E2691"}
                             text={"Send Message"} 
-                            clickEvent={CanSend() ? ()=> SendMessage() : ()=> false }
+                            clickEvent={CanSend() ? ()=> SendMessage() : ()=> FailAlert(dispatch, "Can't Send Email") }
                         />
                     </div>
                 </div>

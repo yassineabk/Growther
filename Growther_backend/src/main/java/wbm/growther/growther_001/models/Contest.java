@@ -2,16 +2,14 @@ package wbm.growther.growther_001.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.sun.istack.Nullable;
 import wbm.growther.growther_001.models.actions.Action;
 import wbm.growther.growther_001.models.users.User;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name="Contests")
@@ -45,6 +43,12 @@ public class Contest {
     @JsonIgnore
     private Set<Prize> prizes;
 
+    /*
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private List<Winners> winners;
+    */
+
 
     //each brand should be able to create more than 1 contest
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -63,6 +67,7 @@ public class Contest {
     //public void setProvidedActions(Set<ContestAvailableActions> providedActions) {
       //  this.providedActions = providedActions;
     //}
+
 
     public Contest(String title, String description, int winnersNbr, int actionsNbr, int maxReach,
                    Date startDate, Date endDate, String startTime, String endTime,

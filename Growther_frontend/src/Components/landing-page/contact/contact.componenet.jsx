@@ -1,7 +1,81 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { FailAlert } from '../../../redux/alert/alert-actions';
+import { SendEmail } from '../../../services/send-email';
 
-class Contact extends React.Component {
-  render() {
+const Contact = ()=> {
+    var checkEmail = (mail)=>{
+        if(/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/.test(mail)){
+            return true
+        }
+        return false
+    
+    }
+    var dispatch = useDispatch()
+    var [userInfos, setInfos] = useState({
+        name: "",
+        email: ""
+    })
+    var [error, setError] = useState({
+        subject: {isValid: false, message: ""},
+        message: {isValid: false, message: ""}
+    })
+    var changeHandler = (event)=>{
+        var key = event.target.id
+        var value = event.target.value
+        setInfos({
+            ...userInfos,
+            [key]: value
+        })
+        if(value.length === 0){
+            return setError({
+                ...error,
+                [key]: {isValid: false, message: "This field is invalid"}
+            })
+        }
+        if(key === "name" && value.length < 3){
+            return setError({
+                ...error,
+                [key]: {isValid: false, message: "Name should contain more than 3 characters"}
+            })
+        }
+        if(key === "email" && !checkEmail(value)){
+            return setError({
+                ...error,
+                [key]: {isValid: false, message: "Enter a valid email"}
+            })
+        }
+        if(key === "message" && value.length < 50){
+            return setError({
+                ...error,
+                [key]: {isValid: false, message: "Message should contain more than 50 charachter"}
+            })
+        }
+        setError({
+            ...error,
+            [key]: {isValid: true, message: ""}
+        })
+    }
+    var CanSend = ()=>{
+        var result = []
+        if(error && typeof(error) === "object"){
+            Object.keys(error).map(key =>{
+                if(error && typeof(error) === "object"){
+                    if(error[key] && typeof(error[key]) === "object"){
+                        if(!error[key].isValid){
+                            result.push(false)
+                        }
+                    }
+                }
+                return true
+            })
+        }
+        return result.length === 0
+    }
+    var SendMessage = ()=>{
+        SendEmail(dispatch, userInfos.email, userInfos.subject, userInfos.email).then(value =>{
+        })
+    }
   	return (
         <section className="section" id="contact">
         <div className="container">
@@ -16,36 +90,36 @@ class Contact extends React.Component {
                 <div className="column is-8-desktop">
                     <div className="form mt-4 mt-1-mobile pt-4">
                         <div id="message"></div>
-                        <form method="post" action="home-one" name="contact-form" id="contact-form">
+                        <form onSubmit={(event) => event.preventDefault()} name="contact-form" id="contact-form">
                             <div className="columns">
                                 <div className="column is-6-desktop">
                                     <div className="form-group mt-2 pr-2">
-                                        <input name="name" id="name" type="text" className="form-control" placeholder="Your name*" />
+                                        <input onChange={(event)=> changeHandler(event)} name="name" id="name" type="text" className="form-control" placeholder="Your name*" />
                                     </div>
                                 </div>
                                 <div className="column is-6-desktop">
                                     <div className="form-group mt-2">
-                                        <input name="email" id="email" type="email" className="form-control" placeholder="Your email*" />
+                                        <input onChange={(event)=> changeHandler(event)} name="email" id="email" type="email" className="form-control" placeholder="Your email*" />
                                     </div>
                                 </div>                                
                             </div>
                             <div className="columns">
                                 <div className="column is-12-desktop">
                                     <div className="form-group mt-2">
-                                        <input type="text" className="form-control" id="subject" placeholder="Your Subject.." />
+                                        <input onChange={(event)=> changeHandler(event)} type="text" className="form-control" id="subject" placeholder="Your Subject.." />
                                     </div>
                                 </div>
                             </div>
                             <div className="columns">
                                 <div className="column is-12-desktop ">
                                     <div className="form-group mt-2">
-                                        <textarea name="comments" id="comments" rows="4" className="form-control" placeholder="Your message..."></textarea>
+                                        <textarea onChange={(event)=> changeHandler(event)} name="comments" id="comments" rows="4" className="form-control" placeholder="Your message..."></textarea>
                                     </div>
                                 </div>
                             </div>
                             <div className="columns">
                                 <div className="column is-12-desktop has-text-centered">
-                                    <input type="submit" id="submit" name="send" className="btn btn-primary" value="Send Message" />
+                                    <input onClick={CanSend() ? ()=> SendMessage() : ()=> FailAlert(dispatch, "Can't Send Email")} type="submit" id="submit" name="send" className="btn btn-primary" value="Send Message" />
                                     <div id="simple-msg"></div>
                                 </div>
                             </div>
@@ -56,6 +130,5 @@ class Contact extends React.Component {
         </div>
     </section> 
   	);
-  }
 }
 export default Contact;
