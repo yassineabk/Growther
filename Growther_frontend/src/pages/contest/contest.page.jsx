@@ -5,6 +5,7 @@ import { useLocation, useParams } from "react-router-dom"
 import { PreviewCard } from "../../Components/contest/preview-card/preview-card.component"
 import { Spinner } from "../../Components/spinner/spinner.component"
 import { ActionDone, OpenActionModal, SelectAction, SetData, SetDataFromLocation } from "../../redux/contest-card/contest-card-actions"
+import { NumbersConverter } from "../../services/numbers-converter"
 import { TimeLeft } from "../../services/timeLeft"
 const Contest = ()=>{
     var [token, setToken] = useState(localStorage.getItem("accessToken"))
@@ -92,6 +93,7 @@ const Contest = ()=>{
                     title={information.title}
                     points={points}
                     id={information.idContest}
+                    entries={NumbersConverter(information.numOfParticipation)}
                     description={information.description}
                     timeLeft={information.endDate ? TimeLeft(information.endDate.trim().replace(" ","T"), information.endTime).date : ""}
                     dateType={TimeLeft(information.endDate.trim().replace(" ","T"), information.endTime).type}

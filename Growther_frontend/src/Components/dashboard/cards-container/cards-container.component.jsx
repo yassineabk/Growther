@@ -1,6 +1,7 @@
 import { decode } from "jsonwebtoken"
 import React, { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
+import { NumbersConverter } from "../../../services/numbers-converter"
 import { TimeLeft } from "../../../services/timeLeft"
 import { EmptyList } from "../../contest/empty-list/empty-list.component"
 import { Spinner } from "../../spinner/spinner.component"
@@ -29,9 +30,9 @@ export const CardsContainer = ({data, title, showMore, addNew, Duplicate, Delete
                             title={element.title}
                             date={element.date}
                             views={element.views}
+                            entries={NumbersConverter(element.numOfParticipation)}
                             description={element.description}
                             timeLeft={TimeLeft(element.endDate ? element.endDate.trim().replace(" ", "T") : "", element.endTime)}
-                            entries={element.entries}
                             id={element.idContest ? element.idContest : undefined}
                             userId={userId}
                             status={typeof(element.status) === "string" ? element.status : "Draft"}

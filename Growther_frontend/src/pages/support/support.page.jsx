@@ -77,7 +77,7 @@ const SupportPage = ()=>{
         return result.length === 0
     }
     var SendMessage = ()=>{
-        console.log("sent")
+        
     }
     return(
         <div className="column is-full is-flex is-flex-direction-column list-container newContest is-size-6 mb-4">

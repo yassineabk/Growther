@@ -51,8 +51,10 @@ export const PreviewCard = ({title, description, timeLeft, dateType, views, poin
                         <span className="little-title">
                             Total entries
                         </span>
-                        <span>
-                            {entries !== undefined && entries !== null && typeof(parseInt(entries)) === "number" ? entries : 0}
+                        <span id="entries">
+                            {entries && entries !== null && typeof(entries) === "object" && entries.value !== null && typeof(entries.value) === "string" ? entries.value : "0"} 
+                            <span className="dateType">{entries && entries !== null && typeof(entries) === "object" && entries.key !== null && typeof(entries.key) === "string" ? ` ${entries.key}` : ""}</span>
+                            {entries && entries !== null && typeof(entries) === "object" && entries.realValue !== null && typeof(entries.realValue) === "number" && entries.realValue >= 10**3 ? <div className="tooltip is-flex"><span className="tooltip-text">{entries.realValue}</span></div> : null}
                         </span>
                     </div>
                     <div className="card-date is-flex is-flex-direction-column">

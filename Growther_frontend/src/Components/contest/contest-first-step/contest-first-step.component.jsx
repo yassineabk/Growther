@@ -235,7 +235,6 @@ const ContestFirstStep = ()=>{
         }
         if(oldValue > newValue){
             for(i = newValue; i < oldValue; i++){
-                console.log("here")
                 RemovePrize(dispatch, i, newValue)
             }
         }else{
