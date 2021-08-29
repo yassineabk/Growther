@@ -348,6 +348,6 @@ public class ContestController {
         Set<Prize> prizes= contestDto.getPrizes();
 
         return contestService
-                .getContestWinners(participationDtos,prizes);
+                .getContestWinners(participationDtos,prizes,contestId);
     }
 }

@@ -22,15 +22,36 @@ public class EmailServiceImpl implements EmailService  {
 
     @Override
     @Async
-    public void sendMessage(String to, String text) {
+    public void sendMessage(String to, String text,String subject,boolean isHtml) {
         try {
             MimeMessage mimeMessage = emailSender.createMimeMessage();
             MimeMessageHelper helper =  new MimeMessageHelper(mimeMessage, "utf-8");
 
             helper.setFrom(MonEmail);
             helper.setTo(to);
-            helper.setSubject("Email confirmation");
-            helper.setText(text,true);
+            if(subject ==null)
+                helper.setSubject("Email confirmation");
+            else helper.setSubject(subject);
+            helper.setText(text,isHtml);
+
+            emailSender.send(mimeMessage);
+        } catch (MessagingException exception) {
+            exception.printStackTrace();
+        }
+    }
+    @Override
+    @Async
+    public void recieveMessage(String from, String text,String subject,boolean isHtml) {
+        try {
+            MimeMessage mimeMessage = emailSender.createMimeMessage();
+            MimeMessageHelper helper =  new MimeMessageHelper(mimeMessage, "utf-8");
+
+            helper.setFrom(from);
+            helper.setTo(MonEmail);
+            if(subject ==null)
+                helper.setSubject("Email confirmation");
+            else helper.setSubject(subject);
+            helper.setText(text,isHtml);
 
             emailSender.send(mimeMessage);
         } catch (MessagingException exception) {

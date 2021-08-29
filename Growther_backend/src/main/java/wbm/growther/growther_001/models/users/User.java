@@ -9,9 +9,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import wbm.growther.growther_001.models.AuthenticationProvider;
 import wbm.growther.growther_001.models.Contest;
 import wbm.growther.growther_001.models.Participation;
+import wbm.growther.growther_001.models.Winners;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -60,9 +62,15 @@ public class User implements UserDetails {
     @JsonIgnore
     private Set<Participation> participations;
 
+   /* @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private List<Winners> winners;
+    */
 
     private Boolean isLocked=false;
     private Boolean enabled=false;
+
+
 
     public Boolean getLocked() {
         return this.isLocked;
