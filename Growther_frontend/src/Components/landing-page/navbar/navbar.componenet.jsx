@@ -34,7 +34,7 @@ class Navbar extends React.Component {
   	return (
         <nav id="navbar" className="navbar pr-6 pt-4 pl-6 is-dark  pb-4" role="navigation" aria-label="main navigation">
             <div className="navbar-brand ">
-                <Link  className="navbar-item" to="/landing-page">
+                <Link className="navbar-item" to="/landing-page">
                     DiD
                 </Link >
 
@@ -47,7 +47,7 @@ class Navbar extends React.Component {
 
             <div id="navbarBasicExample" className="navbar-menu ">
                 <div id="navbar-items" className="navbar-start is-flex is-justify-content-center">
-                    <Link className="navbar-item" to="/landing-page">Home</Link >
+                    <Link onClick={()=> this.scroll("home")} className="navbar-item" to="/landing-page">Home</Link >
                     <Link onClick={()=> this.scroll("services")} className="navbar-item" to="#services">Services</Link >
                     <Link onClick={()=> this.scroll("features")} className="navbar-item" to="#features">Features</Link >
                     <Link onClick={()=> this.scroll("pricing")} className="navbar-item" to="#pricing"> Pricing</Link >

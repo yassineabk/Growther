@@ -20,7 +20,6 @@ export const MakeResultState = async (id)=>{
         .then(response =>{
             var data = response.data
             var result = []
-            console.log(response.data)
             if(Array.isArray(data)){
                 try{
                     data.map(item =>{
@@ -84,7 +83,6 @@ export const MakeResultState = async (id)=>{
                 )}catch(err){
                     return {result: [], tableHead: []}
                 }
-                console.log(result, tableHead)
                 return {result, tableHead}
             }
         }).catch(err =>{

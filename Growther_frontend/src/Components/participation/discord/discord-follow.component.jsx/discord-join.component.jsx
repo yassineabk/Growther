@@ -35,7 +35,6 @@ export const DiscordJoin = ({url, action_done, closeModal})=>{
                 if(data){
                     axios.get(`https://discord.com/api/guilds/${getGuildId(url)}/members/search`, config)
                         .then(res =>{
-                            console.log(res.data)
                         })
                 }else{
                     closeModal(event)
