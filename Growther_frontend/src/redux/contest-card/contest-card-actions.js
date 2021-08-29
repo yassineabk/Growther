@@ -57,6 +57,7 @@ export const SetDataFromLocation = (dispatch, data, canParticipate)=>{
     try{
         dispatch({type: Contest_Card_Types.SET_CONTEST_STATE, payload: {data, canParticipate: canParticipate && canParticipate !== undefined ? canParticipate : false}})
     }catch{
+        FailAlert(dispatch, "Something Went Wrong")
         dispatch({type: Contest_Card_Types.SET_CONTEST_CARD_DATA_FAIL})
     }
 }
@@ -64,6 +65,7 @@ export const SelectAction = (dispatch, provider, index)=>{
     try{
         dispatch({type: Contest_Card_Types.SELECTED_ACTION, payload: {provider, index}})
     }catch{
+        FailAlert(dispatch, "Something Went Wrong")
         dispatch({type: Contest_Card_Types.SET_CONTEST_CARD_DATA_FAIL})
     }
 }
@@ -71,6 +73,7 @@ export const OpenActionModal = (dispatch, index, element)=>{
     try{
         dispatch({type: Contest_Card_Types.DO_ACTION, payload: element !== null && typeof(element) === "object" ? {element, index} : {}})
     }catch{
+        FailAlert(dispatch, "Something Went Wrong")
         dispatch({type: Contest_Card_Types.SET_CONTEST_CARD_DATA_FAIL})
     }
 }
@@ -78,6 +81,7 @@ export const CloseActionModal = (dispatch)=>{
     try{
         dispatch({type: Contest_Card_Types.CLOSE_MODAL})
     }catch{
+        FailAlert(dispatch, "Something Went Wrong")
         dispatch({type: Contest_Card_Types.SET_CONTEST_CARD_DATA_FAIL})
     }
 }
@@ -165,6 +169,7 @@ export const SetActionText = (dispatch, id, text, type, index)=>{
     try{
         dispatch({type: Contest_Card_Types.SET_ACTION_TEXT, payload: {id, text, type, index}})
     }catch{
+        FailAlert(dispatch, "Something Went Wrong")
         dispatch({type: Contest_Card_Types.SET_CONTEST_CARD_DATA_FAIL})
     }
 }

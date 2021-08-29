@@ -32,6 +32,6 @@ export const OpenLink = (link = "", dispatch) =>{
             window.open(`https://${link}`)
         }
     }catch(err){
-        dispatch({type: ALERT_TYPES.FAIL_ALERT, message: "Cannot open link"})
+        dispatch({type: ALERT_TYPES.FAIL_ALERT, message: "Cannot Open Link"})
     }
 }
