@@ -22,7 +22,6 @@ export const setUserInfos = (dispatch, token, infos, tokenChanged)=>{
                 dispatch({ type: UserInfosTypes.SET_USER_INFOS, payload: response.data })
                 SuccessAlert(dispatch, "Get Infos Successfully")
             }).catch(err => {
-                console.log(err)
                 dispatch({type: UserInfosTypes.SET_USER_INFOS_FAIL})
                 FailAlert(dispatch, "Get Infos Failure")
             })

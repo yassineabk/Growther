@@ -32,8 +32,10 @@ export const CardComponent = ({element, title, description, views, entries, id, 
                     <span className="little-title">
                         Total entries
                     </span>
-                    <span>
-                        {entries && typeof(entries) === "number" ? entries : "0"}
+                    <span id="entries">
+                        {entries && entries !== null && typeof(entries) === "object" && entries.value !== null && typeof(entries.value) === "string" ? entries.value : "0"} 
+                        <span className="dateType">{entries && entries !== null && typeof(entries) === "object" && entries.key !== null && typeof(entries.key) === "string" ? ` ${entries.key}` : ""}</span>
+                        {entries && entries !== null && typeof(entries) === "object" && entries.realValue !== null && typeof(entries.realValue) === "number" && entries.realValue >= 10**3 ? <div className="tooltip is-flex"><span className="tooltip-text">{entries.realValue}</span></div> : null}
                     </span>
                 </div>
                 <div className="card-date is-flex is-flex-direction-column">
@@ -41,7 +43,8 @@ export const CardComponent = ({element, title, description, views, entries, id, 
                         Time left
                     </span>
                     <span>
-                        {(timeLeft && typeof(timeLeft) === "object" && typeof(timeLeft.date) === "string") ||  typeof(timeLeft.date) === "number" ? timeLeft.date : ""} <span className="dateType">{timeLeft && typeof(timeLeft) === "object" && typeof(timeLeft.type) === "string" ? timeLeft.type : ""}</span>
+                        {(timeLeft && typeof(timeLeft) === "object" && typeof(timeLeft.date) === "string") ||  typeof(timeLeft.date) === "number" ? timeLeft.date : ""} 
+                        <span className="dateType">{timeLeft && typeof(timeLeft) === "object" && typeof(timeLeft.type) === "string" ? ` ${timeLeft.type}` : ""}</span>
                     </span>
                 </div>
             </div>
