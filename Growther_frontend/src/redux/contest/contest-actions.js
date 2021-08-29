@@ -402,7 +402,7 @@ export const EditDraft = (dispatch, data, id)=>{
             return false
         }).then(value =>{
             if(value){
-                AppendEditedDraft(dispatch, data, value, id)
+                AppendEditedDraft(dispatch, id, value)
                 SuccessAlert(dispatch, "Draft Updated")
             }else{
                 FailAlert(dispatch, "Update Failure")

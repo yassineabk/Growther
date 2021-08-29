@@ -74,14 +74,15 @@ const ContestsReducer = (state = INITIAL_STATE, action)=>{
         case CONTESTS_TYPES.APPEND_EDITED_DRAFT:
             return {
                 ...state,
-                draft: state.contests.map(item=>{
+                draft: [...state.draft.map(item=>{
+                    console.log(action.payload)
                     if(item.idContest.toString() === action.payload.id.toString()){
                         return {
                             ...action.payload.data,
                         }
                     }
                     return item
-                })
+                })]
             }
         case CONTESTS_TYPES.GET_CONTESTS:
             return {

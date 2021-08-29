@@ -116,11 +116,16 @@ const SettingsComponent = ()=>{
         axios.put(`${BACKEND_API}/api/users/update/${userInfos.id}`, userInfos ,config)
             .then(response =>{
                 setLoading(false)
-                setUserInfos(dispatch, userInfos)
-                SuccessAlert(dispatch, "Succesfully Updated")
+                return true
             }).catch(err => {
                 setLoading(false)
-                FailAlert(dispatch, "Update Failure")
+                return false
+            }).then(value =>{
+                if(value){
+                    SuccessAlert(dispatch, "Succesfully Updated")
+                }else{
+                    FailAlert(dispatch, "Update Failure")
+                }
             })
     }
     var setLanguage = (event)=>{
@@ -206,7 +211,7 @@ const SettingsComponent = ()=>{
                             bgColor={"#5E2691"} 
                             borderColor={"#5E2691"}
                             text={"Save"} 
-                            clickEvent={ CanSave() ? ()=> Save() : ()=> false}
+                            clickEvent={ CanSave() ? ()=> Save() : ()=> FailAlert(dispatch, "Update Failure")}
                         />
                     </div>
                 </div>
