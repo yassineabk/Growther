@@ -9,12 +9,10 @@ export const SendEmail = async (dispatch, email, subject, message)=>{
             "Authorization" : `Bearer ${token}`
         },
     }
-    axios.post(`${BACKEND_API}/contactus/send`, {email, subject, text: message}, config)
+    axios.post(`${BACKEND_API}/contactus/send`, {email, subject, message}, config)
         .then(response =>{
-            console.log(response.data)
             return true
         }).catch(err =>{
-            console.log(err)
             return false
         }).then(value =>{
             if(value){

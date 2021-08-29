@@ -56,6 +56,7 @@ export const AppendDraft = (dispatch, data, idContest, userId) =>{
             dispatch({type: CONTESTS_TYPES.GET_CONTESTS_FAIL})
         }
     }catch{
+        FailAlert(dispatch, "Something Went Wrong")
         dispatch({type: CONTESTS_TYPES.GET_CONTESTS_FAIL})
     }
 }
@@ -63,6 +64,7 @@ export const AppendContest = (dispatch, data)=>{
     try{
         dispatch({type: CONTESTS_TYPES.APPEND_NEW_CONTEST, payload: data})
     }catch{
+        FailAlert(dispatch, "Something Went Wrong")
         dispatch({type: CONTESTS_TYPES.GET_CONTESTS_FAIL})
     }
 }
@@ -70,6 +72,7 @@ export const AppendEditedContest = (dispatch, id, data)=>{
     try{
         dispatch({type: CONTESTS_TYPES.APPEND_EDITED_CONTEST, payload: {id, data}})
     }catch{
+        FailAlert(dispatch, "Something Went Wrong")
         dispatch({type: CONTESTS_TYPES.GET_CONTESTS_FAIL})
     }
 }
@@ -77,6 +80,7 @@ export const AppendEditedDraft = (dispatch, id, data)=>{
     try{
         dispatch({type: CONTESTS_TYPES.APPEND_EDITED_DRAFT, payload: {id, data}})
     }catch{
+        FailAlert(dispatch, "Something Went Wrong")
         dispatch({type: CONTESTS_TYPES.GET_CONTESTS_FAIL})
     }
 }
@@ -84,6 +88,7 @@ export const AppendActionDone = (dispatch, contestId, actionId, action)=>{
     try{
         dispatch({type: CONTESTS_TYPES.APPEND_DONE_ACTION, payload: {id: contestId, actionId, action}})
     }catch{
+        FailAlert(dispatch, "Something Went Wrong")
         dispatch({type: CONTESTS_TYPES.GET_CONTESTS_FAIL})
     }
 }

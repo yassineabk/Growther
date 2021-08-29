@@ -7,6 +7,7 @@ export const SetInitialState = (dispatch)=>{
     try{
         dispatch({type: CONTEST_EDIT_TYPES.INIT_EDIT_STATE})
     }catch{
+        FailAlert(dispatch, "Something Went Wrong")
         dispatch({type: CONTEST_EDIT_TYPES.EDIT_ERROR})
     }
 }
@@ -60,6 +61,7 @@ export const EditState = (dispatch, information, id, targetId) =>{
     try{
         dispatch({type: CONTEST_EDIT_TYPES.EDIT_STATE, payload: {data: information, targetId}})
     }catch{
+        FailAlert(dispatch, "Something Went Wrong")
         dispatch({type: CONTEST_EDIT_TYPES.EDIT_ERROR})
     }
 }
@@ -67,6 +69,7 @@ export const EditDuration = (dispatch, type, value, startDate, endDate) =>{
     try{
         dispatch({type: CONTEST_EDIT_TYPES.EDIT_DURATION, payload: {value, type, startDate, endDate}})
     }catch{
+        FailAlert(dispatch, "Something Went Wrong")
         dispatch({type: CONTEST_EDIT_TYPES.EDIT_ERROR})
     }
 }
@@ -74,6 +77,7 @@ export const EditSelectedAction = (dispatch, provider, index)=>{
     try{
         dispatch({type: CONTEST_EDIT_TYPES.EDIT_PREVIEW_SELECTED_ACTION, payload: {provider, index}})
     }catch{
+        FailAlert(dispatch, "Something Went Wrong")
         dispatch({type: CONTEST_EDIT_TYPES.EDIT_ERROR})
     }
 }
@@ -164,8 +168,10 @@ export const CheckEdits = (dispatch, information) =>{
             dispatch({type: CONTEST_EDIT_TYPES.CHECK_EDITS, payload: {validData, isValidData}})
             return isValidData
         }
+        FailAlert(dispatch, "Invalid Data")
         return false
     }catch{
+        FailAlert(dispatch, "Something Went Wrong")
         return false
     }
 }
@@ -204,6 +210,6 @@ export const Edit = async (dispatch, information, id, userId)=>{
         })
     }
     dispatch({type: CONTEST_EDIT_TYPES.EDIT_FAIL})
-    FailAlert(dispatch, "Edit Failure")
+    FailAlert(dispatch, "Invalid Data")
     return false
 }
