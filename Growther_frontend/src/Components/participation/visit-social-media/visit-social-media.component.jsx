@@ -1,7 +1,11 @@
 import React from "react"
 import { useDispatch } from "react-redux"
 import { ALERT_TYPES } from "../../../redux/alert/alert-types"
+import { useTranslation } from "react-i18next";
+
 export const VisitSocialMedia = ({link = "", action_done})=>{
+    const { t } = useTranslation();
+
     var dispatch = useDispatch()
     var VisitLink = (event, bool)=>{
         OpenLink(link, dispatch)
@@ -14,10 +18,11 @@ export const VisitSocialMedia = ({link = "", action_done})=>{
     return(
         <div className="is-flex is-flex-direction-column action-links">
             <div>
-                To complete this action, click on the link below:
+                {t("click_link-bellow")}
+                
             </div>
             <div className="link-container">
-                <div onClick={(event)=> VisitLink(event, false)}>Link to visit</div>
+                <div onClick={(event)=> VisitLink(event, false)}>{t("link_visit")}</div>
             </div>
         </div>
     )

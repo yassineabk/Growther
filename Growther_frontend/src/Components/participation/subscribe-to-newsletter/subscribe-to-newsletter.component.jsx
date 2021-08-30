@@ -2,7 +2,11 @@ import React, { useState } from "react"
 import { useDispatch } from "react-redux"
 import { SetActionText } from "../../../redux/contest-card/contest-card-actions"
 import UrlSubmit from "../../contest/action-modal-container/action-submit-url.component"
+import { useTranslation } from "react-i18next";
+
 export const SubscribeToNewsLetter = ({valid_url_check, id, index})=>{
+    const { t } = useTranslation();
+
     var [nameMessage, setNameMessage] = useState("")
     var [emailMessage, setEmailMessage] = useState("")
     var [name, setName] = useState("")
