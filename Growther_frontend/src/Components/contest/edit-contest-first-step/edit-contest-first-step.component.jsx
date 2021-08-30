@@ -233,16 +233,6 @@ const EditContestFirstStep = ()=>{
                                 } : undefined
                             }
                         />
-                        <ContestInput 
-                            type={"number"}
-                            id="maxReach"
-                            name="maxReach"
-                            placeholder="Number of participants"
-                            label="Or stop when we reach"
-                            changeHandler={(event)=> changeHandler(event)}
-                            min={1}
-                            value={information ? information.maxReach : 0}
-                        />
                     </div>
                 </div>
                 <div className="contestButtons is-flex is-flex-direction-row is-justify-content-flex-end">

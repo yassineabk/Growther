@@ -9,11 +9,12 @@ import { SelectInput } from "../../Components/contest/select-input/select-input.
 import { Spinner } from "../../Components/spinner/spinner.component"
 import { FailAlert, SuccessAlert } from "../../redux/alert/alert-actions"
 import { UrlValidation } from "../../redux/contest/contest-actions"
-import { EditUserInfos, setUserInfos } from "../../redux/user-infos/user-infos-actions"
+import { EditUserInfos } from "../../redux/user-infos/user-infos-actions"
 import { BACKEND_API } from "../../services/links"
 import { SettingsModal } from "./settings-modal.component"
+import i18next from "i18next"
 const SettingsComponent = ()=>{
-    const language = localStorage.getItem("lang")
+    const language = localStorage.getItem("i18nextLng") || "en";
     var infos = useSelector(state => state.userInfos)
     var dispatch = useDispatch()
     var [show, showModal] = useState(false)
@@ -130,7 +131,7 @@ const SettingsComponent = ()=>{
     }
     var setLanguage = (event)=>{
         setLang(event.target.value)
-        localStorage.setItem("lang", event.target.value)
+        i18next.changeLanguage(event.target.value);
     }
     return(
         <div className="column is-full is-flex is-flex-direction-column list-container newContest is-size-6 mb-4">
@@ -146,7 +147,7 @@ const SettingsComponent = ()=>{
                             <Spinner show={isLoading} />
                             <SettingsModal show={show} closeModal={()=> showModal(false)} />
                             <SelectInput 
-                                data={["Arabic", "English", "French"]}
+                                data={["ar", "en", "fr"]}
                                 placeholder="Choose Language"
                                 value={lang}
                                 changeHandler={(event)=> setLanguage(event)}
