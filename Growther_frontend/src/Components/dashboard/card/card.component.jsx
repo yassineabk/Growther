@@ -1,6 +1,7 @@
 import React from "react"
 import { useHistory } from "react-router-dom"
-export const CardComponent = ({element, title, description, views, entries, id, userId, status, Duplicate, Delete, timeLeft, isBrand})=>{
+import { TimeLeftCountDown } from "../../contest/time-left-component/time-left.component"
+export const CardComponent = ({element, title, description, views, entries, id, userId, status, Duplicate, Delete, timeLeft, isBrand, endDate, onMouseLeave, onMouseOver})=>{
     var history = useHistory()
     var openContest = ()=>{
         if(typeof(element.user === "object")){
@@ -42,9 +43,22 @@ export const CardComponent = ({element, title, description, views, entries, id, 
                     <span className="little-title">
                         Time left
                     </span>
-                    <span>
-                        {(timeLeft && typeof(timeLeft) === "object" && typeof(timeLeft.date) === "string") ||  typeof(timeLeft.date) === "number" ? timeLeft.date : ""} 
+                    <span 
+                        onMouseLeave={onMouseLeave && {}.toString.call(onMouseLeave) === '[object Function]' ? ()=> {
+                            onMouseLeave(element)
+                        } : ()=> false} 
+                        onMouseOver={onMouseOver && {}.toString.call(onMouseOver) === '[object Function]' ? ()=> {
+                            onMouseOver(element)
+                        } : ()=> false} 
+                        onMouseOut={onMouseLeave && {}.toString.call(onMouseLeave) === '[object Function]' ? ()=> {
+                            onMouseLeave(element)
+                        } : ()=> false}
+                        id="entries">
+                        {(timeLeft && typeof(timeLeft) === "object" && (typeof(timeLeft.date) === "string") ||  typeof(timeLeft.date) === "number") ? timeLeft.date : ""} 
                         <span className="dateType">{timeLeft && typeof(timeLeft) === "object" && typeof(timeLeft.type) === "string" ? ` ${timeLeft.type}` : ""}</span>
+                        {endDate && typeof(endDate) === "string" ? 
+                            <TimeLeftCountDown value={endDate} /> : null
+                        }
                     </span>
                 </div>
             </div>

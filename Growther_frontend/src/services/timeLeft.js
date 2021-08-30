@@ -1,51 +1,59 @@
 export const TimeLeft = (endDate, endTime)=>{
     try{
         if(endDate && endTime){
+            var realSeconds = parseInt(new Date(endDate.trim().replace(" ", "T")) - new Date())
             endDate = Array.isArray(endDate) ? endDate[0] : endDate.split("T")[0]
-            var currentDate = new Date()
-            var currentDay = ("0"+currentDate.getDate()).slice(-2)
-            var currentMonth = ("0"+parseInt(currentDate.getMonth() + 1 === 13 ? 1 : currentDate.getMonth() + 1)).slice(-2)
-            var currentYear = currentDate.getFullYear()
-            var currentHour = currentDate.getHours()
-            var currentMin = currentDate.getMinutes()
-            var date = new Date(`${currentYear}-${currentMonth}-${currentDay}`)
-            var daysDiff = Math.ceil((new Date(endDate) - date)/(1000*60*60*24))
-            var weeksDiff = Math.ceil(Math.abs(date - new Date(endDate))/(1000*60*60*24*7))
-            var monthsDiff = Math.ceil(Math.abs(date - new Date(endDate))/(1000*60*60*24*30))
-            if(daysDiff < 0){
+            if(realSeconds <= 0){
                 return {date: "Ended", type: ""}
             }
-            if(daysDiff === 0){
-                endTime = Array.isArray(endTime) ? endTime : endTime.split(":")
-                var minsDiff = parseInt(endTime[1]) - currentMin
-                var hoursDiff = parseInt(((parseInt(endTime[0]) - currentHour)).toFixed(0))
-                if(hoursDiff < 0){
-                    return {date: "Ended", type: ""}
+            var seconds = parseInt(realSeconds/1000)
+            var years = ("0"+parseInt(seconds / (31104000)))
+            seconds = seconds % 31104000
+            var months = ("0"+parseInt(seconds / (2592000)))
+            seconds = seconds % (2592000)
+            var days = ("0"+parseInt(seconds / (86400)))
+            seconds = seconds % (86400)
+            var hours = ("0"+parseInt(seconds / 3600)).slice(-2)
+            seconds = seconds % 3600
+            var minutes = ("0"+parseInt(seconds / 60)).slice(-2)
+            seconds = ("0" + parseInt(seconds % 60)).slice(-2)
+            if(parseInt(years) > 0){
+                if(parseInt(years) === 1){
+                    return {date: parseInt(years), type: "year"}
                 }
-                if(hoursDiff === 0){
-                    if(minsDiff === 1){
-                        return {date: minsDiff, type: "minute"}
-                    }
-                    if(minsDiff <= 0){
-                        return {date: "Ended", type: ""}
-                    }
-                    return {date: minsDiff, type: "minutes"}
+                return {date: parseInt(years), type: "years"}
+            }
+            if(parseInt(months) > 0){
+                if(parseInt(months) === 1){
+                    return {date: parseInt(months), type: "month"}
                 }
-                if(hoursDiff === 1){
-                    return {date: hoursDiff, type: "hour"}
+                return {date: parseInt(months), type: "months"}
+            }
+            if(parseInt(days) > 0){
+                if(parseInt(days) === 1){
+                    return {date: parseInt(days), type: "day"}
                 }
-                return {date: hoursDiff, type: "hours"}
+                return {date: parseInt(days), type: "days"}
             }
-            if(daysDiff % 30 === 0){
-                if(monthsDiff > 1) return {date: monthsDiff, type: "months"}
-                return {date: monthsDiff, type: "month"}
+            if(parseInt(hours) > 0){
+                if(parseInt(hours) === 1){
+                    return {date: parseInt(hours), type: "hour"}
+                }
+                return {date: parseInt(hours), type: "hours"}
             }
-            if(daysDiff % 7 === 0){
-                if(weeksDiff > 1) return {date: weeksDiff, type: "weeks"}
-                return {date: weeksDiff, type: "week"}
+            if(parseInt(minutes) > 0){
+                if(parseInt(minutes) === 1){
+                    return {date: parseInt(minutes), type: "minute"}
+                }
+                return {date: parseInt(minutes), type: "minutes"}
             }
-            if(daysDiff > 1) return {date: daysDiff, type: "days"}
-            return {date: daysDiff, type: "day"}
+            if(parseInt(seconds) > 0){
+                if(parseInt(seconds) === 1){
+                    return {date: parseInt(days), type: "second"}
+                }
+                return {date: parseInt(days), type: "seconds"}
+            }
+            return {date: "Ended", type: ""}
         }
         return {date: "", type: ""}
     }catch (err){

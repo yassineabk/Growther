@@ -40,7 +40,7 @@ public class Contest {
     private Set<Action> actions;
     //JSON field
     @OneToMany(mappedBy="contest", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonIgnore
+    //@JsonIgnore
     private Set<Prize> prizes;
 
     /*

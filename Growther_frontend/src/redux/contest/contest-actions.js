@@ -48,10 +48,10 @@ export const SetImmediately = (dispatch, value) =>{
         if(value === true){
             dispatch({type: ContestTypes.SET_IMMEDIATELY, payload: false})
         }else{
-            FailAlert(dispatch, "Something Went Wrong")
             dispatch({type: ContestTypes.SET_IMMEDIATELY, payload: true})
         }
     }catch(err){
+        FailAlert(dispatch, "Something Went Wrong")
         dispatch({type: ContestTypes.SET_NEW_CONTEST_DATA_FAIL})
     }
 }
@@ -438,10 +438,11 @@ export const PublishContest = async (dispatch, data = {information: {}, actions:
     dispatch({type: ContestTypes.NEW_CONTEST_LOADING})
     if(validInfos && validActions){
         if(data.information.status === "DRAFT"){
-            return axios.put(`${BACKEND_API}/api/contests/update/draft/${data.information.idContest}`, {...data, information: {
+            return axios.put(`${BACKEND_API}/api/contests/update/draft/${data.information.idContest}`, {
                 ...data.information,
+                actions: data.actions,
                 status: data.information.immediately ? "Published" : "in_Creation"
-            }}, config)
+            }, config)
             .then(response =>{
                 dispatch({type: ContestTypes.PUBLISH_SUCCESS, payload: `${FRONTEND_API}/contest/${data.information.title}/${response.data.idContest}`})
                 return response.data
@@ -497,7 +498,7 @@ export const DuplicateContest = (dispatch, id, data)=>{
         return false
     }).then(value => {
         if(value || (typeof(value) === "number" && value === 0)){
-            AppendDraft(dispatch, data, `${value}`)
+            AppendDraft(dispatch, data, `${value}`, data.user.id)
             SuccessAlert(dispatch, "Successfully Duplicated")
         }else{
             FailAlert(dispatch, "Duplcation Failure")
