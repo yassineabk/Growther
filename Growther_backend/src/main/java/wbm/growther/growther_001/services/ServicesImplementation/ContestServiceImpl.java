@@ -8,6 +8,7 @@ import wbm.growther.growther_001.ContestWinners;
 import wbm.growther.growther_001.UpdateContestStateJob;
 import wbm.growther.growther_001.dtos.ContestDto;
 import wbm.growther.growther_001.dtos.ParticipationDto;
+import wbm.growther.growther_001.exceptions.ResourceNotFoundException;
 import wbm.growther.growther_001.models.Contest;
 import wbm.growther.growther_001.models.Participation;
 import wbm.growther.growther_001.models.Prize;
@@ -22,6 +23,7 @@ import wbm.growther.growther_001.threadPoolTaskSchedulerClass;
 import javax.persistence.EntityManager;
 import java.text.ParseException;
 import java.util.*;
+import java.util.concurrent.RejectedExecutionException;
 
 @Service
 public class ContestServiceImpl implements ContestService {
@@ -213,7 +215,53 @@ public class ContestServiceImpl implements ContestService {
     public ContestDto updateContestInfos(ContestDto contestDto) throws ParseException {
         Contest contest=toContest(contestDto);
 
+        Contest dbContest= repository
+                .findContestByIdContest(contest.getIdContest());
 
+        HashSet<Long> existingPrizesIds= new HashSet<>();
+        HashSet<Long> existingActionsIds= new HashSet<>();
+
+        contest.getPrizes().forEach(
+                prize -> {
+                    if(prize.getId() == null){
+                        prize.setId(0L);
+                    }
+                    else existingPrizesIds.add(prize.getId());
+                    prize.setContest(contest);
+                }
+        );
+
+        contest.getActions().forEach(action ->
+        {
+            if(action.getId() == null){
+                action.setId(0L);
+            }
+            else existingActionsIds.add(action.getId());
+            action.setContest(contest);
+        });
+
+        dbContest.getPrizes().forEach(
+                prize -> {
+                    Long prizeId=prize.getId();
+                    boolean prizeExist =existingPrizesIds.contains(prizeId);
+                    if(!prizeExist)prizeRepository.delete(prize);
+                }
+        );
+
+        dbContest.getActions().forEach(
+                action -> {
+                    Long actionId=action.getId();
+                    boolean actionExist =existingActionsIds.contains(actionId);
+                    if(!actionExist)actionRepository.delete(action);
+                }
+        );
+
+        repository.save(contest);
+        return toDto(contest);
+    }
+    @Override
+    public ContestDto updateDraftContestInfos(ContestDto contestDto) throws ParseException {
+        Contest contest=toContest(contestDto);
 
         Contest dbContest= repository
                 .findContestByIdContest(contest.getIdContest());
@@ -223,7 +271,7 @@ public class ContestServiceImpl implements ContestService {
                 prize -> {
                     if(prize.getId() == null){
                         prize.setId(0L);
-                       // dbContest.getPrizes().add(prize);
+                        // dbContest.getPrizes().add(prize);
                     }
                     prize.setContest(contest);
                 }
@@ -232,7 +280,7 @@ public class ContestServiceImpl implements ContestService {
         {
             if(action.getId() == null){
                 action.setId(0L);
-               // dbContest.getActions().add(action);
+                // dbContest.getActions().add(action);
             }
             action.setContest(contest);
         });
@@ -240,11 +288,8 @@ public class ContestServiceImpl implements ContestService {
         boolean wasADraft=dbContest.getStatus()
                 .equalsIgnoreCase("DRAFT");
 
-        boolean willBePublished=contest.getStatus()
-                .equalsIgnoreCase("Published");
-
-        if(wasADraft && willBePublished){
-
+        if(wasADraft ){
+            contest.setStatus("Published");
             UpdateContestStateJob endContestJob=new UpdateContestStateJob(
                     contest.getIdContest(),
                     "Done",
@@ -255,10 +300,8 @@ public class ContestServiceImpl implements ContestService {
             taskScheduler.doTask(endContestJob);
         }
 
-        repository.save(contest);
-        return toDto(contest);
+        return toDto(repository.save(contest));
     }
-
     @Override
     public void deleteContest(ContestDto contestDto) throws ParseException {
         Contest contest=toContest(contestDto);
@@ -285,12 +328,14 @@ public class ContestServiceImpl implements ContestService {
 
     @Override
     @Transactional
-    public ContestDto publishContest(Long contestID) {
+    public ContestDto publishDraftContest(Long contestID) throws ResourceNotFoundException {
         Contest contest = repository.findContestByIdContest(contestID);
-        if(contest == null)return  null;
+        if(contest == null)throw new ResourceNotFoundException("No Contest exists with ID :"+contestID);
 
-        contest.setStatus("Published");
-        repository.save(contest);
+        if(contest.getStatus().equalsIgnoreCase("draft")) {
+            contest.setStatus("Published");
+            repository.save(contest);
+        }else throw new RejectedExecutionException("This contest is not a draft !!");
         return toDto(contest);
     }
 

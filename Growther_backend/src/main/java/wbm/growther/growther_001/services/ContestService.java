@@ -2,6 +2,7 @@ package wbm.growther.growther_001.services;
 
 import wbm.growther.growther_001.dtos.ContestDto;
 import wbm.growther.growther_001.dtos.ParticipationDto;
+import wbm.growther.growther_001.exceptions.ResourceNotFoundException;
 import wbm.growther.growther_001.models.Prize;
 import wbm.growther.growther_001.payload.WinnersResponse;
 
@@ -17,11 +18,14 @@ public interface ContestService {
     ContestDto getContestById(Long contestID);
     ContestDto draftContest(Long contestID);
     ContestDto updateContestInfos(ContestDto contestDto) throws ParseException;
+
+    ContestDto updateDraftContestInfos(ContestDto contestDto) throws ParseException;
+
     void deleteContest(ContestDto contestDto) throws ParseException;
     ContestDto getContestByTitle(String title);
     ContestDto getContestByInfos(String title,Long id,String timezone);
     ContestDto getLastContest();
-    ContestDto publishContest(Long contestID);
+    ContestDto publishDraftContest(Long contestID) throws ResourceNotFoundException;
 
     List<WinnersResponse> getContestWinners(List<ParticipationDto> participationDtos,
                                             Set<Prize> prizes,Long ContestId);
