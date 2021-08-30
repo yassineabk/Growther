@@ -218,45 +218,49 @@ public class ContestServiceImpl implements ContestService {
         Contest dbContest= repository
                 .findContestByIdContest(contest.getIdContest());
 
+        HashSet<Long> existingPrizesIds= new HashSet<>();
+        HashSet<Long> existingActionsIds= new HashSet<>();
 
         contest.getPrizes().forEach(
                 prize -> {
                     if(prize.getId() == null){
                         prize.setId(0L);
-                       // dbContest.getPrizes().add(prize);
+
                     }
+                    else existingPrizesIds.add(prize.getId());
                     prize.setContest(contest);
                 }
         );
+
+
+
         contest.getActions().forEach(action ->
         {
             if(action.getId() == null){
                 action.setId(0L);
-               // dbContest.getActions().add(action);
+
             }
+            else existingActionsIds.add(action.getId());
             action.setContest(contest);
         });
 
-        boolean wasADraft=dbContest.getStatus()
-                .equalsIgnoreCase("DRAFT");
+        dbContest.getPrizes().forEach(
+                prize -> {
+                    Long prizeId=prize.getId();
+                    boolean prizeExist =existingPrizesIds.contains(prizeId);
+                    if(!prizeExist)prizeRepository.delete(prize);
+                }
+        );
 
-        boolean willBePublished=contest.getStatus()
-                .equalsIgnoreCase("Published");
+        dbContest.getActions().forEach(
+                action -> {
+                    Long actionId=action.getId();
+                    boolean actionExist =existingActionsIds.contains(actionId);
+                    if(!actionExist)actionRepository.delete(action);
+                }
+        );
 
-        if(wasADraft && willBePublished){
-
-            UpdateContestStateJob endContestJob=new UpdateContestStateJob(
-                    contest.getIdContest(),
-                    "Done",
-                    contest.getEndDate(),
-                    repository
-            );
-
-            taskScheduler.doTask(endContestJob);
-        }
-
-        repository.save(contest);
-        return toDto(contest);
+        return toDto(repository.save(contest));
     }
 
     @Override

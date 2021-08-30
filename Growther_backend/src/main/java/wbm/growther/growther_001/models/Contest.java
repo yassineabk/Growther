@@ -43,12 +43,18 @@ public class Contest {
     @JsonIgnore
     private Set<Prize> prizes;
 
-    /*
-    @OneToMany(mappedBy = "user")
+
+    @OneToMany(mappedBy = "contest",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Winners> winners;
-    */
 
+    public List<Winners> getWinners() {
+        return winners;
+    }
+
+    public void setWinners(List<Winners> winners) {
+        this.winners = winners;
+    }
 
     //each brand should be able to create more than 1 contest
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
