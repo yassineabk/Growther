@@ -3,7 +3,8 @@ import React, { useEffect, useState } from "react"
 import { Redirect, useHistory } from "react-router-dom"
 import { PreviewActionsList } from "../preview-actions-list/preview-actions-list.component"
 import { PreviewPrizesList } from "../preview-prizes-list/preview-prizes-list.component"
-export const PreviewCard = ({title, description, timeLeft, dateType, views, points, entries, status, actions, previewActions, changeHandler, prizes, buttons, hasStarted, hasEnded, canParticipate, isPublished, id, element, isPreview, user_id, error, immediately, DoAction, DoBonus, showLoginForm, contestDone})=>{
+import { TimeLeftCountDown } from "../time-left-component/time-left.component"
+export const PreviewCard = ({title, description, timeLeft, dateType, views, points, entries, status, actions, previewActions, changeHandler, prizes, buttons, hasStarted, hasEnded, canParticipate, isPublished, id, element, isPreview, user_id, error, immediately, DoAction, DoBonus, showLoginForm, contestDone, endDate, onMouseLeave, onMouseOver})=>{
     var history = useHistory()
     var hoverCard = (event)=>{
         document.getElementById("card").classList.toggle("backface")
@@ -15,6 +16,11 @@ export const PreviewCard = ({title, description, timeLeft, dateType, views, poin
     }
     var [userId, setId] = useState(true)
     useEffect(()=>{
+        window.onpopstate = ()=>{
+            if(onMouseLeave && {}.toString.call(onMouseLeave) === '[object Function]'){
+                onMouseLeave()
+            }
+        }
         if(!buttons && !isPreview){
             var token = decode(localStorage.getItem("accessToken"))
             if(token !== null && typeof(token) === "object"){
@@ -24,10 +30,38 @@ export const PreviewCard = ({title, description, timeLeft, dateType, views, poin
                 }else{
                     setId(false)
                 }
-                
             }
         }
     }, [userId])
+    var timeleft = ()=>{
+        var time = endDate, timeValue = timeLeft, timeType = dateType
+        if(time && typeof(time) === "string" && time.length > 0 && !isPreview){
+            time = time.split(":")
+            if(Array.isArray(time) && time.length === 3){
+                if(parseInt(time[0]) > 0){
+                    if(parseInt(time[0]) === 1){
+                        return {timeLeft: parseInt(time[0]), timeType: "hour"}
+                    }
+                    return {timeLeft: parseInt(time[0]), timeType: "hours"}
+                }
+                if(parseInt(time[1]) > 0){
+                    if(parseInt(time[1]) === 1){
+                        return {timeLeft: parseInt(time[1]), timeType: "minute"}
+                    }
+                    return {timeLeft: parseInt(time[1]), timeType: "minutes"}
+                }
+                if(parseInt(time[2]) > 0){
+                    if(parseInt(time[2]) === 1){
+                        return {timeLeft: parseInt(time[2]), timeType: "second"}
+                    }
+                    return {timeLeft: parseInt(time[2]), timeType: "seconds"}
+                }else{
+                    return {timeLeft: "Ended", timeType: ""}
+                }
+            }
+        }
+        return {timeLeft: timeValue, timeType}
+    }
     if(hasStarted || buttons || isPreview || userId || isPublished || error || immediately){
         return(
             <div id="card" className="is-flex previewCard">
@@ -61,8 +95,21 @@ export const PreviewCard = ({title, description, timeLeft, dateType, views, poin
                         <span className="little-title">
                             Time left
                         </span>
-                        <span>
-                            {timeLeft ? timeLeft : ""} <span className="dateType">{dateType ? dateType : ""}</span>
+                        <span 
+                            onMouseLeave={onMouseLeave && {}.toString.call(onMouseLeave) === '[object Function]' ? ()=> {
+                                onMouseLeave(element)
+                            } : ()=> false} 
+                            onMouseOver={onMouseOver && {}.toString.call(onMouseOver) === '[object Function]' ? ()=> {
+                                onMouseOver(element)
+                            } : ()=> false} 
+                            onMouseOut={onMouseLeave && {}.toString.call(onMouseLeave) === '[object Function]' ? ()=> {
+                                onMouseLeave(element)
+                            } : ()=> false}
+                            id="entries">
+                            {timeLeft && dateType ? timeleft(endDate, timeLeft, dateType).timeLeft : (isPreview ? timeLeft : "") } <span className="dateType">{timeLeft && dateType ? timeleft(endDate, timeLeft, dateType).timeType : (isPreview ? dateType : "")}</span>
+                            {endDate && typeof(endDate) && !isPreview === "string" ? 
+                                <TimeLeftCountDown value={endDate} /> : null
+                            }
                         </span>
                     </div>
                 </div>
