@@ -1,6 +1,6 @@
 import { ContestTypes } from "./contest-types";
 import axios from "axios"
-import { AppendContest, AppendDraft, AppendEditedDraft, DeleteDraft } from "../contests/contests-actions";
+import { AppendDraft, AppendEditedDraft, DeleteDraft } from "../contests/contests-actions";
 import { BACKEND_API, FRONTEND_API } from "../../services/links";
 import { FailAlert, SuccessAlert } from "../alert/alert-actions";
 export const InitState = (dispatch)=>{
