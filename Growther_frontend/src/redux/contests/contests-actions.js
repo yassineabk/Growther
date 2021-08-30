@@ -118,3 +118,11 @@ export const DeleteDraft = (dispatch, id) =>{
             return value
         })
 }
+export const ActiveContest = (dispatch, contest, timeout, clear)=>{
+    var payload = contest
+    if(clear){
+        clearInterval(timeout)
+        payload = {}
+    }
+    dispatch({type: CONTESTS_TYPES.ACTIVE_CONTEST_ACTION, payload: payload})
+}

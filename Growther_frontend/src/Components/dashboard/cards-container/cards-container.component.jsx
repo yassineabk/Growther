@@ -10,6 +10,9 @@ import { CardComponent } from "../card/card.component"
 export const CardsContainer = ({data, title, showMore, addNew, Duplicate, Delete, isBrand})=>{
     var { isLoading } = useSelector(state => state.get_contests)
     var [userId, setId] = useState("")
+    var [hours, setHours] = useState("")
+    var [intervalIndex, setIntervalIndex] = useState(0)
+    var [activeElement, setActiveElement] = useState({})
     useEffect(()=>{
         var token = decode(localStorage.getItem("accessToken"))
         if(token !== null && typeof(token) === "object"){
@@ -17,6 +20,46 @@ export const CardsContainer = ({data, title, showMore, addNew, Duplicate, Delete
             setId(sub)
         }
     }, [userId])
+    var onMouseOver = (element)=>{
+        setActiveElement(element)
+        var realSeconds = (new Date(element && typeof(element) === "object" && element !== null && element.endDate && typeof(element.endDate) === "string" ? element.endDate.trim().replace(" ", "T") : "") - new Date())
+        if(realSeconds <= 0){
+            setHours("00:00:00")
+            onMouseLeave()
+            return true
+        }
+        var seconds = parseInt((new Date(element && typeof(element) === "object" && element !== null && element.endDate && typeof(element.endDate) === "string" ? element.endDate.trim().replace(" ", "T") : "") - new Date())/1000)
+        var hours = ("0"+parseInt(seconds / 3600)).slice(-2)
+        seconds = seconds % 3600
+        var minutes = ("0"+parseInt(seconds / 60)).slice(-2)
+        seconds = ("0" + parseInt(seconds % 60)).slice(-2)
+        var value = `${hours}:${minutes}:${seconds}`
+        setHours(`${value}`)
+        var interval = setInterval(()=>{
+            if(activeElement !== null && typeof(activeElement) === "object"){
+                setHours(prev =>{
+                    var realSeconds = (new Date(element && typeof(element) === "object" && element !== null && element.endDate && typeof(element.endDate) === "string" ? element.endDate.trim().replace(" ", "T") : "") - new Date())
+                    if(realSeconds <= 0){
+                        onMouseLeave()
+                        return "00:00:00"
+                    }
+                    var seconds = parseInt(realSeconds/1000)
+                    var hours = ("0"+parseInt(seconds / 3600)).slice(-2)
+                    seconds = seconds % 3600
+                    var minutes = ("0"+parseInt(seconds / 60)).slice(-2)
+                    seconds = ("0" + parseInt(seconds % 60)).slice(-2)
+                    var value = `${hours}:${minutes}:${seconds}`
+                    return `${value}`
+                })
+            }else{
+                onMouseLeave()
+            }
+        }, 1000)
+        setIntervalIndex(interval)
+    }
+    var onMouseLeave = ()=>{
+        clearInterval(intervalIndex)
+    }
     return(
         <div className="is-flex is-flex-direction-column list-container">
             <Spinner show={isLoading} />
@@ -30,9 +73,10 @@ export const CardsContainer = ({data, title, showMore, addNew, Duplicate, Delete
                             title={element.title}
                             date={element.date}
                             views={element.views}
+                            endDate={hours}
                             entries={NumbersConverter(element.numOfParticipation)}
                             description={element.description}
-                            timeLeft={TimeLeft(element.endDate ? element.endDate.trim().replace(" ", "T") : "", element.endTime)}
+                            timeLeft={TimeLeft(element.endDate && typeof(element.endDate) === "string" ? element.endDate.trim().replace(" ", "T") : "", element.endTime)}
                             id={element.idContest ? element.idContest : undefined}
                             userId={userId}
                             status={typeof(element.status) === "string" ? element.status : "Draft"}
@@ -40,22 +84,11 @@ export const CardsContainer = ({data, title, showMore, addNew, Duplicate, Delete
                             Duplicate={Duplicate && {}.toString.call(Duplicate) === '[object Function]' ? (id)=> {Duplicate(id,  element)} : () => false}
                             Delete={(id)=> Delete(id)}
                             isBrand={isBrand}
+                            onMouseLeave={()=> onMouseLeave()}
+                            onMouseOver={(element)=> onMouseOver(element)}
                         />                    
                     )
-                }): <EmptyList isLoading={isLoading} /> /*test.slice(0,3).map((element, index)=>{
-                    if(typeof(element) !== "object") return null
-                    return(
-                        <CardComponent 
-                            title={element.title}
-                            date={element.duration.value}
-                            dateType={element.duration.type}
-                            views={element.views}
-                            description={element.description}
-                            entries={element.entries}
-                            id={`card${index}`}
-                        />                    
-                    )
-                })*/}
+                }): <EmptyList isLoading={isLoading} /> }
             </div>
         </div>
     )
