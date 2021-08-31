@@ -35,20 +35,16 @@ public class ContestController {
     }
     //Get All Contests
     @GetMapping("/all")
-    public List<? extends Object> getContestsByUser() throws ResourceNotFoundException {
+    public List<? extends Object> getContestsOrParticipationsByUser() throws ResourceNotFoundException {
         Long userId=null;
         SecurityUser principal;
 
         // load the principal (authenticated user) if he exist
-        try {
             principal= (SecurityUser) SecurityContextHolder
                     .getContext().getAuthentication().getPrincipal();
             //get the user id from security context
             userId=principal.getId();
 
-        }catch (Exception e){
-            System.out.println("do nothing");
-        }
         List<ContestDto> contests = contestService.getAllContestsByUser(userId);
         List<ParticipationDto> participations = participationService.getParticipationsByUser(userId);
 
@@ -56,20 +52,6 @@ public class ContestController {
         if (! contests.isEmpty())
             return contests;
         else if (! participations.isEmpty()) {
-            /*HashMap<Long, ArrayList<Set<Participation>>> filtredParticipation = new HashMap<Long, ArrayList<Set<Participation>>>();
-            for (int i = 0; i < participations.size(); i++) {
-                Long index = participations.get(i).getContest().getIdContest();
-                if (!filtredParticipation.containsKey(index)) {
-                    filtredParticipation.put(index, new ArrayList<Set<Participation>>>());
-                }
-                filtredParticipation.get(index).add(participations.get(i).getParticipationActions());
-            }
-            Iterator it = filtredParticipation.entrySet().iterator();
-            while (it.hasNext()) {
-                Map.Entry pair = (Map.Entry)it.next();
-                System.out.println(pair.getKey() + " = " + pair.getValue());
-                it.remove(); // avoids a ConcurrentModificationException
-            }*/
             return participations;
         }
         else throw new ResourceNotFoundException("No contests exist with USER ID : " +userId);
