@@ -1,7 +1,10 @@
 import React from 'react';
 import {Link} from 'react-router-dom'
+import { useTranslation } from "react-i18next";
 
-class Navbar extends React.Component {
+const Navbar =()=> {
+    const { t } = useTranslation();
+
     scroll = (id)=>{
         var element = document.getElementById(id)
         if(element !== null && element !== undefined && typeof(element) === "object"){
@@ -30,7 +33,6 @@ class Navbar extends React.Component {
             }
         })
     }
-  render() {
   	return (
         <nav id="navbar" className="navbar pr-6 pt-4 pl-6 is-dark  pb-4" role="navigation" aria-label="main navigation">
             <div className="navbar-brand ">
@@ -47,26 +49,26 @@ class Navbar extends React.Component {
 
             <div id="navbarBasicExample" className="navbar-menu ">
                 <div id="navbar-items" className="navbar-start is-flex is-justify-content-center">
-                    <Link onClick={()=> this.scroll("home")} className="navbar-item" to="/landing-page">Home</Link >
-                    <Link onClick={()=> this.scroll("services")} className="navbar-item" to="#services">Services</Link >
-                    <Link onClick={()=> this.scroll("features")} className="navbar-item" to="#features">Features</Link >
-                    <Link onClick={()=> this.scroll("pricing")} className="navbar-item" to="#pricing"> Pricing</Link >
-                    <Link onClick={()=> this.scroll("testimonials")} className="navbar-item" to="#testimonials">Testimonials</Link >
-                    <Link onClick={()=> this.scroll("contact")} className="navbar-item" to="#contact"> Contact</Link >
+                    <Link onClick={()=> this.scroll("home")} className="navbar-item" to="/landing-page">{t("home")}</Link >
+                    <Link onClick={()=> this.scroll("services")} className="navbar-item" to="#services">{t("services")}</Link >
+                    <Link onClick={()=> this.scroll("features")} className="navbar-item" to="#features">{t("features")}</Link >
+                    <Link onClick={()=> this.scroll("pricing")} className="navbar-item" to="#pricing"> {t("pricing")}</Link >
+                    <Link onClick={()=> this.scroll("testimonials")} className="navbar-item" to="#testimonials">{t("testimonials")}</Link >
+                    <Link onClick={()=> this.scroll("contact")} className="navbar-item" to="#contact"> {t("contact")}</Link >
                 </div>
             </div>
 
             <div className="navbar-end">
                 <div className="navbar-item ">
                     <div className="buttons ">
-                        <Link id="login" to="/login" style={{color: "white"}} className="mr-3 is-outlined center-cta">Login</Link>
-                        <Link to="/signup" className="btn btn-primary center-cta">Sign Up <i className="mdi mdi-arrow-right"></i></Link>
+                        <Link id="login" to="/login" style={{color: "white"}} className="mr-3 is-outlined center-cta">{t("login")}</Link>
+                        <Link to="/signup" className="btn btn-primary center-cta">{t("signup")} <i className="mdi mdi-arrow-right"></i></Link>
                     </div>
                 </div>
             </div>
         </nav>
   	);
-  }
+  
 }
 
 export default Navbar;
