@@ -446,9 +446,10 @@ export const PublishContest = async (dispatch, data = {information: {}, actions:
             var store = {}
             Object.keys(data.information).map((key)=>{
                 if(key !== "idContest"){
-                    store[key] = data.information.key
+                    store[key] = data.information[key]
                 }
             })
+            console.log(store)
             return axios.put(`${BACKEND_API}/api/contests/draft/publish/${data.information.idContest}`, {
                 ...store,
             }, config)
@@ -474,7 +475,6 @@ export const PublishContest = async (dispatch, data = {information: {}, actions:
                 dispatch({type: ContestTypes.PUBLISH_SUCCESS, payload: `${FRONTEND_API}/contest/${data.information.title}/${response.data}`})
                 return response.data
             }).catch(err => {
-                console.log(err.response)
                 dispatch({type: ContestTypes.PUBLISH_FAIL})
                 return false
             }).then(value =>{
