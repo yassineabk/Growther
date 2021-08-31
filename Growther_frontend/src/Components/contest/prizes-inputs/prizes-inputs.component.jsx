@@ -1,6 +1,6 @@
 import React from "react"
 import { ContestInput } from "../contest-input/contest-input.component";
-export const PrizesInputs = ({dispatch, num, prizesHandler, label, data, validData})=>{
+export const PrizesInputs = ({dispatch, num, prizesHandler, label, data, validData, placeholder})=>{
     var result = []
     for(var i = 0; i < num; i++){
         const j = i
@@ -10,7 +10,7 @@ export const PrizesInputs = ({dispatch, num, prizesHandler, label, data, validDa
                 id={"prize"+i}
                 name={"prize"+i}
                 validData={validData && Array.isArray(validData) && typeof(validData[j]) === "object"  ? {isValid: validData[j].description, message: "Please, Enter a valid Prize"} : undefined}
-                placeholder={"Prize " + parseInt(i+1)}
+                placeholder={`${placeholder} ${parseInt(i+1)}`}
                 changeHandler={(event)=> {
                     prizesHandler(event, j)
                 }}

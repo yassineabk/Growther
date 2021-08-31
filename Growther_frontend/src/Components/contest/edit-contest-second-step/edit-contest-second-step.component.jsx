@@ -7,6 +7,7 @@ import { SetStateToEdit } from "../../../redux/contest-edit/contest-edit-actions
 import { Spinner } from "../../spinner/spinner.component";
 import { MakeResultState } from "../../../services/result";
 import { TableData } from "./table-data.component";
+import { useTranslation } from "react-i18next";
 const EditContestSecondStep = ()=>{
     var { information, isLoading } = useSelector(state => state.contest_edit)
     var { isBrand } = useSelector(state => state.userInfos)
@@ -41,6 +42,7 @@ const EditContestSecondStep = ()=>{
             setTableHead(res.tableHead)
         })
     }, [dispatch])
+    var {t} = useTranslation()
     if(isBrand !== "true") return <Redirect to="/" />
     return(
         [
@@ -50,7 +52,7 @@ const EditContestSecondStep = ()=>{
                     <span className="list-title">Participants</span>
                     <div className="is-flex is-flex-direction-row is-align-items-center">
                         <div className="addNew">
-                            <CSVLink {...MakeCSVFile()}>Export as csv</CSVLink>
+                            <CSVLink {...MakeCSVFile()}>{t("export_csv")}</CSVLink>
                         </div>
                         <div id="addNewButton" className="arrow-button-container is-flex is-justify-content-flex-end">
                             <div className="arrow-button">

@@ -1,4 +1,5 @@
 import React from "react"
+import { useTranslation } from "react-i18next"
 import { actions } from "../../../services/actions"
 import { ContestInput } from "../contest-input/contest-input.component"
 import { SelectInput } from "../select-input/select-input.component"
@@ -14,6 +15,7 @@ export const ContestAction = ({data, removeAction, updateAction, validAction})=>
         })
         return result
     }
+    var {t} = useTranslation()
     if(typeof(data) !== "object") return null
     return(
         <div className="contestAction is-flex is-flex-direction-row">
@@ -32,10 +34,10 @@ export const ContestAction = ({data, removeAction, updateAction, validAction})=>
                     type={"url"}
                     id="actionUrl"
                     name="actionUrl"
-                    placeholder={TextActions.includes(data.type.toLowerCase()) ? "Describe your Action" : "Action Link"}
+                    placeholder={TextActions.includes(data.type.toLowerCase()) ? t("action_description") : t("action_url")}
                     changeHandler={(event)=> updateAction(data.provider, "url", event.target.value)}
                     value={typeof(data) === "object" && typeof(data.url) === "string" ? data.url : ""}
-                    validData={typeof(validAction) === "object" ? {isValid: validAction.url, message: "Please, Enter a valid link"} : false}
+                    validData={typeof(validAction) === "object" ? {isValid: validAction.url, message: t("invalid_link")} : false}
                 />
             </div>
             <div className="actionPoints">
@@ -51,7 +53,7 @@ export const ContestAction = ({data, removeAction, updateAction, validAction})=>
                     validData={typeof(validAction) === "object" ? 
                         {
                             isValid: validAction.points, 
-                            message:"Please, Enter a number between 1 and 5"
+                            message:t("invalid_points")
                         } : false}
                 />
             </div>

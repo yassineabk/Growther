@@ -1,5 +1,7 @@
 import React from "react"
+import { useTranslation } from "react-i18next"
 export const AlertComponent = ({alerts})=>{
+    var {t} = useTranslation()
     if(!alerts || alerts === null || !Array.isArray(alerts) || (Array.isArray(alerts) && alerts.length === 0)) return null
     return(
         <div id="alerts-container" className="is-flex is-flex-direction-column">
@@ -9,14 +11,14 @@ export const AlertComponent = ({alerts})=>{
                         if(item.isSuccess){
                             return(
                                 <div key={`alert-${index}}`} id="alert-success" className="alert is-flex">
-                                    <span>{item.message}</span>
+                                    <span>{t(item.message)}</span>
                                 </div>
                             )
                         }
                         if(item.isFail){
                             return(
                                 <div key={`alert-${index}}`} id="alert-fail" className="alert">
-                                    <span>{item.message}</span>
+                                    <span>{t(item.message)}</span>
                                 </div>
                             )
                         }

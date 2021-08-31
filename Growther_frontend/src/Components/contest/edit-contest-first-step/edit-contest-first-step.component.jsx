@@ -1,5 +1,6 @@
 import { decode } from "jsonwebtoken"
 import React, { useEffect, useState } from "react"
+import { useTranslation } from "react-i18next"
 import { useDispatch, useSelector } from "react-redux"
 import { Redirect, useHistory, useLocation, useParams } from "react-router-dom"
 import { CheckEdits, Edit, EditDuration, EditState, SetStateToEdit, SetStateToEditFromLocation } from "../../../redux/contest-edit/contest-edit-actions"
@@ -161,6 +162,7 @@ const EditContestFirstStep = ()=>{
         }
         return changeHandler(event)
     }
+    var {t} = useTranslation()
     if(isBrand !== "true") return <Redirect to="/" />
     if(typeof(information) !== "object") return <Redirect to={"/dashboard"} />
     if(information.status !== null && typeof(information.status) === "string" && information.status.toLowerCase() === "done") return <Redirect to={`/dashboard/My%20Contests/result/${information.idContest}`} />
@@ -178,27 +180,27 @@ const EditContestFirstStep = ()=>{
                         <ContestInput 
                             id="title"
                             name="title"
-                            placeholder="Your title here"
-                            label="Contest Title"
+                            placeholder={t("title_placeholder")}
+                            label={t("contest_title")}
                             changeHandler={(event)=> changeHandler(event)}
                             value={information ? information.title : ""}
                             validData={isValidData === false ? 
                                 {
                                     isValid: validData.title,
-                                    message: "Please, Enter the title of your contest"
+                                    message: t("invalid_title")
                                 } : undefined}
                         />
                         <ContestDescription 
                             id="description"
                             name="description"
-                            placeholder="Description Here"
-                            label="Desctiption"
+                            placeholder={t("description_placeholder")}
+                            label={t("description")}
                             changeHandler={(event)=> changeHandler(event)}
                             value={information ? information.description : ""}
                             validData={isValidData === false ? 
                                 {
                                     isValid: validData.description,
-                                    message: "Please, Describe your contest in few lines"
+                                    message: t("invalid_description")
                                 } : undefined}
                         />
                     </div>
@@ -208,13 +210,13 @@ const EditContestFirstStep = ()=>{
                             id="endDate"
                             name="endDate"
                             placeholder="dd-mm-yyyy"
-                            label="End date"
+                            label={t("end_date")}
                             changeHandler={(event)=> dateHandler(event)}
                             value={typeof(information.endDate) === "string" ? information.endDate.trim().replace(" ", "T").split("T")[0] : ""}
                             validData={isValidData === false ? 
                                 {
                                     isValid: validData.endDate,
-                                    message: "Please, Pick a valid date"
+                                    message: t("invalid_date")
                                 } : undefined
                             }
                         />
@@ -229,7 +231,7 @@ const EditContestFirstStep = ()=>{
                             validData={isValidData === false ? 
                                 {
                                     isValid: validData.endTime,
-                                    message: "Please, Pick a valid date"
+                                    message: t("invalid_time")
                                 } : undefined
                             }
                         />
@@ -240,14 +242,14 @@ const EditContestFirstStep = ()=>{
                         color={"#5E2691"} 
                         bgColor={"#FFFFFF"}
                         borderColor={"#5E2691"}
-                        text={"Cancel"} 
+                        text={t("cancel")} 
                         clickEvent={()=> history.goBack()}
                     />
                     <ContestButton 
                         color={"#FFFFFF"}
                         bgColor={"#5E2691"} 
                         borderColor={"#5E2691"}
-                        text={"Edit"} 
+                        text={t("edit")} 
                         clickEvent={()=> checkEdits()}
                     />
                 </div>

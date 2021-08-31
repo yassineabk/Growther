@@ -53,7 +53,6 @@ const Contest = ()=>{
             })
         }else{
             SetData(dispatch, params.title, params.description, params.id).then(data =>{
-                console.log(data)
                 if(data){
                     setActiveElement(data)
                     var realSeconds = (new Date(data && typeof(data) === "object" && data !== null && data.endDate && typeof(data.endDate) === "string" ? data.endDate.trim().replace(" ", "T") : "") - new Date())
@@ -69,10 +68,14 @@ const Contest = ()=>{
                     seconds = ("0" + parseInt(seconds % 60)).slice(-2)
                     var value = `${hours}:${minutes}:${seconds}`
                     setHours(`${value}`)
+                    
                 }else{
                     setHours("00:00:00")
                 }
             })
+        }
+        window.onpopstate = ()=>{
+            onMouseLeave()
         }
     }, [dispatch, userId, location])
     var changeHandler = (event, provider)=>{
@@ -196,7 +199,7 @@ const Contest = ()=>{
                     DoAction={(index, element)=> DoAction(index, element)}
                     DoBonus={(index, element) => DoBonus(index, element)}
                     showLoginForm={showLoginForm && {}.toString.call(showLoginForm) === '[object Function]' ? (value)=> showLoginForm(value) : ()=> false}
-                    onMouseLeave={()=> onMouseLeave()}
+                    //onMouseLeave={()=> onMouseLeave()}
                     onMouseOver={(element)=> onMouseOver(element)}
                 /> 
             : null}

@@ -41,9 +41,9 @@ export const GetContests = async (dispatch)=>{
             return false
         }).then(value =>{
             if(value){
-                SuccessAlert(dispatch, "Get Contests Successfuly")
+                SuccessAlert(dispatch, "get_contests_successfuly")
             }else{
-                FailAlert(dispatch, "Get Contests Failure")
+                FailAlert(dispatch, "get_contests_failure")
             }
             return value
         })
@@ -56,7 +56,7 @@ export const AppendDraft = (dispatch, data, idContest, userId) =>{
             dispatch({type: CONTESTS_TYPES.GET_CONTESTS_FAIL})
         }
     }catch{
-        FailAlert(dispatch, "Something Went Wrong")
+        FailAlert(dispatch, "something_went_wrong")
         dispatch({type: CONTESTS_TYPES.GET_CONTESTS_FAIL})
     }
 }
@@ -64,7 +64,7 @@ export const AppendContest = (dispatch, data)=>{
     try{
         dispatch({type: CONTESTS_TYPES.APPEND_NEW_CONTEST, payload: data})
     }catch{
-        FailAlert(dispatch, "Something Went Wrong")
+        FailAlert(dispatch, "something_went_wrong")
         dispatch({type: CONTESTS_TYPES.GET_CONTESTS_FAIL})
     }
 }
@@ -72,7 +72,7 @@ export const AppendEditedContest = (dispatch, id, data)=>{
     try{
         dispatch({type: CONTESTS_TYPES.APPEND_EDITED_CONTEST, payload: {id, data}})
     }catch{
-        FailAlert(dispatch, "Something Went Wrong")
+        FailAlert(dispatch, "something_went_wrong")
         dispatch({type: CONTESTS_TYPES.GET_CONTESTS_FAIL})
     }
 }
@@ -80,7 +80,7 @@ export const AppendEditedDraft = (dispatch, id, data)=>{
     try{
         dispatch({type: CONTESTS_TYPES.APPEND_EDITED_DRAFT, payload: {id, data}})
     }catch{
-        FailAlert(dispatch, "Something Went Wrong")
+        FailAlert(dispatch, "something_went_wrong")
         dispatch({type: CONTESTS_TYPES.GET_CONTESTS_FAIL})
     }
 }
@@ -88,7 +88,7 @@ export const AppendActionDone = (dispatch, contestId, actionId, action)=>{
     try{
         dispatch({type: CONTESTS_TYPES.APPEND_DONE_ACTION, payload: {id: contestId, actionId, action}})
     }catch{
-        FailAlert(dispatch, "Something Went Wrong")
+        FailAlert(dispatch, "something_went_wrong")
         dispatch({type: CONTESTS_TYPES.GET_CONTESTS_FAIL})
     }
 }
@@ -111,9 +111,9 @@ export const DeleteDraft = (dispatch, id) =>{
             return false
         }).then(value =>{
             if(value){
-                SuccessAlert(dispatch, "Deleted Successfuly")
+                SuccessAlert(dispatch, "deleted_successfuly")
             }else{
-                FailAlert(dispatch, "Deletion Failure")
+                FailAlert(dispatch, "deletion_failure")
             }
             return value
         })
