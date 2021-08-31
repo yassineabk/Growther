@@ -68,6 +68,10 @@ textarea.form-control {
     &[dir=rtl]{
         input, textarea{
             font-family: Tajawal-Medium !important;
+            &:not([type=submit]){
+                padding-left: 0;
+                padding-right: 20px;
+            }
         }
     }
 }
