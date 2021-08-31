@@ -43,23 +43,36 @@
       justify-content: space-evenly;
       align-items: center;
       font-family: Poppins-Medium;
+      &[dir=rtl]{
+        border-radius: 0 20px 20px 0 !important;
+        font-family: Tajawal-Medium;
+      }
       @media only screen and (max-width: 1420px) {
         flex-direction: row !important;
         justify-content: center !important;
         align-items: center !important;
         border-radius: 20px 20px 0px 0px !important;
+        &[dir=rtl]{
+          border-radius: 20px 20px 0 0 !important;
+        }
       }
       @media only screen and (max-width: 1195px) {
         flex-direction: column !important;
         justify-content: space-evenly !important;
         align-items: center !important;
         border-radius: 20px 0 0 20px !important;
+        &[dir=rtl]{
+          border-radius: 0 20px 20px 0 !important;
+        }
       }
       @media only screen and (max-width: 375px) {
         flex-direction: row !important;
         justify-content: center !important;
         align-items: center !important;
         border-radius: 20px 20px 0px 0px !important;
+        &[dir=rtl]{
+          border-radius: 20px 20px 0 0 !important;
+        }
       }
       > div{
         width: 100%;
@@ -138,6 +151,9 @@
           font-size: 13px;
           color: $container-border;
           font-family: Poppins-Medium;
+          &[dir=rtl]{
+            font-family: Tajawal-Regular;
+          }
         }
       }
       .card-buttons{
@@ -160,11 +176,21 @@
           background-color: $button-color2;
           color: $button-text1;
           margin-right: 2.5px;
+          margin-left: 0px;
+          &[dir=rtl]{
+            margin-right: 0px;
+            margin-left: 2.5px;
+          }
         }
         .duplicate-button{
           background-color: $button-color1;
           color: $button-text2;
           margin-left: 2.5px;
+          margin-right: 0px;
+          &[dir=rtl]{
+            margin-left: 0px;
+            margin-right: 2.5px;
+          }
         }
       }
     }
@@ -215,6 +241,10 @@
     justify-content: space-evenly;
     align-items: center;
     font-family: Poppins-Medium;
+    &[dir=rtl]{
+      border-radius: 0 20px 20px 0 !important;
+      font-family: Tajawal-Medium;
+    }
     @media only screen and (max-width: 451px) {
       flex-direction: row !important;
       justify-content: center;
@@ -301,6 +331,9 @@
         -webkit-hyphens: auto;
         -moz-hyphens: auto;
         hyphens: auto;
+        &[dir=rtl]{
+          font-family: Tajawal-Regular;
+        }
       }
     }
     .previewActions{

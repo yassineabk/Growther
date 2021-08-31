@@ -10,7 +10,7 @@ import { TableData } from "./table-data.component";
 import { useTranslation } from "react-i18next";
 const EditContestSecondStep = ()=>{
     var { information, isLoading } = useSelector(state => state.contest_edit)
-    var { isBrand } = useSelector(state => state.userInfos)
+    var { isBrand, direction } = useSelector(state => state.userInfos)
     var [data, setData] = useState([])
     var [tableHead, setTableHead] = useState([])
     var params = useParams()
@@ -47,9 +47,9 @@ const EditContestSecondStep = ()=>{
     return(
         [
             <Spinner show={isLoading} />,
-            <div className="is-flex is-flex-direction-column bottomContainer tableContainer">
+            <div dir={direction ? direction : "ltr"} className="is-flex is-flex-direction-column bottomContainer tableContainer contest-result">
                 <div className="list-title-container is-flex is-flex-direction-row is-justify-content-space-between is-align-items-center">
-                    <span className="list-title">Participants</span>
+                    <span className="list-title">{t("participants")}</span>
                     <div className="is-flex is-flex-direction-row is-align-items-center">
                         <div className="addNew">
                             <CSVLink {...MakeCSVFile()}>{t("export_csv")}</CSVLink>

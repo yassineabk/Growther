@@ -14,7 +14,7 @@ const ContestSecondStep = ()=>{
     var {information, isValidData, validActions, isLoading} = useSelector(state => state.contest)
     var location = useLocation()
     var history = useHistory()
-    var { isBrand } = useSelector(state => state.userInfos)
+    var { isBrand, direction } = useSelector(state => state.userInfos)
     var [userId, setId] = useState("")
     useEffect(()=>{
         var token = decode(localStorage.getItem("accessToken"))
@@ -74,7 +74,7 @@ const ContestSecondStep = ()=>{
                     title={"List of actions"}
                 />
             </div>
-            <div className="contestButtons is-flex is-flex-direction-row is-justify-content-flex-end">
+            <div dir={direction ? direction : "ltr"} className={`contestButtons is-flex is-justify-content-flex-end ${direction === "rtl" ? "is-flex-direction-row-reverse" : "is-flex-direction-row"}`}>
                 <ContestButton 
                     color={"#5E2691"} 
                     bgColor={"#FFFFFF"}

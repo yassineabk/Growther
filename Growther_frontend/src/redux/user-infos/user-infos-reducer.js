@@ -13,7 +13,8 @@ const INITIAL_STATE={
     url: '',
     activities: '',
     authProvider: '',
-    isLoading: false
+    isLoading: false,
+    direction: localStorage.getItem("i18nextLng") === "ar" ? "rtl" : "ltr"
 }
 
 export const UserInfosReducer=(state=INITIAL_STATE,action)=>{
@@ -21,7 +22,8 @@ export const UserInfosReducer=(state=INITIAL_STATE,action)=>{
         case UserInfosTypes.SET_USER_INFOS:
             return {
                 ...action.payload,
-                isLoading: false
+                isLoading: false,
+                direction: state.direction
             }
         case UserInfosTypes.IS_LOADING_USER_INFOS:
             return {
@@ -37,7 +39,12 @@ export const UserInfosReducer=(state=INITIAL_STATE,action)=>{
         case UserInfosTypes.SET_USER_INFOS_FAIL:
             return {
                 ...INITIAL_STATE,
-                isLoading: false
+                isLoading: false,
+            }
+        case UserInfosTypes.SET_DIRECTION:
+            return {
+                ...state,
+                direction: action.payload
             }
         case loginType.LOGOUT:
         case RESET_ALL_TYPE.RESET_ALL:

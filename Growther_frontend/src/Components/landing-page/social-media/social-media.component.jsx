@@ -1,8 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from "react-i18next";
 
-class SocialMedia extends React.Component {
-  render() {
+const SocialMedia =()=> {
+    const { t } = useTranslation();
+
   	return (
         <section className="cta bg-light">
             <div className="container">
@@ -26,5 +28,5 @@ class SocialMedia extends React.Component {
         </section>
   	);
   }
-}
+
 export default SocialMedia;
