@@ -11,10 +11,10 @@ export const AlertComponent = ({alerts})=>{
         <div id="alerts-container" className="is-flex is-flex-direction-column">
             {alerts.map((item, index) =>{
                 if(item && item !== null && typeof(item) === "object"){
-                    if(item.message && item.show){
-                        if(item.isSuccess){
+                    if(item.message){
+                        if(item.isSuccess && item.show){
                             return(
-                                <div dir={direction ? direction : "ltr"} key={`alert-${index}}`} id="alert-success" className="alert is-flex">
+                                <div dir={direction ? direction : "ltr"} key={`alert-${index}}`} id="alert-success" className={`alert is-flex ${direction === "rtl" ? "is-flex-direction-row" : "is-flex-direction-row-reverse"}`}>
                                     <span onClick={()=> HideAlert(dispatch, item.timeout)} dir={direction ? direction : "ltr"} className={"closeAlert"}>
                                         <img src={require("../../assets/icons/close2.png").default}/>
                                     </span>
@@ -24,7 +24,7 @@ export const AlertComponent = ({alerts})=>{
                         }
                         if(item.isFail){
                             return(
-                                <div dir={direction ? direction : "ltr"} key={`alert-${index}}`} id="alert-fail" className="alert is-flex">
+                                <div dir={direction ? direction : "ltr"} key={`alert-${index}}`} id="alert-fail" className={`alert is-flex ${direction === "rtl" ? "is-flex-direction-row" : "is-flex-direction-row-reverse"}`}>
                                     <span onClick={()=> HideAlert(dispatch, item.timeout)} dir={direction ? direction : "ltr"} className={"closeAlert"}>
                                         <img src={require("../../assets/icons/close2.png").default}/>
                                     </span>
