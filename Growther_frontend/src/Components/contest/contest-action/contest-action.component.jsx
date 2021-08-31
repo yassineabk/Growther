@@ -1,5 +1,6 @@
 import React from "react"
 import { useTranslation } from "react-i18next"
+import { useSelector } from "react-redux"
 import { actions } from "../../../services/actions"
 import { ContestInput } from "../contest-input/contest-input.component"
 import { SelectInput } from "../select-input/select-input.component"
@@ -16,10 +17,11 @@ export const ContestAction = ({data, removeAction, updateAction, validAction})=>
         return result
     }
     var {t} = useTranslation()
+    var {direction} = useSelector(state => state.userInfos)
     if(typeof(data) !== "object") return null
     return(
         <div className="contestAction is-flex is-flex-direction-row">
-            <div className="actionTitle">{data.provider}</div>
+            <div className="actionTitle">{t(data.provider.toLowerCase())}</div>
             <div className="actionSelect">
                 <SelectInput 
                     data={
@@ -57,8 +59,12 @@ export const ContestAction = ({data, removeAction, updateAction, validAction})=>
                         } : false}
                 />
             </div>
-            <div className="removeAction">
-                <img alt="" onClick={()=> removeAction(data.provider)} src={require("../../../assets/icons/close.png").default} />
+            <div dir={direction ? direction : "ltr"} className="removeAction">
+                <img 
+                    alt="" 
+                    onClick={()=> removeAction(data.provider)} 
+                    src={require("../../../assets/icons/close.png").default} 
+                />
             </div>
         </div>
     )

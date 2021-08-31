@@ -11,7 +11,7 @@ import { ContestInput } from "../contest-input/contest-input.component"
 import { PreviewContainer } from "../preview-container/preview-container.component"
 const EditContestFirstStep = ()=>{
     var { information, isValidData, validData, isLoading } = useSelector(state => state.contest_edit)
-    var { isBrand } = useSelector(state => state.userInfos)
+    var { isBrand, direction } = useSelector(state => state.userInfos)
     var dispatch = useDispatch()
     var location = useLocation()
     var params = useParams()
@@ -237,7 +237,7 @@ const EditContestFirstStep = ()=>{
                         />
                     </div>
                 </div>
-                <div className="contestButtons is-flex is-flex-direction-row is-justify-content-flex-end">
+                <div dir={direction ? direction : "ltr"} className={`contestButtons is-flex is-justify-content-flex-end ${direction === "rtl" ? "is-flex-direction-row-reverse" : "is-flex-direction-row"}`}>
                     <ContestButton 
                         color={"#5E2691"} 
                         bgColor={"#FFFFFF"}

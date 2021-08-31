@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { FailAlert } from '../../../redux/alert/alert-actions';
 import { SendEmail } from '../../../services/send-email';
 import { useTranslation } from "react-i18next";
@@ -79,59 +79,60 @@ const Contact = ()=> {
         SendEmail(dispatch, userInfos.email, userInfos.subject, userInfos.email).then(value =>{
         })
     }
+    var {direction} = useSelector(state => state.userInfos)
   	return (
-        <section className="section" id="contact">
-        <div className="container">
-            <div className="columns is-vcentered is-centered">
-                <div className="column is-8-desktop has-text-centered">
-                    <h1 className="section-title has-text-centered">{t("get_in_touch")}</h1>
-                    <div className="section-title-border margin-t-20"></div>
-                    <p className="section-subtitle pt-4 text-muted text-center font-secondary padding-t-30">{t("contact_paragraph")}</p>
+        <section dir={direction ? direction : "ltr"} className="section" id="contact">
+            <div className="container">
+                <div className="columns is-vcentered is-centered">
+                    <div className="column is-8-desktop has-text-centered">
+                        <h1 dir={direction ? direction : "ltr"} className="section-title has-text-centered">{t("get_in_touch")}</h1>
+                        <div className="section-title-border margin-t-20"></div>
+                        <p dir={direction ? direction : "ltr"} className="section-subtitle pt-4 text-muted text-center font-secondary padding-t-30">{t("contact_paragraph")}</p>
+                    </div>
+                </div>
+                <div className="columns center-contact">
+                    <div className="column is-8-desktop">
+                        <div className="form mt-4 mt-1-mobile pt-4">
+                            <div id="message"></div>
+                            <form onSubmit={(event) => event.preventDefault()} name="contact-form" id="contact-form">
+                                <div className="columns">
+                                    <div className="column is-6-desktop">
+                                        <div className="form-group mt-2 pr-2">
+                                            <input onChange={(event)=> changeHandler(event)} name="name" id="name" type="text" className="form-control" placeholder={t("your_name_placeholder")} />
+                                        </div>
+                                    </div>
+                                    <div className="column is-6-desktop">
+                                        <div className="form-group mt-2">
+                                            <input onChange={(event)=> changeHandler(event)} name="email" id="email" type="email" className="form-control" placeholder={t("email_placeholder")} />
+                                        </div>
+                                    </div>                                
+                                </div>
+                                <div className="columns">
+                                    <div className="column is-12-desktop">
+                                        <div className="form-group mt-2">
+                                            <input onChange={(event)=> changeHandler(event)} type="text" className="form-control" id="subject" placeholder={t("subject_placeholder")} />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="columns">
+                                    <div className="column is-12-desktop ">
+                                        <div className="form-group mt-2">
+                                            <textarea onChange={(event)=> changeHandler(event)} name="comments" id="comments" rows="4" className="form-control" placeholder={t("message_placeholder")}></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="columns">
+                                    <div className="column is-12-desktop has-text-centered">
+                                        <input onClick={CanSend() ? ()=> SendMessage() : ()=> FailAlert(dispatch, "Can't Send Email")} type="submit" id="submit" name="send" className="btn btn-primary" value={t("send_message")} />
+                                        <div id="simple-msg"></div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>  
+                    </div>
                 </div>
             </div>
-            <div className="columns center-contact">
-                <div className="column is-8-desktop">
-                    <div className="form mt-4 mt-1-mobile pt-4">
-                        <div id="message"></div>
-                        <form onSubmit={(event) => event.preventDefault()} name="contact-form" id="contact-form">
-                            <div className="columns">
-                                <div className="column is-6-desktop">
-                                    <div className="form-group mt-2 pr-2">
-                                        <input onChange={(event)=> changeHandler(event)} name="name" id="name" type="text" className="form-control" placeholder={t("your_name_placeholder")} />
-                                    </div>
-                                </div>
-                                <div className="column is-6-desktop">
-                                    <div className="form-group mt-2">
-                                        <input onChange={(event)=> changeHandler(event)} name="email" id="email" type="email" className="form-control" placeholder={t("email_placeholder")} />
-                                    </div>
-                                </div>                                
-                            </div>
-                            <div className="columns">
-                                <div className="column is-12-desktop">
-                                    <div className="form-group mt-2">
-                                        <input onChange={(event)=> changeHandler(event)} type="text" className="form-control" id="subject" placeholder={t("subject_placeholder")} />
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="columns">
-                                <div className="column is-12-desktop ">
-                                    <div className="form-group mt-2">
-                                        <textarea onChange={(event)=> changeHandler(event)} name="comments" id="comments" rows="4" className="form-control" placeholder={t("message_placeholder")}></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="columns">
-                                <div className="column is-12-desktop has-text-centered">
-                                    <input onClick={CanSend() ? ()=> SendMessage() : ()=> FailAlert(dispatch, "Can't Send Email")} type="submit" id="submit" name="send" className="btn btn-primary" value={t("send_message")} />
-                                    <div id="simple-msg"></div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>  
-                </div>
-            </div>
-        </div>
-    </section> 
+        </section> 
   	);
 }
 export default Contact;

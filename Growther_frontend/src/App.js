@@ -26,7 +26,7 @@ import { useDispatch, useSelector } from 'react-redux'
 //import { SupportPage } from './pages/support/support.page';
 //import { EditContestThirdStep } from './Components/contest/edit-contest-third-step/edit-contest-third-step.component';
 import { SetCurrentToken } from './redux/login/login.actions';
-import { setUserInfos } from './redux/user-infos/user-infos-actions';
+import { SetDirection, setUserInfos } from './redux/user-infos/user-infos-actions';
 import { Spinner } from './Components/spinner/spinner.component';
 import OAuth2RedirectHandler from './services/OAuth2-redirect-handler';
 import SpotifyAuthHandler from './services/Spotify-auth-handler';
@@ -73,6 +73,19 @@ const App = ()=> {
       setUserInfos(dispatch, newToken, infos, true)
     })
     setUserInfos(dispatch, token, infos, false)
+    const lang = localStorage.getItem("i18nextLng")
+    if(lang === null || lang === !undefined){
+      localStorage.setItem("i18nextLng", "en")
+      SetDirection(dispatch, "ltr")
+    }else{
+      if(lang === "ar"){
+        document.dir = "rtl"
+        SetDirection(dispatch, "rtl")
+      }else{
+        document.dir = "ltr"
+        SetDirection(dispatch, "ltr")
+      }
+    }
   }, [dispatch])
   return (
     <div className={"App"}>

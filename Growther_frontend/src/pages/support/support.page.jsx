@@ -28,6 +28,7 @@ const SupportPage = ()=>{
         message: {isValid: false, message: ""}
     })
     var [isLoading, setLoading] = useState(false)
+    var {direction} = useSelector(state => state.userInfos)
     var changeHandler = (event)=>{
         var key = event.target.id
         var value = event.target.value
@@ -89,7 +90,7 @@ const SupportPage = ()=>{
     var {t} = useTranslation()
     return(
         <div className="column is-full is-flex is-flex-direction-column list-container newContest is-size-6 mb-4">
-            <div className="is-flex bottomContainer">
+            <div className={`is-flex bottomContainer ${direction ? (direction === "rtl" ? "is-flex-direction-row-reverse" : "") : ""}`}>
                 <div className="is-flex is-flex-direction-column generalInfosForm is-justify-content-center is-align-items-center">
                     <div className="generalInfos">
                         <img alt="" src={require("../../../src/assets/icons/support.png").default} />
@@ -136,7 +137,7 @@ const SupportPage = ()=>{
                             />
                         </div>
                     </div>
-                    <div className="contestButtons is-flex is-flex-direction-row is-justify-content-flex-end">
+                    <div dir={direction ? direction : "ltr"} className={`contestButtons is-flex is-justify-content-flex-end ${direction === "rtl" ? "is-flex-direction-row-reverse" : "is-flex-direction-row"}`}>
                         <ContestButton 
                             color={"#5E2691"} 
                             bgColor={"#FFFFFF"}

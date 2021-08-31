@@ -1,5 +1,6 @@
 import { decode } from "jsonwebtoken"
 import React from "react"
+import { useTranslation } from "react-i18next"
 import { ActionIcon } from "../actions-icons/actions-icons.component"
 import { ContestInput } from "../contest-input/contest-input.component"
 export const PreviewAction = ({provider, links, points, status, changeHandler, DoAction, DoBonus, done, index, isOwner, canParticipate, showLoginForm, contestDone})=>{
@@ -31,6 +32,7 @@ export const PreviewAction = ({provider, links, points, status, changeHandler, D
         }
         
     }
+    var {t} = useTranslation()
     return(
         <div key={`previewAction-${provider}-${index}`} className="is-flex is-flex-direction-row prev-action">
             {provider && typeof(provider) === "string" ? 
@@ -41,7 +43,7 @@ export const PreviewAction = ({provider, links, points, status, changeHandler, D
                 </div> : null
             }
             <ContestInput 
-                value={links} 
+                value={t(links)} 
                 placeholder={"Action"} 
                 min={1}
                 readonly={"readonly"}

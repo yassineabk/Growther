@@ -41,3 +41,6 @@ export const EditUserInfos = (dispatch, key, value)=>{
 export const setUserInfosFail = (dispatch)=>{
     dispatch({type: UserInfosTypes.SET_USER_INFOS_FAIL})
 }
+export const SetDirection = (dispatch, direction)=>{
+    dispatch({type: UserInfosTypes.SET_DIRECTION, payload: direction})
+}

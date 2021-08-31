@@ -11,7 +11,7 @@ import { NewContestTabs } from "../new-contest-tabs/new-contest-tabs.component"
 import { PreviewContainer } from "../preview-container/preview-container.component"
 const NewContest = ({child})=>{
     var { information, activePage, previewActions, isLoading, isPublished } = useSelector(state => state.contest)
-    var { isBrand } = useSelector(state => state.userInfos)
+    var { isBrand, direction } = useSelector(state => state.userInfos)
     var dispatch = useDispatch()
     var previewChangeHandler = (event, provider)=>{
         var index = parseInt(event.target.selectedIndex)
@@ -46,7 +46,7 @@ const NewContest = ({child})=>{
                     ]}
                     goBack={isPublished}
                 />
-                <div className="is-flex bottomContainer">
+                <div dir={direction ? direction : "ltr"} className={`is-flex bottomContainer ${direction ? (direction === "rtl" ? "is-flex-direction-row-reverse" : "") : ""}`}>
                     <PreviewContainer 
                         previewActions={previewActions} 
                         information={information} 

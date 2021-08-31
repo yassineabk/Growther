@@ -22,6 +22,7 @@ export const CardsContainer = ({data, title, showMore, addNew, Duplicate, Delete
         }
     }, [userId])
     var {t} = useTranslation()
+    var {direction} = useSelector(state => state.userInfos)
     var onMouseOver = (element)=>{
         setActiveElement(element)
         var realSeconds = (new Date(element && typeof(element) === "object" && element !== null && element.endDate && typeof(element.endDate) === "string" ? element.endDate.trim().replace(" ", "T") : "") - new Date())
@@ -94,8 +95,9 @@ export const CardsContainer = ({data, title, showMore, addNew, Duplicate, Delete
                             continueText={t("continue")}
                             pointsText={t("points")}
                             entriesText={t("entries")}
-                            timeText={t("timeleft")}
+                            timeText={t("time")}
                             viewsText={t("views")}
+                            direction={direction}
                         />                    
                     )
                 }): <EmptyList isLoading={isLoading} /> }

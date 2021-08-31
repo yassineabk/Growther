@@ -9,7 +9,7 @@ import { TimeLeft } from "../../../services/timeLeft";
 import { useTranslation } from "react-i18next";
 const EditContestThirdStep = ()=>{
     var {information, isLoading} = useSelector(state => state.contest_edit)
-    var { isBrand } = useSelector(state => state.userInfos)
+    var { isBrand, direction } = useSelector(state => state.userInfos)
     var { winners } = useSelector(state => state)
     var params = useParams()
     var dispatch = useDispatch()
@@ -41,17 +41,17 @@ const EditContestThirdStep = ()=>{
     return(
         [
             <Spinner show={isLoading || winners.isLoading} />,
-            <div className="is-flex is-flex-direction-column bottomContainer tableContainer">
+            <div dir={direction ? direction : "ltr"} className="is-flex is-flex-direction-column bottomContainer tableContainer contest-result">
                 <div className="list-title-container winners-container is-flex is-flex-direction-column is-align-items-center">
-                    <span className="winners-container-title">
+                    <span dir={direction ? direction : "ltr"} className="winners-container-title">
                         <h3>{t("winners")}</h3>
                     </span>
                     {information !== null && information !== undefined && typeof(information) === "object" ? 
                         [
-                            <span className="winners-container-subtitle">
+                            <span dir={direction ? direction : "ltr"} className="winners-container-subtitle">
                                 <h5>{`${t("your_contest_has_winners")} ${information.winnersNbr} ${information.winnersNbr > 1 ? t("winners") : t("winner")}`} </h5>
                             </span>,
-                            <div onClick={()=> drawWinners()} className="is-flex draw-button">
+                            <div dir={direction ? direction : "ltr"} onClick={()=> drawWinners()} className="is-flex draw-button">
                                 <span>
                                     <img alt="" src={require("../../../assets/icons/trophy3.png").default} />
                                 </span>

@@ -1,6 +1,7 @@
 import { decode } from "jsonwebtoken"
 import React, { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
+import { useSelector } from "react-redux"
 import { Redirect, useHistory } from "react-router-dom"
 import { PreviewActionsList } from "../preview-actions-list/preview-actions-list.component"
 import { PreviewPrizesList } from "../preview-prizes-list/preview-prizes-list.component"
@@ -64,10 +65,11 @@ export const PreviewCard = ({title, description, timeLeft, dateType, views, poin
         return {timeLeft: timeValue, timeType: timeType}
     }
     var {t} = useTranslation()
+    var {direction} = useSelector(state => state.userInfos)
     if(hasStarted || buttons || isPreview || userId || isPublished || error || immediately){
         return(
-            <div id="card" className="is-flex previewCard">
-                <div className="left-side is-flex is-flex-direction-column">
+            <div dir={direction ? direction : "ltr"} id="card" className={`is-flex previewCard`}>
+                <div dir={direction ? direction : "ltr"} className="left-side is-flex is-flex-direction-column">
                     <div className="card-views is-flex is-flex-direction-column">
                         {userId ? [<span className="little-title">
                             {t("views")}
@@ -95,7 +97,7 @@ export const PreviewCard = ({title, description, timeLeft, dateType, views, poin
                     </div>
                     <div className="card-date is-flex is-flex-direction-column">
                         <span className="little-title">
-                            {t("timeleft")}
+                            {t("time")}
                         </span>
                         <span 
                             onMouseLeave={onMouseLeave && {}.toString.call(onMouseLeave) === '[object Function]' ? ()=> {
@@ -108,7 +110,7 @@ export const PreviewCard = ({title, description, timeLeft, dateType, views, poin
                                 onMouseLeave(element)
                             } : ()=> false}
                             id="entries">
-                            {!isPreview ? timeleft(endDate, timeLeft, dateType).timeLeft : timeLeft } <span className="dateType">{!isPreview ? timeleft(endDate, timeLeft, dateType).timeType : dateType}</span>
+                            {!isPreview ? (timeleft(endDate, timeLeft, dateType).timeLeft === "Ended" ? t("Ended") : timeleft(endDate, timeLeft, dateType).timeLeft) : (timeLeft === "Ended" ? t("Ended") : timeLeft) } <span className="dateType">{!isPreview ? t(timeleft(endDate, timeLeft, dateType).timeType) : t(dateType)}</span>
                             {endDate && typeof(endDate) === "string" && !isPreview ? 
                                 <TimeLeftCountDown value={endDate} /> : null
                             }
@@ -135,7 +137,7 @@ export const PreviewCard = ({title, description, timeLeft, dateType, views, poin
                                 </div>
                             </div>
                         </div>
-                        <div className="card-description">
+                        <div dir={direction ? direction : "ltr"} className="card-description">
                             <p>{description ? description : ""}</p>
                         </div>
                     </div>
