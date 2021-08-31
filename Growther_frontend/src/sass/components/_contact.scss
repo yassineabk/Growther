@@ -64,4 +64,11 @@ textarea.form-control {
     color: #0dba26;
     font-size: 22px;
 }
+#contact, footer{
+    &[dir=rtl]{
+        input, textarea{
+            font-family: Tajawal-Medium !important;
+        }
+    }
+}
 
