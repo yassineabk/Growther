@@ -1,5 +1,6 @@
 import { decode } from "jsonwebtoken"
 import React, { useEffect, useState } from "react"
+import { useTranslation } from "react-i18next"
 import { useDispatch, useSelector } from "react-redux"
 import { Redirect, useHistory, useLocation } from "react-router-dom"
 import { EditDraft, InitState, NextStep, PrizesChange, RemovePrize, ResestNewContest, SaveDraft, SetDuration, SetImmediately, StateChange, WinnersNumChange } from "../../../redux/contest/contest-actions"
@@ -262,6 +263,7 @@ const ContestFirstStep = ()=>{
     var CheckBoxHandler = (event)=>{
         SetImmediately(dispatch, information.immediately)
     }
+    var {t} = useTranslation()
     if(isBrand !== "true") return <Redirect to="/" />
     if(location.pathname !== "/dashboard/My Contests/new/firstStep") return null
     return(
@@ -271,8 +273,8 @@ const ContestFirstStep = ()=>{
                     <ContestInput 
                         id="title"
                         name="title"
-                        placeholder="Your title here"
-                        label="Contest Title"
+                        placeholder={t("title_placeholder")}
+                        label={t("contest_title")}
                         changeHandler={(event)=> changeHandler(event)}
                         value={information ? information.title : ""}
                         validData={isValidData === false ? 
@@ -284,8 +286,8 @@ const ContestFirstStep = ()=>{
                     <ContestDescription 
                         id="description"
                         name="description"
-                        placeholder="Description Here"
-                        label="Description"
+                        placeholder={t("description_placeholder")}
+                        label={t("description")}
                         changeHandler={(event)=> changeHandler(event)}
                         value={information ? information.description : ""}
                         validData={isValidData === false ? 
@@ -299,7 +301,7 @@ const ContestFirstStep = ()=>{
                         id="winnersNbr"
                         name="winnersNbr"
                         placeholder="Number of winners"
-                        label="There will be"
+                        label={t("there_will_be")}
                         changeHandler={(event)=> numWinnersHandler(event)}
                         min={1}
                         max={20}
@@ -316,8 +318,8 @@ const ContestFirstStep = ()=>{
                         id="immediately"
                         name="immediately"
                         value={information.immediately}
-                        label={"Start date"}
-                        placeholder={"Start immediately"}
+                        label={t("start_date")}
+                        placeholder={t("start_immediately")}
                         changeHandler={(event)=> CheckBoxHandler(event)}
                     />
                     {information.immediately ? null : [<ContestInput 
@@ -330,7 +332,7 @@ const ContestFirstStep = ()=>{
                         validData={isValidData === false ? 
                             {
                                 isValid: validData.startDate,
-                                message: "Please, Pick a valid date"
+                                message: t("invalid_date")
                             } : undefined
                         }
                     />,
@@ -344,7 +346,7 @@ const ContestFirstStep = ()=>{
                         validData={isValidData === false ? 
                             {
                                 isValid: validData.startTime,
-                                message: "Please, Pick a valid time"
+                                message: t("invalid_time")
                             } : undefined
                         }
                     />]}
@@ -353,13 +355,13 @@ const ContestFirstStep = ()=>{
                         id="endDate"
                         name="endDate"
                         placeholder="dd-mm-yyyy"
-                        label="End date"
+                        label={t("end_date")}
                         changeHandler={(event)=> dateHandler(event)}
                         value={information ? information.endDate.split("T")[0] : ""}
                         validData={isValidData === false ? 
                             {
                                 isValid: validData.endDate,
-                                message: "Please, Pick a valid date"
+                                message: t("invalid_date")
                             } : undefined
                         }
                     />
@@ -374,46 +376,20 @@ const ContestFirstStep = ()=>{
                         validData={isValidData === false ? 
                             {
                                 isValid: validData.endTime,
-                                message: "Please, Pick a valid time"
+                                message: t("invalid_time")
                             } : undefined
                         }
                     />
-                    {/*<ContestInput 
-                        type={"number"}
-                        id="duration"
-                        name="duration"
-                        placeholder="Number of days"
-                        label="Or run contest for"
-                        changeHandler={(event)=> durationHandler(event)}
-                        child={[
-                            <SelectInput 
-                                data={["days", "weeks", "months"]} 
-                                value={typeof(information) === "object" && typeof(information.duration) === "object" && information.duration !== null ? information.duration.type : "days"}
-                                changeHandler={(event)=> durationTypeHandler(event)}
-                            />
-                        ]}
-                        min={1}
-                        value={typeof(information) === "object" && typeof(information.duration) === "object" && information.duration !== null ? information.duration.value : 1}
-                    />*/}
-                    {/*<ContestInput 
-                        type={"number"}
-                        id="maxReach"
-                        name="maxReach"
-                        placeholder="Number of participants"
-                        label="Or stop when we reach"
-                        changeHandler={(event)=> changeHandler(event)}
-                        min={20}
-                        value={typeof(information) === "object" ? information.maxReach : 20}
-                    />*/}
                 </div>
             </div>
             <div className="prizes is-flex is-flex-direction-column">
-                <label>{"Prizes"}</label>
+                <label>{t("prizes")}</label>
                 <PrizesInputs  
                     num={information ? information.winnersNbr : 1} 
                     prizesHandler={(event, id)=> prizesHandler(event, id)} 
                     validData={typeof(validData) === "object"  && Object.keys(validData).includes("prizes") ? validData.prizes : undefined}
                     data={information && typeof(information) === "object" ? information.prizes : undefined}
+                    placeholder={t("prize")}
                 />
             </div>
             <div className="contestButtons is-flex is-flex-direction-row is-justify-content-flex-end">
@@ -421,13 +397,13 @@ const ContestFirstStep = ()=>{
                     color={"#5E2691"} 
                     bgColor={"#FFFFFF"}
                     borderColor={"#5E2691"}
-                    text={information.status !== null && typeof(information.status) === "string" && information.status.toLowerCase() === "draft" ? "Edit" : "Save as draft"} 
+                    text={information.status !== null && typeof(information.status) === "string" && information.status.toLowerCase() === "draft" ? t("edit") : t("save_as_draft")} 
                     clickEvent={()=> saveDraft()}/>
                 <ContestButton 
                     color={"#FFFFFF"}
                     bgColor={"#5E2691"} 
                     borderColor={"#5E2691"}
-                    text={"Next"} 
+                    text={t("next")} 
                     clickEvent={()=> nextStep()}
                 />
             </div>

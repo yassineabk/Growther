@@ -15,10 +15,10 @@ export const DrawWinners = (dispatch, idContest)=>{
     axios.get(`${BACKEND_API}/api/contests/winners/${idContest}`, config)
         .then(response =>{
             dispatch({type: WINNERS_TYPES.GET_CONTEST_WINNERS, payload: {winners: response.data, idContest}})
-            SuccessAlert(dispatch, "Winners Picked Successfully")
+            SuccessAlert(dispatch, "winners_picked_successfully")
         }).catch(err =>{
             dispatch({type: WINNERS_TYPES.GET_CONTEST_WINNERS_FAIL})
-            FailAlert(dispatch, "Couldn't Draw Winners")
+            FailAlert(dispatch, "couldn't_draw_winners")
         })
 }
 export const ResetWinners = (dispatch)=>{

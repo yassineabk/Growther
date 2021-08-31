@@ -2,7 +2,11 @@ import React, { useState } from "react"
 import { useDispatch } from "react-redux"
 import { SetActionText } from "../../../redux/contest-card/contest-card-actions"
 import UrlSubmit from "../../contest/action-modal-container/action-submit-url.component"
+import { useTranslation } from "react-i18next";
+
 export const SubscribeToNewsLetter = ({valid_url_check, id, index})=>{
+    const { t } = useTranslation();
+
     var [nameMessage, setNameMessage] = useState("")
     var [emailMessage, setEmailMessage] = useState("")
     var [name, setName] = useState("")
@@ -53,15 +57,15 @@ export const SubscribeToNewsLetter = ({valid_url_check, id, index})=>{
         <div id={"actionQuestion"} className={"is-flex is-flex-direction-column"}>
             <UrlSubmit 
                 handleChange={(event)=> nameHandler(event)}
-                label={"Your Name:"}
-                placeholder={"Enter you Name"}
+                label={t("your_name")}
+                placeholder={t("your_name_placeholder")}
                 isError={nameMessage.length === 0 ? true : false}
                 message={nameMessage}
             />
             <UrlSubmit
                 handleChange={(event)=> emailHandler(event)}
-                label={"Your Email:"}
-                placeholder={"Enter you Email"}
+                label={t("email")}
+                placeholder={t("email_placeholder")}
                 isError={emailMessage.length === 0 ? true : false}
                 message={emailMessage}
             />

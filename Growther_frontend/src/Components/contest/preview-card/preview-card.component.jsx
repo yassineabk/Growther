@@ -1,5 +1,6 @@
 import { decode } from "jsonwebtoken"
 import React, { useEffect, useState } from "react"
+import { useTranslation } from "react-i18next"
 import { Redirect, useHistory } from "react-router-dom"
 import { PreviewActionsList } from "../preview-actions-list/preview-actions-list.component"
 import { PreviewPrizesList } from "../preview-prizes-list/preview-prizes-list.component"
@@ -60,22 +61,23 @@ export const PreviewCard = ({title, description, timeLeft, dateType, views, poin
                 }
             }
         }
-        return {timeLeft: timeValue, timeType}
+        return {timeLeft: timeValue, timeType: timeType}
     }
+    var {t} = useTranslation()
     if(hasStarted || buttons || isPreview || userId || isPublished || error || immediately){
         return(
             <div id="card" className="is-flex previewCard">
                 <div className="left-side is-flex is-flex-direction-column">
                     <div className="card-views is-flex is-flex-direction-column">
                         {userId ? [<span className="little-title">
-                            Total views
+                            {t("views")}
                         </span>, 
                         <span>
                             {views !== undefined && views !== null && typeof(parseInt(views)) === "number" ? views : 0}
                         </span>,
                         ]
                         : [<span className="little-title">
-                            Your Points
+                            {t("points")}
                         </span>,
                         <span >
                             {points !== undefined && points !== null && typeof(points) === "number" ? points : ""}
@@ -83,7 +85,7 @@ export const PreviewCard = ({title, description, timeLeft, dateType, views, poin
                     </div>
                     <div className="card-entries is-flex is-flex-direction-column">
                         <span className="little-title">
-                            Total entries
+                            {t("entries")}
                         </span>
                         <span id="entries">
                             {entries && entries !== null && typeof(entries) === "object" && entries.value !== null && typeof(entries.value) === "string" ? entries.value : "0"} 
@@ -93,7 +95,7 @@ export const PreviewCard = ({title, description, timeLeft, dateType, views, poin
                     </div>
                     <div className="card-date is-flex is-flex-direction-column">
                         <span className="little-title">
-                            Time left
+                            {t("timeleft")}
                         </span>
                         <span 
                             onMouseLeave={onMouseLeave && {}.toString.call(onMouseLeave) === '[object Function]' ? ()=> {
@@ -106,8 +108,8 @@ export const PreviewCard = ({title, description, timeLeft, dateType, views, poin
                                 onMouseLeave(element)
                             } : ()=> false}
                             id="entries">
-                            {timeLeft && dateType ? timeleft(endDate, timeLeft, dateType).timeLeft : (isPreview ? timeLeft : "") } <span className="dateType">{timeLeft && dateType ? timeleft(endDate, timeLeft, dateType).timeType : (isPreview ? dateType : "")}</span>
-                            {endDate && typeof(endDate) && !isPreview === "string" ? 
+                            {!isPreview ? timeleft(endDate, timeLeft, dateType).timeLeft : timeLeft } <span className="dateType">{!isPreview ? timeleft(endDate, timeLeft, dateType).timeType : dateType}</span>
+                            {endDate && typeof(endDate) === "string" && !isPreview ? 
                                 <TimeLeftCountDown value={endDate} /> : null
                             }
                         </span>
@@ -153,7 +155,7 @@ export const PreviewCard = ({title, description, timeLeft, dateType, views, poin
                 </div>
                 <div className="is-flex is-flex-column is-align-items-center back previewPrizes">
                     <div onClick={()=> hoverCard()} className="prizesTitle is-flex is-flex-direction-row is-justify-content-space-between">
-                        <div>Prizes</div>
+                        <div>{t("prizes")}</div>
                         <div>
                             <img alt="" src={require("../../../assets/icons/back.png").default} width={"20px"} />
                         </div>

@@ -1,5 +1,6 @@
 import { decode } from "jsonwebtoken"
 import React, { useEffect, useState } from "react"
+import { useTranslation } from "react-i18next"
 import { useDispatch, useSelector } from "react-redux"
 import { Redirect, useHistory, useLocation } from "react-router-dom"
 import { AddAction, EditDraft, PublishContest, RemoveAction, SaveDraft, UpdateAction } from "../../../redux/contest/contest-actions"
@@ -49,13 +50,14 @@ const ContestSecondStep = ()=>{
         }
         SaveDraft(dispatch, information, userId)
     }
+    var {t} = useTranslation()
     if(isBrand !== "true") return <Redirect to="/" />
     if(location.pathname !== "/dashboard/My Contests/new/secondStep") return null
     if(!isValidData) return <Redirect to="/dashboard/My Contests/new/firstStep" />
     return(
         <div className="actionsContainer is-flex is-flex-direction-column">
             <div className="is-flex is-flex-direction-column">
-                <div className="containerTitle">{"Contest actions"}</div>
+                <div className="containerTitle">{t("contest_actions")}</div>
                 <ContestActions 
                     data={information.actions} 
                     removeAction={(actionName, index)=> removeAction(actionName, index)}
@@ -65,7 +67,7 @@ const ContestSecondStep = ()=>{
                 />
             </div>
             <div className="is-flex is-flex-direction-column">
-                <div className={"containerTitle"}>{"List of actions"}</div>
+                <div className={"containerTitle"}>{t("list_of_actions")}</div>
                 <ActionsList 
                     actions={actions} 
                     addAction={(action)=> addAction(action)} 
@@ -77,14 +79,14 @@ const ContestSecondStep = ()=>{
                     color={"#5E2691"} 
                     bgColor={"#FFFFFF"}
                     borderColor={"#5E2691"}
-                    text={information.status !== null && typeof(information.status) === "string" && information.status === "DRAFT" ? "Edit" : "Save as draft"}
+                    text={information.status !== null && typeof(information.status) === "string" && information.status === "DRAFT" ? t("edit") : t("save_as_draft")}
                     clickEvent={()=> saveDraft()}
                 />
                 <ContestButton  
                     color={"#FFFFFF"}
                     bgColor={"#5E2691"} 
                     borderColor={"#5E2691"}
-                    text={"Publish"} 
+                    text={t("publish")} 
                     clickEvent={(event)=> Save()} />
             </div>
         </div>

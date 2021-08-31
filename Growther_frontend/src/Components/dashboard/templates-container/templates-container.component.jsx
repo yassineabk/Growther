@@ -1,10 +1,12 @@
 import React from "react"
+import { useTranslation } from "react-i18next"
 export const TemplatesContainer = ()=>{
+    var {t} = useTranslation()
     return(
         <div className="is-flex is-flex-direction-column list-container">
             <div className="list-title-container is-flex is-flex-direction-row is-justify-content-space-between is-align-items-center">
                 <span className="list-title">
-                    Templates
+                    {t("templates")}
                 </span>
             </div>
             <div className="columns is-multiline is-flex is-flex-direction-row cards">
@@ -22,8 +24,8 @@ export const TemplatesContainer = ()=>{
                             </div>
                         </div>
                         <div className="card-buttons is-flex is-flex-direction-row">
-                            <div className="details-button">Preview</div>
-                            <div className="duplicate-button">Copy</div>
+                            <div className="details-button">{t("preview")}</div>
+                            <div className="duplicate-button">{t("copy")}</div>
                         </div>
                     </div>
                 </div>
@@ -41,8 +43,8 @@ export const TemplatesContainer = ()=>{
                             </div>
                         </div>
                         <div className="card-buttons is-flex is-flex-direction-row">
-                            <div className="details-button">Preview</div>
-                            <div className="duplicate-button">Copy</div>
+                            <div className="details-button">{t("preview")}</div>
+                            <div className="duplicate-button">{t("copy")}</div>
                         </div>
                     </div>
                 </div>
@@ -60,8 +62,8 @@ export const TemplatesContainer = ()=>{
                             </div>
                         </div>
                         <div className="card-buttons is-flex is-flex-direction-row">
-                            <div className="details-button">Preview</div>
-                            <div className="duplicate-button">Copy</div>
+                            <div className="details-button">{t("preview")}</div>
+                            <div className="duplicate-button">{t("copy")}</div>
                         </div>
                     </div>
                 </div>

@@ -33,9 +33,9 @@ export const SetStateToEdit = async (dispatch, id, userId)=>{
         return false
     }).then(value =>{
         if(value){
-            SuccessAlert(dispatch, "Get Contest Successfuly")
+            SuccessAlert(dispatch, "get_contest_successfuly")
         }else{
-            FailAlert(dispatch, "Get Contest Failure")
+            FailAlert(dispatch, "get_contest_failure")
         }
         return value
     })
@@ -44,15 +44,15 @@ export const SetStateToEditFromLocation = async (dispatch, data, userId)=>{
     try{
         if(data.user.id.toString() === userId.toString()){
             dispatch({type: CONTEST_EDIT_TYPES.SET_STATE_TO_EDIT, payload: data})
-            SuccessAlert(dispatch, "Get Contest Successfuly")
+            SuccessAlert(dispatch, "get_contest_successfuly")
             return true
         }
         dispatch({type: CONTEST_EDIT_TYPES.EDIT_FAIL})
-        FailAlert(dispatch, "Get Contest Failure")
+        FailAlert(dispatch, "get_contest_failure")
         return false
     }catch{
         dispatch({type: CONTEST_EDIT_TYPES.EDIT_ERROR})
-        FailAlert(dispatch, "Get Contest Failure")
+        FailAlert(dispatch, "get_contest_failure")
         return false
     }
     
@@ -61,7 +61,7 @@ export const EditState = (dispatch, information, id, targetId) =>{
     try{
         dispatch({type: CONTEST_EDIT_TYPES.EDIT_STATE, payload: {data: information, targetId}})
     }catch{
-        FailAlert(dispatch, "Something Went Wrong")
+        FailAlert(dispatch, "something_went_wrong")
         dispatch({type: CONTEST_EDIT_TYPES.EDIT_ERROR})
     }
 }
@@ -69,7 +69,7 @@ export const EditDuration = (dispatch, type, value, startDate, endDate) =>{
     try{
         dispatch({type: CONTEST_EDIT_TYPES.EDIT_DURATION, payload: {value, type, startDate, endDate}})
     }catch{
-        FailAlert(dispatch, "Something Went Wrong")
+        FailAlert(dispatch, "something_went_wrong")
         dispatch({type: CONTEST_EDIT_TYPES.EDIT_ERROR})
     }
 }
@@ -77,7 +77,7 @@ export const EditSelectedAction = (dispatch, provider, index)=>{
     try{
         dispatch({type: CONTEST_EDIT_TYPES.EDIT_PREVIEW_SELECTED_ACTION, payload: {provider, index}})
     }catch{
-        FailAlert(dispatch, "Something Went Wrong")
+        FailAlert(dispatch, "something_went_wrong")
         dispatch({type: CONTEST_EDIT_TYPES.EDIT_ERROR})
     }
 }
@@ -168,10 +168,10 @@ export const CheckEdits = (dispatch, information) =>{
             dispatch({type: CONTEST_EDIT_TYPES.CHECK_EDITS, payload: {validData, isValidData}})
             return isValidData
         }
-        FailAlert(dispatch, "Invalid Data")
+        FailAlert(dispatch, "invalid_data")
         return false
     }catch{
-        FailAlert(dispatch, "Something Went Wrong")
+        FailAlert(dispatch, "something_went_wrong")
         return false
     }
 }
@@ -203,13 +203,13 @@ export const Edit = async (dispatch, information, id, userId)=>{
         }).then(value =>{
             if(value){
                 AppendEditedContest(dispatch, id, Data)
-                SuccessAlert(dispatch, "Successfully Edited")
+                SuccessAlert(dispatch, "successfully_edited")
             }else{
-                FailAlert(dispatch, "Edit Failure")
+                FailAlert(dispatch, "edit_failure")
             }
         })
     }
     dispatch({type: CONTEST_EDIT_TYPES.EDIT_FAIL})
-    FailAlert(dispatch, "Invalid Data")
+    FailAlert(dispatch, "invalid_data")
     return false
 }

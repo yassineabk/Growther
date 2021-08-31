@@ -9,11 +9,13 @@ import { SelectInput } from "../../Components/contest/select-input/select-input.
 import { Spinner } from "../../Components/spinner/spinner.component"
 import { FailAlert, SuccessAlert } from "../../redux/alert/alert-actions"
 import { UrlValidation } from "../../redux/contest/contest-actions"
-import { EditUserInfos, setUserInfos } from "../../redux/user-infos/user-infos-actions"
+import { EditUserInfos } from "../../redux/user-infos/user-infos-actions"
 import { BACKEND_API } from "../../services/links"
 import { SettingsModal } from "./settings-modal.component"
+import i18next from "i18next"
+import { useTranslation } from "react-i18next"
 const SettingsComponent = ()=>{
-    const language = localStorage.getItem("lang")
+    const language = localStorage.getItem("i18nextLng") || "en";
     var infos = useSelector(state => state.userInfos)
     var dispatch = useDispatch()
     var [show, showModal] = useState(false)
@@ -42,10 +44,10 @@ const SettingsComponent = ()=>{
                     .then(response =>{
                         setInfos(response.data)
                         setLoading(false)
-                        SuccessAlert(dispatch, "Get Infos Successfully")
+                        SuccessAlert(dispatch, "get_infos_successfully")
                     }).catch(err => {
                         setLoading(false)
-                        FailAlert(dispatch, "Get Infos Failure")
+                        FailAlert(dispatch, "get_infos_failure")
                     })
             }
             
@@ -122,16 +124,17 @@ const SettingsComponent = ()=>{
                 return false
             }).then(value =>{
                 if(value){
-                    SuccessAlert(dispatch, "Succesfully Updated")
+                    SuccessAlert(dispatch, "succesfully_updated")
                 }else{
-                    FailAlert(dispatch, "Update Failure")
+                    FailAlert(dispatch, "update_failure")
                 }
             })
     }
     var setLanguage = (event)=>{
         setLang(event.target.value)
-        localStorage.setItem("lang", event.target.value)
+        i18next.changeLanguage(event.target.value);
     }
+    var {t} = useTranslation()
     return(
         <div className="column is-full is-flex is-flex-direction-column list-container newContest is-size-6 mb-4">
             <div className="is-flex bottomContainer">
@@ -146,15 +149,15 @@ const SettingsComponent = ()=>{
                             <Spinner show={isLoading} />
                             <SettingsModal show={show} closeModal={()=> showModal(false)} />
                             <SelectInput 
-                                data={["Arabic", "English", "French"]}
+                                data={["ar", "en", "fr"]}
                                 placeholder="Choose Language"
                                 value={lang}
                                 changeHandler={(event)=> setLanguage(event)}
                             />
                             <ContestInput 
                                 type="text"
-                                label="Username"
-                                placeholder="Username"
+                                label={t("username")}
+                                placeholder={t("username")}
                                 value={infos.name}
                                 id="name"
                                 changeHandler={event => changeHandler(event)}
@@ -162,16 +165,16 @@ const SettingsComponent = ()=>{
                             />
                             <ContestInput 
                                 type="email"
-                                label="Email"
-                                placeholder="Email"
+                                label={t("email")}
+                                placeholder={t("email")}
                                 value={infos.email}
                                 readonly={true}
                                 id="email"
                             />
                             <ContestInput 
                                 type="password"
-                                label="Password"
-                                placeholder="Password"
+                                label={t("password")}
+                                placeholder={t("password")}
                                 value="***********"
                                 changeHandler={event => changeHandler(event)}
                                 readonly={true}
@@ -180,7 +183,7 @@ const SettingsComponent = ()=>{
                                 [
                                     <ContestInput 
                                         type="url"
-                                        label="Url"
+                                        label={t("brand_url")}
                                         placeholder="Your Url"
                                         value={infos.url}
                                         changeHandler={event => changeHandler(event)}
@@ -188,7 +191,7 @@ const SettingsComponent = ()=>{
                                         validData={error.url}
                                     />,
                                     <ContestDescription 
-                                        label="Activities"
+                                        label={t("activities")}
                                         value={infos.activities}
                                         placeholder="Your Activities"
                                         changeHandler={event => changeHandler(event)}
@@ -204,13 +207,13 @@ const SettingsComponent = ()=>{
                             color={"#5E2691"} 
                             bgColor={"#FFFFFF"}
                             borderColor={"#5E2691"}
-                            text={"Edit Password"} 
+                            text={t("edit_password")} 
                             clickEvent={()=> showModal(true)}/> : null}
                         <ContestButton 
                             color={"#FFFFFF"}
                             bgColor={"#5E2691"} 
                             borderColor={"#5E2691"}
-                            text={"Save"} 
+                            text={t("save")} 
                             clickEvent={ CanSave() ? ()=> Save() : ()=> FailAlert(dispatch, "Update Failure")}
                         />
                     </div>

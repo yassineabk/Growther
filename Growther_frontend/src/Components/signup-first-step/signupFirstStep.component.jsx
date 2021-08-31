@@ -8,9 +8,12 @@ import { googleUri } from '../login-form/login_uri';
 import { facebookUri } from '../login-form/login_uri';
 import { useSelector } from 'react-redux';
 import { Spinner } from '../spinner/spinner.component';
+import { useTranslation } from "react-i18next";
 
 const SingupFirstStep=({handleSubmit,SignUpWithGoogle,SignUpWithFacebook,registrationMessage,errMessage,passwordFunctions,success,emailFunctions,isErrors,messages})=>{
     var {isLoading} = useSelector(state => state.registration)
+    const { t } = useTranslation();
+
     return(
 
     <section className="hero is-fullheight Modal">
@@ -21,17 +24,17 @@ const SingupFirstStep=({handleSubmit,SignUpWithGoogle,SignUpWithFacebook,registr
                     <div className="column is-5-tablet is-4-desktop is-4-widescreen ">
                         <form action="" className="box" onSubmit={handleSubmit}>
                             <div className="column has-text-centered">
-                                <p className="title is-3">Create an account</p>
-                                <p className="subtitle ">Let's get you started</p>
+                                <p className="title is-3">{t("create_account")}</p>
+                                <p className="subtitle ">{t("register_subheader")}</p>
                             </div>
-                            <EmailInput handleBlur={emailFunctions.handleEmailBlur} handleChange={emailFunctions.handleEmailChange} label="Email" isError={isErrors.email} message={messages.email} placeholder="Enter Your email"/>
-                            <PasswordInput handleChange={passwordFunctions.handlePasswordChange}  label="Password" isError={isErrors.password} message={messages.password} placeholder="Enter your password"/>
-                            <PasswordInput handleBlur={passwordFunctions.handlePasswordConfirmationBlur}  label="Confirm Password" isError={isErrors.confiremed_password} message={messages.confiremed_password} placeholder="confirm your password"/>
-                            <label className=" column mb-2 "><input type="checkbox" required />  I agree to the <Link to="/terms" target="_blank">terms and conditions</Link></label>
-                            <SubmitButton message={errMessage} id="submitButton" type="submit" label="Sign Up"/>
+                            <EmailInput handleBlur={emailFunctions.handleEmailBlur} handleChange={emailFunctions.handleEmailChange} label={t("email")} isError={isErrors.email} message={messages.email} placeholder={t("email_placeholder")}/>
+                            <PasswordInput handleChange={passwordFunctions.handlePasswordChange}  label={t("password")} isError={isErrors.password} message={messages.password} placeholder={t("password_placeholder")}/>
+                            <PasswordInput handleBlur={passwordFunctions.handlePasswordConfirmationBlur}  label={t("confirm_password")} isError={isErrors.confiremed_password} message={messages.confiremed_password} placeholder={t("confirm_password_placeholder")}/>
+                            <label className=" column mb-2 "><input type="checkbox" required />  {t("agree")} <Link to="/terms" target="_blank">{t("terms")}</Link></label>
+                            <SubmitButton message={errMessage} id="submitButton" type="submit" label={t("signup")}/>
 
-                            <SocialMediaButton uri={googleUri} onClick={isLoading ? ()=> false : SignUpWithGoogle} isGoogle label="Sign Up with Google"/>
-                            <SocialMediaButton uri={facebookUri} onClick={isLoading ? ()=> false : SignUpWithFacebook} label="Sign Up with Facebook"/>
+                            <SocialMediaButton uri={googleUri} onClick={isLoading ? ()=> false : SignUpWithGoogle} isGoogle label={t("google_login")}/>
+                            <SocialMediaButton uri={facebookUri} onClick={isLoading ? ()=> false : SignUpWithFacebook} label={t("facebook_login")}/>
                         </form>
                     </div>
                 </div>
