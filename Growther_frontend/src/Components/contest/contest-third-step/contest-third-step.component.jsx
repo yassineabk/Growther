@@ -1,5 +1,6 @@
-import React from "react"
-import { useSelector } from "react-redux"
+import React, { useEffect } from "react"
+import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux"
 import { useLocation } from "react-router"
 import { Redirect } from "react-router-dom"
 import {
@@ -11,6 +12,7 @@ const ContestThirdStep = () =>{
     var {isValidData, isValidActions, isPublished, contestLink} = useSelector(state => state.contest)
     var { isBrand } = useSelector(state => state.userInfos)
     var location = useLocation()
+    var dispatch = useDispatch()
     var copyClipoard = ()=>{
         navigator.clipboard.writeText(contestLink)
         document.getElementById("contestLink").classList.add("copied")
@@ -20,6 +22,7 @@ const ContestThirdStep = () =>{
             }
         }, 2000)
     }
+    var {t} = useTranslation()
     if(isBrand !== "true") return <Redirect to="/" />
     if(location.pathname !== "/dashboard/My Contests/new/thirdStep") return null
     if(isValidActions === false || isPublished === false) return <Redirect  to="/dashboard/My Contests/new/secondStep"/>
@@ -27,10 +30,10 @@ const ContestThirdStep = () =>{
     return(
         <div className="is-flex is-flex-direction-column is-justify-content-center is-align-items-center">
             <div className="is-flex is-flex-direction-column is-justify-content-center is-align-items-center savedContest">
-                <div className="bigText">Congaturlations</div>
-                <div className="subText">Your contest is ready, you copy the link</div>
+                <div className="bigText">{t("congratulations")}</div>
+                <div className="subText">{t("ready_contest")}</div>
                 <div id="contestLink" onClick={()=> copyClipoard()} className="contestLink">{contestLink}</div>
-                <div className="subText">Share via social media</div>
+                <div className="subText">{t("share_via")}</div>
                 <div className="is-flex is-flex-direction-row is-justify-content-center">
                     <div className="socialIcons is-flex is-justify-content-space-between is-align-items-center">
                         <div>

@@ -1,4 +1,5 @@
 import React, { useEffect } from "react"
+import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import { logout } from "../../../redux/login/login.actions";
@@ -23,6 +24,7 @@ export const DashboradSideBar = ({isBrand})=>{
             history.push("/landing-page")
         })
     }
+    var {t} = useTranslation()
     useEffect(()=>{
         document.addEventListener("click", event =>{
             var id = event.target.id
@@ -46,7 +48,7 @@ export const DashboradSideBar = ({isBrand})=>{
                     <div onClick={()=> changeHandler("/dashboard")} className={homeLocations.includes(location.pathname) ? "sideBar_item active" : "sideBar_item"}>
                         <img alt="" src={require("../../../assets/icons/home.png").default}/>
                         <div className="tooltip is-flex">
-                            <span className="tooltip-text">Home</span>
+                            <span className="tooltip-text">{t("home")}</span>
                         </div>
                     </div>
                     {isBrand === "true" ? 
@@ -54,19 +56,19 @@ export const DashboradSideBar = ({isBrand})=>{
                             <div onClick={()=>changeHandler("/dashboard/My Contests")} className={location.pathname.includes("/dashboard/My Contests") ? "sideBar_item active" : "sideBar_item"}>
                                 <img alt="" src={require("../../../assets/icons/trophy.png").default}/>
                                 <div className="tooltip is-flex">
-                                    <span className="tooltip-text">Contests</span>
+                                    <span className="tooltip-text">{t("contests")}</span>
                                 </div>
                             </div>,
                             <div onClick={()=>changeHandler("/dashboard/Templates")} className={templateLocations.includes(location.pathname) ? "sideBar_item active" : "sideBar_item"}>
                                 <img alt="" src={require("../../../assets/icons/file.png").default}/>
                                 <div className="tooltip is-flex">
-                                    <span className="tooltip-text">Templates</span>
+                                    <span className="tooltip-text">{t("templates")}</span>
                                 </div>
                             </div>,
                             <div onClick={()=>changeHandler("/dashboard/draft")} className={location.pathname === "/dashboard/draft" ? "sideBar_item active" : "sideBar_item"}>
                                 <img alt="" src={require("../../../assets/icons/draft.png").default}/>
                                 <div className="tooltip is-flex">
-                                    <span className="tooltip-text">Draft</span>
+                                    <span className="tooltip-text">{t("draft")}</span>
                                 </div>
                             </div>
                         ] : null}
@@ -77,13 +79,13 @@ export const DashboradSideBar = ({isBrand})=>{
                     <div className="tailButton" onClick={()=> changeHandler("/dashboard/support")}>
                         <img alt="" src={require("../../../assets/icons/headset.png").default} />
                         <div className="tooltip is-flex">
-                            <span className="tooltip-text">Support</span>
+                            <span className="tooltip-text">{t("support")}</span>
                         </div>
                     </div>
                     <div className="tailButton" onClick={()=> changeHandler("/dashboard/settings")}>
                         <img alt="" src={require("../../../assets/icons/settings.png").default}/>
                         <div className="tooltip is-flex">
-                            <span className="tooltip-text">Settings</span>
+                            <span className="tooltip-text">{t("settings")}</span>
                         </div>
                     </div>
                     <div className="tailButton">
@@ -91,7 +93,7 @@ export const DashboradSideBar = ({isBrand})=>{
                             Logout()
                         }} alt="" src={require("../../../assets/icons/logout.png").default} />
                         <div className="tooltip is-flex">
-                            <span className="tooltip-text">Logout</span>
+                            <span className="tooltip-text">{t("logout")}</span>
                         </div>
                     </div>
                 </div>

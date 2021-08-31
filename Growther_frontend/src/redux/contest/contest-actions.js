@@ -10,8 +10,13 @@ export const InitState = (dispatch)=>{
         var days2 = ("0" + parseInt(new Date(date.setDate(parseInt(days) + 1)).getDate())).slice(-2)
         var months = ("0" + parseInt(date.getMonth() === 13 + 1 ? 1 : date.getMonth() + 1))
         var year = date.getFullYear()
-        var startDate = year + "-" + months + "-" + days
         var endDate = year + "-" + months + "-" + days2
+        var today = new Date(endDate)
+        var yestrday = new Date(today.setDate(today.getDate() - 1))
+        var month2 = ("0"+parseInt(yestrday.getMonth() + 1 === 13 ? 1 : yestrday.getMonth() + 1)).slice(-2)
+        var year2 = yestrday.getFullYear()
+        days = ("0"+yestrday.getDate()).slice(-2)
+        var startDate = year2 + "-" + month2 + "-" + days
         var startHour = ("0"+date.getHours()).slice(-2)
         var startMin = ("0"+date.getMinutes()).slice(-2)
         var endMin =  parseInt(startMin) + 10 
@@ -23,7 +28,7 @@ export const InitState = (dispatch)=>{
         var timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone //date.getTimezoneOffset()
         dispatch({type: ContestTypes.SET_INITIAL_STATE, payload: {startDate, endDate, startTime, endTime, timeZone}})
     }catch(err){
-        FailAlert(dispatch, "Something Went Wrong")
+        FailAlert(dispatch, "something_went_wrong")
         dispatch({type: ContestTypes.SET_NEW_CONTEST_DATA_FAIL})
     }
 }
@@ -31,7 +36,7 @@ export const StateChange = (dispatch, data, targetId)=>{
     try{
         dispatch({type: ContestTypes.SET_NEW_CONTEST_STATE, payload: {data, targetId}})
     }catch(err){
-        FailAlert(dispatch, "Something Went Wrong")
+        FailAlert(dispatch, "something_went_wrong")
         dispatch({type: ContestTypes.SET_NEW_CONTEST_DATA_FAIL})
     }
 }
@@ -39,7 +44,7 @@ export const PrizesChange = (dispatch, id, value)=>{
     try{
         dispatch({type: ContestTypes.SET_PRIZES, payload: {id, value}})
     }catch(err){
-        FailAlert(dispatch, "Something Went Wrong")
+        FailAlert(dispatch, "something_went_wrong")
         dispatch({type: ContestTypes.SET_NEW_CONTEST_DATA_FAIL})
     }
 }
@@ -51,7 +56,7 @@ export const SetImmediately = (dispatch, value) =>{
             dispatch({type: ContestTypes.SET_IMMEDIATELY, payload: true})
         }
     }catch(err){
-        FailAlert(dispatch, "Something Went Wrong")
+        FailAlert(dispatch, "something_went_wrong")
         dispatch({type: ContestTypes.SET_NEW_CONTEST_DATA_FAIL})
     }
 }
@@ -65,7 +70,7 @@ export const WinnersNumChange = (dispatch, id, value)=>{
         }
         dispatch({type: ContestTypes.SET_WINNERS_NUM, payload: {id, value}})
     }catch(err){
-        FailAlert(dispatch, "Something Went Wrong")
+        FailAlert(dispatch, "something_went_wrong")
         dispatch({type: ContestTypes.SET_NEW_CONTEST_DATA_FAIL})
     }
     
@@ -74,7 +79,7 @@ export const RemovePrize = (dispatch, id, value)=>{
     try{
         dispatch({type: ContestTypes.REMOVE_PRIZE, payload: {id, value}})
     }catch{
-        FailAlert(dispatch, "Something Went Wrong")
+        FailAlert(dispatch, "something_went_wrong")
         dispatch({type: ContestTypes.SET_NEW_CONTEST_DATA_FAIL})
     }
 }
@@ -82,7 +87,7 @@ export const AddAction = (dispatch, action)=>{
     try{
         dispatch({type: ContestTypes.ADD_ACTION, payload: action})
     }catch{
-        FailAlert(dispatch, "Something Went Wrong")
+        FailAlert(dispatch, "something_went_wrong")
         dispatch({type: ContestTypes.SET_NEW_CONTEST_DATA_FAIL})
     }
 }
@@ -90,7 +95,7 @@ export const RemoveAction = (dispatch, actionName, index)=>{
     try{
         dispatch({type: ContestTypes.REMOVE_ACTION, payload: {actionName, index}})
     }catch{
-        FailAlert(dispatch, "Something Went Wrong")
+        FailAlert(dispatch, "something_went_wrong")
         dispatch({type: ContestTypes.SET_NEW_CONTEST_DATA_FAIL})
     }
 }
@@ -98,7 +103,7 @@ export const UpdateAction = (dispatch, provider, key, value, index)=>{
     try{
         dispatch({type: ContestTypes.UPDATE_ACTION, payload: {provider, key, value, index}})
     }catch{
-        FailAlert(dispatch, "Something Went Wrong")
+        FailAlert(dispatch, "something_went_wrong")
         dispatch({type: ContestTypes.SET_NEW_CONTEST_DATA_FAIL})
     }
 }
@@ -106,7 +111,7 @@ export const SetTime = (dispatch, value)=>{
     try{
         dispatch({type: ContestTypes.SET_TIME, payload: value})
     }catch{
-        FailAlert(dispatch, "Something Went Wrong")
+        FailAlert(dispatch, "something_went_wrong")
         dispatch({type: ContestTypes.SET_NEW_CONTEST_DATA_FAIL})
     }
 }
@@ -114,7 +119,7 @@ export const SetDuration = (dispatch, type, value, startDate, endDate)=>{
     try{
         dispatch({type: ContestTypes.SET_DURATION, payload: {value, type, startDate, endDate}})
     }catch{
-        FailAlert(dispatch, "Something Went Wrong")
+        FailAlert(dispatch, "something_went_wrong")
         dispatch({type: ContestTypes.SET_NEW_CONTEST_DATA_FAIL})
     }
 }
@@ -300,10 +305,10 @@ export const NextStep = (dispatch, information)=>{
             dispatch({type: ContestTypes.CHECK_DATA, payload: {validData, isValidData}})
             return isValidData
         }
-        FailAlert(dispatch, "Invalid Data")
+        FailAlert(dispatch, "invalid_data")
         return false
     }catch{
-        FailAlert(dispatch, "Something Went Wrong")
+        FailAlert(dispatch, "something_went_wrong")
         return false
     }
 }
@@ -352,10 +357,10 @@ export const SaveContest = (dispatch, actions)=>{
             dispatch({type: ContestTypes.CHECK_ACTIONS, payload: {validActions: result, isValidActions: isValid}})
             return isValid
         }
-        FailAlert(dispatch, "Invalid Actions")
+        FailAlert(dispatch, "invalid_actions")
         return false
     }catch{
-        FailAlert(dispatch, "Something Went Wrong")
+        FailAlert(dispatch, "something_went_wrong")
         return false
     }
 }
@@ -364,7 +369,7 @@ export const PreviewSelectedAction = (dispatch, provider, index)=>{
         dispatch({type: ContestTypes.PREVIEW_SELECTED_ACTIONS, payload: {provider, index}})
     }catch{
         dispatch({type: ContestTypes.SET_NEW_CONTEST_DATA_FAIL})
-        FailAlert(dispatch, "Something Went Wrong")
+        FailAlert(dispatch, "something_went_wrong")
     }
 }
 export const SaveDraft = (dispatch, data, id)=>{
@@ -386,9 +391,9 @@ export const SaveDraft = (dispatch, data, id)=>{
         }).then(value =>{
             if(value){
                 AppendDraft(dispatch, data, value, id)
-                SuccessAlert(dispatch, "Saved as Draft")
+                SuccessAlert(dispatch, "saved_as_draft")
             }else{
-                FailAlert(dispatch, "Save Failure")
+                FailAlert(dispatch, "save_failure")
             }
         })
 }
@@ -419,9 +424,9 @@ export const EditDraft = (dispatch, data, id)=>{
         }).then(value =>{
             if(value){
                 AppendEditedDraft(dispatch, id, value)
-                SuccessAlert(dispatch, "Draft Updated")
+                SuccessAlert(dispatch, "draft_updated")
             }else{
-                FailAlert(dispatch, "Update Failure")
+                FailAlert(dispatch, "update_failure")
             }
         })
 }
@@ -438,10 +443,14 @@ export const PublishContest = async (dispatch, data = {information: {}, actions:
     dispatch({type: ContestTypes.NEW_CONTEST_LOADING})
     if(validInfos && validActions){
         if(data.information.status === "DRAFT"){
-            return axios.put(`${BACKEND_API}/api/contests/update/draft/${data.information.idContest}`, {
-                ...data.information,
-                actions: data.actions,
-                status: data.information.immediately ? "Published" : "in_Creation"
+            var store = {}
+            Object.keys(data.information).map((key)=>{
+                if(key !== "idContest"){
+                    store[key] = data.information.key
+                }
+            })
+            return axios.put(`${BACKEND_API}/api/contests/draft/publish/${data.information.idContest}`, {
+                ...store,
             }, config)
             .then(response =>{
                 dispatch({type: ContestTypes.PUBLISH_SUCCESS, payload: `${FRONTEND_API}/contest/${data.information.title}/${response.data.idContest}`})
@@ -451,11 +460,11 @@ export const PublishContest = async (dispatch, data = {information: {}, actions:
                 return false
             }).then(value =>{
                 if(value){
-                    SuccessAlert(dispatch, "Published Successfully")
+                    SuccessAlert(dispatch, "published_successfully")
                     DeleteDraft(dispatch, data.information.idContest)
                     return {idContest: data.information.idContest, status: data.information.immediately ? "Published" : "in_Creation"}
                 }else{
-                    FailAlert(dispatch, "Publish Failure")
+                    FailAlert(dispatch, "publish_failure")
                     return value
                 }
             })
@@ -465,20 +474,21 @@ export const PublishContest = async (dispatch, data = {information: {}, actions:
                 dispatch({type: ContestTypes.PUBLISH_SUCCESS, payload: `${FRONTEND_API}/contest/${data.information.title}/${response.data}`})
                 return response.data
             }).catch(err => {
+                console.log(err.response)
                 dispatch({type: ContestTypes.PUBLISH_FAIL})
                 return false
             }).then(value =>{
                 if(value){
-                    SuccessAlert(dispatch, "Published Successfully")
+                    SuccessAlert(dispatch, "published_successfully")
                     return {idContest: value}
                 }else{
-                    FailAlert(dispatch, "Publish Failure")
+                    FailAlert(dispatch, "publish_failure")
                     return value
                 }
             })
     }
     dispatch({type: ContestTypes.PUBLISH_FAIL})
-    FailAlert(dispatch, "Publish Failure")
+    FailAlert(dispatch, "publish failure")
     return false
 }
 export const DuplicateContest = (dispatch, id, data)=>{
@@ -499,9 +509,9 @@ export const DuplicateContest = (dispatch, id, data)=>{
     }).then(value => {
         if(value || (typeof(value) === "number" && value === 0)){
             AppendDraft(dispatch, data, `${value}`, data.user.id)
-            SuccessAlert(dispatch, "Successfully Duplicated")
+            SuccessAlert(dispatch, "successfully_duplicated")
         }else{
-            FailAlert(dispatch, "Duplcation Failure")
+            FailAlert(dispatch, "duplcation_dailure")
         }
         return value
     })

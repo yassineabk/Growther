@@ -16,9 +16,9 @@ export const SendEmail = async (dispatch, email, subject, message)=>{
             return false
         }).then(value =>{
             if(value){
-                SuccessAlert(dispatch, "Sent Successfully")
+                SuccessAlert(dispatch, "sent_successfully")
             }else{
-                FailAlert(dispatch, "Sent Failure")
+                FailAlert(dispatch, "sent_failure")
             }
             return value
         })

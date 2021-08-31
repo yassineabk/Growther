@@ -6,6 +6,7 @@ import { decode } from "jsonwebtoken";
 import { Spinner } from "../../spinner/spinner.component";
 import { DrawWinners, ResetWinners } from "../../../redux/winners/winners-actions";
 import { TimeLeft } from "../../../services/timeLeft";
+import { useTranslation } from "react-i18next";
 const EditContestThirdStep = ()=>{
     var {information, isLoading} = useSelector(state => state.contest_edit)
     var { isBrand } = useSelector(state => state.userInfos)
@@ -35,6 +36,7 @@ const EditContestThirdStep = ()=>{
             DrawWinners(dispatch, params.id)
         }
     }
+    var {t} = useTranslation()
     if(isBrand !== "true") return <Redirect to="/" />
     return(
         [
@@ -42,19 +44,19 @@ const EditContestThirdStep = ()=>{
             <div className="is-flex is-flex-direction-column bottomContainer tableContainer">
                 <div className="list-title-container winners-container is-flex is-flex-direction-column is-align-items-center">
                     <span className="winners-container-title">
-                        <h3>Winners</h3>
+                        <h3>{t("winners")}</h3>
                     </span>
                     {information !== null && information !== undefined && typeof(information) === "object" ? 
                         [
                             <span className="winners-container-subtitle">
-                                <h5>Your contest has {`${information.winnersNbr} ${information.winnersNbr > 1 ? "winners" : "winner"}`} </h5>
+                                <h5>{`${t("your_contest_has_winners")} ${information.winnersNbr} ${information.winnersNbr > 1 ? t("winners") : t("winner")}`} </h5>
                             </span>,
                             <div onClick={()=> drawWinners()} className="is-flex draw-button">
                                 <span>
                                     <img alt="" src={require("../../../assets/icons/trophy3.png").default} />
                                 </span>
                                 <span className="">
-                                    Draw winners
+                                    {t("draw_winners")}
                                 </span>
                             </div>
                         ] : null

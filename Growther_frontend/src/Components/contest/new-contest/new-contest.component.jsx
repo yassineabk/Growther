@@ -1,4 +1,5 @@
 import React, { useEffect } from "react"
+import { useTranslation } from "react-i18next"
 import { useDispatch, useSelector } from "react-redux"
 import { 
     Redirect,
@@ -19,6 +20,7 @@ const NewContest = ({child})=>{
     useEffect(()=>{
         InitState(dispatch)   
     }, [dispatch])
+    var {t} = useTranslation()
     if(isBrand !== "true") return <Redirect to="/" />
     return(
         [            
@@ -29,17 +31,17 @@ const NewContest = ({child})=>{
                     tabs={[
                         {
                             location: "/dashboard/My Contests/new/firstStep", 
-                            nex: "/dashboard/My Contests/new/secondStep",
-                            text: "Contest Informations",
+                            next: "/dashboard/My Contests/new/secondStep",
+                            text: t("contest_information"),
                         },
                         {
                             location: "/dashboard/My Contests/new/secondStep", 
-                            text: "Compose Contest",
-                            next: "/dashboard/My Contests/new/thirdStep"
+                            next: "/dashboard/My Contests/new/thirdStep",
+                            text: t("compose_contest"),
                         },
                         {
                             location: "/dashboard/My Contests/new/thirdStep", 
-                            text: "Publish Contest"
+                            text: t("publish_contest"),
                         }
                     ]}
                     goBack={isPublished}

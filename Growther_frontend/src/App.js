@@ -34,7 +34,6 @@ import DiscordAuthHandler from './services/discord-auth-handler';
 import DiscordBotAuthHandler from './services/discord-bot-auth-handler';
 import { AlertComponent } from './Components/alert/alert.component';
 import { TermsConditionsComponent } from './Components/terms-conditions/terms-conditions.component';
-import i18next from "i18next"
 const LandingPage = lazy(()=> import('./pages/landing-page/landing-page.page'))
 const SignUpPage = lazy(()=> import('./pages/sign-up/sign-up.page'))
 const LoginPage = lazy(()=> import('./pages/login/login.page'))

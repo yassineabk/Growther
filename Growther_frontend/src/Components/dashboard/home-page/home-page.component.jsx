@@ -1,4 +1,5 @@
 import React, { useEffect } from "react"
+import { useTranslation } from "react-i18next"
 import { useDispatch, useSelector } from "react-redux"
 import { DuplicateContest } from "../../../redux/contest/contest-actions"
 import { GetContests } from "../../../redux/contests/contests-actions"
@@ -16,12 +17,13 @@ const DashboardHomePage = () =>{
     var Duplicate = (id, element)=> {
         DuplicateContest(dispatch, id, element)
     }
+    var {t} = useTranslation()
     return(
         <div className="is-flex is-flex-direction-column column is-full">
             <div className="mb-4">
                 <CardsContainer 
                     data={Array.isArray(contests) ? isBrand === "true" ?  contests.reverse().slice(0,3) : contests.reverse() : []} 
-                    title={"Recent Contests"} 
+                    title={t("recent_contests")} 
                     showMore={"/dashboard/My Contests"} 
                     addNew={"/dashboard/My Contests/new"}
                     Duplicate={(id, element)=> Duplicate(id, element)}

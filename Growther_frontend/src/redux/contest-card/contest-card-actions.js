@@ -31,7 +31,7 @@ export const SetData = async (dispatch, title, description, id) =>{
                         endDate
                     }
                     var payload = {...contest, actions: participationActions, user, partipationDate, participationId: id, totalPoints, done}
-                    SuccessAlert(dispatch, "Get Contest Successfully")
+                    SuccessAlert(dispatch, "get_contest_successfully")
                     dispatch({type: Contest_Card_Types.SET_CONTEST_STATE, payload: {data: payload, canParticipate: true}})
                     return payload
                 }else{
@@ -44,7 +44,7 @@ export const SetData = async (dispatch, title, description, id) =>{
                         startDate,
                         endDate
                     }
-                    SuccessAlert(dispatch, "Get Contest Successfully")
+                    SuccessAlert(dispatch, "get_contest_successfully")
                     dispatch({type: Contest_Card_Types.SET_CONTEST_STATE, payload:{data: response.data, canParticipate: false}})
                     return data
                 }
@@ -64,10 +64,10 @@ export const SetData = async (dispatch, title, description, id) =>{
 export const SetDataFromLocation = async (dispatch, data, canParticipate)=>{
     try{
         dispatch({type: Contest_Card_Types.SET_CONTEST_STATE, payload: {data, canParticipate: canParticipate && canParticipate !== undefined ? canParticipate : false}})
-        SuccessAlert(dispatch, "Get Contest Successfully")
+        SuccessAlert(dispatch, "get_contest_successfully")
         return data
     }catch{
-        FailAlert(dispatch, "Something Went Wrong")
+        FailAlert(dispatch, "something_went_wrong")
         dispatch({type: Contest_Card_Types.SET_CONTEST_CARD_DATA_FAIL})
         return false
     }
@@ -76,7 +76,7 @@ export const SelectAction = (dispatch, provider, index)=>{
     try{
         dispatch({type: Contest_Card_Types.SELECTED_ACTION, payload: {provider, index}})
     }catch{
-        FailAlert(dispatch, "Something Went Wrong")
+        FailAlert(dispatch, "something_went_wrong")
         dispatch({type: Contest_Card_Types.SET_CONTEST_CARD_DATA_FAIL})
     }
 }
@@ -84,7 +84,7 @@ export const OpenActionModal = (dispatch, index, element)=>{
     try{
         dispatch({type: Contest_Card_Types.DO_ACTION, payload: element !== null && typeof(element) === "object" ? {element, index} : {}})
     }catch{
-        FailAlert(dispatch, "Something Went Wrong")
+        FailAlert(dispatch, "something_went_wrong")
         dispatch({type: Contest_Card_Types.SET_CONTEST_CARD_DATA_FAIL})
     }
 }
@@ -92,7 +92,7 @@ export const CloseActionModal = (dispatch)=>{
     try{
         dispatch({type: Contest_Card_Types.CLOSE_MODAL})
     }catch{
-        FailAlert(dispatch, "Something Went Wrong")
+        FailAlert(dispatch, "something_went_wrong")
         dispatch({type: Contest_Card_Types.SET_CONTEST_CARD_DATA_FAIL})
     }
 }
@@ -135,9 +135,9 @@ export const ActionDone = async (dispatch, action, id, index, points, idContest,
                 if(!isBrand){
                     AppendActionDone(dispatch, contest.idContest, id, action)
                 }
-                SuccessAlert(dispatch, "Action Done!")
+                SuccessAlert(dispatch, "action_done")
             }else{
-                FailAlert(dispatch, "Action Fail")
+                FailAlert(dispatch, "action_fail")
             }
             return value
         })
@@ -169,9 +169,9 @@ export const ActionDone = async (dispatch, action, id, index, points, idContest,
                 if(!isBrand){
                     AppendContest(dispatch, {...contest, participationId: value})
                 }
-                SuccessAlert(dispatch, "Action Done!")
+                SuccessAlert(dispatch, "action_done")
             }else{
-                FailAlert(dispatch, "Action Fail")
+                FailAlert(dispatch, "action_fail")
             }
             return value
         })
@@ -180,7 +180,7 @@ export const SetActionText = (dispatch, id, text, type, index)=>{
     try{
         dispatch({type: Contest_Card_Types.SET_ACTION_TEXT, payload: {id, text, type, index}})
     }catch{
-        FailAlert(dispatch, "Something Went Wrong")
+        FailAlert(dispatch, "something_went_wrong")
         dispatch({type: Contest_Card_Types.SET_CONTEST_CARD_DATA_FAIL})
     }
 }
