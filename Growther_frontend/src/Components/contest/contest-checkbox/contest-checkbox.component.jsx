@@ -1,5 +1,5 @@
 import React from "react"
-export const ContestCheckBox = ({label, changeHandler, child, placeholder, name, id, value})=>{
+export const ContestCheckBox = ({label, changeHandler, child, placeholder, name, id, value, direction})=>{
     return(
         <div className="contest_checkbox is-flex is-flex-direction-column">
             {typeof(label) === "string" ? <label for={typeof(id) === "string" ? id : ""}>{label ? label : ""}</label> : null}
@@ -13,7 +13,7 @@ export const ContestCheckBox = ({label, changeHandler, child, placeholder, name,
                     value={value !== undefined && typeof(value) === "boolean" && value === true ? value : false}
                     checked={value}
                 />
-                <span style={{marginLeft: "0.25em", fontSize: "13px"}}>{placeholder ? placeholder : "Start immediately"}</span>
+                <span style={{marginRight: direction === "rtl" ? "0.25em" : 0, marginLeft: direction === "rtl" ? 0 : "0.25em", fontSize: "13px"}}>{placeholder ? placeholder : ""}</span>
             </div>
             {Array.isArray(child) ? child :  null}
         </div>

@@ -3,6 +3,7 @@ import axios from "axios"
 import { AppendDraft, AppendEditedDraft, DeleteDraft } from "../contests/contests-actions";
 import { BACKEND_API, FRONTEND_API } from "../../services/links";
 import { FailAlert, SuccessAlert } from "../alert/alert-actions";
+import { CONTESTS_TYPES } from "../contests/contests-types";
 export const InitState = (dispatch)=>{
     try{    
         var date =  new Date()
@@ -449,7 +450,6 @@ export const PublishContest = async (dispatch, data = {information: {}, actions:
                     store[key] = data.information[key]
                 }
             })
-            console.log(store)
             return axios.put(`${BACKEND_API}/api/contests/draft/publish/${data.information.idContest}`, {
                 ...store,
             }, config)
@@ -462,7 +462,7 @@ export const PublishContest = async (dispatch, data = {information: {}, actions:
             }).then(value =>{
                 if(value){
                     SuccessAlert(dispatch, "published_successfully")
-                    DeleteDraft(dispatch, data.information.idContest)
+                    dispatch({type: CONTESTS_TYPES.DELETE_FROM_DRAFT, payload: data.information.idContest})
                     return {idContest: data.information.idContest, status: data.information.immediately ? "Published" : "in_Creation"}
                 }else{
                     FailAlert(dispatch, "publish_failure")

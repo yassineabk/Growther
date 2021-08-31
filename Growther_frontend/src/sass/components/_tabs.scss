@@ -4,6 +4,10 @@
     background-color: $sideBar-color;
     border-radius: 15px 15px 0 0;
     flex-wrap: wrap;
+    font-family: Poppins-Regular;
+    &[dir=rtl]{
+        font-family: Tajawal-Medium;
+    }
     @media only screen and (max-width: 376px) {
         border-radius: 0px !important;
     }
@@ -16,7 +20,6 @@
         text-align: center;
         color: white;
         transition: all .5s;
-        font-family: Poppins-Regular;
         .tabText{
             padding: 20px;
             cursor: pointer;

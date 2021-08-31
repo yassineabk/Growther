@@ -14,7 +14,7 @@ const ContestFirstStep = ()=>{
     var location = useLocation()
     var history = useHistory()
     var {information, isValidData, validData, isPublished} = useSelector(state => state.contest)
-    var { isBrand } = useSelector(state => state.userInfos)
+    var { isBrand, direction } = useSelector(state => state.userInfos)
     var [userId, setId] = useState("")
     useEffect(()=>{
         if(location.state !== null && location.state !== undefined && typeof(location.state) === "object"){
@@ -321,6 +321,7 @@ const ContestFirstStep = ()=>{
                         label={t("start_date")}
                         placeholder={t("start_immediately")}
                         changeHandler={(event)=> CheckBoxHandler(event)}
+                        direction={direction}
                     />
                     {information.immediately ? null : [<ContestInput 
                         type={"date"}
@@ -392,7 +393,7 @@ const ContestFirstStep = ()=>{
                     placeholder={t("prize")}
                 />
             </div>
-            <div className="contestButtons is-flex is-flex-direction-row is-justify-content-flex-end">
+            <div dir={direction ? direction : "ltr"} className={`contestButtons is-flex ${direction === "rtl" ? "is-flex-direction-row-reverse" : "is-flex-direction-row"} is-justify-content-flex-end`}>
                 <ContestButton 
                     color={"#5E2691"} 
                     bgColor={"#FFFFFF"}

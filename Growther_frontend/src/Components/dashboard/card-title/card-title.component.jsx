@@ -4,7 +4,7 @@ import { useSelector } from "react-redux"
 import { Link } from "react-router-dom"
 import { ShowMoreButton } from "../show-more/show-more.component"
 export const CardTitle = ({title, addNew, showMore})=>{
-    var {isBrand} = useSelector(state => state.userInfos)
+    var {isBrand, direction} = useSelector(state => state.userInfos)
     var {t} = useTranslation()
     return(
         <div className="list-title-container is-flex is-flex-direction-row is-justify-content-space-between is-align-items-center">
@@ -15,8 +15,8 @@ export const CardTitle = ({title, addNew, showMore})=>{
                 </div> : null}
                 {isBrand === "true" ?
                     [
-                        <ShowMoreButton id="addNewButton" showMore={addNew} icon={require("../../../assets/icons/plus.png").default} />,
-                        <ShowMoreButton showMore={showMore} icon={require("../../../assets/icons/right-arrow.png").default} />
+                        <ShowMoreButton direction={direction} id="addNewButton" showMore={addNew} icon={require("../../../assets/icons/plus.png").default} />,
+                        <ShowMoreButton direction={direction} showMore={showMore} icon={require("../../../assets/icons/right-arrow.png").default} />
                     ] : null
                 }
             </div>

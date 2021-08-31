@@ -9,7 +9,7 @@ import { SelectInput } from "../../Components/contest/select-input/select-input.
 import { Spinner } from "../../Components/spinner/spinner.component"
 import { FailAlert, SuccessAlert } from "../../redux/alert/alert-actions"
 import { UrlValidation } from "../../redux/contest/contest-actions"
-import { EditUserInfos } from "../../redux/user-infos/user-infos-actions"
+import { EditUserInfos, SetDirection } from "../../redux/user-infos/user-infos-actions"
 import { BACKEND_API } from "../../services/links"
 import { SettingsModal } from "./settings-modal.component"
 import i18next from "i18next"
@@ -133,11 +133,18 @@ const SettingsComponent = ()=>{
     var setLanguage = (event)=>{
         setLang(event.target.value)
         i18next.changeLanguage(event.target.value);
+        if(event.target.value === "ar"){
+            document.dir = "rtl"
+            SetDirection(dispatch, "rtl")
+        }else{
+            document.dir = "ltr"
+            SetDirection(dispatch, "ltr")
+        }
     }
     var {t} = useTranslation()
     return(
         <div className="column is-full is-flex is-flex-direction-column list-container newContest is-size-6 mb-4">
-            <div className="is-flex bottomContainer">
+            <div className={`is-flex bottomContainer ${infos.direction ? (infos.direction === "rtl" ? "is-flex-direction-row-reverse" : "") : ""}`}>
                 <div className="is-flex is-flex-direction-column generalInfosForm is-justify-content-center is-align-items-center">
                     <div className="generalInfos">
                         <img alt="" src={require("../../../src/assets/icons/security.png").default} />
@@ -149,8 +156,8 @@ const SettingsComponent = ()=>{
                             <Spinner show={isLoading} />
                             <SettingsModal show={show} closeModal={()=> showModal(false)} />
                             <SelectInput 
-                                data={["ar", "en", "fr"]}
-                                placeholder="Choose Language"
+                                data={[{value: "ar", label: t("Arabic")}, {value: "en", label: t("English")}, {value: "fr", label: t("French")}]}
+                                placeholder={t("Choose Language")}
                                 value={lang}
                                 changeHandler={(event)=> setLanguage(event)}
                             />
@@ -184,7 +191,7 @@ const SettingsComponent = ()=>{
                                     <ContestInput 
                                         type="url"
                                         label={t("brand_url")}
-                                        placeholder="Your Url"
+                                        placeholder={t("brand_url_placeholder")}
                                         value={infos.url}
                                         changeHandler={event => changeHandler(event)}
                                         id="url"
@@ -193,7 +200,7 @@ const SettingsComponent = ()=>{
                                     <ContestDescription 
                                         label={t("activities")}
                                         value={infos.activities}
-                                        placeholder="Your Activities"
+                                        placeholder={t("your_activities_placeholder")}
                                         changeHandler={event => changeHandler(event)}
                                         id="activities"
                                         validData={error.activities}
@@ -202,7 +209,7 @@ const SettingsComponent = ()=>{
                             }
                         </div>
                     </div>
-                    <div className="contestButtons is-flex is-flex-direction-row is-justify-content-flex-end">
+                    <div dir={infos.direction ? infos.direction : "ltr"} className={`contestButtons is-flex is-justify-content-flex-end ${infos.direction === "rtl" ? "is-flex-direction-row-reverse" : "is-flex-direction-row "}`}>
                         {infos.authProvider.toLowerCase() === "local" ? <ContestButton 
                             color={"#5E2691"} 
                             bgColor={"#FFFFFF"}

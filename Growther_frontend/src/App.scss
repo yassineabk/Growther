@@ -1,6 +1,9 @@
 @import "sass/main.scss";
 html, body{
   @extend .scroll;
+  *{
+    direction: inherit;
+  }
 }
 .App{
   overflow-y: hidden;
@@ -23,17 +26,29 @@ html, body{
   color: $big-text;
   font-family: Poppins-Medium;
   transition: all 0.5s;
+  &[dir=rtl]{
+    font-family: Tajawal-Medium;
+    padding: 25px 130px 25px 50px;
+  }
   @media only screen and (max-width: 810px) {
-    padding: 25px 20px 25px 20px;
+    &[dir=rtl], &[dir=ltr]{
+      padding: 25px 15px !important;
+    }
   }
   @media only screen and (max-width: 540px) {
-    padding: 25px 15px 25px 15px;
+    &[dir=rtl], &[dir=ltr]{
+      padding: 25px 15px !important;
+    }
   }
   @media only screen and (max-width: 400px) {
-    padding: 25px 5px !important;
+    &[dir=rtl], &[dir=ltr]{
+      padding: 25px 5px !important;
+    }
   }
   @media only screen and (max-width: 375px) {
-    padding: 25px 0px !important;
+    &[dir=rtl], &[dir=ltr]{
+      padding: 25px 0px !important;
+    }
   }
   .big_title{
     font-size: 30px;
@@ -41,6 +56,9 @@ html, body{
     font-family: Poppins-SemiBold;
     align-items: center;
     justify-content: space-between;
+    &[dir=rtl]{
+      font-family: Tajawal-Bold;
+    }
     @media only screen and (max-width: 400px) {
       padding: 0px 15px !important;
     }
@@ -117,11 +135,17 @@ html, body{
       .winners-container-title{
         font-size: 30px;
         font-family: Poppins-SemiBold;
+        &[dir=rtl]{
+          font-family: Tajawal-Bold;
+        }
       }
       .winners-container-subtitle{
         font-size: 15px;
         font-family: Poppins-Medium;
         color: grey;
+        &[dir=rtl]{
+          font-family: Tajawal-Medium;
+        }
       }
       .draw-button{
         font-size: 15px;
@@ -140,6 +164,9 @@ html, body{
         img{
           width: 25px;
           height: auto;
+        }
+        &[dir=rtl]{
+          font-family: Tajawal-Medium;
         }
       }
     }
@@ -201,6 +228,14 @@ html, body{
   }
   .arrow-button-container{
     margin-left: 0.25em;
+    margin-right: 0;
+    &[dir=rtl]{
+      margin-left: 0;
+      margin-right: 0.25em;
+      img{
+        transform: rotateZ(180deg);
+      }
+    }
     .arrow-button{
       z-index: 100000;
       a{
@@ -228,7 +263,9 @@ html, body{
       flex: 1;
       flex-direction: row;
       @media only screen and (max-width: 1279px){
-        flex-direction: column-reverse;
+        &:not(.contest-result){
+          flex-direction: column-reverse !important;
+        }
       }
       .actionsContainer{
         flex: 1 !important;
@@ -240,7 +277,6 @@ html, body{
             @extend .button_container;
             margin-bottom: 0.25em !important;
             margin-top: 0.25em;
-            
           }
         }
       }
@@ -257,7 +293,12 @@ html, body{
           padding: 10px;
           flex-wrap: wrap !important;
           &.contestButtons{
-            justify-self: flex-end !important
+            justify-self: flex-end !important;
+            &[dir=rtl]{
+              & > *{
+                font-family: Tajawal-Medium !important;
+              }
+            }
           }
           &:not(.contestButtons){
             flex: 1;
