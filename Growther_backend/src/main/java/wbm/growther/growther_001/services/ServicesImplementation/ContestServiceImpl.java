@@ -20,10 +20,11 @@ import wbm.growther.growther_001.repository.*;
 import wbm.growther.growther_001.services.ContestService;
 import wbm.growther.growther_001.threadPoolTaskSchedulerClass;
 
-import javax.persistence.EntityManager;
 import java.text.ParseException;
 import java.util.*;
 import java.util.concurrent.RejectedExecutionException;
+
+import static java.lang.Math.min;
 
 @Service
 public class ContestServiceImpl implements ContestService {
@@ -163,7 +164,7 @@ public class ContestServiceImpl implements ContestService {
     }
 
 
-    //TODO : make a new draft contest form a given contest (ID)
+    // make a new draft contest form a given contest (ID)
     @Override
     @Transactional
     public ContestDto draftContest(Long contestID) {
@@ -212,6 +213,7 @@ public class ContestServiceImpl implements ContestService {
     }
 
     @Override
+    @Transactional
     public ContestDto updateContestInfos(ContestDto contestDto) throws ParseException {
         Contest contest=toContest(contestDto);
 
@@ -256,40 +258,73 @@ public class ContestServiceImpl implements ContestService {
                 }
         );
 
-        repository.save(contest);
-        return toDto(contest);
+
+        return toDto(repository.save(contest));
     }
     @Override
+    @Transactional
     public ContestDto updateDraftContestInfos(ContestDto contestDto) throws ParseException {
         Contest contest=toContest(contestDto);
 
         Contest dbContest= repository
                 .findContestByIdContest(contest.getIdContest());
 
+        HashSet<Long> existingPrizesIds= new HashSet<>();
+        HashSet<Long> existingActionsIds= new HashSet<>();
 
         contest.getPrizes().forEach(
                 prize -> {
                     if(prize.getId() == null){
                         prize.setId(0L);
-                        // dbContest.getPrizes().add(prize);
                     }
+                    else existingPrizesIds.add(prize.getId());
                     prize.setContest(contest);
                 }
         );
+
         contest.getActions().forEach(action ->
         {
             if(action.getId() == null){
                 action.setId(0L);
-                // dbContest.getActions().add(action);
             }
+            else existingActionsIds.add(action.getId());
             action.setContest(contest);
         });
+
+        dbContest.getPrizes().forEach(
+                prize -> {
+                    Long prizeId=prize.getId();
+                    boolean prizeExist =existingPrizesIds.contains(prizeId);
+                    if(!prizeExist)prizeRepository.delete(prize);
+                }
+        );
+
+        dbContest.getActions().forEach(
+                action -> {
+                    Long actionId=action.getId();
+                    boolean actionExist =existingActionsIds.contains(actionId);
+                    if(!actionExist)actionRepository.delete(action);
+                }
+        );
 
         boolean wasADraft=dbContest.getStatus()
                 .equalsIgnoreCase("DRAFT");
 
         if(wasADraft ){
-            contest.setStatus("Published");
+            if(!contest.getImmediately()) {
+                contest.setStatus("in_Creation");
+                UpdateContestStateJob publishContestJob = new UpdateContestStateJob(
+                        contest.getIdContest(),
+                        "Published",
+                        contest.getStartDate(),
+                        repository
+                );
+                taskScheduler.doTask(publishContestJob);
+            }
+            else {
+                contest.setStatus("Published");
+            }
+
             UpdateContestStateJob endContestJob=new UpdateContestStateJob(
                     contest.getIdContest(),
                     "Done",
@@ -299,8 +334,9 @@ public class ContestServiceImpl implements ContestService {
 
             taskScheduler.doTask(endContestJob);
         }
-
-        return toDto(repository.save(contest));
+        repository.save(contest);
+        return new ContestDto();
+        //return toDto(contest);
     }
     @Override
     public void deleteContest(ContestDto contestDto) throws ParseException {
@@ -354,10 +390,6 @@ public class ContestServiceImpl implements ContestService {
         contestDto.setDescription(contest.getDescription());
         contestDto.setWinnersNbr(contest.getWinnersNbr());
         contestDto.setActionsNbr(contest.getActionsNbr());
-       // contestDto.setStartDate(contest.getStartDate());
-        //contestDto.setEndDate(contest.getEndDate());
-
-        // TODO: set date in user TimeZone
         contestDto.setDateInUserTimezone(
                 contest.getStartDate(),contest.getEndDate(),TimeZone.getDefault().toString()
         );
@@ -365,7 +397,7 @@ public class ContestServiceImpl implements ContestService {
         contestDto.setEndTime(contest.getEndTime());
         contestDto.setTimeZone(contest.getTimeZone());
         contestDto.setImmediately(contest.getImmediately());
-        contestDto.setMaxReach(contest.getMaxReach());
+        contestDto.setMinPoints(contest.getMinPoints());
         contestDto.setActions(contest.getActions());
         contestDto.setPrizes(contest.getPrizes());
         contestDto.setNumOfParticipation(this.GetNumOfParticipation(contest.getIdContest()));
@@ -400,6 +432,7 @@ public class ContestServiceImpl implements ContestService {
         contest.setEndTime(contestDto.getEndTime());
         contest.setTimeZone(contestDto.getTimeZone());
         contest.setImmediately(contestDto.getImmediately());
+        contest.setMinPoints(contestDto.getMinPoints());
         contest.setActions(contestDto.getActions());
         contest.setPrizes(contestDto.getPrizes());
         return contest;
@@ -425,7 +458,7 @@ public class ContestServiceImpl implements ContestService {
         contestDto.setWinnersNbr(contest.getWinnersNbr());
         contestDto.setActionsNbr(contest.getActionsNbr());
 
-        //TODO get contest and convert dates to user timezone
+        //get contest and convert dates to user timezone
         contestDto.setDateInUserTimezone(
                 contest.getStartDate(),contest.getEndDate(),timezone
         );
@@ -435,6 +468,7 @@ public class ContestServiceImpl implements ContestService {
         contestDto.setImmediately(contest.getImmediately());
         contestDto.setActions(contest.getActions());
         contestDto.setPrizes(contest.getPrizes());
+        contestDto.setMinPoints(contest.getMinPoints());
         contestDto.setNumOfParticipation(this.GetNumOfParticipation(contest.getIdContest()));
         System.out.println(timezone);
         return contestDto;
@@ -449,11 +483,27 @@ public class ContestServiceImpl implements ContestService {
 
     @Override
     public List<WinnersResponse> getContestWinners(List<ParticipationDto> participationDtos,
-                                                   Set<Prize> prizes,Long contestId){
+                                                   Set<Prize> prizes, Long contestId){
 
-        //List<Winners> winners =winnersRepository.getAllByContestIdContest();
+        List<Winners> winners =winnersRepository.getAllByContestIdContest(contestId);
+        List<WinnersResponse> winnersResponses;
+        if(winners!= null){
+            winnersResponses= new ArrayList<>();
+           for(Winners winner : winners){
+               winnersResponses.add(new WinnersResponse(
+                       winner.getUser().getEmail(),
+                       winner.getRank()
+               ));
+           }
 
-        //if(winners!= null)return  winners;
+           int winnerIndex=0;
+            for(Prize prize:prizes){
+                winnersResponses.get(winnerIndex).setPrize(prize);
+                winnerIndex++;
+            }
+
+            return  winnersResponses;
+        }
 
 
         ContestWinners contestWinners=new ContestWinners();
@@ -461,20 +511,28 @@ public class ContestServiceImpl implements ContestService {
 
         contestWinners.addParticipant(participationDto.getUser().getEmail(),
                         participationDto.getTotalPoints());
-
         }
 
-        contestWinners.setNumberOfWinners(prizes.size());
+        contestWinners.setNumberOfWinners(min(prizes.size(),participationDtos.size()));
 
-        List<WinnersResponse> winners=contestWinners.getAllWinners();
+        winnersResponses=contestWinners.getAllWinners();
         int winnerIndex=0;
 
         for(Prize prize:prizes){
-            winners.get(winnerIndex).setPrize(prize);
+            winnersResponses.get(winnerIndex).setPrize(prize);
             winnerIndex++;
         }
+        Winners winner;
+        for(WinnersResponse winnerResponse : winnersResponses){
 
-        return winners;
+            winner=new Winners();
+            winner.setContest(repository.findContestByIdContest(contestId));
+            winner.setUser(userRepository.findUserByEmail(winnerResponse.getEmail()));
+            winner.setRank(winnerResponse.getRank());
+            winnersRepository.save(winner);
+        }
+
+        return winnersResponses;
     }
 
 

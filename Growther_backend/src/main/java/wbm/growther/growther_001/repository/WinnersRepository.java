@@ -7,6 +7,5 @@ import java.util.List;
 
 public interface WinnersRepository extends JpaRepository<Winners,Long> {
 
-
-
+    List<Winners> getAllByContestIdContest(Long contestId);
 }

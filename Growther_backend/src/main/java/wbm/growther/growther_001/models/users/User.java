@@ -62,10 +62,17 @@ public class User implements UserDetails {
     @JsonIgnore
     private Set<Participation> participations;
 
-   /* @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnore
     private List<Winners> winners;
-    */
+
+    public List<Winners> getWinners() {
+        return winners;
+    }
+
+    public void setWinners(List<Winners> winners) {
+        this.winners = winners;
+    }
 
     private Boolean isLocked=false;
     private Boolean enabled=false;

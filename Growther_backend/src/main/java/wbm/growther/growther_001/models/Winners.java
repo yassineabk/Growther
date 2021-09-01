@@ -10,9 +10,9 @@ public class Winners {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long idWinner;
 
-   /* @ManyToOne
+    @ManyToOne
     @JoinColumn(name = "id",nullable = true,updatable = false)
     @JsonIgnore
     private User user;
@@ -21,7 +21,7 @@ public class Winners {
     @JoinColumn(name = "idContest",nullable = true,updatable = false)
     @JsonIgnore
     private Contest contest;
-*/
+
     private int rank;
 
     public int getRank() {
@@ -32,13 +32,27 @@ public class Winners {
         this.rank = rank;
     }
 
-    public Long getId() {
-        return id;
+    public Long getIdWinner() {
+        return idWinner;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setIdWinner(Long idWinner) {
+        this.idWinner = idWinner;
     }
 
+    public User getUser() {
+        return user;
+    }
 
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Contest getContest() {
+        return contest;
+    }
+
+    public void setContest(Contest contest) {
+        this.contest = contest;
+    }
 }

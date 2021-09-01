@@ -46,7 +46,6 @@ public class AuthenticationServiceImpl  implements wbm.growther.growther_001.ser
     private EmailService emailService;
 
     @Override
-    @Transactional
     public String registerUser(UserDto signUpRequest) {
 
 
@@ -68,11 +67,15 @@ public class AuthenticationServiceImpl  implements wbm.growther.growther_001.ser
         if(signUpRequest.getIsBrand().equalsIgnoreCase("true")){
             if(signUpRequest.getUrl()!=null)
                 user.setUrl(signUpRequest.getUrl());
+            if(signUpRequest.getActivities()!=null)
+                user.setActivities(signUpRequest.getActivities());
             user.setIsBrand("true");
         }
         else user.setIsBrand("false");
 
         userRepository.save(user);
+
+
 
         /*URI location = ServletUriComponentsBuilder
                 .fromCurrentContextPath().path("/user/me")
@@ -123,7 +126,6 @@ public class AuthenticationServiceImpl  implements wbm.growther.growther_001.ser
     }
 
     @Override
-    @Transactional
     public String confirm(String token) {
         ConfirmationToken confirmationToken = confirmationTokenService
                 .getToken(token);
