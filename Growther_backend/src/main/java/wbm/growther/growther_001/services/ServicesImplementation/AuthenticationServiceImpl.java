@@ -94,14 +94,12 @@ public class AuthenticationServiceImpl  implements wbm.growther.growther_001.ser
 
 
         //TODO : app email
-        /*emailService.sendMessage(
+        emailService.sendMessage(
                 signUpRequest.getEmail(),
                 buildEmail(signUpRequest.getName(), link),
                 null,
                 true
-                );*/
-
-        //the email is not enabled yet
+                );
 
         return token;
     }

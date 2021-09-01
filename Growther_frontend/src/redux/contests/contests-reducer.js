@@ -5,7 +5,8 @@ const INITIAL_STATE = {
     contests: [],
     draft: [],
     error: null,
-    isLoading: false
+    isLoading: false,
+    activeContest: null
 }
 const ContestsReducer = (state = INITIAL_STATE, action)=>{
     switch(action.type){
@@ -74,14 +75,14 @@ const ContestsReducer = (state = INITIAL_STATE, action)=>{
         case CONTESTS_TYPES.APPEND_EDITED_DRAFT:
             return {
                 ...state,
-                draft: state.contests.map(item=>{
+                draft: [...state.draft.map(item=>{
                     if(item.idContest.toString() === action.payload.id.toString()){
                         return {
                             ...action.payload.data,
                         }
                     }
                     return item
-                })
+                })]
             }
         case CONTESTS_TYPES.GET_CONTESTS:
             return {
@@ -111,6 +112,11 @@ const ContestsReducer = (state = INITIAL_STATE, action)=>{
             return {
                 ...state,
                 isLoading: true
+            }
+        case CONTESTS_TYPES.ACTIVE_CONTEST_ACTION:
+            return {
+                ...state,
+                activeContest: action.payload
             }
         case RESET_ALL_TYPE.RESET_ALL:
             return {

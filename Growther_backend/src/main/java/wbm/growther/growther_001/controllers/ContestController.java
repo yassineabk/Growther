@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import wbm.growther.growther_001.dtos.ContestDto;
 import wbm.growther.growther_001.dtos.ParticipationDto;
 import wbm.growther.growther_001.exceptions.ResourceNotFoundException;
-import wbm.growther.growther_001.models.Participation;
 import wbm.growther.growther_001.models.Prize;
 import wbm.growther.growther_001.models.actions.Action;
 import wbm.growther.growther_001.payload.WinnersResponse;
@@ -91,10 +90,10 @@ public class ContestController {
     }
     //Publish contest by id
     @GetMapping("/{id}/publish")
-    public ResponseEntity<ContestDto> publishContestById(@PathVariable(value = "id") Long contestId)
+    public ResponseEntity<ContestDto> publishDraftContestById(@PathVariable(value = "id") Long contestId)
             throws ResourceNotFoundException {
 
-        ContestDto contestDto = contestService.publishContest(contestId);
+        ContestDto contestDto = contestService.publishDraftContest(contestId);
 
         if(contestDto==null)
             throw new ResourceNotFoundException("No contest exist with ID : "+contestId.toString());
@@ -241,7 +240,6 @@ public class ContestController {
         throw new RejectedExecutionException("NO DRAFT");
     }
 
-
     //Update contest
     @PutMapping("/update/{id}")
     public ResponseEntity<ContestDto> updateContest(@PathVariable(value = "id") Long contestId
@@ -281,7 +279,12 @@ public class ContestController {
         if(contestDto==null) throw new ResourceNotFoundException("No Contest exist with  ID : "+contestId.toString());
         System.out.println(contestId.toString());
         //update information if available
+        this.setContest(contestDto,contestDetails);
 
+        ContestDto contestDtoUpdated=contestService.updateContestInfos(contestDto);
+        return  ResponseEntity.ok().body(contestDtoUpdated);
+    }
+    private void setContest(ContestDto contestDto,ContestDto contestDetails){
         if(contestDetails.getTitle() != null)
             contestDto.setTitle(contestDetails.getTitle());
         if(contestDetails.getDescription() != null)
@@ -310,11 +313,23 @@ public class ContestController {
             contestDto.setActions(contestDetails.getActions());
         if(contestDetails.getPrizes() != null)
             contestDto.setPrizes(contestDetails.getPrizes());
-
-        ContestDto contestDtoUpdated=contestService.updateContestInfos(contestDto);
-        return  ResponseEntity.ok().body(contestDtoUpdated);
     }
 
+    //Update draft contest and publish it
+    @PutMapping("/draft/publish/{id}")
+    public ResponseEntity<ContestDto> updateDraftContestPublish(@PathVariable(value = "id") Long contestId
+            ,@Validated @RequestBody ContestDto contestDetails) throws ResourceNotFoundException, ParseException {
+        ContestDto contestDto=contestService.getContestById(contestId);
+
+        // if the contest does not exist, throw an exception
+        if(contestDto==null) throw new ResourceNotFoundException("No Contest exist with  ID : "+contestId.toString());
+        System.out.println(contestId.toString());
+        //update information if available
+        this.setContest(contestDto,contestDetails);
+
+        ContestDto contestDtoUpdated=contestService.updateDraftContestInfos(contestDto);
+        return  ResponseEntity.ok().body(contestDtoUpdated);
+    }
     //Delete contest
     @DeleteMapping("/delete/{id}")
     public Map<String, Boolean> deleteContest(@PathVariable(value = "id") Long contestId)
