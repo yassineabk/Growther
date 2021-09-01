@@ -154,6 +154,9 @@
             color: white;
             cursor: pointer;
             font-family: Poppins-Medium;
+            &[dir=rtl]{
+                font-family: Tajawal-Medium;
+            }
             .actionIcon{
                 margin-right: 0.5em;
                 margin-left: 0;

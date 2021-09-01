@@ -22,7 +22,8 @@ const INITIAL_STATE={
         ],
         actions: [],
         user: null,
-        immediately: false
+        immediately: false,
+        minPoints: 1,
     },
     validData: {},
     isValidData: false,

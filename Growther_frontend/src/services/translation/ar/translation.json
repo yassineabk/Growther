@@ -255,5 +255,8 @@
     "third_testi_user": "جين دو -",
     "first_testi_comp": "جين إكس",
     "second_testi_comp": "الفنون الالكترونية",
-    "third_testi_comp": "عوالم اللانهاية"  
+    "third_testi_comp": "عوالم اللانهاية" ,
+    "min_points": "الحد الأدنى",
+    "min_points_to_win": "الحد الأدنى للفوز",
+    "invalid_min_points": "المرجو إدخال حد أدنى صالح (1 على الأقل("
 }
