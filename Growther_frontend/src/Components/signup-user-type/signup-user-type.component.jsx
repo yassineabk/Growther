@@ -17,7 +17,7 @@ export const SignupUserType = ({handleSubmit, handleClick,isBrand})=>{
                         <div className="column is-5-tablet is-4-desktop is-4-widescreen ">
                             <form action="" className="box" onSubmit={handleSubmit}>
                                 <div className="column has-text-centered">
-                                    <p className="title is-3">{t("cretae_account")}</p>
+                                    <p className="title is-3">{t("create_account")}</p>
                                     {/*<p className="subtitle is-6">P</p>*/}
                                 </div>
                                 <div className="control pb-4 is-center is-flex userTypeContainer" >

@@ -119,7 +119,7 @@ const EditContestFirstStep = ()=>{
         return year + "-" + month + "-" + day
     }
     var checkEdits = ()=>{
-        if(information.status.toLowerCase() !== "done" && userId){
+        if(((information.status && typeof(information.status) === "string" && information.status.toLowerCase() !== "done") || !information.status) && userId){
             var validEdits = CheckEdits(dispatch, information)
             if(validEdits){
                 Edit(dispatch, information, information.idContest, userId)

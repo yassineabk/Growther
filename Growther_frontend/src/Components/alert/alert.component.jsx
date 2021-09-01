@@ -14,21 +14,21 @@ export const AlertComponent = ({alerts})=>{
                     if(item.message){
                         if(item.isSuccess && item.show){
                             return(
-                                <div dir={direction ? direction : "ltr"} key={`alert-${index}}`} id="alert-success" className={`alert is-flex ${direction === "rtl" ? "is-flex-direction-row" : "is-flex-direction-row-reverse"}`}>
+                                <div dir={direction ? direction : "ltr"} key={`alert-${index}}`} id="alert-success" className={`alert is-flex ${direction === "rtl" ? "is-flex-direction-row" : "is-flex-direction-row-reverse"} is-justify-content-space-between`}>
                                     <span onClick={()=> HideAlert(dispatch, item.timeout)} dir={direction ? direction : "ltr"} className={"closeAlert"}>
                                         <img src={require("../../assets/icons/close2.png").default}/>
                                     </span>
-                                    <span>{t(item.message)}</span>
+                                    <span style={{flex: 1}} className={"is-flex is-justify-content-center"}>{t(item.message)}</span>
                                 </div>
                             )
                         }
-                        if(item.isFail){
+                        if(item.isFail && item.show){
                             return(
-                                <div dir={direction ? direction : "ltr"} key={`alert-${index}}`} id="alert-fail" className={`alert is-flex ${direction === "rtl" ? "is-flex-direction-row" : "is-flex-direction-row-reverse"}`}>
+                                <div dir={direction ? direction : "ltr"} key={`alert-${index}}`} id="alert-fail" className={`alert is-flex ${direction === "rtl" ? "is-flex-direction-row" : "is-flex-direction-row-reverse"} is-justify-content-space-between`}>
                                     <span onClick={()=> HideAlert(dispatch, item.timeout)} dir={direction ? direction : "ltr"} className={"closeAlert"}>
                                         <img src={require("../../assets/icons/close2.png").default}/>
                                     </span>
-                                    <span>{t(item.message)}</span>
+                                    <span style={{flex: 1}} className={"is-flex is-justify-content-center"}>{t(item.message)}</span>
                                 </div>
                             )
                         }

@@ -53,6 +53,9 @@
             font-size: 12px;
             font-family: Poppins-Medium;
             padding: 0.25em;
+            &[dir=rtl]{
+                font-family: Tajawal-Medium;
+            }
         }
     }
 }

@@ -258,5 +258,7 @@
     "third_testi_comp": "عوالم اللانهاية" ,
     "min_points": "الحد الأدنى",
     "min_points_to_win": "الحد الأدنى للفوز",
-    "invalid_min_points": "المرجو إدخال حد أدنى صالح (1 على الأقل("
+    "invalid_min_points": "المرجو إدخال حد أدنى صالح (1 على الأقل(",
+    "draft_updated": "تم تعديل المسودة",
+    "contest_ended": "إنتهت المسابقة"
 }
