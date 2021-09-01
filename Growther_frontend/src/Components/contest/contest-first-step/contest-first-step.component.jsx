@@ -22,7 +22,7 @@ const ContestFirstStep = ()=>{
         }else if(information === null || information === undefined || typeof(information) !== "object"){
             InitState(dispatch)
         }else if(information !== null && information !== undefined &&  typeof(information) === "object"){
-            if(isPublished === true){
+            if(isPublished === true || information.idContest !== undefined){
                 ResestNewContest(dispatch)
             }
         }else{
