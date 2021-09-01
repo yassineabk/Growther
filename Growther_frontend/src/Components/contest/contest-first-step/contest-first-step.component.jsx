@@ -36,8 +36,11 @@ const ContestFirstStep = ()=>{
         var id = event.target.id
         var value = event.target.value
         var result = information
-        var numIds = ["winnersNbr", "duration", "maxParticipants"]
+        var numIds = ["winnersNbr", "duration", "minPoints"]
         if(id in result){
+            if(id === "minPoints" && value < 1){
+                return false
+            }
             result[id] = numIds.includes(id) ?  parseInt(value) : value
             StateChange(dispatch, result, id)
         }
@@ -378,6 +381,22 @@ const ContestFirstStep = ()=>{
                             {
                                 isValid: validData.endTime,
                                 message: t("invalid_time")
+                            } : undefined
+                        }
+                    />
+                    <ContestInput 
+                        type={"number"}
+                        id="minPoints"
+                        name="minPoints"
+                        placeholder={t("min_points_to_win")}
+                        label={t("min_points")}
+                        changeHandler={(event)=> changeHandler(event)}
+                        min={1}
+                        value={information ? information.minPoints : ""}
+                        validData={isValidData === false ? 
+                            {
+                                isValid: validData.endTime,
+                                message: t("invalid_min_points")
                             } : undefined
                         }
                     />

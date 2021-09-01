@@ -34,6 +34,7 @@ import DiscordAuthHandler from './services/discord-auth-handler';
 import DiscordBotAuthHandler from './services/discord-bot-auth-handler';
 import { AlertComponent } from './Components/alert/alert.component';
 import { TermsConditionsComponent } from './Components/terms-conditions/terms-conditions.component';
+import i18next from 'i18next';
 const LandingPage = lazy(()=> import('./pages/landing-page/landing-page.page'))
 const SignUpPage = lazy(()=> import('./pages/sign-up/sign-up.page'))
 const LoginPage = lazy(()=> import('./pages/login/login.page'))
@@ -67,10 +68,29 @@ const App = ()=> {
     var token = localStorage.getItem("accessToken")
     window.addEventListener("storage", (event)=>{
       var key = event.key
-      if(key !== "accessToken" || key === null || !key) return false
-      var newToken = event.newValue
-      SetCurrentToken(dispatch, newToken)
-      setUserInfos(dispatch, newToken, infos, true)
+      if(key === "accessToken"){
+        var newToken = event.newValue
+        SetCurrentToken(dispatch, newToken)
+        setUserInfos(dispatch, newToken, infos, true)
+        return true
+      }
+      if(key === "i18nextLng"){
+        var newLang = event.newValue
+        if(!["ar", "fr", "en"].includes(newLang)){
+          newLang = "en"
+        }
+        i18next.changeLanguage(newLang);
+        if(newLang === "ar"){
+            document.dir = "rtl"
+            SetDirection(dispatch, "rtl")
+        }else{
+            document.dir = "ltr"
+            SetDirection(dispatch, "ltr")
+        }
+        localStorage.setItem("i18nextLng", newLang)
+        return true
+      }
+      return false
     })
     setUserInfos(dispatch, token, infos, false)
     const lang = localStorage.getItem("i18nextLng")

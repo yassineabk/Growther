@@ -152,7 +152,8 @@
           color: $container-border;
           font-family: Poppins-Medium;
           &[dir=rtl]{
-            font-family: Tajawal-Regular;
+            font-size: 15px !important;
+            font-family: Tajawal-Medium;
           }
         }
       }
@@ -332,7 +333,8 @@
         -moz-hyphens: auto;
         hyphens: auto;
         &[dir=rtl]{
-          font-family: Tajawal-Regular;
+          font-size: 15px !important;
+          font-family: Tajawal-Medium;
         }
       }
     }
@@ -348,9 +350,12 @@
             height: 100%;
             padding: 0.25em 0.5em;
             color: #707070;
-            font-family: Poppins-Regular;
             border: 0px;
             outline: none;
+            font-family: Poppins-Regular;
+            &[dir=rtl]{
+              font-family: Tajawal-Regular;
+            }
           }
         }
         > div, select{
