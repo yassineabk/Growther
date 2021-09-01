@@ -9,11 +9,13 @@ import { SelectInput } from "../../Components/contest/select-input/select-input.
 import { Spinner } from "../../Components/spinner/spinner.component"
 import { FailAlert, SuccessAlert } from "../../redux/alert/alert-actions"
 import { UrlValidation } from "../../redux/contest/contest-actions"
-import { EditUserInfos, setUserInfos } from "../../redux/user-infos/user-infos-actions"
+import { EditUserInfos, SetDirection } from "../../redux/user-infos/user-infos-actions"
 import { BACKEND_API } from "../../services/links"
 import { SettingsModal } from "./settings-modal.component"
+import i18next from "i18next"
+import { useTranslation } from "react-i18next"
 const SettingsComponent = ()=>{
-    const language = localStorage.getItem("lang")
+    const language = localStorage.getItem("i18nextLng") || "en";
     var infos = useSelector(state => state.userInfos)
     var dispatch = useDispatch()
     var [show, showModal] = useState(false)
@@ -42,10 +44,10 @@ const SettingsComponent = ()=>{
                     .then(response =>{
                         setInfos(response.data)
                         setLoading(false)
-                        SuccessAlert(dispatch, "Get Infos Successfully")
+                        SuccessAlert(dispatch, "get_infos_successfully")
                     }).catch(err => {
                         setLoading(false)
-                        FailAlert(dispatch, "Get Infos Failure")
+                        FailAlert(dispatch, "get_infos_failure")
                     })
             }
             
@@ -122,19 +124,27 @@ const SettingsComponent = ()=>{
                 return false
             }).then(value =>{
                 if(value){
-                    SuccessAlert(dispatch, "Succesfully Updated")
+                    SuccessAlert(dispatch, "succesfully_updated")
                 }else{
-                    FailAlert(dispatch, "Update Failure")
+                    FailAlert(dispatch, "update_failure")
                 }
             })
     }
     var setLanguage = (event)=>{
         setLang(event.target.value)
-        localStorage.setItem("lang", event.target.value)
+        i18next.changeLanguage(event.target.value);
+        if(event.target.value === "ar"){
+            document.dir = "rtl"
+            SetDirection(dispatch, "rtl")
+        }else{
+            document.dir = "ltr"
+            SetDirection(dispatch, "ltr")
+        }
     }
+    var {t} = useTranslation()
     return(
         <div className="column is-full is-flex is-flex-direction-column list-container newContest is-size-6 mb-4">
-            <div className="is-flex bottomContainer">
+            <div className={`is-flex bottomContainer ${infos.direction ? (infos.direction === "rtl" ? "is-flex-direction-row-reverse" : "") : ""}`}>
                 <div className="is-flex is-flex-direction-column generalInfosForm is-justify-content-center is-align-items-center">
                     <div className="generalInfos">
                         <img alt="" src={require("../../../src/assets/icons/security.png").default} />
@@ -146,15 +156,15 @@ const SettingsComponent = ()=>{
                             <Spinner show={isLoading} />
                             <SettingsModal show={show} closeModal={()=> showModal(false)} />
                             <SelectInput 
-                                data={["Arabic", "English", "French"]}
-                                placeholder="Choose Language"
+                                data={[{value: "ar", label: t("Arabic")}, {value: "en", label: t("English")}, {value: "fr", label: t("French")}]}
+                                placeholder={t("Choose Language")}
                                 value={lang}
                                 changeHandler={(event)=> setLanguage(event)}
                             />
                             <ContestInput 
                                 type="text"
-                                label="Username"
-                                placeholder="Username"
+                                label={t("username")}
+                                placeholder={t("username")}
                                 value={infos.name}
                                 id="name"
                                 changeHandler={event => changeHandler(event)}
@@ -162,16 +172,16 @@ const SettingsComponent = ()=>{
                             />
                             <ContestInput 
                                 type="email"
-                                label="Email"
-                                placeholder="Email"
+                                label={t("email")}
+                                placeholder={t("email")}
                                 value={infos.email}
                                 readonly={true}
                                 id="email"
                             />
                             <ContestInput 
                                 type="password"
-                                label="Password"
-                                placeholder="Password"
+                                label={t("password")}
+                                placeholder={t("password")}
                                 value="***********"
                                 changeHandler={event => changeHandler(event)}
                                 readonly={true}
@@ -180,17 +190,17 @@ const SettingsComponent = ()=>{
                                 [
                                     <ContestInput 
                                         type="url"
-                                        label="Url"
-                                        placeholder="Your Url"
+                                        label={t("brand_url")}
+                                        placeholder={t("brand_url_placeholder")}
                                         value={infos.url}
                                         changeHandler={event => changeHandler(event)}
                                         id="url"
                                         validData={error.url}
                                     />,
                                     <ContestDescription 
-                                        label="Activities"
+                                        label={t("activities")}
                                         value={infos.activities}
-                                        placeholder="Your Activities"
+                                        placeholder={t("your_activities_placeholder")}
                                         changeHandler={event => changeHandler(event)}
                                         id="activities"
                                         validData={error.activities}
@@ -199,18 +209,18 @@ const SettingsComponent = ()=>{
                             }
                         </div>
                     </div>
-                    <div className="contestButtons is-flex is-flex-direction-row is-justify-content-flex-end">
+                    <div dir={infos.direction ? infos.direction : "ltr"} className={`contestButtons is-flex is-justify-content-flex-end ${infos.direction === "rtl" ? "is-flex-direction-row-reverse" : "is-flex-direction-row "}`}>
                         {infos.authProvider.toLowerCase() === "local" ? <ContestButton 
                             color={"#5E2691"} 
                             bgColor={"#FFFFFF"}
                             borderColor={"#5E2691"}
-                            text={"Edit Password"} 
+                            text={t("edit_password")} 
                             clickEvent={()=> showModal(true)}/> : null}
                         <ContestButton 
                             color={"#FFFFFF"}
                             bgColor={"#5E2691"} 
                             borderColor={"#5E2691"}
-                            text={"Save"} 
+                            text={t("save")} 
                             clickEvent={ CanSave() ? ()=> Save() : ()=> FailAlert(dispatch, "Update Failure")}
                         />
                     </div>

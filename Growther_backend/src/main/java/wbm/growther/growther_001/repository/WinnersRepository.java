@@ -6,5 +6,6 @@ import wbm.growther.growther_001.models.Winners;
 import java.util.List;
 
 public interface WinnersRepository extends JpaRepository<Winners,Long> {
-    
+
+    List<Winners> getAllByContestIdContest(Long contestId);
 }

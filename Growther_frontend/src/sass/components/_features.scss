@@ -23,15 +23,31 @@ padding-right: 20px;
     font-size: 15px;
     padding: 7px 0 7px 20px;
 }
+.features-item-list{
+    &[dir=rtl]{
+        li{
+            padding: 7px 20px 7px 0px;
+            font-family: Tajawal-Medium;
+        }
+        li:before {
+            right: 0;
+        }
+    }
+    &[dir=ltr]{
+        li:before {
+            left: 0;
+        }
+    }
+}
 .feature-img-fluid {
     max-width: 100%;
     height: auto;
 }
 
-
-
-.list-unstyled{padding-left:0;list-style:none}
-
+.list-unstyled{
+    padding-left:0;
+    list-style:none
+}
 
 .bg-web-desc{
     background: url("../../assets/images/img-1.jpg");
@@ -43,4 +59,16 @@ padding-right: 20px;
 .section-title-border, .services-box:hover i,.bg-primary,.btn-primary,.features-item-list li:before,.process-left-icon-1 i,
 .process-left-icon-2 i, .account-card .form-check-input:checked {
     background-color: #fb3e3e !important;
+}
+#features, #descriptions, #pricing, #testimonials, #get-started, #contact, footer{
+    h2{
+        &[dir=rtl]{
+            font-family: Tajawal-Bold !important;
+        }
+    }
+    p, h3, a, h6, h4{
+        &[dir=rtl]{
+            font-family: Tajawal-Medium !important;
+        }
+    }
 }

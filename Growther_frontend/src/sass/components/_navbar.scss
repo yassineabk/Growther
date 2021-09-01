@@ -1,6 +1,10 @@
 #navbar{
     transition: 0.5s all;
     width: 100%;
+    font-family: Poppins-Regular;
+    &[dir=rtl]{
+        font-family: Tajawal-Regular;
+    }
     &.is-fixed{
         position: fixed;
         animation: slide-navbar-in 500ms forwards alternate;
@@ -31,6 +35,12 @@
 }
 #navbar-items{
     flex-direction: row !important;
+    justify-content: center;
+    &[dir=rtl]{
+        justify-content: flex-start;
+        margin-right: 0 !important;
+        margin-left: auto !important;
+    }
     @media only screen and (max-width: 1023px){
         flex-direction: column !important;
         background-color: inherit !important;
@@ -47,6 +57,14 @@
         @media only screen and (max-width: 1023px){
             margin-top: 0.5em;
             justify-content: center;
+        }
+        #navbar-arrow{
+            &[dir=ltr]{
+                transform: rotateZ(0);
+            }
+            &[dir=rtl]{
+                transform: rotateZ(180deg);
+            }
         }
         #login{
             border: 2px solid #fb3e3e;
@@ -67,7 +85,18 @@
     margin-left: 50px;
     border-bottom: none;
 }
-
+.navbar-brand{
+    #navbar-burger{
+        &[dir=ltr]{
+            margin-left: auto;
+            margin-right: 0;
+        }
+        &[dir=rtl]{
+            margin-left: 0;
+            margin-right: auto;
+        }
+    }
+}
 .navbar-custom .navbar-brand {
     text-transform: uppercase;
     color:transparent#fff !important;
@@ -139,4 +168,18 @@
     color: #393f4f !important;
 }
 
+//landing page iframe container
+section#home{
+    h1.home-title{
+        &[dir=rtl]{
+            font-family: Tajawal-Bold !important;
+            font-size: 40px !important;
+        }
+    }
+    p{
+        &[dir=rtl]{
+            font-family: Tajawal-Regular !important;
+        }
+    }
+}
 

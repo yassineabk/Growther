@@ -1,4 +1,5 @@
 import React, { useEffect } from "react"
+import { useTranslation } from "react-i18next"
 import { useDispatch, useSelector } from "react-redux"
 import { 
     Redirect,
@@ -10,7 +11,7 @@ import { NewContestTabs } from "../new-contest-tabs/new-contest-tabs.component"
 import { PreviewContainer } from "../preview-container/preview-container.component"
 const NewContest = ({child})=>{
     var { information, activePage, previewActions, isLoading, isPublished } = useSelector(state => state.contest)
-    var { isBrand } = useSelector(state => state.userInfos)
+    var { isBrand, direction } = useSelector(state => state.userInfos)
     var dispatch = useDispatch()
     var previewChangeHandler = (event, provider)=>{
         var index = parseInt(event.target.selectedIndex)
@@ -19,6 +20,7 @@ const NewContest = ({child})=>{
     useEffect(()=>{
         InitState(dispatch)   
     }, [dispatch])
+    var {t} = useTranslation()
     if(isBrand !== "true") return <Redirect to="/" />
     return(
         [            
@@ -29,22 +31,22 @@ const NewContest = ({child})=>{
                     tabs={[
                         {
                             location: "/dashboard/My Contests/new/firstStep", 
-                            nex: "/dashboard/My Contests/new/secondStep",
-                            text: "Contest Informations",
+                            next: "/dashboard/My Contests/new/secondStep",
+                            text: t("contest_information"),
                         },
                         {
                             location: "/dashboard/My Contests/new/secondStep", 
-                            text: "Compose Contest",
-                            next: "/dashboard/My Contests/new/thirdStep"
+                            next: "/dashboard/My Contests/new/thirdStep",
+                            text: t("compose_contest"),
                         },
                         {
                             location: "/dashboard/My Contests/new/thirdStep", 
-                            text: "Publish Contest"
+                            text: t("publish_contest"),
                         }
                     ]}
                     goBack={isPublished}
                 />
-                <div className="is-flex bottomContainer">
+                <div dir={direction ? direction : "ltr"} className={`is-flex bottomContainer ${direction ? (direction === "rtl" ? "is-flex-direction-row-reverse" : "") : ""}`}>
                     <PreviewContainer 
                         previewActions={previewActions} 
                         information={information} 

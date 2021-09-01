@@ -1,4 +1,6 @@
 import React from "react"
+import { useTranslation } from "react-i18next"
+import { useSelector } from "react-redux"
 import { actions } from "../../../services/actions"
 import { ContestInput } from "../contest-input/contest-input.component"
 import { SelectInput } from "../select-input/select-input.component"
@@ -14,10 +16,12 @@ export const ContestAction = ({data, removeAction, updateAction, validAction})=>
         })
         return result
     }
+    var {t} = useTranslation()
+    var {direction} = useSelector(state => state.userInfos)
     if(typeof(data) !== "object") return null
     return(
         <div className="contestAction is-flex is-flex-direction-row">
-            <div className="actionTitle">{data.provider}</div>
+            <div className="actionTitle">{t(data.provider.toLowerCase())}</div>
             <div className="actionSelect">
                 <SelectInput 
                     data={
@@ -32,10 +36,10 @@ export const ContestAction = ({data, removeAction, updateAction, validAction})=>
                     type={"url"}
                     id="actionUrl"
                     name="actionUrl"
-                    placeholder={TextActions.includes(data.type.toLowerCase()) ? "Describe your Action" : "Action Link"}
+                    placeholder={TextActions.includes(data.type.toLowerCase()) ? t("action_description") : t("action_url")}
                     changeHandler={(event)=> updateAction(data.provider, "url", event.target.value)}
                     value={typeof(data) === "object" && typeof(data.url) === "string" ? data.url : ""}
-                    validData={typeof(validAction) === "object" ? {isValid: validAction.url, message: "Please, Enter a valid link"} : false}
+                    validData={typeof(validAction) === "object" ? {isValid: validAction.url, message: t("invalid_link")} : false}
                 />
             </div>
             <div className="actionPoints">
@@ -51,12 +55,16 @@ export const ContestAction = ({data, removeAction, updateAction, validAction})=>
                     validData={typeof(validAction) === "object" ? 
                         {
                             isValid: validAction.points, 
-                            message:"Please, Enter a number between 1 and 5"
+                            message:t("invalid_points")
                         } : false}
                 />
             </div>
-            <div className="removeAction">
-                <img alt="" onClick={()=> removeAction(data.provider)} src={require("../../../assets/icons/close.png").default} />
+            <div dir={direction ? direction : "ltr"} className="removeAction">
+                <img 
+                    alt="" 
+                    onClick={()=> removeAction(data.provider)} 
+                    src={require("../../../assets/icons/close.png").default} 
+                />
             </div>
         </div>
     )

@@ -1,5 +1,6 @@
 import React, { useEffect } from "react"
-import { useDispatch } from "react-redux";
+import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import { logout } from "../../../redux/login/login.actions";
 
@@ -23,6 +24,8 @@ export const DashboradSideBar = ({isBrand})=>{
             history.push("/landing-page")
         })
     }
+    var {direction} = useSelector(state => state.userInfos)
+    var {t} = useTranslation()
     useEffect(()=>{
         document.addEventListener("click", event =>{
             var id = event.target.id
@@ -37,36 +40,36 @@ export const DashboradSideBar = ({isBrand})=>{
         })
     })
     return(
-        <div id="sideBar" className="sideBar">
+        <div dir={direction ? direction : "ltr"} id="sideBar" className="sideBar">
             <div className="sideBar_Items is-flex is-flex-direction-column">
                 <div onClick={()=> changeHandler("/")} className="is-flex logo-container">
                     <img alt="" src={require("../../../assets/icons/logo.png").default}/>
                 </div>
                 <div className="screens-buttons is-flex is-flex-direction-column">
-                    <div onClick={()=> changeHandler("/dashboard")} className={homeLocations.includes(location.pathname) ? "sideBar_item active" : "sideBar_item"}>
+                    <div dir={direction ? direction : "ltr"} onClick={()=> changeHandler("/dashboard")} className={homeLocations.includes(location.pathname) ? "sideBar_item active" : "sideBar_item"}>
                         <img alt="" src={require("../../../assets/icons/home.png").default}/>
-                        <div className="tooltip is-flex">
-                            <span className="tooltip-text">Home</span>
+                        <div dir={direction ? direction : "ltr"} className="tooltip is-flex">
+                            <span className="tooltip-text">{t("home")}</span>
                         </div>
                     </div>
                     {isBrand === "true" ? 
                         [
-                            <div onClick={()=>changeHandler("/dashboard/My Contests")} className={location.pathname.includes("/dashboard/My Contests") ? "sideBar_item active" : "sideBar_item"}>
+                            <div dir={direction ? direction : "ltr"} onClick={()=>changeHandler("/dashboard/My Contests")} className={location.pathname.includes("/dashboard/My Contests") ? "sideBar_item active" : "sideBar_item"}>
                                 <img alt="" src={require("../../../assets/icons/trophy.png").default}/>
-                                <div className="tooltip is-flex">
-                                    <span className="tooltip-text">Contests</span>
+                                <div dir={direction ? direction : "ltr"} className="tooltip is-flex">
+                                    <span className="tooltip-text">{t("contests")}</span>
                                 </div>
                             </div>,
-                            <div onClick={()=>changeHandler("/dashboard/Templates")} className={templateLocations.includes(location.pathname) ? "sideBar_item active" : "sideBar_item"}>
+                            <div dir={direction ? direction : "ltr"} onClick={()=>changeHandler("/dashboard/Templates")} className={templateLocations.includes(location.pathname) ? "sideBar_item active" : "sideBar_item"}>
                                 <img alt="" src={require("../../../assets/icons/file.png").default}/>
-                                <div className="tooltip is-flex">
-                                    <span className="tooltip-text">Templates</span>
+                                <div dir={direction ? direction : "ltr"} className="tooltip is-flex">
+                                    <span className="tooltip-text">{t("templates")}</span>
                                 </div>
                             </div>,
-                            <div onClick={()=>changeHandler("/dashboard/draft")} className={location.pathname === "/dashboard/draft" ? "sideBar_item active" : "sideBar_item"}>
+                            <div dir={direction ? direction : "ltr"} onClick={()=>changeHandler("/dashboard/draft")} className={location.pathname === "/dashboard/draft" ? "sideBar_item active" : "sideBar_item"}>
                                 <img alt="" src={require("../../../assets/icons/draft.png").default}/>
-                                <div className="tooltip is-flex">
-                                    <span className="tooltip-text">Draft</span>
+                                <div dir={direction ? direction : "ltr"} className="tooltip is-flex">
+                                    <span className="tooltip-text">{t("draft")}</span>
                                 </div>
                             </div>
                         ] : null}
@@ -76,22 +79,22 @@ export const DashboradSideBar = ({isBrand})=>{
                 <div className="tail-buttons is-flex is-flex-direction-column is-justify-content-flex-end">
                     <div className="tailButton" onClick={()=> changeHandler("/dashboard/support")}>
                         <img alt="" src={require("../../../assets/icons/headset.png").default} />
-                        <div className="tooltip is-flex">
-                            <span className="tooltip-text">Support</span>
+                        <div dir={direction ? direction : "ltr"} className="tooltip is-flex">
+                            <span className="tooltip-text">{t("support")}</span>
                         </div>
                     </div>
                     <div className="tailButton" onClick={()=> changeHandler("/dashboard/settings")}>
                         <img alt="" src={require("../../../assets/icons/settings.png").default}/>
-                        <div className="tooltip is-flex">
-                            <span className="tooltip-text">Settings</span>
+                        <div dir={direction ? direction : "ltr"} className="tooltip is-flex">
+                            <span className="tooltip-text">{t("settings")}</span>
                         </div>
                     </div>
                     <div className="tailButton">
                         <img onClick={()=>{
                             Logout()
                         }} alt="" src={require("../../../assets/icons/logout.png").default} />
-                        <div className="tooltip is-flex">
-                            <span className="tooltip-text">Logout</span>
+                        <div dir={direction ? direction : "ltr"} className="tooltip is-flex">
+                            <span className="tooltip-text">{t("logout")}</span>
                         </div>
                     </div>
                 </div>

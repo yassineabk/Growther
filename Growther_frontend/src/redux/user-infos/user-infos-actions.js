@@ -20,18 +20,18 @@ export const setUserInfos = (dispatch, token, infos, tokenChanged)=>{
             return axios.get(`${BACKEND_API}/api/users/${sub}`, config)
             .then(response =>{
                 dispatch({ type: UserInfosTypes.SET_USER_INFOS, payload: response.data })
-                SuccessAlert(dispatch, "Get Infos Successfully")
+                SuccessAlert(dispatch, "get_infos_successfully")
             }).catch(err => {
                 dispatch({type: UserInfosTypes.SET_USER_INFOS_FAIL})
-                FailAlert(dispatch, "Get Infos Failure")
+                FailAlert(dispatch, "get_infos_failure")
             })
         }
-        FailAlert(dispatch, "Get Infos Failure")
+        FailAlert(dispatch, "get_infos_failure")
         return dispatch({type: UserInfosTypes.SET_USER_INFOS_FAIL})
     }
     localStorage.removeItem("accessToken")
     dispatch({type: RESET_ALL_TYPE.RESET_ALL})
-    FailAlert(dispatch, "Get Infos Failure")
+    FailAlert(dispatch, "get_infos_failure")
     return dispatch({type: UserInfosTypes.SET_USER_INFOS_FAIL})
 }
 export const EditUserInfos = (dispatch, key, value)=>{
@@ -40,4 +40,7 @@ export const EditUserInfos = (dispatch, key, value)=>{
 }
 export const setUserInfosFail = (dispatch)=>{
     dispatch({type: UserInfosTypes.SET_USER_INFOS_FAIL})
+}
+export const SetDirection = (dispatch, direction)=>{
+    dispatch({type: UserInfosTypes.SET_DIRECTION, payload: direction})
 }

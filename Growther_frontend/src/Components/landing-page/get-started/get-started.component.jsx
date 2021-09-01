@@ -1,20 +1,23 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from "react-i18next";
+import { useSelector } from 'react-redux';
 
-class GetStarted extends React.Component {
-  render() {
+const GetStarted =()=> {
+    const { t } = useTranslation();
+    var {direction} = useSelector(state => state.userInfos)
   	return (
-        <section className="section section-lg bg-get-start">
+        <section id={"get-started"} className="section section-lg bg-get-start">
             <div className="bg-overlay"></div>
             <div className="container">
                 <div className="columns is-vcentered is-centered">
                     <div className="column is-8-desktop has-text-centered">
-                        <h1 className="get-started-title text-white desc-title">Let's Get Started</h1>
+                        <h1 dir={direction ? direction : "ltr"} className="get-started-title text-white desc-title">{t("get_started_header")}</h1>
                         <div className="section-title-border margin-t-20 bg-white"></div>
                         <div className="is-flex is-justify-content-center">
-                            <p className="padding-t-15 pt-4 home-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sit amet tortor scelerisque, aliquam leo vel, mattis ex. Phasellus hendrerit nulla eget lectus sodales luctus. </p>
+                            <p dir={direction ? direction : "ltr"} className="padding-t-15 pt-4 home-desc">{t("get_started_pragraph")}</p>
                         </div>
-                        <Link to="#" className="btn btn-bg-white waves-effect margin-t-20 mb-4">Get Started <i className="mdi mdi-arrow-right"></i> </Link>
+                        <Link dir={direction ? direction : "ltr"} to="#" className="btn btn-bg-white waves-effect margin-t-20 mb-4">{t("get_started")} <i className={`mdi ${direction === "rtl" ? "mdi-arrow-left" : "mdi-arrow-right"}`}></i> </Link>
                     </div>
                 </div>
             </div>
@@ -23,6 +26,6 @@ class GetStarted extends React.Component {
             </div>
         </section>
   	);
-  }
+  
 }
 export default GetStarted;

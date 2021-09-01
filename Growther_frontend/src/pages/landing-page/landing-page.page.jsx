@@ -10,9 +10,12 @@ import Contact from '../../Components/landing-page/contact/contact.componenet';
 import SocialMedia from '../../Components/landing-page/social-media/social-media.component';
 import Footer from '../../Components/landing-page/footer/footer.component';
 import Auxi from '../../Components/landing-page/hoc/auxi.componenet';
-class LandingPage extends React.Component {
-  render() {
+import { useTranslation } from "react-i18next";
+import { useSelector } from 'react-redux';
 
+const  LandingPage =()=>{
+    const { t } = useTranslation();
+    var { direction } = useSelector(state => state.userInfos)
     var bkg1 = {
         backgroundImage: 'url(images/img-2.jpg)',
         backgroundSize : 'cover',
@@ -30,9 +33,9 @@ class LandingPage extends React.Component {
                                <div className="container">
                                    <div className="columns is-vcentered is-centered">
                                       <div className="column is-flex is-flex-direction-column is-justify-content-center is-8-desktop text-white has-text-centered">
-                                        <h1 className="home-title">We help brands grow their audience</h1>
+                                        <h1 dir={direction ? direction : "ltr"} className="home-title">{t("hero_header")}</h1>
                                         <div className="is-flex is-justify-content-center">
-                                            <p className="pt-7 home-desc has-text-centered">Etiam sed.Interdum consequat proin vestibulum className at a euismod mus luctus quam.Lorem ipsum dolor sit amet, consectetur adipisicing eli.</p>
+                                            <p dir={direction ? direction : "ltr"} className="pt-7 home-desc has-text-centered">{t("hero_paragraph")}</p>
                                         </div>
                                         {/*<LanguageSelect/>*/}
                                         <div className="margin-t-30">
@@ -63,7 +66,6 @@ class LandingPage extends React.Component {
                 {/* Started Component*/}
                 <GetStarted />
 
-
                 {/* Contact Component*/}
                 <Contact />
 
@@ -75,7 +77,7 @@ class LandingPage extends React.Component {
 
         </Auxi>
   	);
-  }
+  
 }
 
 export default LandingPage;

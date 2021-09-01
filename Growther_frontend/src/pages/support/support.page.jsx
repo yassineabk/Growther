@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { useTranslation } from "react-i18next"
 import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from "react-router-dom"
 import { ContestButton } from "../../Components/contest/contest-buttons/contest-buttons.component"
@@ -27,6 +28,7 @@ const SupportPage = ()=>{
         message: {isValid: false, message: ""}
     })
     var [isLoading, setLoading] = useState(false)
+    var {direction} = useSelector(state => state.userInfos)
     var changeHandler = (event)=>{
         var key = event.target.id
         var value = event.target.value
@@ -85,9 +87,10 @@ const SupportPage = ()=>{
             setLoading(false)
         })
     }
+    var {t} = useTranslation()
     return(
         <div className="column is-full is-flex is-flex-direction-column list-container newContest is-size-6 mb-4">
-            <div className="is-flex bottomContainer">
+            <div className={`is-flex bottomContainer ${direction ? (direction === "rtl" ? "is-flex-direction-row-reverse" : "") : ""}`}>
                 <div className="is-flex is-flex-direction-column generalInfosForm is-justify-content-center is-align-items-center">
                     <div className="generalInfos">
                         <img alt="" src={require("../../../src/assets/icons/support.png").default} />
@@ -99,8 +102,8 @@ const SupportPage = ()=>{
                             <Spinner show={isLoading} />
                             <ContestInput 
                                 type="text"
-                                label="Name"
-                                placeholder="Your name"
+                                label={t("name")}
+                                placeholder={t("name_placeholder")}
                                 value={name}
                                 changeHandler={(event)=> changeHandler(event)}
                                 validData={error.name}
@@ -108,8 +111,8 @@ const SupportPage = ()=>{
                             />
                             <ContestInput 
                                 type="email"
-                                label="Email"
-                                placeholder="Your email"
+                                label={t("email")}
+                                placeholder={t("email_placeholder")}
                                 value={email}
                                 changeHandler={event => changeHandler(event)}
                                 validData={error.email}
@@ -117,8 +120,8 @@ const SupportPage = ()=>{
                             />
                             <ContestInput 
                                 type="text"
-                                label="Subject"
-                                placeholder="Your subject"
+                                label={t("subject")}
+                                placeholder={t("subject_placeholder")}
                                 value={userInfos.subject}
                                 changeHandler={event => changeHandler(event)}
                                 validData={error.subject}
@@ -126,28 +129,28 @@ const SupportPage = ()=>{
                             />
                             <ContestDescription
                                 label="Message"
-                                placeholder="Your message" 
-                                value={userInfos.message}
+                                label={t("message")}
+                                placeholder={t("message_placeholder")}
                                 changeHandler={event => changeHandler(event)}
                                 validData={error.message}
                                 id="message"
                             />
                         </div>
                     </div>
-                    <div className="contestButtons is-flex is-flex-direction-row is-justify-content-flex-end">
+                    <div dir={direction ? direction : "ltr"} className={`contestButtons is-flex is-justify-content-flex-end ${direction === "rtl" ? "is-flex-direction-row-reverse" : "is-flex-direction-row"}`}>
                         <ContestButton 
                             color={"#5E2691"} 
                             bgColor={"#FFFFFF"}
                             borderColor={"#5E2691"}
-                            text={"Cancel"}
+                            text={t("cancel")}
                             clickEvent={()=> history.push("/dashboard")}
                         />
                         <ContestButton 
                             color={"#FFFFFF"}
                             bgColor={"#5E2691"} 
                             borderColor={"#5E2691"}
-                            text={"Send Message"} 
-                            clickEvent={CanSend() ? ()=> SendMessage() : ()=> FailAlert(dispatch, "Can't Send Email") }
+                            text={t("send_message")} 
+                            clickEvent={CanSend() ? ()=> SendMessage() : ()=> FailAlert(dispatch, "can't_send_email") }
                         />
                     </div>
                 </div>

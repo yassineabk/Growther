@@ -1,5 +1,6 @@
 import { decode } from "jsonwebtoken"
 import React, { useEffect, useState } from "react"
+import { useTranslation } from "react-i18next"
 import { useDispatch, useSelector } from "react-redux"
 import { Redirect, useHistory, useLocation, useParams } from "react-router-dom"
 import { CheckEdits, Edit, EditDuration, EditState, SetStateToEdit, SetStateToEditFromLocation } from "../../../redux/contest-edit/contest-edit-actions"
@@ -10,7 +11,7 @@ import { ContestInput } from "../contest-input/contest-input.component"
 import { PreviewContainer } from "../preview-container/preview-container.component"
 const EditContestFirstStep = ()=>{
     var { information, isValidData, validData, isLoading } = useSelector(state => state.contest_edit)
-    var { isBrand } = useSelector(state => state.userInfos)
+    var { isBrand, direction } = useSelector(state => state.userInfos)
     var dispatch = useDispatch()
     var location = useLocation()
     var params = useParams()
@@ -161,6 +162,7 @@ const EditContestFirstStep = ()=>{
         }
         return changeHandler(event)
     }
+    var {t} = useTranslation()
     if(isBrand !== "true") return <Redirect to="/" />
     if(typeof(information) !== "object") return <Redirect to={"/dashboard"} />
     if(information.status !== null && typeof(information.status) === "string" && information.status.toLowerCase() === "done") return <Redirect to={`/dashboard/My%20Contests/result/${information.idContest}`} />
@@ -178,27 +180,27 @@ const EditContestFirstStep = ()=>{
                         <ContestInput 
                             id="title"
                             name="title"
-                            placeholder="Your title here"
-                            label="Contest Title"
+                            placeholder={t("title_placeholder")}
+                            label={t("contest_title")}
                             changeHandler={(event)=> changeHandler(event)}
                             value={information ? information.title : ""}
                             validData={isValidData === false ? 
                                 {
                                     isValid: validData.title,
-                                    message: "Please, Enter the title of your contest"
+                                    message: t("invalid_title")
                                 } : undefined}
                         />
                         <ContestDescription 
                             id="description"
                             name="description"
-                            placeholder="Description Here"
-                            label="Desctiption"
+                            placeholder={t("description_placeholder")}
+                            label={t("description")}
                             changeHandler={(event)=> changeHandler(event)}
                             value={information ? information.description : ""}
                             validData={isValidData === false ? 
                                 {
                                     isValid: validData.description,
-                                    message: "Please, Describe your contest in few lines"
+                                    message: t("invalid_description")
                                 } : undefined}
                         />
                     </div>
@@ -208,13 +210,13 @@ const EditContestFirstStep = ()=>{
                             id="endDate"
                             name="endDate"
                             placeholder="dd-mm-yyyy"
-                            label="End date"
+                            label={t("end_date")}
                             changeHandler={(event)=> dateHandler(event)}
                             value={typeof(information.endDate) === "string" ? information.endDate.trim().replace(" ", "T").split("T")[0] : ""}
                             validData={isValidData === false ? 
                                 {
                                     isValid: validData.endDate,
-                                    message: "Please, Pick a valid date"
+                                    message: t("invalid_date")
                                 } : undefined
                             }
                         />
@@ -229,35 +231,25 @@ const EditContestFirstStep = ()=>{
                             validData={isValidData === false ? 
                                 {
                                     isValid: validData.endTime,
-                                    message: "Please, Pick a valid date"
+                                    message: t("invalid_time")
                                 } : undefined
                             }
                         />
-                        <ContestInput 
-                            type={"number"}
-                            id="maxReach"
-                            name="maxReach"
-                            placeholder="Number of participants"
-                            label="Or stop when we reach"
-                            changeHandler={(event)=> changeHandler(event)}
-                            min={1}
-                            value={information ? information.maxReach : 0}
-                        />
                     </div>
                 </div>
-                <div className="contestButtons is-flex is-flex-direction-row is-justify-content-flex-end">
+                <div dir={direction ? direction : "ltr"} className={`contestButtons is-flex is-justify-content-flex-end ${direction === "rtl" ? "is-flex-direction-row-reverse" : "is-flex-direction-row"}`}>
                     <ContestButton 
                         color={"#5E2691"} 
                         bgColor={"#FFFFFF"}
                         borderColor={"#5E2691"}
-                        text={"Cancel"} 
+                        text={t("cancel")} 
                         clickEvent={()=> history.goBack()}
                     />
                     <ContestButton 
                         color={"#FFFFFF"}
                         bgColor={"#5E2691"} 
                         borderColor={"#5E2691"}
-                        text={"Edit"} 
+                        text={t("edit")} 
                         clickEvent={()=> checkEdits()}
                     />
                 </div>

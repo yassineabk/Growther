@@ -35,20 +35,16 @@ public class ContestController {
     }
     //Get All Contests
     @GetMapping("/all")
-    public List<? extends Object> getContestsByUser() throws ResourceNotFoundException {
+    public List<? extends Object> getContestsOrParticipationsByUser() throws ResourceNotFoundException {
         Long userId=null;
         SecurityUser principal;
 
         // load the principal (authenticated user) if he exist
-        try {
             principal= (SecurityUser) SecurityContextHolder
                     .getContext().getAuthentication().getPrincipal();
             //get the user id from security context
             userId=principal.getId();
 
-        }catch (Exception e){
-            System.out.println("do nothing");
-        }
         List<ContestDto> contests = contestService.getAllContestsByUser(userId);
         List<ParticipationDto> participations = participationService.getParticipationsByUser(userId);
 
@@ -56,20 +52,6 @@ public class ContestController {
         if (! contests.isEmpty())
             return contests;
         else if (! participations.isEmpty()) {
-            /*HashMap<Long, ArrayList<Set<Participation>>> filtredParticipation = new HashMap<Long, ArrayList<Set<Participation>>>();
-            for (int i = 0; i < participations.size(); i++) {
-                Long index = participations.get(i).getContest().getIdContest();
-                if (!filtredParticipation.containsKey(index)) {
-                    filtredParticipation.put(index, new ArrayList<Set<Participation>>>());
-                }
-                filtredParticipation.get(index).add(participations.get(i).getParticipationActions());
-            }
-            Iterator it = filtredParticipation.entrySet().iterator();
-            while (it.hasNext()) {
-                Map.Entry pair = (Map.Entry)it.next();
-                System.out.println(pair.getKey() + " = " + pair.getValue());
-                it.remove(); // avoids a ConcurrentModificationException
-            }*/
             return participations;
         }
         else throw new ResourceNotFoundException("No contests exist with USER ID : " +userId);
@@ -258,8 +240,7 @@ public class ContestController {
             contestDto.setDescription(contestDetails.getDescription());
         if(contestDetails.getEndDate() != null)
             contestDto.setEndDate(contestDetails.getEndDate());
-        if(contestDetails.getMaxReach() != 0)
-            contestDto.setMaxReach(contestDetails.getMaxReach());
+        contestDto.setMinPoints(contestDetails.getMinPoints());
         if(contestDetails.getEndTime() != null)
             contestDto.setEndTime(contestDetails.getEndTime());
         if(contestDetails.getStatus() != null)
@@ -297,8 +278,7 @@ public class ContestController {
             contestDto.setEndDate(contestDetails.getEndDate());
         if(contestDetails.getTimeZone() != null)
             contestDto.setTimeZone(contestDetails.getTimeZone());
-        if(contestDetails.getMaxReach() != 0)
-            contestDto.setMaxReach(contestDetails.getMaxReach());
+        contestDto.setMinPoints(contestDetails.getMinPoints());
         if(contestDetails.getActionsNbr() != 0)
             contestDto.setActionsNbr(contestDetails.getActionsNbr());
         if(contestDetails.getWinnersNbr() != 0)
@@ -346,19 +326,17 @@ public class ContestController {
     public List<WinnersResponse>
     getWinnersOfContest(@PathVariable(value = "id") Long contestId ) throws ResourceNotFoundException {
 
-        double seuil=0.8;
-        double totalpoints=0.0;
+
         ContestDto contestDto = contestService.getContestById(contestId);
-        Set<Action> actions=contestDto.getActions();
-        for(Action action:actions)totalpoints+=action.getPoints();
+        int seuil=contestDto.getMinPoints();
 
         List<ParticipationDto> participationDtos=participationService
                 .getParticipationsByContest(contestId);
-        double finalTotalpoints = totalpoints;
+
         participationDtos
                 .stream()
                 .filter(participationDto ->
-                        (participationDto.getTotalPoints())/ finalTotalpoints >= seuil);
+                        (participationDto.getTotalPoints()) >= seuil);
 
         Set<Prize> prizes= contestDto.getPrizes();
 

@@ -1,7 +1,6 @@
 .services-box {
     padding: 15px 10px;
 }
-
 .services-box i {
     font-size: 32px;
     height: 68px;
@@ -21,4 +20,17 @@
 
 .service-title{
     font-size: 18px;
+}
+
+#services, #pricing, #testimonials, #get-started, #contact, footer{
+    h1{
+        &[dir=rtl]{
+            font-family: Tajawal-Bold !important;
+        }
+    }
+    p, h4, h5{
+        &[dir=rtl]{
+            font-family: Tajawal-Medium !important;
+        }
+    }
 }

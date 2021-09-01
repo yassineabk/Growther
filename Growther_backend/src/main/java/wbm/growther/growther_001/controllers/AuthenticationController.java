@@ -40,6 +40,7 @@ public class AuthenticationController {
 
     @GetMapping(path = "confirmEmail")
     public String confirmEmail(@RequestParam("token") String token){
+        
         return authenticationService.confirm(token);
     }
 

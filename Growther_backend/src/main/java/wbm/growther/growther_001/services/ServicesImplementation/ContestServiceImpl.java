@@ -20,10 +20,11 @@ import wbm.growther.growther_001.repository.*;
 import wbm.growther.growther_001.services.ContestService;
 import wbm.growther.growther_001.threadPoolTaskSchedulerClass;
 
-import javax.persistence.EntityManager;
 import java.text.ParseException;
 import java.util.*;
 import java.util.concurrent.RejectedExecutionException;
+
+import static java.lang.Math.min;
 
 @Service
 public class ContestServiceImpl implements ContestService {
@@ -396,7 +397,7 @@ public class ContestServiceImpl implements ContestService {
         contestDto.setEndTime(contest.getEndTime());
         contestDto.setTimeZone(contest.getTimeZone());
         contestDto.setImmediately(contest.getImmediately());
-        contestDto.setMaxReach(contest.getMaxReach());
+        contestDto.setMinPoints(contest.getMinPoints());
         contestDto.setActions(contest.getActions());
         contestDto.setPrizes(contest.getPrizes());
         contestDto.setNumOfParticipation(this.GetNumOfParticipation(contest.getIdContest()));
@@ -431,6 +432,7 @@ public class ContestServiceImpl implements ContestService {
         contest.setEndTime(contestDto.getEndTime());
         contest.setTimeZone(contestDto.getTimeZone());
         contest.setImmediately(contestDto.getImmediately());
+        contest.setMinPoints(contestDto.getMinPoints());
         contest.setActions(contestDto.getActions());
         contest.setPrizes(contestDto.getPrizes());
         return contest;
@@ -466,6 +468,7 @@ public class ContestServiceImpl implements ContestService {
         contestDto.setImmediately(contest.getImmediately());
         contestDto.setActions(contest.getActions());
         contestDto.setPrizes(contest.getPrizes());
+        contestDto.setMinPoints(contest.getMinPoints());
         contestDto.setNumOfParticipation(this.GetNumOfParticipation(contest.getIdContest()));
         System.out.println(timezone);
         return contestDto;
@@ -480,11 +483,27 @@ public class ContestServiceImpl implements ContestService {
 
     @Override
     public List<WinnersResponse> getContestWinners(List<ParticipationDto> participationDtos,
-                                                   Set<Prize> prizes,Long contestId){
+                                                   Set<Prize> prizes, Long contestId){
 
-        //List<Winners> winners =winnersRepository.getAllByContestIdContest();
+        List<Winners> winners =winnersRepository.getAllByContestIdContest(contestId);
+        List<WinnersResponse> winnersResponses;
+        if(winners!= null){
+            winnersResponses= new ArrayList<>();
+           for(Winners winner : winners){
+               winnersResponses.add(new WinnersResponse(
+                       winner.getUser().getEmail(),
+                       winner.getRank()
+               ));
+           }
 
-        //if(winners!= null)return  winners;
+           int winnerIndex=0;
+            for(Prize prize:prizes){
+                winnersResponses.get(winnerIndex).setPrize(prize);
+                winnerIndex++;
+            }
+
+            return  winnersResponses;
+        }
 
 
         ContestWinners contestWinners=new ContestWinners();
@@ -492,20 +511,28 @@ public class ContestServiceImpl implements ContestService {
 
         contestWinners.addParticipant(participationDto.getUser().getEmail(),
                         participationDto.getTotalPoints());
-
         }
 
-        contestWinners.setNumberOfWinners(prizes.size());
+        contestWinners.setNumberOfWinners(min(prizes.size(),participationDtos.size()));
 
-        List<WinnersResponse> winners=contestWinners.getAllWinners();
+        winnersResponses=contestWinners.getAllWinners();
         int winnerIndex=0;
 
         for(Prize prize:prizes){
-            winners.get(winnerIndex).setPrize(prize);
+            winnersResponses.get(winnerIndex).setPrize(prize);
             winnerIndex++;
         }
+        Winners winner;
+        for(WinnersResponse winnerResponse : winnersResponses){
 
-        return winners;
+            winner=new Winners();
+            winner.setContest(repository.findContestByIdContest(contestId));
+            winner.setUser(userRepository.findUserByEmail(winnerResponse.getEmail()));
+            winner.setRank(winnerResponse.getRank());
+            winnersRepository.save(winner);
+        }
+
+        return winnersResponses;
     }
 
 

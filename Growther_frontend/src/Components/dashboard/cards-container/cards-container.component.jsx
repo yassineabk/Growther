@@ -1,5 +1,6 @@
 import { decode } from "jsonwebtoken"
 import React, { useEffect, useState } from "react"
+import { useTranslation } from "react-i18next"
 import { useSelector } from "react-redux"
 import { NumbersConverter } from "../../../services/numbers-converter"
 import { TimeLeft } from "../../../services/timeLeft"
@@ -20,6 +21,8 @@ export const CardsContainer = ({data, title, showMore, addNew, Duplicate, Delete
             setId(sub)
         }
     }, [userId])
+    var {t} = useTranslation()
+    var {direction} = useSelector(state => state.userInfos)
     var onMouseOver = (element)=>{
         setActiveElement(element)
         var realSeconds = (new Date(element && typeof(element) === "object" && element !== null && element.endDate && typeof(element.endDate) === "string" ? element.endDate.trim().replace(" ", "T") : "") - new Date())
@@ -86,6 +89,15 @@ export const CardsContainer = ({data, title, showMore, addNew, Duplicate, Delete
                             isBrand={isBrand}
                             onMouseLeave={()=> onMouseLeave()}
                             onMouseOver={(element)=> onMouseOver(element)}
+                            duplicateText={t("duplicate")}
+                            detailsText={t("details")}
+                            deleteText={t("delete")}
+                            continueText={t("continue")}
+                            pointsText={t("points")}
+                            entriesText={t("entries")}
+                            timeText={t("time")}
+                            viewsText={t("views")}
+                            direction={direction}
                         />                    
                     )
                 }): <EmptyList isLoading={isLoading} /> }

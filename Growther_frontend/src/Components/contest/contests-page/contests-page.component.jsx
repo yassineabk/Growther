@@ -1,4 +1,5 @@
 import React, { useEffect } from "react"
+import { useTranslation } from "react-i18next"
 import { useDispatch, useSelector } from "react-redux"
 import { Redirect } from "react-router-dom"
 import { DuplicateContest } from "../../../redux/contest/contest-actions"
@@ -17,13 +18,15 @@ const DashboardContestPage = () =>{
     var Duplicate = (id, data)=> {
         DuplicateContest(dispatch, id, data)
     }
+    var {t} = useTranslation()
     if(isBrand !== "true") return <Redirect to="/dashboard" />
     return(
         <div className="is-flex is-flex-direction-column column is-full">
             <div className="mb-4">
                 <CardsContainer 
                     data={Array.isArray(contests) ? contests.reverse() : []} 
-                    title={"My Contests"} addNew={"/dashboard/My%20Contests/new/firstStep"} 
+                    title={t("my_contests")} 
+                    addNew={"/dashboard/My%20Contests/new/firstStep"} 
                     Duplicate={(id, data)=> Duplicate(id, data)}
                     isBrand={isBrand}
                 />
