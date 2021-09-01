@@ -255,9 +255,10 @@
     "third_testi_user":"Jane Doe -",
     "first_testi_comp":"JaneX",
     "second_testi_comp":"Electronic Arts",
-    "third_testi_comp":"Infinity Worlds"
-
-
+    "third_testi_comp":"Infinity Worlds",
+    "min_points": "Min Points",
+    "min_points_to_win": "Min Points to Win",
+    "invalid_min_points": "Please Invalid Min Points (Minimum 1)"
 }
 
    

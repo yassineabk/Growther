@@ -131,6 +131,9 @@
               font-family: Poppins-Regular;
               border: 0px;
               outline: none;
+              &[dir=rtl]{
+                font-family: Tajawal-Regular;
+              }
             }
           }
         .actionUrl{

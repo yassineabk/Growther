@@ -281,6 +281,11 @@ export const NextStep = (dispatch, information)=>{
                             }
                         }
                         break
+                    case "minPoints":
+                        if(data["minPoints"] === null || data["minPoints"] < 1){
+                            result["minPoints"] = false
+                        }
+                        break
                     default:
                         break
                 }
