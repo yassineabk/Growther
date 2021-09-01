@@ -12,7 +12,6 @@ const ContestThirdStep = () =>{
     var {isValidData, isValidActions, isPublished, contestLink} = useSelector(state => state.contest)
     var { isBrand } = useSelector(state => state.userInfos)
     var location = useLocation()
-    var dispatch = useDispatch()
     var copyClipoard = ()=>{
         navigator.clipboard.writeText(contestLink)
         document.getElementById("contestLink").classList.add("copied")

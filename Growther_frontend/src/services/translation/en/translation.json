@@ -260,7 +260,8 @@
     "min_points_to_win": "Min Points to Win",
     "invalid_min_points": "Please Invalid Min Points (Minimum 1)",
     "draft_updated": "Draft Updated",
-    "contest_ended": "Contest Ended"
+    "contest_ended": "Contest Ended",
+    "not_ended_yet": "Contest not Ended yet"
 }
 
    

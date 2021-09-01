@@ -487,7 +487,7 @@ public class ContestServiceImpl implements ContestService {
 
         List<Winners> winners =winnersRepository.getAllByContestIdContest(contestId);
         List<WinnersResponse> winnersResponses;
-        if(winners!= null){
+        if(winners.size() > 0){
             winnersResponses= new ArrayList<>();
            for(Winners winner : winners){
                winnersResponses.add(new WinnersResponse(

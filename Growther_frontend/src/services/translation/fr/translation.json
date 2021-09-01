@@ -259,5 +259,6 @@
   "min_points_to_win": "Minimum des Points pour Gagner",
   "invalid_min_points": "Veuillez Entrer un Valid Minimum de Point (Minimum 1)",
   "draft_updated": "Brouillon Mis à Jour",
-  "contest_ended": "Contest Terminé"
+  "contest_ended": "Compétition Terminé",
+  "not_ended_yet": "Compétition pas encore Terminé" 
 }

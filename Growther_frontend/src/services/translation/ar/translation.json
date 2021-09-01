@@ -260,5 +260,6 @@
     "min_points_to_win": "الحد الأدنى للفوز",
     "invalid_min_points": "المرجو إدخال حد أدنى صالح (1 على الأقل(",
     "draft_updated": "تم تعديل المسودة",
-    "contest_ended": "إنتهت المسابقة"
+    "contest_ended": "إنتهت المسابقة",
+    "not_ended_yet": "لم تنتهي المسابقة بعج"
 }

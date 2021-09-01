@@ -18,6 +18,7 @@ const OAuth2RedirectHandler = ()=> {
         var user = localStorage.getItem("user")
         registerWithFacebookAndGoogle(JSON.parse(user), dispatch)
         SetCurrentToken(dispatch, token)
+        localStorage.removeItem("user")
         return <Redirect to={{
             pathname: "/dashboard",
             

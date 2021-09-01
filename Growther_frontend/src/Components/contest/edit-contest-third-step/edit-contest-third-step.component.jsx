@@ -7,6 +7,7 @@ import { Spinner } from "../../spinner/spinner.component";
 import { DrawWinners, ResetWinners } from "../../../redux/winners/winners-actions";
 import { TimeLeft } from "../../../services/timeLeft";
 import { useTranslation } from "react-i18next";
+import { FailAlert } from "../../../redux/alert/alert-actions";
 const EditContestThirdStep = ()=>{
     var {information, isLoading} = useSelector(state => state.contest_edit)
     var { isBrand, direction } = useSelector(state => state.userInfos)
@@ -34,6 +35,8 @@ const EditContestThirdStep = ()=>{
         var isDone = information !== null && typeof(information) === "object" ? information.status : false
         if(TimeLeft(endDate, endTime).date === "Ended" || (typeof(isDone) === "string" && isDone !== null && isDone.toLowerCase() === "done")){
             DrawWinners(dispatch, params.id)
+        }else{
+            FailAlert(dispatch, "not_ended_yet")
         }
     }
     var {t} = useTranslation()

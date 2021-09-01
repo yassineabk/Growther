@@ -109,7 +109,6 @@ public class ParticipationController {
     @PutMapping("/update/participation/{participationActionID}")
     public ParticipationAction updateParticipationAction(@PathVariable(value = "participationActionID") Long participationActionId
             ,@Validated @RequestBody ParticipationAction participationAction) throws ResourceNotFoundException {
-        System.out.println(participationAction.getType()+""+participationAction.getProvider()+"---"+participationAction.getId());
         ParticipationAction action =  actionRepository.findById(participationActionId).get();
         if (action!=null){
             action.setProvider(participationAction.getProvider());
@@ -122,6 +121,10 @@ public class ParticipationController {
             action.setUsername(participationAction.getUsername());
             action.setDone(participationAction.isDone());
             actionRepository.save(action);
+            long participationId= action.getParticipation().getId();
+            Participation participation= repository.findParticipationById(participationId);
+            participation.setTotalPoints(participation.getTotalPoints()+action.getPoints());
+            repository.save(participation);
         }else throw new ResourceNotFoundException("No action with ID:"+participationActionId);
 
         return action;
