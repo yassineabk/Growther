@@ -240,8 +240,7 @@ public class ContestController {
             contestDto.setDescription(contestDetails.getDescription());
         if(contestDetails.getEndDate() != null)
             contestDto.setEndDate(contestDetails.getEndDate());
-        if(contestDetails.getMaxReach() != 0)
-            contestDto.setMaxReach(contestDetails.getMaxReach());
+        contestDto.setMinPoints(contestDetails.getMinPoints());
         if(contestDetails.getEndTime() != null)
             contestDto.setEndTime(contestDetails.getEndTime());
         if(contestDetails.getStatus() != null)
@@ -279,8 +278,7 @@ public class ContestController {
             contestDto.setEndDate(contestDetails.getEndDate());
         if(contestDetails.getTimeZone() != null)
             contestDto.setTimeZone(contestDetails.getTimeZone());
-        if(contestDetails.getMaxReach() != 0)
-            contestDto.setMaxReach(contestDetails.getMaxReach());
+        contestDto.setMinPoints(contestDetails.getMinPoints());
         if(contestDetails.getActionsNbr() != 0)
             contestDto.setActionsNbr(contestDetails.getActionsNbr());
         if(contestDetails.getWinnersNbr() != 0)
@@ -328,19 +326,17 @@ public class ContestController {
     public List<WinnersResponse>
     getWinnersOfContest(@PathVariable(value = "id") Long contestId ) throws ResourceNotFoundException {
 
-        double seuil=0.8;
-        double totalpoints=0.0;
+
         ContestDto contestDto = contestService.getContestById(contestId);
-        Set<Action> actions=contestDto.getActions();
-        for(Action action:actions)totalpoints+=action.getPoints();
+        int seuil=contestDto.getMinPoints();
 
         List<ParticipationDto> participationDtos=participationService
                 .getParticipationsByContest(contestId);
-        double finalTotalpoints = totalpoints;
+
         participationDtos
                 .stream()
                 .filter(participationDto ->
-                        (participationDto.getTotalPoints())/ finalTotalpoints >= seuil);
+                        (participationDto.getTotalPoints()) >= seuil);
 
         Set<Prize> prizes= contestDto.getPrizes();
 

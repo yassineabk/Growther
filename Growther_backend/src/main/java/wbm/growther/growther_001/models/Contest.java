@@ -22,7 +22,7 @@ public class Contest {
     private String description;
     private int winnersNbr;
     private int actionsNbr;
-    private int maxReach;
+    private int minPoints;
     private Date startDate;
     private Date endDate;
     private String startTime;
@@ -43,12 +43,18 @@ public class Contest {
     //@JsonIgnore
     private Set<Prize> prizes;
 
-    /*
-    @OneToMany(mappedBy = "user")
+
+    @OneToMany(mappedBy = "contest",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Winners> winners;
-    */
 
+    public List<Winners> getWinners() {
+        return winners;
+    }
+
+    public void setWinners(List<Winners> winners) {
+        this.winners = winners;
+    }
 
     //each brand should be able to create more than 1 contest
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -69,7 +75,7 @@ public class Contest {
     //}
 
 
-    public Contest(String title, String description, int winnersNbr, int actionsNbr, int maxReach,
+    public Contest(String title, String description, int winnersNbr, int actionsNbr, int minPoints,
                    Date startDate, Date endDate, String startTime, String endTime,
                    String timeZone, Boolean immediately, Set<Participation> participations,
                    String status, Set<Action> actions, Set<Prize> prizes) {
@@ -77,7 +83,7 @@ public class Contest {
         this.description = description;
         this.winnersNbr = winnersNbr;
         this.actionsNbr = actionsNbr;
-        this.maxReach = maxReach;
+        this.minPoints = minPoints;
         this.startDate = startDate;
         this.endDate = endDate;
         this.startTime=startTime;
@@ -95,7 +101,7 @@ public class Contest {
         this.description = contest.getDescription();
         this.winnersNbr = contest.getWinnersNbr();
         this.actionsNbr = contest.getActionsNbr();
-        this.maxReach = contest.getMaxReach();
+        this.minPoints = contest.getMinPoints();
         this.startDate = contest.getStartDate();
         this.endDate = contest.getEndDate();
         this.endTime = contest.getEndTime();
@@ -176,10 +182,14 @@ public class Contest {
         this.actionsNbr = actionsNbr;
     }
 
-    public int getMaxReach() { return maxReach; }
 
-    public void setMaxReach(int maxReach) { this.maxReach = maxReach; }
+    public int getMinPoints() {
+        return minPoints;
+    }
 
+    public void setMinPoints(int minPoints) {
+        this.minPoints = minPoints;
+    }
 
     public void setTimeZone(String timeZone) {
         this.timeZone = timeZone;
