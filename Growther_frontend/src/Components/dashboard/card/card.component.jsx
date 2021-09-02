@@ -66,7 +66,7 @@ export const CardComponent = ({element, title, description, views, entries, id, 
             </div>
             <div className="right-side is-flex is-flex-direction-column">
                 <div className="card-infos is-flex is-flex-direction-column">
-                    <div className="card-title">
+                    <div dir={direction ? direction : "ltr"} className="card-title">
                         <h3>{title && typeof(title) === "string" ? title : "Contest Title"}</h3>
                     </div>
                     <div dir={direction ? direction : "ltr"} className="card-description">

@@ -1,12 +1,15 @@
 import React from "react"
 import { useTranslation } from "react-i18next"
+import { useSelector } from "react-redux"
 export const SelectInput = ({data, value, changeHandler, placeholder})=>{
     var {t} = useTranslation()
+    var {direction} = useSelector(state => state.userInfos)
     return(
         <select 
             className={"selectForm"} 
             onChange={changeHandler && {}.toString.call(changeHandler) === '[object Function]' ? (event)=> changeHandler(event) : (event) => false}
             value={typeof(value) === "object" ? value.type : value} 
+            dir={direction ? direction : "ltr"}
         >
             {placeholder ? 
                 <option disabled>

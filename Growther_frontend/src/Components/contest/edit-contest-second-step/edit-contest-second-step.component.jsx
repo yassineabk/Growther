@@ -38,12 +38,16 @@ const EditContestSecondStep = ()=>{
             })
         }
         MakeResultState(params.id).then(res =>{
-            setData(res.result)
-            setTableHead(res.tableHead)
+            if(res !== undefined && res !== null && typeof(res) === "object"){
+                setData(res.result)
+                setTableHead(res.tableHead)
+            }
         })
     }, [dispatch])
     var {t} = useTranslation()
-    if(isBrand !== "true") return <Redirect to="/" />
+    if(isBrand !== "true") return <Redirect to="/dashboard" />
+    if(typeof(information) !== "object") return <Redirect to={"/dashboard"} />
+    if(information.participationId !== undefined) return <Redirect to={"/dashboard"} />
     return(
         [
             <Spinner show={isLoading} />,
@@ -62,16 +66,16 @@ const EditContestSecondStep = ()=>{
                     </div>
                 </div>
                 <div className="table-container">
-                    <table id="participationTable" className="table" style={{height: Array.isArray(data) ? data.length * 58.8 : 58.8}} >
+                    <table id="participationTable" className="table" style={{height: Array.isArray(data) ? data.length * 58.8 : "100%"}} >
                         <tbody className="tbody">
-                            <tr className="tr ths is-flex is-flex-direction-row">
+                            <tr className={`tr ths is-flex`}>
                                 {tableHead.map(item =>{
-                                    return <th>{item.label}</th>
+                                    return <th>{item.label}</th>    
                                 })}
                             </tr>
                             {Array.isArray(data) ? data.map((item, index) =>{
                                 return(
-                                <tr className={"tr tds is-flex is-flex-direction-row"}>
+                                <tr className={`tr tds is-flex`}>
                                     {item !== null && typeof(item) === "object" ? [
                                         <td>
                                             {item.email}

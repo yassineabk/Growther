@@ -7,6 +7,7 @@ import { Spinner } from "../../spinner/spinner.component";
 import { DrawWinners, ResetWinners } from "../../../redux/winners/winners-actions";
 import { TimeLeft } from "../../../services/timeLeft";
 import { useTranslation } from "react-i18next";
+import { FailAlert } from "../../../redux/alert/alert-actions";
 const EditContestThirdStep = ()=>{
     var {information, isLoading} = useSelector(state => state.contest_edit)
     var { isBrand, direction } = useSelector(state => state.userInfos)
@@ -34,10 +35,14 @@ const EditContestThirdStep = ()=>{
         var isDone = information !== null && typeof(information) === "object" ? information.status : false
         if(TimeLeft(endDate, endTime).date === "Ended" || (typeof(isDone) === "string" && isDone !== null && isDone.toLowerCase() === "done")){
             DrawWinners(dispatch, params.id)
+        }else{
+            FailAlert(dispatch, "not_ended_yet")
         }
     }
     var {t} = useTranslation()
-    if(isBrand !== "true") return <Redirect to="/" />
+    if(isBrand !== "true") return <Redirect to="/dashboard" />
+    if(typeof(information) !== "object") return <Redirect to={"/dashboard"} />
+    if(information.participationId !== undefined) return <Redirect to={"/dashboard"} />
     return(
         [
             <Spinner show={isLoading || winners.isLoading} />,
@@ -65,27 +70,27 @@ const EditContestThirdStep = ()=>{
                         <div className="table-container mt-5">
                             <table id="participationTable" className="table" style={{height: Array.isArray(winners.winners) ? winners.length * 58.8 : 58.8}} >
                                 <tbody className="tbody winners-table">
-                                    <tr className="tr-winners tds is-flex is-flex-direction-row">
+                                    <tr className={`tr-winners tds is-flex`}>
                                         {[{label: "Rank"}, {label: "Email"}, {label: "Prize"}].map(item =>{
                                             return <th>{item.label}</th>
                                         })}
                                     </tr>
                                     {Array.isArray(winners.winners) ? winners.winners.map(item =>{
                                         return(
-                                        <tr className={"tr-winners tds is-flex is-flex-direction-row"}>
-                                            {item !== null && typeof(item) === "object" ? [
-                                                <td>
-                                                    {item.rank}
-                                                </td>,
-                                                <td>
-                                                    {item.email}
-                                                </td>,
-                                                <td>
-                                                    {typeof(item.prize) === "object" && item.prize !== null ? item.prize.description : ""}
-                                                </td>,
-                                            ]  : null}
-                                        </tr>
-                                    )
+                                            <tr className={`tr-winners tds is-flex`}>
+                                                {item !== null && typeof(item) === "object" ? [
+                                                    <td>
+                                                        {item.rank}
+                                                    </td>,
+                                                    <td>
+                                                        {item.email}
+                                                    </td>,
+                                                    <td>
+                                                        {typeof(item.prize) === "object" && item.prize !== null ? item.prize.description : ""}
+                                                    </td>,
+                                                ]  : null}
+                                            </tr>
+                                        )
                                 }) : null}
                                 </tbody>
                             </table>

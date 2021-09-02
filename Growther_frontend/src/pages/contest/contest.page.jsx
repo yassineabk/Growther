@@ -1,5 +1,6 @@
 import { decode } from "jsonwebtoken"
 import React, { useEffect, useState } from "react"
+import { useTranslation } from "react-i18next"
 import { useDispatch, useSelector } from "react-redux"
 import { useLocation, useParams } from "react-router-dom"
 import { PreviewCard } from "../../Components/contest/preview-card/preview-card.component"
@@ -19,6 +20,7 @@ const Contest = ()=>{
     var location = useLocation()
     var {information, selected, isLoading, error, points, canParticipate, isDoingAction} = useSelector(state => state.contest_card)
     var {isBrand} = useSelector(state => state.userInfos)
+    var {t} = useTranslation()
     useEffect(()=>{
         window.addEventListener("storage", event =>{
             var value = event.newValue
@@ -106,12 +108,11 @@ const Contest = ()=>{
         if(hours !== "00:00:00"){
             OpenActionModal(dispatch, index, element)
         }else{
-            FailAlert(dispatch, "Contest Ended")
+            FailAlert(dispatch,  t("contest_ended"))
         }
     }
     var DoBonus = (index, element)=>{
         if(hours !== "00:00:00"){
-            OpenActionModal(dispatch, index, element)
             if(information !== null && information !== undefined && typeof(information) === "object" && Array.isArray(information.actions)){
                 var result = true
                 information.actions.map((item, index) =>{
@@ -131,7 +132,7 @@ const Contest = ()=>{
                 }
             }
         }else{
-            FailAlert(dispatch, "Contest Ended")
+            FailAlert(dispatch, t("contest_ended"))
         }
     }
     var showLoginForm = (value)=>{
@@ -174,13 +175,13 @@ const Contest = ()=>{
                 <PreviewCard
                     element={information}
                     title={information.title}
-                    points={points}
+                    points={information.totalPoints}
                     id={information.idContest}
                     entries={NumbersConverter(information.numOfParticipation)}
                     description={information.description}
                     endDate={hours}
-                    timeLeft={information.endDate ? TimeLeft(information.endDate.trim().replace(" ","T"), information.endTime).date : ""}
-                    dateType={TimeLeft(information.endDate.trim().replace(" ","T"), information.endTime).type}
+                    timeLeft={information.endDate && typeof(information.endDate) === "string" ? TimeLeft(information.endDate.trim().replace(" ","T"), information.endTime).date : ""}
+                    dateType={information.endDate && typeof(information.endDate) === "string" ? TimeLeft(information.endDate.trim().replace(" ","T"), information.endTime).type : ""}
                     actions={Array.isArray(information.actions) ? information.actions : []}
                     prizes={information.prizes}
                     previewActions={selected}
@@ -199,7 +200,7 @@ const Contest = ()=>{
                     DoAction={(index, element)=> DoAction(index, element)}
                     DoBonus={(index, element) => DoBonus(index, element)}
                     showLoginForm={showLoginForm && {}.toString.call(showLoginForm) === '[object Function]' ? (value)=> showLoginForm(value) : ()=> false}
-                    //onMouseLeave={()=> onMouseLeave()}
+                    onMouseLeave={()=> onMouseLeave()}
                     onMouseOver={(element)=> onMouseOver(element)}
                 /> 
             : null}

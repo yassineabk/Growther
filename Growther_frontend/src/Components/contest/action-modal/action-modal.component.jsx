@@ -38,6 +38,7 @@ export const ActionModal = ({action, valid_answer_check, action_done, valid_url_
             }
         case "youtube":
             switch(action.type.toLowerCase()){
+                case "watch video":
                 case "visit channel":
                     return (
                         <VisitSocialMedia 

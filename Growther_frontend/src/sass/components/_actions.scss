@@ -60,6 +60,8 @@
             }
             .actionUrl, .actionPoints{
                 @extend .input;
+                justify-content: center;
+                align-items: center;
                 //flex: 1;
                 .contest_input {
                     flex: 1;
@@ -71,6 +73,8 @@
                 }
             }
             .actionPoints{
+                justify-content: center;
+                align-items: center;    
                 .contest_input{
                     input{
                         max-width: 100px !important; 

@@ -138,30 +138,33 @@ const App = ()=> {
           <Route exact path='/dashboard/settings' render={()=> currentUser ?  (<Dashboard child={<SettingsComponent infos={infos} />} />) : (<Redirect to='/'/>)} />
           <Route exact path='/dashboard/support' render={()=> currentUser ?  (<Dashboard child={<SupportPage />} />) : (<Redirect to='/'/>)} />
           <Route exact path="/dashboard/My Contests/new" render={()=> (
-              <Redirect to="/dashboard/My Contests/new/firstStep" />
+              <Redirect to={{
+                pathname: "/dashboard/My Contests/new/firstStep",
+                state: true
+              }} />
           )} />
           <Route exact path="/dashboard/My Contests/new/firstStep" render={()=> (
-              (currentUser && isBrand === "true") ? (<Dashboard child={<NewContest child={ <ContestFirstStep />}/>} />) : (<Redirect to="/"/>)
+              (currentUser && isBrand === "true") ? (<Dashboard child={<NewContest child={ <ContestFirstStep />}/>} />) : (<Redirect to="/dashboard"/>)
           )} />
           <Route exact path="/dashboard/My Contests/new/secondStep" render={()=> (
-              (currentUser && isBrand === "true") ? (<Dashboard child={<NewContest child={ <ContestSecondStep />}/>} />) : (<Redirect to="/"/>)
+              (currentUser && isBrand === "true") ? (<Dashboard child={<NewContest child={ <ContestSecondStep />}/>} />) : (<Redirect to="/dashboard"/>)
           )} />
           <Route exact path="/dashboard/My Contests/new/thirdStep" render={()=> (
-              (currentUser && isBrand === "true") ? (<Dashboard child={<NewContest child={ <ContestThirdStep />}/>} />) : (<Redirect to="/"/>)
+              (currentUser && isBrand === "true") ? (<Dashboard child={<NewContest child={ <ContestThirdStep />}/>} />) : (<Redirect to="/dashboard"/>)
           )} />
           <Route exact path='/dashboard/My Contests' render={()=>
-            (currentUser && isBrand === "true") ? (<Dashboard child={<DashboardContestPage />} />) : (<Redirect to="/" />)
+            (currentUser && isBrand === "true") ? (<Dashboard child={<DashboardContestPage />} />) : (<Redirect to="/dashboard" />)
           }/>
           <Route exact path='/dashboard/My Contests/edit/:id' render={()=> (
-              (currentUser && isBrand === "true") ? (<Dashboard child={<EditContest child={<EditContestFirstStep />} />} />):(<Redirect to='/'/>)
+              (currentUser && isBrand === "true") ? (<Dashboard child={<EditContest child={<EditContestFirstStep />} />} />):(<Redirect to='/dashboard'/>)
           )}/>
           <Route exact path='/dashboard/My Contests/result/:id' render={()=> (
-              (currentUser && isBrand === "true") ? (<Dashboard child={<EditContest child={<EditContestSecondStep data={[]} />} />} />):(<Redirect to='/'/>)
+              (currentUser && isBrand === "true") ? (<Dashboard child={<EditContest child={<EditContestSecondStep data={[]} />} />} />):(<Redirect to='/dashboard'/>)
           )}/>
           <Route exact path='/dashboard/My Contests/winners/:id' render={()=> (
-              (currentUser && isBrand === "true") ? (<Dashboard child={<EditContest child={<EditContestThirdStep />} />} />):(<Redirect to='/'/>)
+              (currentUser && isBrand === "true") ? (<Dashboard child={<EditContest child={<EditContestThirdStep />} />} />):(<Redirect to='/dashboard'/>)
           )}/>
-          <Route exact path='/dashboard/Templates' render={()=>(currentUser && isBrand === "true") ? (<Dashboard child={<DashboardTemplatesPage />} />):(<Redirect to='/'/>)}/>
+          <Route exact path='/dashboard/Templates' render={()=>(currentUser && isBrand === "true") ? (<Dashboard child={<DashboardTemplatesPage />} />):(<Redirect to='/dashboard'/>)}/>
           <Route exact path='/dashboard' render={()=> (currentUser) ? (<Dashboard child={
             <DashboardHomePage />
           }/>):(<Redirect to='/'/>) } />

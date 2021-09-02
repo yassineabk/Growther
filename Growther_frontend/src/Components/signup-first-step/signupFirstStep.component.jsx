@@ -13,7 +13,7 @@ import { useTranslation } from "react-i18next";
 const SingupFirstStep=({handleSubmit,SignUpWithGoogle,SignUpWithFacebook,registrationMessage,errMessage,passwordFunctions,success,emailFunctions,isErrors,messages})=>{
     var {isLoading} = useSelector(state => state.registration)
     const { t } = useTranslation();
-
+    var {direction} = useSelector(state => state.userInfos)
     return(
 
     <section className="hero is-fullheight Modal">
@@ -23,18 +23,17 @@ const SingupFirstStep=({handleSubmit,SignUpWithGoogle,SignUpWithFacebook,registr
                 <div className="columns is-centered ">
                     <div className="column is-5-tablet is-4-desktop is-4-widescreen ">
                         <form action="" className="box" onSubmit={handleSubmit}>
-                            <div className="column has-text-centered">
-                                <p className="title is-3">{t("create_account")}</p>
-                                <p className="subtitle ">{t("register_subheader")}</p>
+                            <div id="auth-title" className="column has-text-centered">
+                                <p dir={direction ? direction : "ltr"} className="title is-3">{t("create_account")}</p>
+                                <p dir={direction ? direction : "ltr"} className="subtitle is-6">{t("register_subheader")}</p>
                             </div>
                             <EmailInput handleBlur={emailFunctions.handleEmailBlur} handleChange={emailFunctions.handleEmailChange} label={t("email")} isError={isErrors.email} message={messages.email} placeholder={t("email_placeholder")}/>
                             <PasswordInput handleChange={passwordFunctions.handlePasswordChange}  label={t("password")} isError={isErrors.password} message={messages.password} placeholder={t("password_placeholder")}/>
                             <PasswordInput handleBlur={passwordFunctions.handlePasswordConfirmationBlur}  label={t("confirm_password")} isError={isErrors.confiremed_password} message={messages.confiremed_password} placeholder={t("confirm_password_placeholder")}/>
-                            <label className=" column mb-2 "><input type="checkbox" required />  {t("agree")} <Link to="/terms" target="_blank">{t("terms")}</Link></label>
+                            <label id="auth-checkbox" dir={direction ? direction : "ltr"} className="column mb-2"><input type="checkbox" required /> {t("agree")} <Link dir={direction ? direction : "ltr"} to="/terms" target="_blank">{t("terms")}</Link></label>
                             <SubmitButton message={errMessage} id="submitButton" type="submit" label={t("signup")}/>
-
-                            <SocialMediaButton uri={googleUri} onClick={isLoading ? ()=> false : SignUpWithGoogle} isGoogle label={t("google_login")}/>
-                            <SocialMediaButton uri={facebookUri} onClick={isLoading ? ()=> false : SignUpWithFacebook} label={t("facebook_login")}/>
+                            <SocialMediaButton uri={googleUri} onClick={isLoading ? ()=> false : SignUpWithGoogle} isGoogle label={"Sign Up with Google"}/>
+                            <SocialMediaButton uri={facebookUri} onClick={isLoading ? ()=> false : SignUpWithFacebook} label={"Sign Up with Facebook"}/>
                         </form>
                     </div>
                 </div>
