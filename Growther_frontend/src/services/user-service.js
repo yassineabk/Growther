@@ -43,10 +43,12 @@ function loginWithEmailAndPassword(user) {
     return fetch(`${USERS_REST_API_URL}/authentication/login`, requestOptions)
         .then(handleResponse)
         .then(token => {
-            // store user details and jwt token in local storage to keep user logged in between page refreshes
-            // localStorage.setItem('user', JSON.stringify(user));
-            localStorage.setItem("accessToken",token.accessToken);
-            return user;
+            if(typeof(token.accessToken) === "string" && token.accessToken.toLocaleLowerCase() === "you need to verify your email first"){
+                return {...user, needVerifcation: true}
+            }else{
+                localStorage.setItem("accessToken", token.accessToken);
+                return user;
+            }
         }).catch(err=>{
             return false
         });
@@ -63,14 +65,14 @@ async function logout() {
 function registerWithEmailAndPassword(user) {
     const requestOptions = {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json'},
         body: JSON.stringify(user)
     };
 
     return fetch(`${USERS_REST_API_URL}/authentication/signup`, requestOptions)
     .then(handleResponse)
     .then(user => {
-        window.location.href=`${FRONTEND_API}/login`
+        console.log(user)
         return user;
     }).catch(err =>{
         return false

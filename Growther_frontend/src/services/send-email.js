@@ -1,7 +1,7 @@
 import axios from "axios"
 import { FailAlert, SuccessAlert } from "../redux/alert/alert-actions"
 import { BACKEND_API } from "./links"
-export const SendEmail = async (dispatch, email, subject, message)=>{
+export const SendEmail = async (dispatch, email, subject, message, name)=>{
     const token = localStorage.getItem("accessToken")
     var config = {
         headers: {
@@ -9,7 +9,7 @@ export const SendEmail = async (dispatch, email, subject, message)=>{
             "Authorization" : `Bearer ${token}`
         },
     }
-    axios.post(`${BACKEND_API}/contactus/send`, {email, subject, message}, config)
+    axios.post(`${BACKEND_API}/contactus/send`, {email, subject, message, name}, config)
         .then(response =>{
             return true
         }).catch(err =>{

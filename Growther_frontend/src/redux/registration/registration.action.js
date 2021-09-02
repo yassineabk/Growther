@@ -1,3 +1,4 @@
+import { FRONTEND_API } from "../../services/links";
 import { userService } from "../../services/user-service";
 import { ShowErrorModal } from "../errors/errors-actions";
 import { registrationType } from "./registration.types";
@@ -107,25 +108,22 @@ export const setRegistrationErrorMessage=(message)=>{
     return({type:registrationType.SET_REGISTRATION_ERROR_MESSAGE,payload:message})
 }
 
-export function registerWithEmailAndPassword(user) {
-    return dispatch => {
-        dispatch(request(user));
+export function registerWithEmailAndPassword(dispatch, user) {
+    dispatch(request(user));
+    userService.registerWithEmailAndPassword(user)
+        .then(
+            user => { 
+                dispatch(success(user));
+                window.location.href=`${FRONTEND_API}/login`
+            },
+        ).catch(error => {
+            ShowErrorModal(dispatch, "Something went wrong, please try again later")
+            dispatch(failure(error.toString()));
+        });
 
-        userService.registerWithEmailAndPassword(user)
-            .then(
-                user => { 
-                    dispatch(success());
-                },
-                error => {
-                    dispatch(failure(error.toString()));
-
-                }
-            );
-    };
-
-    function request(user) { return { type: registrationType.REGISTER_REQUEST, payload:user } }
-    function success(user) { return { type: registrationType.REGISTER_SUCCESS, payload: user } }
-    function failure(error) { return { type: registrationType.SET_REGISTRATION_ERROR_MESSAGE, payload:error } }
+        function request(user) { return { type: registrationType.REGISTER_REQUEST, payload: user } }
+        function success(user) { return { type: registrationType.REGISTER_SUCCESS, payload: user } }
+        function failure(error) { return { type: registrationType.SET_REGISTRATION_ERROR_MESSAGE, payload: error } }
 
 }
 
@@ -134,7 +132,7 @@ export function registerWithFacebookAndGoogle(user, dispatch) {
     userService.loginWithFacebookAndGoogle(user)
         .then(
             user => { 
-                dispatch(success());
+                dispatch(success(user));
             },
             
         ).catch(error =>{

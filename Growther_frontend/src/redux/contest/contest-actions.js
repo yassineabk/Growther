@@ -320,13 +320,13 @@ export const NextStep = (dispatch, information)=>{
 }
 export const SaveContest = (dispatch, actions)=>{
     var result = []
-    var TextActions = ["tweet", "answer question", "submit url", "submit video", "submit", "subscribe to newsletter", "write a blog post", "get completion bonus"]
+    var TextActions = ["tweet", "answer question", "submit url", "submit video", "submit", "subscribe to newsletter", "write a blog post", "get completion bonus", "get coupons"]
     try{
         if(Array.isArray(actions) && actions.length > 0){
             actions.map((item, index) =>{
                 if(item !== null && typeof(item) === "object"){
                     var res = {isValid: true, provider: item.provider, index: index}
-                    if(item.isDiscord && item.provider.toLowerCase() === "discord"){
+                    if(item.isDiscord && typeof(item.provider) === "string" && item.provider.toLowerCase() === "discord"){
                         var tokenBot = localStorage.getItem("discordBotToken")
                         if(tokenBot === null || !tokenBot){
                             res = {...res, isValid: false, isDiscord: false}
@@ -334,14 +334,27 @@ export const SaveContest = (dispatch, actions)=>{
                     }
                     Object.keys(item).map(key=>{
                         if(key === "url"){
+                            if(typeof(item.provider) === "string" && item.provider.toLowerCase() === "coupon"){
+                                if(typeof(item[key]) === "string" && item[key].length < 3){
+                                    return res = {...res, [key]: false, isValid: false}
+                                }
+                            }
                             if(!TextActions.includes(item.type.toLowerCase())){
                                 if(!UrlValidation(item[key])){
-                                    res = {...res, [key]: false, isValid: false}
+                                    return res = {...res, [key]: false, isValid: false}
                                 }
                             }
                         }
-                        if(key === "points" && (item[key] < 1 || item[key] > 5)){
-                            res = {...res, [key]: false, isValid: false}
+                        if(key === "points"){
+                            if(typeof(item.provider) === "string" && item.provider.toLowerCase() === "coupon"){
+                                if(item[key] !== 0){
+                                    res = {...res, [key]: false, isValid: false}
+                                }
+                            }else{
+                                if(item[key] < 1 || item[key] > 5){
+                                    res = {...res, [key]: false, isValid: false}
+                                }
+                            }
                         }
                         return true
                     })

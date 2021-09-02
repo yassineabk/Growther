@@ -83,7 +83,7 @@ const SupportPage = ()=>{
     }
     var SendMessage = ()=>{
         setLoading(true)
-        SendEmail(dispatch, email, userInfos.subject, userInfos.email).then(value =>{
+        SendEmail(dispatch, email, userInfos.subject, userInfos.email, name).then(value =>{
             setLoading(false)
         })
     }
@@ -128,7 +128,7 @@ const SupportPage = ()=>{
                                 id="subject"
                             />
                             <ContestDescription
-                                label="Message"
+                                value={userInfos.message}
                                 label={t("message")}
                                 placeholder={t("message_placeholder")}
                                 changeHandler={event => changeHandler(event)}

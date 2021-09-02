@@ -22,17 +22,17 @@ const SingupSecondStep=({handleChange,handleSubmit,BrandFunctions,IndividualFunc
                             {
                                 isBrand ? (
                                     <div className="authInput">
-                                        <FormInput label={t("brand_name")} handleBlur={BrandFunctions.handleBrandNameBlur} isError={brand.isError.name} message={t(brand.errorMessage.name)} placeholder={t("brand_name_placeholder")}/>
-                                        <FormInput label={t("brand_url")} handleBlur={BrandFunctions.handleBrandUrlBlur} isError={brand.isError.url} message={brand.errorMessage.url} placeholder={t("brand_url_placeholder")}/>
+                                        <FormInput label={"brand_name"} handleBlur={BrandFunctions.handleBrandNameBlur} isError={brand.isError.name} message={t(brand.errorMessage.name)} placeholder={t("brand_name_placeholder")}/>
+                                        <FormInput label={"brand_url"} handleBlur={BrandFunctions.handleBrandUrlBlur} isError={brand.isError.url} message={brand.errorMessage.url} placeholder={t("brand_url_placeholder")}/>
                                         <TextAreaInput className="" label={t("brand_Activities")} handleBlur={BrandFunctions.handleBrandActivitiesBlur} isError={brand.isError.activities} message={brand.errorMessage.activities} placeholder={t("brand_Activities_placeholder")}/>
                                     </div>
                                 ):(
                                     <div className="authInput mb-4">
-                                        <FormInput label={t("your_name")} isError={individual.isError.name} message={individual.errorMessage.name} handleBlur={IndividualFunctions.handleIndividualNameBlur} placeholder={t("your_name_placeholder")}/>
+                                        <FormInput label={"your_name"} isError={individual.isError.name} message={individual.errorMessage.name} handleBlur={IndividualFunctions.handleIndividualNameBlur} placeholder={t("your_name_placeholder")}/>
                                     </div>
                                 )
                             }
-                            <SubmitButton id="submitButton" className="" type="submit" label={t("next")}/>
+                            <SubmitButton id="submitButton" className="" type="submit" label={"next"}/>
                         </form>
                     </div>
                 </div>
