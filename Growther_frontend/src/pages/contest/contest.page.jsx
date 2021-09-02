@@ -175,13 +175,13 @@ const Contest = ()=>{
                 <PreviewCard
                     element={information}
                     title={information.title}
-                    points={points}
+                    points={information.totalPoints}
                     id={information.idContest}
                     entries={NumbersConverter(information.numOfParticipation)}
                     description={information.description}
                     endDate={hours}
-                    timeLeft={information.endDate ? TimeLeft(information.endDate.trim().replace(" ","T"), information.endTime).date : ""}
-                    dateType={TimeLeft(information.endDate.trim().replace(" ","T"), information.endTime).type}
+                    timeLeft={information.endDate && typeof(information.endDate) === "string" ? TimeLeft(information.endDate.trim().replace(" ","T"), information.endTime).date : ""}
+                    dateType={information.endDate && typeof(information.endDate) === "string" ? TimeLeft(information.endDate.trim().replace(" ","T"), information.endTime).type : ""}
                     actions={Array.isArray(information.actions) ? information.actions : []}
                     prizes={information.prizes}
                     previewActions={selected}
@@ -200,7 +200,7 @@ const Contest = ()=>{
                     DoAction={(index, element)=> DoAction(index, element)}
                     DoBonus={(index, element) => DoBonus(index, element)}
                     showLoginForm={showLoginForm && {}.toString.call(showLoginForm) === '[object Function]' ? (value)=> showLoginForm(value) : ()=> false}
-                    //onMouseLeave={()=> onMouseLeave()}
+                    onMouseLeave={()=> onMouseLeave()}
                     onMouseOver={(element)=> onMouseOver(element)}
                 /> 
             : null}

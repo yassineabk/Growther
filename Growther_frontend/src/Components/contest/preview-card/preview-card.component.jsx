@@ -12,7 +12,10 @@ export const PreviewCard = ({title, description, timeLeft, dateType, views, poin
         document.getElementById("card").classList.toggle("backface")
     }
     var editContest = (event)=>{
-        if(buttons && id !== undefined){
+        if(buttons && id !== undefined && element.participationId === undefined){
+            if(onMouseLeave && {}.toString.call(onMouseLeave) === '[object Function]'){
+                onMouseLeave()
+            }
             history.push(`/dashboard/My Contests/edit/${id}`, element)
         }
     }
@@ -66,12 +69,12 @@ export const PreviewCard = ({title, description, timeLeft, dateType, views, poin
     }
     var {t} = useTranslation()
     var {direction} = useSelector(state => state.userInfos)
-    if(hasStarted || buttons || isPreview || userId || isPublished || error || immediately){
+    if(hasStarted || (buttons && element.participationId === undefined) || isPreview || userId || isPublished || error || immediately){
         return(
             <div dir={direction ? direction : "ltr"} id="card" className={`is-flex previewCard`}>
                 <div dir={direction ? direction : "ltr"} className="left-side is-flex is-flex-direction-column">
                     <div className="card-views is-flex is-flex-direction-column">
-                        {userId ? [<span className="little-title">
+                        {userId && element.participationId === undefined ? [<span className="little-title">
                             {t("views")}
                         </span>, 
                         <span>
@@ -100,14 +103,8 @@ export const PreviewCard = ({title, description, timeLeft, dateType, views, poin
                             {t("time")}
                         </span>
                         <span 
-                            onMouseLeave={onMouseLeave && {}.toString.call(onMouseLeave) === '[object Function]' ? ()=> {
-                                onMouseLeave(element)
-                            } : ()=> false} 
                             onMouseOver={onMouseOver && {}.toString.call(onMouseOver) === '[object Function]' ? ()=> {
                                 onMouseOver(element)
-                            } : ()=> false} 
-                            onMouseOut={onMouseLeave && {}.toString.call(onMouseLeave) === '[object Function]' ? ()=> {
-                                onMouseLeave(element)
                             } : ()=> false}
                             id="entries">
                             {!isPreview ? (timeleft(endDate, timeLeft, dateType).timeLeft === "Ended" ? t("Ended") : timeleft(endDate, timeLeft, dateType).timeLeft) : (timeLeft === "Ended" ? t("Ended") : timeLeft) } <span className="dateType">{!isPreview ? t(timeleft(endDate, timeLeft, dateType).timeType) : t(dateType)}</span>
@@ -119,12 +116,12 @@ export const PreviewCard = ({title, description, timeLeft, dateType, views, poin
                 </div>
                 <div className="right-side is-flex is-flex-direction-column">
                     <div className="card-infos is-flex is-flex-direction-column">
-                        <div className="card-title is-flex is-justify-content-space-between">
+                        <div dir={direction ? direction : "ltr"} className="card-title is-flex is-justify-content-space-between">
                             <div>
                                 <h3>{title ? title : ""}</h3>
                             </div>
                             <div className="is-flex is-flex-direction-row headButtons">
-                                {buttons ? 
+                                {buttons && element.participationId === undefined ? 
                                     [<div onClick={(event)=> editContest(event)}>
                                         <img alt="" src={require("../../../assets/icons/edit.png").default} width={"20px"} /> 
                                     </div>,
@@ -154,6 +151,9 @@ export const PreviewCard = ({title, description, timeLeft, dateType, views, poin
                         status={status}
                         contestDone={contestDone}
                     />
+                    {(!buttons || element.participationId) && points < element.minPoints ? <div dir={direction ? direction : "ltr"} id="min-points-alert">
+                        {`*${t("Minimum points to enter in the draw is")} ${element.minPoints}`}
+                    </div> : null}
                 </div>
                 <div className="is-flex is-flex-column is-align-items-center back previewPrizes">
                     <div onClick={()=> hoverCard()} className="prizesTitle is-flex is-flex-direction-row is-justify-content-space-between">

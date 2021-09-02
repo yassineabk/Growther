@@ -21,7 +21,7 @@ const NewContest = ({child})=>{
         InitState(dispatch)   
     }, [dispatch])
     var {t} = useTranslation()
-    if(isBrand !== "true") return <Redirect to="/" />
+    if(isBrand !== "true") return <Redirect to="/dashboard" />
     return(
         [            
             <Spinner show={isLoading} />,

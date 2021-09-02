@@ -5,6 +5,40 @@
         margin-left: 0 !important;
         transform: translateX(-0.3em);
     }
+    label, textarea{
+        &[dir=rtl]{
+            font-family: Tajawal-Medium;
+        }
+    }
+}
+#auth-checkbox{
+    &[dir=rtl]{
+        font-family: Tajawal-Regular;
+    }
+}
+#auth-error-message{
+    color: red;
+    &[dir=rtl]{
+        margin-top: .5em !important;
+        font-family: Tajawal-Regular;
+    }
+}
+#auth-user-type{
+    &[dir=rtl]{
+        font-family: Tajawal-Medium;
+    }
+}
+#auth-title{
+    .title{
+        &[dir=rtl]{
+            font-family: Tajawal-Bold;
+        }
+    }
+    .subtitle{
+        &[dir=rtl]{
+            font-family: Tajawal-Medium;
+        }
+    }
 }
 .field{
     .socialButton{
@@ -31,6 +65,9 @@
         border-radius: 10px;
         border: 2px solid $button-border1;
         font-size: 15px;
+        &[dir=rtl]{
+            font-family: Tajawal-Medium;
+        }
         &#submitButton{
             &:hover{
                 background-color: $button-color1 !important;
@@ -43,7 +80,12 @@
             border: 2px solid $button-border1 !important;
             background-color: $button-color2 !important;
             color: $button-text1 !important;
-            margin-right: 2.5px;
+            &[dir=ltr]{
+                margin-right: 2.5px;
+            }
+            &[dir=rtl]{
+                margin-left: 2.5px;
+            }
             &:hover{
                 background-color: $button-color2 !important;
             }
@@ -78,6 +120,9 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            border: 6px solid;
+            border-color: transparent;
+            transition: .5s all;
             img{
                 width: 100px;
                 height: auto;

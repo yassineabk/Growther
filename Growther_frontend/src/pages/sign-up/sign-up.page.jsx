@@ -246,32 +246,31 @@ class SignUpPage extends React.Component{
       }
       if(this.props.isSecondStep){
         return(
-
           <SingupSecondStep
-          handleSubmit={this.handleSubmitSecondStep}
-          individual={this.props.individual}
-          brand={this.props.brand}
-          BrandFunctions={BrandFunctions}
-          IndividualFunctions={IndividualFunctions}
-          isBrand={this.props.isBrand}
-        />
-
+            handleSubmit={this.handleSubmitSecondStep}
+            individual={this.props.individual}
+            brand={this.props.brand}
+            BrandFunctions={BrandFunctions}
+            IndividualFunctions={IndividualFunctions}
+            isBrand={this.props.isBrand}
+          />
         )
          
       }if(this.props.isThirdStep){
-        return(<SingupFirstStep
-        handleSubmit={this.handleSubmitFirstStep}
-        SignUpWithGoogle={this.SignUpWithGoogle}
-        SignUpWithFacebook={this.SignUpWithFacebook}
-        password={this.props.password}
-        passwordFunctions={PasswordFunctions}
-        email={this.props.email}
-        emailFunctions={emailFunctions}
-        isErrors={this.props.isError}
-        messages={this.props.errorMessages}
-        errMessage={this.props.errorMessages.registration}
-  
-  /> )
+        return(
+          <SingupFirstStep
+            handleSubmit={this.handleSubmitFirstStep}
+            SignUpWithGoogle={this.SignUpWithGoogle}
+            SignUpWithFacebook={this.SignUpWithFacebook}
+            password={this.props.password}
+            passwordFunctions={PasswordFunctions}
+            email={this.props.email}
+            emailFunctions={emailFunctions}
+            isErrors={this.props.isError}
+            messages={this.props.errorMessages}
+            errMessage={this.props.errorMessages.registration}
+          /> 
+        )
       }else{
         return(<SignupUserType 
           handleClick={this.handleUserType} 

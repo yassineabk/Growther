@@ -1,6 +1,7 @@
 import { decode } from "jsonwebtoken"
 import React from "react"
 import { useTranslation } from "react-i18next"
+import { useSelector } from "react-redux"
 import { ActionIcon } from "../actions-icons/actions-icons.component"
 import { ContestInput } from "../contest-input/contest-input.component"
 export const PreviewAction = ({provider, links, points, status, changeHandler, DoAction, DoBonus, done, index, isOwner, canParticipate, showLoginForm, contestDone})=>{
@@ -33,6 +34,7 @@ export const PreviewAction = ({provider, links, points, status, changeHandler, D
         
     }
     var {t} = useTranslation()
+    var {direction} = useSelector(state => state.userInfos)
     return(
         <div key={`previewAction-${provider}-${index}`} className="is-flex is-flex-direction-row prev-action">
             {provider && typeof(provider) === "string" ? 
@@ -50,8 +52,13 @@ export const PreviewAction = ({provider, links, points, status, changeHandler, D
                 changeHandler={changeHandler && {}.toString.call(changeHandler) === '[object Function]' ? (event) => changeHandler(event, provider) : ()=> false}
             />
             {points !== null && typeof(parseInt(points)) === "number" && done !== true? 
-                <div onClick={(!isOwner || canParticipate) && status === "Published" ? ()=> doAction() : ()=> showLogin(!isOwner && !canParticipate)} className="actionPoints">
-                    +{points}
+                <div onClick={(!isOwner || canParticipate) && status === "Published" ? ()=> doAction() : ()=> showLogin(!isOwner && !canParticipate)} className={`actionPoints is-flex ${direction === "rtl" ? "is-flex-direction-row-reverse" : ""}`}>
+                    <span>
+                        +
+                    </span>
+                    <span>
+                        {points}
+                    </span>
                 </div> : <div className="actionPoints">
                     <img alt="" src={require("../../../assets/icons/done.png").default} width={25} />
                 </div>

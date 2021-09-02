@@ -21,15 +21,11 @@ const OAuth2RedirectHandler = ()=> {
         localStorage.removeItem("user")
         return <Redirect to={{
             pathname: "/dashboard",
-            
         }}/>; 
     } else {
         return <Redirect to={{
             pathname: "/login",
-            
         }}/>; 
     }
 }
-
-
 export default OAuth2RedirectHandler;

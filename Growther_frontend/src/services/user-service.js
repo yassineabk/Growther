@@ -46,7 +46,6 @@ function loginWithEmailAndPassword(user) {
             // store user details and jwt token in local storage to keep user logged in between page refreshes
             // localStorage.setItem('user', JSON.stringify(user));
             localStorage.setItem("accessToken",token.accessToken);
-
             return user;
         }).catch(err=>{
             return false

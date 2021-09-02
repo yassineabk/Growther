@@ -271,7 +271,7 @@ const ContestFirstStep = ()=>{
         SetImmediately(dispatch, information.immediately)
     }
     var {t} = useTranslation()
-    if(isBrand !== "true") return <Redirect to="/" />
+    if(isBrand !== "true") return <Redirect to="/dashboard" />
     if(location.pathname !== "/dashboard/My Contests/new/firstStep") return null
     return(
         <div className="is-flex is-flex-direction-column newContestFrom">

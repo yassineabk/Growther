@@ -40,7 +40,9 @@ const EditContestThirdStep = ()=>{
         }
     }
     var {t} = useTranslation()
-    if(isBrand !== "true") return <Redirect to="/" />
+    if(isBrand !== "true") return <Redirect to="/dashboard" />
+    if(typeof(information) !== "object") return <Redirect to={"/dashboard"} />
+    if(information.participationId !== undefined) return <Redirect to={"/dashboard"} />
     return(
         [
             <Spinner show={isLoading || winners.isLoading} />,
@@ -68,27 +70,27 @@ const EditContestThirdStep = ()=>{
                         <div className="table-container mt-5">
                             <table id="participationTable" className="table" style={{height: Array.isArray(winners.winners) ? winners.length * 58.8 : 58.8}} >
                                 <tbody className="tbody winners-table">
-                                    <tr className="tr-winners tds is-flex is-flex-direction-row">
+                                    <tr className={`tr-winners tds is-flex`}>
                                         {[{label: "Rank"}, {label: "Email"}, {label: "Prize"}].map(item =>{
                                             return <th>{item.label}</th>
                                         })}
                                     </tr>
                                     {Array.isArray(winners.winners) ? winners.winners.map(item =>{
                                         return(
-                                        <tr className={"tr-winners tds is-flex is-flex-direction-row"}>
-                                            {item !== null && typeof(item) === "object" ? [
-                                                <td>
-                                                    {item.rank}
-                                                </td>,
-                                                <td>
-                                                    {item.email}
-                                                </td>,
-                                                <td>
-                                                    {typeof(item.prize) === "object" && item.prize !== null ? item.prize.description : ""}
-                                                </td>,
-                                            ]  : null}
-                                        </tr>
-                                    )
+                                            <tr className={`tr-winners tds is-flex`}>
+                                                {item !== null && typeof(item) === "object" ? [
+                                                    <td>
+                                                        {item.rank}
+                                                    </td>,
+                                                    <td>
+                                                        {item.email}
+                                                    </td>,
+                                                    <td>
+                                                        {typeof(item.prize) === "object" && item.prize !== null ? item.prize.description : ""}
+                                                    </td>,
+                                                ]  : null}
+                                            </tr>
+                                        )
                                 }) : null}
                                 </tbody>
                             </table>

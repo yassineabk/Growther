@@ -12,6 +12,7 @@ import { PreviewContainer } from "../preview-container/preview-container.compone
 const EditContestFirstStep = ()=>{
     var { information, isValidData, validData, isLoading } = useSelector(state => state.contest_edit)
     var { isBrand, direction } = useSelector(state => state.userInfos)
+    var userInfos = useSelector(state => state.userInfos)
     var dispatch = useDispatch()
     var location = useLocation()
     var params = useParams()
@@ -163,9 +164,10 @@ const EditContestFirstStep = ()=>{
         return changeHandler(event)
     }
     var {t} = useTranslation()
-    if(isBrand !== "true") return <Redirect to="/" />
+    if(isBrand !== "true") return <Redirect to="/dashboard" />
     if(typeof(information) !== "object") return <Redirect to={"/dashboard"} />
-    if(information.status !== null && typeof(information.status) === "string" && information.status.toLowerCase() === "done") return <Redirect to={`/dashboard/My%20Contests/result/${information.idContest}`} />
+    if(information.participationId !== undefined) return <Redirect to={"/dashboard"} />
+    //if(information.status !== null && typeof(information.status) === "string" && information.status.toLowerCase() === "done") return <Redirect to={`/dashboard/My%20Contests/result/${information.idContest}`} />
     return(
         [
             <PreviewContainer 
