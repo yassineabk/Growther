@@ -275,5 +275,9 @@
   "please enter a valid password": "Veuillez entrer un mot de passe valid",
   "password should be more than 8 characters": "Le mot de passe doit contenir plus the 8 caractères",
   "password doesn't match": "Le mot de passe ne correspond pas",
-  "Minimum points to enter in the draw is": "Le minmimum des points pour entrer au tirage est"
+  "Minimum points to enter in the draw is": "Le minmimum des points pour entrer au tirage est",
+  "coupon_code": "Code du Coupon",
+  "invalid_coupon": "Le coupon n'est pas valide",
+  "sent_failure": "Echec d'envoie",
+  "sent_successfully": "Envoyer avec succés"
 }

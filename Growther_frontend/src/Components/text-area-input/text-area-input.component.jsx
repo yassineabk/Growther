@@ -6,7 +6,7 @@ const TextAreaInput=({handleChange,handleBlur,label,isError,message,placeholder,
     var {direction} = useSelector(state => state.userInfos)
     var {t} = useTranslation()
     return(
-        <div className="field ">
+        <div className="contest_textarea field mb-4">
             <label dir={direction ? direction : "ltr"} className="label">{label}</label>
             <div className="control has-icons-right has-icons-left">
             <textarea dir={direction ? direction : "ltr"} className={`textarea`} onBlur={handleBlur} onChange={handleChange} required placeholder={placeholder}></textarea>
@@ -14,7 +14,7 @@ const TextAreaInput=({handleChange,handleBlur,label,isError,message,placeholder,
                     <i className={`${isError ? 'fas fa-exclamation-triangle' :'fas fa-check'}`}></i>
                 </span>}
             </div>
-            <p dir={direction ? direction : "ltr"} id="auth-error-message" className={`${isError ? 'help is-danger mb-4' :'help is-sucess'}`}>{typeof(message) === "string" ? t(message.toLowerCase()) : ""}</p>
+            <p dir={direction ? direction : "ltr"} id="auth-error-message" className={`${isError ? 'help is-danger' :'help is-sucess'}`}>{typeof(message) === "string" ? t(message.toLowerCase()) : ""}</p>
         </div>
     )
 }

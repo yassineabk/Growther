@@ -7,7 +7,7 @@ import {Link, useHistory} from 'react-router-dom'
 import { googleUri } from './login_uri';
 import { facebookUri } from './login_uri';
 import { Spinner } from '../spinner/spinner.component';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from "react-i18next";
 
 const LoginForm=({handleSubmit,handleRemeberMe,SignUpWithGoogle,SignUpWithFacebook,registrationMessage,passwordVlue,passwordFunctions,emailValue,email,password,emailFunctions})=>{
@@ -17,8 +17,8 @@ const LoginForm=({handleSubmit,handleRemeberMe,SignUpWithGoogle,SignUpWithFacebo
     var {isLoading} = useSelector(state => state.login)
     function handleClickRegister() {
         history.push("/signup");
-        
     }
+    var dispatch = useDispatch()
     return(
 
     [
@@ -28,7 +28,7 @@ const LoginForm=({handleSubmit,handleRemeberMe,SignUpWithGoogle,SignUpWithFacebo
                 <div className="container ">
                 <div className="columns is-centered ">
                     <div className="column is-5-tablet is-4-desktop is-4-widescreen ">
-                    <form action="" className="box" onSubmit={handleSubmit}>
+                    <form action="" className="box" onSubmit={event => handleSubmit(event, dispatch)}>
                         <div id="auth-title" className="column has-text-centered">
                             <p dir={direction ? direction : "ltr"} className="title is-3">{t("login")}</p>
                             <p dir={direction ? direction : "ltr"} className="subtitle is-6">{t("welcome_back")}</p>

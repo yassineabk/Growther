@@ -84,8 +84,8 @@ export const PreviewCard = ({title, description, timeLeft, dateType, views, poin
                         : [<span className="little-title">
                             {t("points")}
                         </span>,
-                        <span >
-                            {points !== undefined && points !== null && typeof(points) === "number" ? points : ""}
+                        <span>
+                            {points !== undefined && points !== null && typeof(points) === "number" ? points : "0"}
                         </span> ]}
                     </div>
                     <div className="card-entries is-flex is-flex-direction-column">
@@ -151,12 +151,12 @@ export const PreviewCard = ({title, description, timeLeft, dateType, views, poin
                         status={status}
                         contestDone={contestDone}
                     />
-                    {(!buttons || element.participationId) && points < element.minPoints ? <div dir={direction ? direction : "ltr"} id="min-points-alert">
+                    {((!buttons || element.participationId) && (points < element.minPoints || !points)) && !isPreview ? <div dir={direction ? direction : "ltr"} id="min-points-alert">
                         {`*${t("Minimum points to enter in the draw is")} ${element.minPoints}`}
                     </div> : null}
                 </div>
                 <div className="is-flex is-flex-column is-align-items-center back previewPrizes">
-                    <div onClick={()=> hoverCard()} className="prizesTitle is-flex is-flex-direction-row is-justify-content-space-between">
+                    <div onClick={()=> hoverCard()} dir={direction ? direction : "ltr"} className="prizesTitle is-flex is-flex-direction-row is-justify-content-space-between">
                         <div>{t("prizes")}</div>
                         <div>
                             <img alt="" src={require("../../../assets/icons/back.png").default} width={"20px"} />
