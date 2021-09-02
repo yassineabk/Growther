@@ -95,10 +95,11 @@ const ContestCard = (state = INITIAL_STATE, action)=>{
                             ...item
                         }
                     })],
+                    totalPoints: parseInt(state.points) + parseInt(action.payload.points),
                 },
                 action: {},
                 canParticipate: true,
-                points: state.points + action.payload.points,
+                points: parseInt(state.points) + parseInt(action.payload.points),
                 isDoingAction: false,
                 isLoading: false,
                 actionModal: false

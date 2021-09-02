@@ -276,5 +276,9 @@
     "please enter a valid password": "كلمة المرور غير صالحة",
     "password should be more than 8 characters": "كلمة المرور يجب أن تحتوي 8 حروف أو أكثر",
     "password doesn't match": "الـتأكيد غير صحيح",
-    "Minimum points to enter in the draw is": "الحد الأدنى للنقط  من أجل الدخول في السحب هو"
+    "Minimum points to enter in the draw is": "الحد الأدنى للنقط  من أجل الدخول في السحب هو",
+    "coupon_code": "كود الكوبون",
+    "Invalid Coupon": "الكوبون غير صالح",
+    "sent_failure": "فشل الإرسال",
+    "sent_successfully": "تم الإرسال بنجاح"
 }

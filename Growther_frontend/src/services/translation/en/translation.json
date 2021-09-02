@@ -276,7 +276,11 @@
     "please enter a valid password": "Please enter a valid password",
     "password should be more than 8 characters": "Password should contain more than 8 charachters",
     "password doesn't match": "Password doesn't match",
-    "Minimum points to enter in the draw is": "Minimum points to enter in the draw is"
+    "Minimum points to enter in the draw is": "Minimum points to enter in the draw is",
+    "coupon_code": "Coupon Code",
+    "Invalid Coupon": "Invalid Coupon",
+    "sent_failure": "Sent Failure",
+    "sent_successfully": "Sent Successfully"
 }
 
    

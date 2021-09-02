@@ -21,6 +21,7 @@ export const PreviewActionsList = ({actions, previewActions, changeHandler, DoAc
                         DoAction={DoAction && {}.toString.call(DoAction) === '[object Function]' ? ()=> DoAction(index, element) : ()=> false}
                         DoBonus={DoBonus && {}.toString.call(DoBonus) === '[object Function]' ? () => DoBonus(index, element) : ()=> false}
                         showLoginForm={showLoginForm && {}.toString.call(showLoginForm) === '[object Function]' ? (value)=> showLoginForm(value) : ()=> false}
+                        coupon={typeof(element.provider) === "string" &&  element.provider.toLowerCase() === "coupon" ? element.url : undefined}
                     />
                 )
             }) : null}

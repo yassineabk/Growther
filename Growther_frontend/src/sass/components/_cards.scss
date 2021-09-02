@@ -454,6 +454,9 @@
       font-size: 18px;
       color: black;
       font-family: Poppins-SemiBold;
+      &[dir=rtl]{
+        font-family: Tajawal-Bold;
+      }
       img{
         width: 20px;
         cursor: pointer;

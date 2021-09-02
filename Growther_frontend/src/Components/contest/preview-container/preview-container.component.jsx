@@ -2,6 +2,7 @@ import React from "react"
 import { TimeLeft } from "../../../services/timeLeft"
 import { PreviewCard } from "../preview-card/preview-card.component"
 export const PreviewContainer = ({information, actions, previewActions, changeHandler, isPreview, showLoginForm})=>{
+    if(information === undefined || information === null || typeof(information) !== "object") return null
     return(
         <div className="is-flex is-flex-direction-column preview is-justify-content-center is-align-items-center">
             <PreviewCard
@@ -10,6 +11,7 @@ export const PreviewContainer = ({information, actions, previewActions, changeHa
                 timeLeft={information.endDate ? TimeLeft(information.endDate.trim().replace(" ", "T"), information.endTime).date : false}
                 dateType={information.endDate ? TimeLeft(information.endDate.trim().replace(" ", "T"), information.endTime).type : false}
                 actions={actions}
+                element={information}
                 prizes={information.prizes}
                 previewActions={previewActions}
                 changeHandler={(event, provider) => changeHandler(event, provider)}

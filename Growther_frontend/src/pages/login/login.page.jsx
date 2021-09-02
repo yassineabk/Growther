@@ -8,13 +8,13 @@ import { registerWithFacebookAndGoogle } from '../../redux/registration/registra
 
 class LoginPage extends React.Component{
    
-    handleLoginWithEmail=async e=>{
+    handleLoginWithEmail=async (e, dispatch)=>{
         e.preventDefault();
         this.emailValidation(this.props.email)
         this.passwordValidation(this.props.password)
         if(!this.props.errorMessage){
           const user={email:this.props.email ,password:this.props.password}
-          this.props.loginWithEmailAndPassword(user)
+          loginWithEmailAndPassword(dispatch, user)
         }
        
     }

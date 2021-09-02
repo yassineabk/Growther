@@ -112,15 +112,15 @@ const Contest = ()=>{
         }
     }
     var DoBonus = (index, element)=>{
-        if(hours !== "00:00:00"){
+        if(hours !== "00:00:00" && !(information.done || information.isDone)){
             if(information !== null && information !== undefined && typeof(information) === "object" && Array.isArray(information.actions)){
                 var result = true
-                information.actions.map((item, index) =>{
-                    if(item !== null && typeof(item) === "object"){
-                        if(item.provider.toLowerCase() === "bonus" && (item.isDone || item.done)){
+                information.actions.map((item, ix) =>{
+                    if(item !== null && typeof(item) === "object" && typeof(item.provider) === "string"){
+                        if((item.provider.toLowerCase() === "bonus" || item.provider.toLowerCase() === "coupon") && ix === index  && (item.isDone || item.done)){
                             result = result && false
                         }
-                        if(item.provider.toLowerCase() !== "bonus"){
+                        if(item.provider.toLowerCase() !== "bonus" && item.provider.toLowerCase() !== "coupon"){
                             result = result && (item.isDone || item.done)
                         }
                     }else{
@@ -175,7 +175,7 @@ const Contest = ()=>{
                 <PreviewCard
                     element={information}
                     title={information.title}
-                    points={information.totalPoints}
+                    points={information.totalPoints !== undefined ? information.totalPoints : points}
                     id={information.idContest}
                     entries={NumbersConverter(information.numOfParticipation)}
                     description={information.description}
