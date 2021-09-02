@@ -8,7 +8,7 @@ const DashboardTemplatesPage = ({templates}) =>{
     const { t } = useTranslation();
 
     var { isBrand } = useSelector(state => state.userInfos)
-    if(isBrand !== "true") return <Redirect to="/" />
+    if(isBrand !== "true") return <Redirect to="/dashboard" />
     return(
         <TemplatesContainer title={t("templates")}/>
     )

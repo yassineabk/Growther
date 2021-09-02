@@ -50,7 +50,8 @@ export const UserInfosReducer=(state=INITIAL_STATE,action)=>{
         case RESET_ALL_TYPE.RESET_ALL:
             return {
                 ...INITIAL_STATE,
-                currentUser: false
+                currentUser: false,
+                direction: localStorage.getItem("i18nextLng") === "ar" ? "rtl" : "ltr"
             }
         default:
             return {

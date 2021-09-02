@@ -25,7 +25,7 @@ const DashboardHomePage = () =>{
                     data={Array.isArray(contests) ? isBrand === "true" ?  contests.reverse().slice(0,3) : contests.reverse() : []} 
                     title={t("recent_contests")} 
                     showMore={"/dashboard/My Contests"} 
-                    addNew={"/dashboard/My Contests/new"}
+                    addNew={"/dashboard/My Contests/new/firstStep"}
                     Duplicate={(id, element)=> Duplicate(id, element)}
                     isBrand={isBrand}
                 />

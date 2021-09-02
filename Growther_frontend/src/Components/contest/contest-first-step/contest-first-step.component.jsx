@@ -18,11 +18,15 @@ const ContestFirstStep = ()=>{
     var [userId, setId] = useState("")
     useEffect(()=>{
         if(location.state !== null && location.state !== undefined && typeof(location.state) === "object"){
-            StateChange(dispatch, location.state)
+            if(location.state.clear){
+                ResestNewContest(dispatch)
+            }else{
+                StateChange(dispatch, location.state)
+            }
         }else if(information === null || information === undefined || typeof(information) !== "object"){
             InitState(dispatch)
         }else if(information !== null && information !== undefined &&  typeof(information) === "object"){
-            if(isPublished === true || information.idContest !== undefined){
+            if(isPublished === true){
                 ResestNewContest(dispatch)
             }
         }else{
@@ -267,7 +271,7 @@ const ContestFirstStep = ()=>{
         SetImmediately(dispatch, information.immediately)
     }
     var {t} = useTranslation()
-    if(isBrand !== "true") return <Redirect to="/" />
+    if(isBrand !== "true") return <Redirect to="/dashboard" />
     if(location.pathname !== "/dashboard/My Contests/new/firstStep") return null
     return(
         <div className="is-flex is-flex-direction-column newContestFrom">
@@ -283,7 +287,7 @@ const ContestFirstStep = ()=>{
                         validData={isValidData === false ? 
                             {
                                 isValid: validData.title,
-                                message: "Please, Enter the title of your contest"
+                                message: t("invalid_title")
                             } : undefined}
                     />
                     <ContestDescription 
@@ -296,7 +300,7 @@ const ContestFirstStep = ()=>{
                         validData={isValidData === false ? 
                             {
                                 isValid: validData.description,
-                                message: "Please, Describe your contest in few lines (maximum 250 charachter)"
+                                message: t("invalid_description")
                             } : undefined}
                     />
                     <ContestInput 

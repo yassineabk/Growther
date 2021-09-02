@@ -28,5 +28,5 @@ public interface ContestService {
     ContestDto publishDraftContest(Long contestID) throws ResourceNotFoundException;
 
     List<WinnersResponse> getContestWinners(List<ParticipationDto> participationDtos,
-                                            Set<Prize> prizes,Long ContestId);
+                                            Set<Prize> prizes, Long ContestId);
 }

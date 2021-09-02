@@ -25,7 +25,7 @@ public class ContestDto {
     private String description;
     private int winnersNbr;
     private int actionsNbr;
-    private int maxReach;
+    private int minPoints;
     private String startDate;
     private String endDate;
     private String startTime;
@@ -68,7 +68,7 @@ public class ContestDto {
                 ", description='" + description + '\'' +
                 ", winnersNbr=" + winnersNbr +
                 ", actionsNbr=" + actionsNbr +
-                ", maxReach=" + maxReach +
+                ", maxReach=" + minPoints +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
                 ", actions=" + actions +
@@ -106,12 +106,12 @@ public class ContestDto {
         this.actionsNbr = actionsNbr;
     }
 
-    public int getMaxReach() {
-        return maxReach;
+    public int getMinPoints() {
+        return minPoints;
     }
 
-    public void setMaxReach(int maxReach) {
-        this.maxReach = maxReach;
+    public void setMinPoints(int minPoints) {
+        this.minPoints = minPoints;
     }
 
     public Boolean getImmediately() {

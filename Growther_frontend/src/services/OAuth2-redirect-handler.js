@@ -16,20 +16,16 @@ const OAuth2RedirectHandler = ()=> {
     if(token) {
         localStorage.setItem('accessToken', token);
         var user = localStorage.getItem("user")
-        registerWithFacebookAndGoogle(JSON.parse(user))
+        registerWithFacebookAndGoogle(JSON.parse(user), dispatch)
         SetCurrentToken(dispatch, token)
-
+        localStorage.removeItem("user")
         return <Redirect to={{
             pathname: "/dashboard",
-            
         }}/>; 
     } else {
         return <Redirect to={{
             pathname: "/login",
-            
         }}/>; 
     }
 }
-
-
 export default OAuth2RedirectHandler;

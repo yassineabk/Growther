@@ -12,7 +12,6 @@ const ContestThirdStep = () =>{
     var {isValidData, isValidActions, isPublished, contestLink} = useSelector(state => state.contest)
     var { isBrand } = useSelector(state => state.userInfos)
     var location = useLocation()
-    var dispatch = useDispatch()
     var copyClipoard = ()=>{
         navigator.clipboard.writeText(contestLink)
         document.getElementById("contestLink").classList.add("copied")
@@ -23,7 +22,7 @@ const ContestThirdStep = () =>{
         }, 2000)
     }
     var {t} = useTranslation()
-    if(isBrand !== "true") return <Redirect to="/" />
+    if(isBrand !== "true") return <Redirect to="/dashboard" />
     if(location.pathname !== "/dashboard/My Contests/new/thirdStep") return null
     if(isValidActions === false || isPublished === false) return <Redirect  to="/dashboard/My Contests/new/secondStep"/>
     if(isValidData === false) return <Redirect  to="/dashboard/My Contests/new/firstStep"/>
