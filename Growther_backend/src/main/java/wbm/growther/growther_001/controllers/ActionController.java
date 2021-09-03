@@ -59,6 +59,7 @@ public class ActionController {
                     action.setLink(actiontUpdated.getLink());
                     action.setText(actiontUpdated.getText());
                     action.setUsername(actiontUpdated.getUsername());
+                    action.setOrder(actiontUpdated.getOrder());
 
                     return actionRepository.save(action);
                 }).orElseThrow(() -> new NotFoundException("Action not found!"));

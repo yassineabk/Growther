@@ -31,6 +31,12 @@ public class Action {
     @JsonIgnore
     private Contest contest;
 
+    private int order;
+
+    public int getOrder() { return order; }
+
+    public void setOrder(int order) { this.order = order; }
+
     public Action(Action action) {
         this.provider=action.getProvider();
         this.url=action.getUrl();

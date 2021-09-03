@@ -18,6 +18,7 @@ public class ParticipationAction {
     private String url;
     private int points;
     private boolean isDone;
+
     //username -- link --- email --- text
     @Nullable
     private String username;
