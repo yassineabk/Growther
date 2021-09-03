@@ -343,4 +343,17 @@ public class ContestController {
         return contestService
                 .getContestWinners(participationDtos,prizes,contestId);
     }
+
+    @GetMapping("show/winners/{id}")
+    public List<WinnersResponse>
+    showWinnersOfContest(@PathVariable(value = "id") Long contestId ) throws ResourceNotFoundException {
+
+       List<WinnersResponse> winnersResponses=contestService.showContestWinners(contestId);
+
+       if(winnersResponses.isEmpty() || winnersResponses == null)
+           throw new ResourceNotFoundException("There is no winners yet.");
+
+       return winnersResponses;
+
+    }
 }
