@@ -280,5 +280,7 @@
   "invalid_coupon": "Le coupon n'est pas valide",
   "sent_failure": "Echec d'envoie",
   "sent_successfully": "Envoyer avec succés",
-  "no_winners_yet": "Aucun gagnant pour le moment"
+  "no_winners_yet": "Aucun gagnant pour le moment",
+  "This field is invalid": "Ce champs est invalide",
+  "Message should contain more than 50 charachter": "Le message doit contenir plus de 50 caractéres"
 }

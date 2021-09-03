@@ -4,7 +4,7 @@ import { useSelector } from "react-redux"
 import { actions } from "../../../services/actions"
 import { ContestInput } from "../contest-input/contest-input.component"
 import { SelectInput } from "../select-input/select-input.component"
-export const ContestAction = ({data, removeAction, updateAction, validAction})=>{
+export const ContestAction = ({data, removeAction, updateAction, validAction, id, dragEvent, dropEvent, dragOverEvent, dragLeaveEvent})=>{
     const TextActions = ["tweet", "answer question", "submit url", "submit video", "submit", "subscribe to newsletter", "write a blog post", "get completion bonus", "get coupons"]
     var getActionsList = (actions)=>{
         var result = []
@@ -18,9 +18,18 @@ export const ContestAction = ({data, removeAction, updateAction, validAction})=>
     }
     var {t} = useTranslation()
     var {direction} = useSelector(state => state.userInfos)
+    
     if(typeof(data) !== "object") return null
     return(
-        <div className="contestAction is-flex is-flex-direction-row">
+        <div 
+            onDragOver={event=> dragOverEvent(event)} 
+            onDrop={event => dropEvent(event, data.order)} 
+            onDragStart={event => dragEvent(event, data.order)} 
+            onDragLeave={event => dragLeaveEvent(event)}
+            draggable 
+            className="contestAction is-flex is-flex-direction-row"
+            id={id}
+        >
             <div className="actionTitle">{t(data.provider.toLowerCase())}</div>
             <div className="actionSelect">
                 <SelectInput 

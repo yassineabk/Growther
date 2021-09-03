@@ -225,6 +225,32 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
                 isLoading: false,
                 error: null
             }
+        case ContestTypes.CHANGE_ACTIONS_ORDER:
+            return {
+                ...state,
+                information: {
+                    ...state.information,
+                    actions: state.information.actions.map(element =>{
+                        if(element.order === action.payload.order1){
+                            return {
+                                ...element,
+                                order: action.payload.order2
+                            }
+                        }
+                        if(element.order === action.payload.order2){
+                            return {
+                                ...element,
+                                order: action.payload.order1
+                            }
+                        }
+                        return {
+                            ...element
+                        }
+                    }).sort((item, nextItem) => item.order - nextItem.order)
+                },
+                isLoading: false,
+                error: null
+            }
         case ContestTypes.REMOVE_ACTION:  
             return {
                 ...state,
