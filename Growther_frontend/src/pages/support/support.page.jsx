@@ -39,25 +39,13 @@ const SupportPage = ()=>{
         if(value.length === 0){
             return setError({
                 ...error,
-                [key]: {isValid: false, message: "This field is invalid"}
-            })
-        }
-        if(key === "name" && value.length < 3){
-            return setError({
-                ...error,
-                [key]: {isValid: false, message: "Name should contain more than 3 characters"}
-            })
-        }
-        if(key === "email" && !checkEmail(value)){
-            return setError({
-                ...error,
-                [key]: {isValid: false, message: "Enter a valid email"}
+                [key]: {isValid: false, message: t("This field is invalid")}
             })
         }
         if(key === "message" && value.length < 50){
             return setError({
                 ...error,
-                [key]: {isValid: false, message: "Message should contain more than 50 charachter"}
+                [key]: {isValid: false, message: t("Message should contain more than 50 charachter")}
             })
         }
         setError({
@@ -83,7 +71,7 @@ const SupportPage = ()=>{
     }
     var SendMessage = ()=>{
         setLoading(true)
-        SendEmail(dispatch, email, userInfos.subject, userInfos.email, name).then(value =>{
+        SendEmail(dispatch, email, userInfos.subject, userInfos.message, name).then(value =>{
             setLoading(false)
         })
     }

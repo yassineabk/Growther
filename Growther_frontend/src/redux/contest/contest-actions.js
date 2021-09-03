@@ -84,9 +84,19 @@ export const RemovePrize = (dispatch, id, value)=>{
         dispatch({type: ContestTypes.SET_NEW_CONTEST_DATA_FAIL})
     }
 }
-export const AddAction = (dispatch, action)=>{
+export const AddAction = async (dispatch, action)=>{
     try{
         dispatch({type: ContestTypes.ADD_ACTION, payload: action})
+        return true
+    }catch{
+        FailAlert(dispatch, "something_went_wrong")
+        dispatch({type: ContestTypes.SET_NEW_CONTEST_DATA_FAIL})
+        return false
+    }
+}
+export const ChangeOrder = (dispatch, order1, order2)=>{
+    try{
+        dispatch({type: ContestTypes.CHANGE_ACTIONS_ORDER, payload: {order1, order2}})
     }catch{
         FailAlert(dispatch, "something_went_wrong")
         dispatch({type: ContestTypes.SET_NEW_CONTEST_DATA_FAIL})

@@ -1,6 +1,6 @@
 import React from "react"
 import { useSelector } from "react-redux"
-export const ContestInput = ({type, name, value, placeholder, changeHandler, id, min, max, label, child, readonly, validData, timeChangeHandler})=>{
+export const ContestInput = ({type, name, value, placeholder, changeHandler, id, min, max, label, child, readonly, validData, timeChangeHandler, bold})=>{
     var {direction} = useSelector(state => state.userInfos)
     return(
         <div className="contest_input is-flex is-flex-direction-column">
@@ -16,6 +16,7 @@ export const ContestInput = ({type, name, value, placeholder, changeHandler, id,
                 value={value}
                 max={max ? max : ""}
                 dir={direction ? direction : "ltr"}
+                style={bold ? {fontWeight: "bold", color: "black", fontSize: "18px"} : {}}
             />
             {validData !== undefined && validData.isValid === false ? <div dir={direction ? direction : "ltr"} className="inputError">{validData.message}</div> : null}
             {Array.isArray(child) ? child :  null}

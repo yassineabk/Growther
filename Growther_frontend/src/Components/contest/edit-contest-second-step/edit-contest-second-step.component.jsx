@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { Redirect, useHistory, useParams } from "react-router-dom"
+import { Link, Redirect, useHistory, useParams } from "react-router-dom"
 import { CSVLink } from "react-csv";
 import { useDispatch, useSelector } from "react-redux";
 import { decode } from "jsonwebtoken";
@@ -60,7 +60,27 @@ const EditContestSecondStep = ()=>{
                         </div>
                         <div id="addNewButton" className="arrow-button-container is-flex is-justify-content-flex-end">
                             <div className="arrow-button">
-                                <img alt="" src={require("../../../assets/icons/csv.png").default} width={"22px"} />
+                                <CSVLink {...MakeCSVFile()}>
+                                    <img alt="" src={require("../../../assets/icons/csv.png").default} width={"22px"} />
+                                </CSVLink>
+                            </div>
+                        </div>
+                        <div id="" dir="ltr" className="arrow-button-container is-flex is-justify-content-flex-end">
+                            <div className="arrow-button">
+                                <Link 
+                                    onClick={(event)=>{
+                                        event.preventDefault()
+                                        MakeResultState(information.idContest).then(res =>{
+                                            if(res !== undefined && res !== null && typeof(res) === "object"){
+                                                setData(res.result)
+                                                setTableHead(res.tableHead)
+                                            }
+                                        })
+                                    }} 
+                                    to={"#"}
+                                >
+                                    <img alt="" src={require("../../../assets/icons/refresh.png").default} />
+                                </Link>
                             </div>
                         </div>
                     </div>

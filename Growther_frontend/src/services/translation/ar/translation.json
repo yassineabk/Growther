@@ -281,5 +281,7 @@
     "Invalid Coupon": "الكوبون غير صالح",
     "sent_failure": "فشل الإرسال",
     "sent_successfully": "تم الإرسال بنجاح",
-    "no_winners_yet": "لا يوجد فائزين بعد"
+    "no_winners_yet": "لا يوجد فائزين بعد",
+    "This field is invalid": "هذا الحقل غير صالح",
+    "Message should contain more than 50 charachter": "الرسالة يجب أن تحتوي على أكثر من 50 حرف"
 }

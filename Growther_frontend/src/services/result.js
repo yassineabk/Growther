@@ -36,7 +36,7 @@ export const MakeResultState = async (id)=>{
                                         totalPoints += action.done ? action.points : 0
                                         actionsDone += action.done ? 1 : 0
                                         var {username, email, link, text, provider, type} = action
-                                        if(provider && type && typeof(provider) === typeof(provider) && typeof(provider) === "string"){
+                                        if(provider && type && typeof(provider) === typeof(type) && typeof(provider) === "string"){
                                             var label, key, filter;
                                             if(username && typeof(username) === "string"){
                                                 usernames[provider] = usernames[provider] === undefined ? 1 : usernames[provider] + 1
