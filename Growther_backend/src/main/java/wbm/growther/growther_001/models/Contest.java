@@ -30,6 +30,7 @@ public class Contest {
     private String timeZone;
     private Boolean immediately;
 
+
     @OneToMany(mappedBy="contest", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<Participation> participations;
@@ -254,4 +255,5 @@ public class Contest {
     public void setStatus(String status) {
         this.status = status;
     }
+
 }
