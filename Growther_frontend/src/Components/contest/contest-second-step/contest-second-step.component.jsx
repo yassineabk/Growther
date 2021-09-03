@@ -23,12 +23,9 @@ const ContestSecondStep = ()=>{
     }, [userId])
     var addAction = (action)=>{
         AddAction(dispatch, action).then(value =>{
-            console.log(value)
             if(value){
                 var target = document.getElementById("newContestActions")
-                console.log(target)
                 if(target && target !== null){
-                    console.log(target.scrollTop, target.scrollHeight)
                     target.scrollTop = target.scrollHeight
                 }
             }
@@ -61,13 +58,26 @@ const ContestSecondStep = ()=>{
         SaveDraft(dispatch, information, userId)
     }
     var {t} = useTranslation()
+    var scrollActionsList = (event)=>{
+        var target = document.getElementById("newContestActions")
+        if(target && target !== null){
+            if(!target.contains(event.target)){
+                if(event.target.id === "contestActionsTitle"){
+                    return target.scrollTo({top: target.scrollTop - 10, behavior: 'smooth'})
+                }
+                if(event.target.id === "ActionsList" || document.getElementById("ActionsList").contains(event.target)){
+                    return target.scrollTo({top: target.scrollTop + 10, behavior: 'smooth'})
+                }
+            }
+        }
+    }
     if(isBrand !== "true") return <Redirect to="/dashboard" />
     if(location.pathname !== "/dashboard/My Contests/new/secondStep") return null
     if(!isValidData) return <Redirect to="/dashboard/My Contests/new/firstStep" />
     return(
-        <div className="actionsContainer is-flex is-flex-direction-column">
+        <div onDragOver={(event)=> scrollActionsList(event)} className="actionsContainer is-flex is-flex-direction-column">
             <div className="is-flex is-flex-direction-column">
-                <div className="containerTitle">{t("contest_actions")}</div>
+                <div id="contestActionsTitle" className="containerTitle">{t("contest_actions")}</div>
                 <ContestActions 
                     data={information.actions} 
                     removeAction={(actionName, index)=> removeAction(actionName, index)}
@@ -76,7 +86,7 @@ const ContestSecondStep = ()=>{
                     validActions={validActions ? validActions : undefined}
                 />
             </div>
-            <div className="is-flex is-flex-direction-column">
+            <div id="ActionsList" className="is-flex is-flex-direction-column">
                 <div className={"containerTitle"}>{t("list_of_actions")}</div>
                 <ActionsList 
                     actions={actions} 

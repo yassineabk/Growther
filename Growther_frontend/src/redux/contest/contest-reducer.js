@@ -251,6 +251,37 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
                 isLoading: false,
                 error: null
             }
+        case ContestTypes.CHANGE_ACTIONS_PLACE:
+            console.log(action.payload)
+            return {
+                ...state,
+                information: {
+                    ...state.information,
+                    actions: state.information.actions.map((element, index)=>{
+                        if(element.order <= action.payload.newIndex && element.order > action.payload.dragged){
+                            return {
+                                ...element,
+                                order: element.order - 1
+                            }
+                        }
+                        if(element.order >= action.payload.newIndex && element.order < action.payload.dragged){
+                            return {
+                                ...element,
+                                order: element.order + 1
+                            }
+                        }
+                        if(element.order === action.payload.dragged){
+                            return {
+                                ...element,
+                                order: action.payload.newIndex
+                            }
+                        }
+                        return {
+                            ...element,
+                        }
+                    }).sort((item, nextItem)=> item.order - nextItem.order)
+                }
+            }
         case ContestTypes.REMOVE_ACTION:  
             return {
                 ...state,
@@ -261,6 +292,11 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
                             return false
                         }
                         return true
+                    }).map((element, index) =>{
+                        return {
+                            ...element,
+                            order: index + 1
+                        }
                     }),
                     actionsNbr: state.information.actionsNbr === 0 ?  0 : state.information.actionsNbr - 1 
                 },
