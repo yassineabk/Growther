@@ -102,6 +102,13 @@ export const ChangeOrder = (dispatch, order1, order2)=>{
         dispatch({type: ContestTypes.SET_NEW_CONTEST_DATA_FAIL})
     }
 }
+export const ChangeActionPlace = async (dispatch, newIndex, dragged)=>{
+    if(newIndex !== dragged){
+        dispatch({type: ContestTypes.CHANGE_ACTIONS_PLACE, payload: {newIndex, dragged}})
+        return true
+    }
+    return false
+}
 export const RemoveAction = (dispatch, actionName, index)=>{
     try{
         dispatch({type: ContestTypes.REMOVE_ACTION, payload: {actionName, index}})

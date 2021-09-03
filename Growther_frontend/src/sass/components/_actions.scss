@@ -15,6 +15,8 @@
         padding: 0px 5px;
         max-height: 400px;
         overflow-y: auto;
+        scroll-behavior: smooth;
+        transition: all .5s;
         @extend .scroll;
         .discordBotLink{
             &.is-danger{
@@ -38,18 +40,58 @@
                 }
             }
         }
+        .empty-action{
+            padding: .5em 0;
+            &.resize{
+                transition: all .2s;
+                padding: 40px 0;
+            }
+            &.reduce{
+                transition: all .2s;
+                padding: .5em 0;
+            }
+        }
         .contestAction{
             position: relative;
             padding: 5px 10px;
-            margin: 0.5em 0px;
+            //margin: 0.5em 0px;
             border: 1px solid $border-color;
             border-radius: 10px;
             flex-wrap: nowrap;
             align-items: center !important;
             cursor: grab;
-            transition: 0.1s all;
+            transition: 0.2s all;
+            transform: scaleX(1);
+            opacity: 1;
             @media only screen and (max-width: 867px) {
                 flex-wrap: wrap;
+            }
+            &.dragOver{
+                transition: 0.2s all;
+                opacity: 0.5;
+            }
+            &.dragOverEnd{
+                transition: 0.2s all;
+                opacity: 1;
+            }
+            &.droped{
+                transition: 0.5s all;
+                animation: popup-droped-action .25s alternate forwards, remove-droped-action .25s .25s alternate forwards;
+                background-color: $border-color !important;
+                @keyframes popup-droped-action {
+                    from{
+                        transform: scaleX(1);
+                    }to{
+                        transform: scaleX(.8);
+                    }
+                }
+                @keyframes remove-droped-action {
+                    from{
+                        transform: scaleY(.8);
+                    }to{
+                        transform: scaleY(1);
+                    }
+                }
             }
             &.hide{
                 visibility: none;
@@ -57,6 +99,7 @@
             > div{
                 margin: 0.25em 0.5em;
                 display: flex;
+                transition: all .2s;
                 //justify-content: center !important;
                 //text-align: center;
             }
