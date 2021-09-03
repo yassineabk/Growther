@@ -1,8 +1,10 @@
 import React from "react"
+import { useSelector } from "react-redux"
 import { PreviewAction } from "../preview-action/preview-action.component"
 export const PreviewActionsList = ({actions, previewActions, changeHandler, DoAction, DoBonus, showLoginForm, isOwner, canParticipate, status, contestDone})=>{
+    var {direction} = useSelector(state => state.userInfos)
     return(
-        <div className="is-flex is-flex-direction-column previewActions">
+        <div dir={direction ? direction : "ltr"} className="is-flex is-flex-direction-column previewActions">
             {Array.isArray(actions) ? actions.map((element, index) =>{
                 if(element !== null && typeof(element) !== "object") return null
                 return(

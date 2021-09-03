@@ -1,5 +1,5 @@
 import { decode } from "jsonwebtoken";
-import { BACKEND_API, FRONTEND_API } from "./links";
+import { BACKEND_API } from "./links";
 
 const USERS_REST_API_URL = BACKEND_API;
 

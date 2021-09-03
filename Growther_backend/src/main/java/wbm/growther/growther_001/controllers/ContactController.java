@@ -12,7 +12,6 @@ import wbm.growther.growther_001.payload.GmailMsg;
 import wbm.growther.growther_001.security.EmailVerification.EmailService;
 
 import java.util.concurrent.RejectedExecutionException;
-
 @RestController
 @RequestMapping("/contactus/send")
 public class ContactController {
@@ -20,7 +19,7 @@ public class ContactController {
     @Autowired
     private EmailService emailService;
 
-    @PostMapping
+    @PostMapping("email")
     public ResponseEntity<String> sendEmail(@Validated @RequestBody GmailMsg gmailMsg){
 
 
@@ -28,7 +27,7 @@ public class ContactController {
         try {
             emailService.recieveMessage(
                     gmailMsg.getEmail(),
-                    sender+gmailMsg.getMessage(),
+                    sender+"\n"+gmailMsg.getMessage(),
                     gmailMsg.getSubject(),
                     false
             );

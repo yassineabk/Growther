@@ -17,9 +17,13 @@ const Contact = ()=> {
     var dispatch = useDispatch()
     var [userInfos, setInfos] = useState({
         name: "",
-        email: ""
+        email: "",
+        subject: "",
+        message: ""
     })
     var [error, setError] = useState({
+        name: {isValid: false, message: ""},
+        email: {isValid: false, message: ""},
         subject: {isValid: false, message: ""},
         message: {isValid: false, message: ""}
     })
@@ -76,7 +80,7 @@ const Contact = ()=> {
         return result.length === 0
     }
     var SendMessage = ()=>{
-        SendEmail(dispatch, userInfos.email, userInfos.subject, userInfos.email).then(value =>{
+        SendEmail(dispatch, userInfos.email, userInfos.subject, userInfos.message, userInfos.name).then(value =>{
         })
     }
     var {direction} = useSelector(state => state.userInfos)

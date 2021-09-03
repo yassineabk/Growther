@@ -105,14 +105,14 @@ const Contest = ()=>{
         return false
     }
     var DoAction = (index, element)=>{
-        if(hours !== "00:00:00"){
+        if(hours !== "00:00:00" || (typeof(information) === "object" && information !== null && typeof(information.status) === "string" && information.status.toLowerCase() === "done")){
             OpenActionModal(dispatch, index, element)
         }else{
             FailAlert(dispatch,  t("contest_ended"))
         }
     }
     var DoBonus = (index, element)=>{
-        if(hours !== "00:00:00" && !(information.done || information.isDone)){
+        if(hours !== "00:00:00" || (typeof(information) === "object" && information !== null && typeof(information.status) === "string" && information.status.toLowerCase() === "done")){
             if(information !== null && information !== undefined && typeof(information) === "object" && Array.isArray(information.actions)){
                 var result = true
                 information.actions.map((item, ix) =>{

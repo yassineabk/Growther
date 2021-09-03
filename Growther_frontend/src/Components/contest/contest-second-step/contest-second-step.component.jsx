@@ -22,7 +22,17 @@ const ContestSecondStep = ()=>{
         setId(sub)
     }, [userId])
     var addAction = (action)=>{
-        AddAction(dispatch, action)
+        AddAction(dispatch, action).then(value =>{
+            console.log(value)
+            if(value){
+                var target = document.getElementById("newContestActions")
+                console.log(target)
+                if(target && target !== null){
+                    console.log(target.scrollTop, target.scrollHeight)
+                    target.scrollTop = target.scrollHeight
+                }
+            }
+        })
     }
     var updateAction = (provider, key, value, index) =>{
         UpdateAction(dispatch, provider, key, value, index)
