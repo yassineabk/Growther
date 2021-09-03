@@ -23,10 +23,12 @@ public class ContactController {
     @PostMapping
     public ResponseEntity<String> sendEmail(@Validated @RequestBody GmailMsg gmailMsg){
 
+
+        String sender="From "+gmailMsg.getName()+" : "+gmailMsg.getEmail()+"\n\n\n";
         try {
             emailService.recieveMessage(
                     gmailMsg.getEmail(),
-                    gmailMsg.getMessage(),
+                    sender+gmailMsg.getMessage(),
                     gmailMsg.getSubject(),
                     false
             );

@@ -1,18 +1,24 @@
 import { decode } from "jsonwebtoken"
 import React, { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { Redirect, useHistory } from "react-router-dom"
+import { FailAlert, SuccessAlert } from "../../../redux/alert/alert-actions"
+import { ContestCardWinners } from "../../../redux/contest-card/contest-card-actions"
 import { PreviewActionsList } from "../preview-actions-list/preview-actions-list.component"
 import { PreviewPrizesList } from "../preview-prizes-list/preview-prizes-list.component"
 import { TimeLeftCountDown } from "../time-left-component/time-left.component"
 export const PreviewCard = ({title, description, timeLeft, dateType, views, points, entries, status, actions, previewActions, changeHandler, prizes, buttons, hasStarted, hasEnded, canParticipate, isPublished, id, element, isPreview, user_id, error, immediately, DoAction, DoBonus, showLoginForm, contestDone, endDate, onMouseLeave, onMouseOver})=>{
     var history = useHistory()
+    var dispatch = useDispatch()
     var hoverCard = (event)=>{
         document.getElementById("card").classList.toggle("backface")
     }
     var editContest = (event)=>{
-        if(buttons && id !== undefined){
+        if(buttons && id !== undefined && element.participationId === undefined){
+            if(onMouseLeave && {}.toString.call(onMouseLeave) === '[object Function]'){
+                onMouseLeave()
+            }
             history.push(`/dashboard/My Contests/edit/${id}`, element)
         }
     }
@@ -64,14 +70,21 @@ export const PreviewCard = ({title, description, timeLeft, dateType, views, poin
         }
         return {timeLeft: timeValue, timeType: timeType}
     }
+    var getWinners = ()=>{
+        ContestCardWinners(dispatch, id).then(value =>{
+            if(!value){
+                FailAlert(dispatch, "no_winners_yet")
+            }
+        })
+    }
     var {t} = useTranslation()
     var {direction} = useSelector(state => state.userInfos)
-    if(hasStarted || buttons || isPreview || userId || isPublished || error || immediately){
+    if(hasStarted || (buttons && element.participationId === undefined) || isPreview || userId || isPublished || error || immediately){
         return(
             <div dir={direction ? direction : "ltr"} id="card" className={`is-flex previewCard`}>
                 <div dir={direction ? direction : "ltr"} className="left-side is-flex is-flex-direction-column">
                     <div className="card-views is-flex is-flex-direction-column">
-                        {userId ? [<span className="little-title">
+                        {userId && element.participationId === undefined ? [<span className="little-title">
                             {t("views")}
                         </span>, 
                         <span>
@@ -81,8 +94,8 @@ export const PreviewCard = ({title, description, timeLeft, dateType, views, poin
                         : [<span className="little-title">
                             {t("points")}
                         </span>,
-                        <span >
-                            {points !== undefined && points !== null && typeof(points) === "number" ? points : ""}
+                        <span>
+                            {points !== undefined && points !== null && typeof(points) === "number" ? points : "0"}
                         </span> ]}
                     </div>
                     <div className="card-entries is-flex is-flex-direction-column">
@@ -100,14 +113,8 @@ export const PreviewCard = ({title, description, timeLeft, dateType, views, poin
                             {t("time")}
                         </span>
                         <span 
-                            onMouseLeave={onMouseLeave && {}.toString.call(onMouseLeave) === '[object Function]' ? ()=> {
-                                onMouseLeave(element)
-                            } : ()=> false} 
                             onMouseOver={onMouseOver && {}.toString.call(onMouseOver) === '[object Function]' ? ()=> {
                                 onMouseOver(element)
-                            } : ()=> false} 
-                            onMouseOut={onMouseLeave && {}.toString.call(onMouseLeave) === '[object Function]' ? ()=> {
-                                onMouseLeave(element)
                             } : ()=> false}
                             id="entries">
                             {!isPreview ? (timeleft(endDate, timeLeft, dateType).timeLeft === "Ended" ? t("Ended") : timeleft(endDate, timeLeft, dateType).timeLeft) : (timeLeft === "Ended" ? t("Ended") : timeLeft) } <span className="dateType">{!isPreview ? t(timeleft(endDate, timeLeft, dateType).timeType) : t(dateType)}</span>
@@ -119,12 +126,12 @@ export const PreviewCard = ({title, description, timeLeft, dateType, views, poin
                 </div>
                 <div className="right-side is-flex is-flex-direction-column">
                     <div className="card-infos is-flex is-flex-direction-column">
-                        <div className="card-title is-flex is-justify-content-space-between">
+                        <div dir={direction ? direction : "ltr"} className="card-title is-flex is-justify-content-space-between">
                             <div>
                                 <h3>{title ? title : ""}</h3>
                             </div>
                             <div className="is-flex is-flex-direction-row headButtons">
-                                {buttons ? 
+                                {buttons && element.participationId === undefined ? 
                                     [<div onClick={(event)=> editContest(event)}>
                                         <img alt="" src={require("../../../assets/icons/edit.png").default} width={"20px"} /> 
                                     </div>,
@@ -132,6 +139,11 @@ export const PreviewCard = ({title, description, timeLeft, dateType, views, poin
                                         <img alt="" src={require("../../../assets/icons/ending.png").default} width={"20px"} /> 
                                     </div>]
                                 : null }
+                                 {!isPreview && timeleft(endDate, timeLeft, dateType).timeLeft === "Ended" ? 
+                                    <div onClick={()=> getWinners()}>
+                                        <img alt="" src={require("../../../assets/icons/winners.png").default} width={"20px"} />
+                                    </div>
+                                : null}
                                 <div>
                                     <img alt="" onClick={()=> hoverCard()} src={require("../../../assets/icons/trophy2.png").default} width={"20px"} />
                                 </div>
@@ -154,9 +166,12 @@ export const PreviewCard = ({title, description, timeLeft, dateType, views, poin
                         status={status}
                         contestDone={contestDone}
                     />
+                    {((!buttons || element.participationId) && (points < element.minPoints || !points)) && !isPreview ? <div dir={direction ? direction : "ltr"} id="min-points-alert">
+                        {`*${t("Minimum points to enter in the draw is")} ${element.minPoints}`}
+                    </div> : null}
                 </div>
                 <div className="is-flex is-flex-column is-align-items-center back previewPrizes">
-                    <div onClick={()=> hoverCard()} className="prizesTitle is-flex is-flex-direction-row is-justify-content-space-between">
+                    <div onClick={()=> hoverCard()} dir={direction ? direction : "ltr"} className="prizesTitle is-flex is-flex-direction-row is-justify-content-space-between">
                         <div>{t("prizes")}</div>
                         <div>
                             <img alt="" src={require("../../../assets/icons/back.png").default} width={"20px"} />

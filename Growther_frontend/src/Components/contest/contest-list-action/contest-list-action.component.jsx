@@ -10,7 +10,7 @@ export const ListAction = ({element, addAction, index})=>{
             if(element.provider.toLowerCase() === "discord"){
                 isDiscord = true
             }
-            addAction({provider: element.provider, url: "", points: 1, type: element.actions[0], listOfActions: element.actions, isDiscord})
+            addAction({provider: element.provider, url: "", points: typeof(element.provider) === "string" && element.provider.toLowerCase() === "coupon" ? 0 : 1, type: element.actions[0], listOfActions: element.actions, isDiscord})
         }
     }
     var {direction} = useSelector(state => state.userInfos)

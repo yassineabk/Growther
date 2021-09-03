@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import SingupFirstStep from '../../Components/signup-first-step/signupFirstStep.component';
 import SingupSecondStep from '../../Components/signup-second-step/signup-second-step.component';
-import {registerWithEmailAndPassword,registerWithFacebookAndGoogle} from '../../redux/registration/registration.action'
+import {registerWithEmailAndPassword, registerWithFacebookAndGoogle} from '../../redux/registration/registration.action'
 import { SignupUserType } from '../../Components/signup-user-type/signup-user-type.component';
 import {SetEmail,setRegistrationErrorMessage, SetPassword,SetConfirmationPassword,SetEmailError,SetEmailErrorMessage,SetPasswordError,SetPasswordErrorMessage,SetPasswordConfirmationError,SetPasswordConfirmationErrorMessage,SetUserType,ToogleSecondStep,ToogleThirddStep,setBrandName,setBrandNameError,setBrandNameErrorMessage,setBrandUrl,setBrandUrlError,setBrandUrlErrorMessage,setBrandActvity,setBrandActvityError,setBrandActvityErrorMessage,setIndividualName,setIndividualNameErrorMessage,setIndividualNameError} from '../../redux/registration/registration.action'
 import { FRONTEND_API } from '../../services/links';
@@ -19,56 +19,44 @@ class SignUpPage extends React.Component{
 
             }
             localStorage.setItem("user", JSON.stringify(user))
-            //this.props.setRegistrationError(false)
-            //this.props.registerWithEmailAndPassword(user)
-            this.props.registerWithFacebookAndGoogle(user);
-            
           }else{
             const user={
               name:this.props.individual.name,
               isBrand:"false"
             }
             localStorage.setItem("user", JSON.stringify(user))
-            //this.props.setRegistrationError(false)
-            //this.props.registerWithEmailAndPassword(user)
           }
     }
-    handleSubmitFirstStep=async e=>{
-        e.preventDefault();
-        const email =this.props.email
-        const password= this.props.password
-        const confiremedPassword=this.props.confiremedPassword
-        this.emailValidation(email)
-        this.passwordValidation(password)
-        this.confirmedPsswordValidation(confiremedPassword)
-        
-        
+    handleSubmitFirstStep=async (e, dispatch)=>{
+      e.preventDefault();
+      const email =this.props.email
+      const password= this.props.password
+      const confiremedPassword=this.props.confiremedPassword
+      this.emailValidation(email)
+      this.passwordValidation(password)
+      this.confirmedPsswordValidation(confiremedPassword)
       if(this.props.isBrand){
-            const user={
-              email:email,
-              password:password,
-              name:this.props.brand.name,
-              url:this.props.brand.url,
-              activities:this.props.brand.activities,
-
-              isBrand:"true"
-
-            }
-            this.props.setRegistrationError(false)
-            
-            this.props.registerWithEmailAndPassword(user)
-          }else{
-            const user={
-              email:email,
-              password:password,
-              name:this.props.individual.name,
-              isBrand:"false"
-            }
-            this.props.setRegistrationError(false)
-            this.props.registerWithEmailAndPassword(user)
-          }
-    }
-
+        const user={
+          email:email,
+          password:password,
+          name:this.props.brand.name,
+          url:this.props.brand.url,
+          activities:this.props.brand.activities,
+          isBrand:"true"
+        }
+        this.props.setRegistrationError(false)
+        registerWithEmailAndPassword(dispatch, user)
+      }else{
+        const user={
+          email:email,
+          password:password,
+          name:this.props.individual.name,
+          isBrand:"false"
+        }
+        this.props.setRegistrationError(false)
+        registerWithEmailAndPassword(dispatch, user)
+      }
+  }
   handleClickLogin() {
     //this.props.history.push("/login");
     window.location.href=`${FRONTEND_API}/login`
@@ -252,32 +240,31 @@ class SignUpPage extends React.Component{
       }
       if(this.props.isSecondStep){
         return(
-
           <SingupSecondStep
-          handleSubmit={this.handleSubmitSecondStep}
-          individual={this.props.individual}
-          brand={this.props.brand}
-          BrandFunctions={BrandFunctions}
-          IndividualFunctions={IndividualFunctions}
-          isBrand={this.props.isBrand}
-        />
-
+            handleSubmit={this.handleSubmitSecondStep}
+            individual={this.props.individual}
+            brand={this.props.brand}
+            BrandFunctions={BrandFunctions}
+            IndividualFunctions={IndividualFunctions}
+            isBrand={this.props.isBrand}
+          />
         )
          
       }if(this.props.isThirdStep){
-        return(<SingupFirstStep
-        handleSubmit={this.handleSubmitFirstStep}
-        SignUpWithGoogle={this.SignUpWithGoogle}
-        SignUpWithFacebook={this.SignUpWithFacebook}
-        password={this.props.password}
-        passwordFunctions={PasswordFunctions}
-        email={this.props.email}
-        emailFunctions={emailFunctions}
-        isErrors={this.props.isError}
-        messages={this.props.errorMessages}
-        errMessage={this.props.errorMessages.registration}
-  
-  /> )
+        return(
+          <SingupFirstStep
+            handleSubmit={(event, dispatch)=> this.handleSubmitFirstStep(event, dispatch)}
+            SignUpWithGoogle={this.SignUpWithGoogle}
+            SignUpWithFacebook={this.SignUpWithFacebook}
+            password={this.props.password}
+            passwordFunctions={PasswordFunctions}
+            email={this.props.email}
+            emailFunctions={emailFunctions}
+            isErrors={this.props.isError}
+            messages={this.props.errorMessages}
+            errMessage={this.props.errorMessages.registration}
+          /> 
+        )
       }else{
         return(<SignupUserType 
           handleClick={this.handleUserType} 
@@ -308,8 +295,8 @@ function mapStateToProps(state) {
 
 
 const mapStatsToDispatch={
-  registerWithEmailAndPassword : registerWithEmailAndPassword,
-  registerWithFacebookAndGoogle : registerWithFacebookAndGoogle, 
+  registerWithEmailAndPassword : (dispatch, user) => registerWithEmailAndPassword(dispatch, user),
+  registerWithFacebookAndGoogle: registerWithFacebookAndGoogle,
   setEmail:(email)=>SetEmail(email),
   setPassword:(password)=>SetPassword(password),
   setConfirmationPassword:(password)=>SetConfirmationPassword(password),
@@ -336,8 +323,6 @@ const mapStatsToDispatch={
   setIndividualNameErrorMessage:(message)=>setIndividualNameErrorMessage(message),
   setRegistrationError:(bool)=>setRegistrationErrorMessage(bool),
   setRegistrationErrorMessage:(message)=>setRegistrationErrorMessage(message)
-
-
 }
 
 

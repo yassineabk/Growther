@@ -320,13 +320,13 @@ export const NextStep = (dispatch, information)=>{
 }
 export const SaveContest = (dispatch, actions)=>{
     var result = []
-    var TextActions = ["tweet", "answer question", "submit url", "submit video", "submit", "subscribe to newsletter", "write a blog post", "get completion bonus"]
+    var TextActions = ["tweet", "answer question", "submit url", "submit video", "submit", "subscribe to newsletter", "write a blog post", "get completion bonus", "get coupons"]
     try{
         if(Array.isArray(actions) && actions.length > 0){
             actions.map((item, index) =>{
                 if(item !== null && typeof(item) === "object"){
                     var res = {isValid: true, provider: item.provider, index: index}
-                    if(item.isDiscord && item.provider.toLowerCase() === "discord"){
+                    if(item.isDiscord && typeof(item.provider) === "string" && item.provider.toLowerCase() === "discord"){
                         var tokenBot = localStorage.getItem("discordBotToken")
                         if(tokenBot === null || !tokenBot){
                             res = {...res, isValid: false, isDiscord: false}
@@ -334,14 +334,27 @@ export const SaveContest = (dispatch, actions)=>{
                     }
                     Object.keys(item).map(key=>{
                         if(key === "url"){
+                            if(typeof(item.provider) === "string" && item.provider.toLowerCase() === "coupon"){
+                                if(typeof(item[key]) === "string" && item[key].length < 3){
+                                    return res = {...res, [key]: false, isValid: false}
+                                }
+                            }
                             if(!TextActions.includes(item.type.toLowerCase())){
                                 if(!UrlValidation(item[key])){
-                                    res = {...res, [key]: false, isValid: false}
+                                    return res = {...res, [key]: false, isValid: false}
                                 }
                             }
                         }
-                        if(key === "points" && (item[key] < 1 || item[key] > 5)){
-                            res = {...res, [key]: false, isValid: false}
+                        if(key === "points"){
+                            if(typeof(item.provider) === "string" && item.provider.toLowerCase() === "coupon"){
+                                if(item[key] !== 0){
+                                    res = {...res, [key]: false, isValid: false}
+                                }
+                            }else{
+                                if(item[key] < 1 || item[key] > 5){
+                                    res = {...res, [key]: false, isValid: false}
+                                }
+                            }
                         }
                         return true
                     })
@@ -522,7 +535,32 @@ export const DuplicateContest = (dispatch, id, data)=>{
     })
 }
 export const ResestNewContest = (dispatch)=>{
-    dispatch({type: ContestTypes.RESET_NEW_CONTEST})
+    try{
+        var date =  new Date()
+        var days = ("0" + parseInt(new Date(date.setDate(date.getDate())).getDate())).slice(-2)
+        var days2 = ("0" + parseInt(new Date(date.setDate(parseInt(days) + 1)).getDate())).slice(-2)
+        var months = ("0" + parseInt(date.getMonth() === 13 + 1 ? 1 : date.getMonth() + 1))
+        var year = date.getFullYear()
+        var endDate = year + "-" + months + "-" + days2
+        var today = new Date(endDate)
+        var yestrday = new Date(today.setDate(today.getDate() - 1))
+        var month2 = ("0"+parseInt(yestrday.getMonth() + 1 === 13 ? 1 : yestrday.getMonth() + 1)).slice(-2)
+        var year2 = yestrday.getFullYear()
+        days = ("0"+yestrday.getDate()).slice(-2)
+        var startDate = year2 + "-" + month2 + "-" + days
+        var startHour = ("0"+date.getHours()).slice(-2)
+        var startMin = ("0"+date.getMinutes()).slice(-2)
+        var endMin =  parseInt(startMin) + 10 
+        var endHour = endMin > 59 ?  parseInt(startHour) + 1 : parseInt(startHour)
+        endMin = endMin > 59 ? ("0" + parseInt(parseInt(startMin) - 60 + 10)).slice(-2) : ("0" + parseInt(parseInt(startMin) + 10)).slice(-2)
+        endHour = endHour > 23 ? ("0" + parseInt(startHour - 24)).slice(-2) : ("0" + parseInt(startHour)).slice(-2)
+        var startTime =  startHour + ":" + startMin
+        var endTime = endHour + ":" + endMin
+        var timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone //date.getTimezoneOffset()
+        dispatch({type: ContestTypes.RESET_NEW_CONTEST, payload: {startDate, endDate, startTime, endTime, timeZone}})
+    }catch(err){
+        FailAlert(dispatch, "something_went_wrong")
+    }
 }
 export const UrlValidation = (url)=>{
     var pattern = new RegExp(/^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$/)

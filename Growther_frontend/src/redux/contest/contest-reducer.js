@@ -301,6 +301,14 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
         case ContestTypes.RESET_NEW_CONTEST:
             return {
                 ...INITIAL_STATE,
+                information:{
+                    ...INITIAL_STATE.information,
+                    startDate: action.payload.startDate && action.payload.startTime ? action.payload.startDate+"T"+action.payload.startTime : "",
+                    endDate: action.payload.endDate && action.payload.endTime ? action.payload.endDate+"T"+action.payload.endTime : "",
+                    startTime: action.payload.startTime ? action.payload.startTime : "",
+                    endTime: action.payload.endTime ? action.payload.endTime : "",
+                    timeZone: action.payload.timeZone ? action.payload.timeZone : ""
+                }
             }
         case ContestTypes.PREVIEW_SELECTED_ACTIONS:
             return{

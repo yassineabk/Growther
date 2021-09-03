@@ -7,17 +7,18 @@ import {Link, useHistory} from 'react-router-dom'
 import { googleUri } from './login_uri';
 import { facebookUri } from './login_uri';
 import { Spinner } from '../spinner/spinner.component';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from "react-i18next";
 
 const LoginForm=({handleSubmit,handleRemeberMe,SignUpWithGoogle,SignUpWithFacebook,registrationMessage,passwordVlue,passwordFunctions,emailValue,email,password,emailFunctions})=>{
     const { t } = useTranslation();
     const history = useHistory();
+    var {direction} = useSelector(state => state.userInfos)
     var {isLoading} = useSelector(state => state.login)
-  function handleClickRegister() {
-    history.push("/signup");
-    
-  }
+    function handleClickRegister() {
+        history.push("/signup");
+    }
+    var dispatch = useDispatch()
     return(
 
     [
@@ -27,19 +28,19 @@ const LoginForm=({handleSubmit,handleRemeberMe,SignUpWithGoogle,SignUpWithFacebo
                 <div className="container ">
                 <div className="columns is-centered ">
                     <div className="column is-5-tablet is-4-desktop is-4-widescreen ">
-                    <form action="" className="box" onSubmit={handleSubmit}>
-                        <div className="column has-text-centered">
-                        <p className="title is-3">{t("login")}</p>
-                        <p className="subtitle is6">{t("welcome_back")}</p>
+                    <form action="" className="box" onSubmit={event => handleSubmit(event, dispatch)}>
+                        <div id="auth-title" className="column has-text-centered">
+                            <p dir={direction ? direction : "ltr"} className="title is-3">{t("login")}</p>
+                            <p dir={direction ? direction : "ltr"} className="subtitle is-6">{t("welcome_back")}</p>
                         </div>
-                        <EmailInput value={emailValue} handleBlur={emailFunctions.handleEmailBlur} handleChange={emailFunctions.handleEmailChange} label="Email" isError={email.isEmailError} message={email.EmailMessage} placeholder="Enter Your email"/>
-                        <PasswordInput value={passwordVlue} handleChange={passwordFunctions.handlePasswordChange}  label="Password" isError={password.isPasswordError} message={password.PasswordMessage} placeholder="Enter your password"/>
-                        <div className="field is-flex-desktop is-flex-direction-row is-justify-content-space-between">
-                            <label for="" className="checkbox is-block">
-                                <input onChange={handleRemeberMe} className="mr-3" type="checkbox"/>
+                        <EmailInput value={emailValue} handleBlur={emailFunctions.handleEmailBlur} handleChange={emailFunctions.handleEmailChange} label="Email" isError={email.isEmailError} message={email.EmailMessage} placeholder={t("email_placeholder")}/>
+                        <PasswordInput value={passwordVlue} handleChange={passwordFunctions.handlePasswordChange}  label="Password" isError={password.isPasswordError} message={password.PasswordMessage} placeholder={t("password_placeholder")}/>
+                        <div dir={direction ? direction : "ltr"} id="auth-checkbox" className="field is-flex-desktop is-flex-direction-row is-justify-content-space-between">
+                            <label dir={direction ? direction : "ltr"} for="" className="checkbox is-block">
+                                <input onChange={handleRemeberMe} className={`${direction === "rtl" ? "ml-2" : "mr-2"}`} type="checkbox"/>
                                 {t("remember_me")}
                             </label>
-                            <Link className="subtitle is-danger is-6 is-link" to="Reset Password">I forgot my password</Link>
+                            <Link dir={direction ? direction : "ltr"} className="subtitle is-danger is-6 is-link" to="Reset Password">{t("forget_password")}</Link>
                             </div>
                         <div className="field"></div>
                         <SubmitButton message={registrationMessage} id="submitButton" type="submit" label="Login"/>

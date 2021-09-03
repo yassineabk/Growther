@@ -51,7 +51,7 @@ const ContestSecondStep = ()=>{
         SaveDraft(dispatch, information, userId)
     }
     var {t} = useTranslation()
-    if(isBrand !== "true") return <Redirect to="/" />
+    if(isBrand !== "true") return <Redirect to="/dashboard" />
     if(location.pathname !== "/dashboard/My Contests/new/secondStep") return null
     if(!isValidData) return <Redirect to="/dashboard/My Contests/new/firstStep" />
     return(

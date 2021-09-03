@@ -1,4 +1,5 @@
 import { userService } from "../../services/user-service";
+import { FailAlert } from "../alert/alert-actions";
 import { ALERT_TYPES } from "../alert/alert-types";
 import { ShowErrorModal } from "../errors/errors-actions";
 import { RESET_ALL_TYPE } from "../reset-all/reset-all-type";
@@ -39,22 +40,23 @@ export const setRemember =(bool) =>{
 }
 
 
-export function loginWithEmailAndPassword(user) {
-    return dispatch => {
-        dispatch(request({ user }));
-
-        userService.loginWithEmailAndPassword(user)
-            .then(
-                user => { 
+export function loginWithEmailAndPassword(dispatch, user) {
+    dispatch(request(user));
+    userService.loginWithEmailAndPassword(user)
+        .then(
+            user => { 
+                if(user.needVerifcation){
+                    FailAlert(dispatch, "You need to verify your account")
+                    dispatch(failure(""));
+                }else{
                     dispatch(success(user));
-                },
-                error => {
-                    ShowErrorModal(dispatch, "Something went wrong, please try again later")
-                    dispatch(failure(error.toString()));
                 }
-            );
-    };
-
+            },
+            error => {
+                ShowErrorModal(dispatch, "Something went wrong, please try again later")
+                dispatch(failure(error.toString()));
+            }
+        );
     function request(user) { return { type: loginType.LOGIN_REQUEST, payload: user } }
     function success(user) { return { type: loginType.LOGIN_SUCCESS, payload: user } }
     function failure(error) { return { type: loginType.SET_LOGIN_ERROR_MESSAGE, payload: error } }

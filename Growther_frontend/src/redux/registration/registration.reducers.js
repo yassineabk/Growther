@@ -52,8 +52,10 @@ const INITIAL_STATE={
 }
 
 export const registrationReducer=(state=INITIAL_STATE,action)=>{
+    if(action === undefined) return {
+        ...INITIAL_STATE
+    }
     switch (action.type) {
-
         case registrationType.SET_INITIAL_STATE:
             return INITIAL_STATE
         case registrationType.SET_USER_TYPE:

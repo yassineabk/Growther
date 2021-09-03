@@ -33,7 +33,7 @@ export const SetStateToEdit = async (dispatch, id, userId)=>{
         return false
     }).then(value =>{
         if(value){
-            SuccessAlert(dispatch, "get_contest_successfuly")
+            SuccessAlert(dispatch, "get_contest_successfully")
         }else{
             FailAlert(dispatch, "get_contest_failure")
         }
@@ -44,7 +44,7 @@ export const SetStateToEditFromLocation = async (dispatch, data, userId)=>{
     try{
         if(data.user.id.toString() === userId.toString()){
             dispatch({type: CONTEST_EDIT_TYPES.SET_STATE_TO_EDIT, payload: data})
-            SuccessAlert(dispatch, "get_contest_successfuly")
+            SuccessAlert(dispatch, "get_contest_successfully")
             return true
         }
         dispatch({type: CONTEST_EDIT_TYPES.EDIT_FAIL})

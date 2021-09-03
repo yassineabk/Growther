@@ -18,11 +18,11 @@ export const TemplatesContainer = ()=>{
                     </div>
                     <div className="right-side">
                         <div className="card-infos is-flex is-flex-direction-column">
-                            <div className="card-title">
-                                {t("email_signup")}
+                            <div dir={direction ? direction : "ltr"} className="card-title">
+                                <h3>{t("email_signup")}</h3>
                             </div>
                             <div dir={direction ? direction : "ltr"} className="card-description">
-                                {t("email_signup_text")}
+                                <p>{t("email_signup_text")}</p>
                             </div>
                         </div>
                         <div className="card-buttons is-flex is-flex-direction-row">
@@ -37,11 +37,11 @@ export const TemplatesContainer = ()=>{
                     </div>
                     <div className="right-side">
                         <div className="card-infos is-flex is-flex-direction-column">
-                            <div className="card-title">
-                                {t("refer_a_friend")}
+                            <div dir={direction ? direction : "ltr"} className="card-title">
+                                <h3>{t("refer_a_friend")}</h3>
                             </div>
-                            <div dir={direction ? direction : "ltr"} className="card-description">
-                                {t("refer_a_friend_text")}
+                            <div dir={direction ? direction : "ltr"} dir={direction ? direction : "ltr"} className="card-description">
+                                <p>{t("refer_a_friend_text")}</p>
                             </div>
                         </div>
                         <div className="card-buttons is-flex is-flex-direction-row">
@@ -56,11 +56,11 @@ export const TemplatesContainer = ()=>{
                     </div>
                     <div className="right-side">
                         <div className="card-infos is-flex is-flex-direction-column">
-                            <div className="card-title">
-                                {t("app_download")}
+                            <div dir={direction ? direction : "ltr"} className="card-title">
+                                <h3>{t("app_download")}</h3>
                             </div>
                             <div dir={direction ? direction : "ltr"} className="card-description">
-                                {t("app_download_text")}
+                                <p>{t("app_download_text")}</p>
                             </div>
                         </div>
                         <div className="card-buttons is-flex is-flex-direction-row">

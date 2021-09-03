@@ -17,7 +17,7 @@ export const ContestInput = ({type, name, value, placeholder, changeHandler, id,
                 max={max ? max : ""}
                 dir={direction ? direction : "ltr"}
             />
-            {validData !== undefined && validData.isValid === false ? <div className="inputError">{validData.message}</div> : null}
+            {validData !== undefined && validData.isValid === false ? <div dir={direction ? direction : "ltr"} className="inputError">{validData.message}</div> : null}
             {Array.isArray(child) ? child :  null}
         </div>
     )

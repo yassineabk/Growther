@@ -22,60 +22,75 @@ export const MakeResultState = async (id)=>{
             var result = []
             if(Array.isArray(data)){
                 try{
-                    data.map(item =>{
+                    data.map((participation, participationIndex) =>{
                         var res = {}
-                        if(typeof(item) === "object" && item !== null){
-                            var { contest, participationActions, done, user, partipationDate } = item
+                        if(typeof(participation) === "object" && participation !== null){
+                            var { contest, participationActions, done, user, partipationDate } = participation
                             var { actionsNbr } = contest
                             var actionsDone = 0
                             var totalPoints = 0
+                            var usernames = {}, emails = {}, texts = {}, links = {};
                             if(Array.isArray(participationActions)){
-                                participationActions.map((item, index) =>{
-                                    if(typeof(item) === "object" && item !== null){
-                                        totalPoints += item.done ? item.points : 0
-                                        actionsDone += item.done ? 1 : 0
-                                        Object.keys(item).map((key, ix) =>{
-                                            switch(key){
-                                                case "text":
-                                                case "email":
-                                                case "link":
-                                                case "username":
-                                                    if(item[key] !== null && typeof(item[key]) === "string" && item[key].length > 0){
-                                                        var newKey = `${item.provider}_${item.type}${item.provider === "Newsletter" ? `_${key}` : ""}`.replace(" ", "_").toLowerCase()
-                                                        var newLabel =  `${item.provider} ${item.type} ${item.provider === "Newsletter" ? `_${key}` : ""}`
-                                                        var alreadyIn = false
-                                                        for(var i = 0; i < result.length; i++){
-                                                            if(result[i] !== null && typeof(result[i]) === "object" && result[i][newKey] !== undefined){
-                                                                alreadyIn = true
-                                                                break
-                                                            }
-                                                        }
-                                                        tableHead.map(element =>{
-                                                            if(element.label === newLabel && !alreadyIn){
-                                                                newLabel = `${newLabel} ${index}`
-                                                                newKey = `${newKey} ${index}`
-                                                            }
-                                                        })
-                                                        tableHead.push({label: newLabel, key: newKey})
-                                                        return res[newKey] = item[key]
-                                                    }
-                                                    return true
-                                                default:
-                                                    return false
+                                participationActions.map((action, actionIndex) =>{
+                                    if(typeof(action) === "object" && action !== null){
+                                        totalPoints += action.done ? action.points : 0
+                                        actionsDone += action.done ? 1 : 0
+                                        var {username, email, link, text, provider, type} = action
+                                        if(provider && type && typeof(provider) === typeof(provider) && typeof(provider) === "string"){
+                                            var label, key, filter;
+                                            if(username && typeof(username) === "string"){
+                                                usernames[provider] = usernames[provider] === undefined ? 1 : usernames[provider] + 1
+                                                key = `${provider}_username_${usernames[provider]}`.toLowerCase()
+                                                label = `${provider} Username ${usernames[provider]}`
+                                                res[key] = username
+                                                filter = tableHead.filter(head => head.label === label)
+                                                if(filter.length === 0){
+                                                    tableHead.push({label: label, key: key})
+                                                }
                                             }
-                                        })
+                                            if(email && typeof(email) === "string"){
+                                                emails[provider] = emails[provider] === undefined ? 1 : emails[provider] + 1
+                                                key = `${provider}_email_${emails[provider]}`.toLowerCase()
+                                                label = `${provider} Email ${emails[provider]}`
+                                                res[key] = email
+                                                filter = tableHead.filter(head => head.label === label)
+                                                if(filter.length === 0){
+                                                    tableHead.push({label: label, key: key})
+                                                }
+                                            }
+                                            if(link && typeof(link) === "string"){
+                                                links[provider] = links[provider] === undefined ? 1 : links[provider] + 1
+                                                key = `${provider}_link_${links[provider]}`.toLowerCase()
+                                                label = `${provider} Link ${links[provider]}`
+                                                res[key] = link
+                                                filter = tableHead.filter(head => head.label === label)
+                                                if(filter.length === 0){
+                                                    tableHead.push({label: label, key: key})
+                                                }
+                                            }
+                                            if(text && typeof(text) === "string"){
+                                                texts[provider] = texts[provider] === undefined ? 1 : texts[provider] + 1
+                                                key = `${provider}_text_${texts[provider]}`.toLowerCase()
+                                                label = `${provider} Text ${texts[provider]}`
+                                                res[key] = text
+                                                filter = tableHead.filter(head => head.label === label)
+                                                if(filter.length === 0){
+                                                    tableHead.push({label: label, key: key})
+                                                }
+                                            }
+                                        }
                                     }
                                     return true
                                 })
                             }
-                            res.numActions = `${actionsDone}/${actionsNbr}`
+                            res.numActions = `${actionsDone} of ${actionsNbr}`
                             res.status = done || actionsDone === actionsNbr ? "Done" : "Pending"
                             res.points = totalPoints ? totalPoints : 0
                             if(user && typeof(user) === "object" && user !== null ){
                                 res.email = user.email
                                 res.name = user.name
                             }
-                            res.date = partipationDate && partipationDate !== null && typeof(partipationDate) === "string" ? partipationDate.split("T")[0] : ""
+                            res.date = partipationDate && partipationDate !== null && typeof(partipationDate) === "string" ? partipationDate.split("T")[0]: ""
                             result.push(res)
                         }
                         return true

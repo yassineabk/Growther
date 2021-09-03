@@ -92,18 +92,17 @@ public class ParticipationServiceImpl implements ParticipationService {
         else System.out.println("contest with ID: "+contest.getIdContest());
         Participation participation = toParticipation(participationDto);
 
-
         Set<ParticipationAction> actions = participation.getParticipationActions();
         actions.forEach( action -> {
+            if(action.isDone()){
+                participation.setTotalPoints(participation.getTotalPoints()+action.getPoints());
+            }
             action.setParticipation(participation);
-            System.out.println(action.isDone());
         });
 
         //participation.setId(0L);
         participation.setUser(user);
         participation.setContest(contest);
-
-
         repository.save(participation);
 
         actions.forEach( action -> {

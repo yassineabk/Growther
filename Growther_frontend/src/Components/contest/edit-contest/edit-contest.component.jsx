@@ -10,6 +10,7 @@ const EditContest = ({child})=>{
     var params = useParams()
     var { information } = useSelector(state => state.contest_edit)
     var {t} = useTranslation()
+    var {direction} = useSelector(state => state.userInfos)
     if(typeof(information) !== "object") return null
     return(
         <div className="column is-full is-flex is-flex-direction-column list-container newContest is-size-6 mb-4">
@@ -29,7 +30,7 @@ const EditContest = ({child})=>{
                     }
                 ]}
             />
-            <div className="is-flex bottomContainer">
+            <div className={`is-flex ${direction === "rtl" ? "is-flex-direction-row-reverse" : ""} bottomContainer`}>
                 {child}
             </div>
         </div>
