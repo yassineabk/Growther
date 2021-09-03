@@ -1,5 +1,5 @@
 import axios from "axios"
-import { BACKEND_API, FRONTEND_API } from "../../services/links"
+import { BACKEND_API } from "../../services/links"
 import { TimeZone } from "../../services/timeLeft"
 import { FailAlert, SuccessAlert } from "../alert/alert-actions"
 import { AppendActionDone, AppendContest, AppendEditedContest } from "../contests/contests-actions"
@@ -185,7 +185,7 @@ export const ContestCardWinners = async (dispatch, id)=>{
             "Authorization" : `Bearer ${token}`
         },
     }
-    return axios.get(`${FRONTEND_API}/api/contests/contest/winners/${id}`, config)
+    return axios.get(`${BACKEND_API}/api/contests/contest/winners/${id}`, config)
                 .then(response =>{
                     dispatch({type: Contest_Card_Types.CONTEST_CARD_WINNERS, payload: response.data})
                     return true
