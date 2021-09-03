@@ -279,5 +279,6 @@
   "coupon_code": "Code du Coupon",
   "invalid_coupon": "Le coupon n'est pas valide",
   "sent_failure": "Echec d'envoie",
-  "sent_successfully": "Envoyer avec succés"
+  "sent_successfully": "Envoyer avec succés",
+  "no_winners_yet": "Aucun gagnant pour le moment"
 }

@@ -280,7 +280,8 @@
     "coupon_code": "Coupon Code",
     "Invalid Coupon": "Invalid Coupon",
     "sent_failure": "Sent Failure",
-    "sent_successfully": "Sent Successfully"
+    "sent_successfully": "Sent Successfully",
+    "no_winners_yet": "No winners yet"
 }
 
    

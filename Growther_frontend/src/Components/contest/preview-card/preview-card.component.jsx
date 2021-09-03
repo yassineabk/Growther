@@ -1,13 +1,16 @@
 import { decode } from "jsonwebtoken"
 import React, { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { Redirect, useHistory } from "react-router-dom"
+import { FailAlert, SuccessAlert } from "../../../redux/alert/alert-actions"
+import { ContestCardWinners } from "../../../redux/contest-card/contest-card-actions"
 import { PreviewActionsList } from "../preview-actions-list/preview-actions-list.component"
 import { PreviewPrizesList } from "../preview-prizes-list/preview-prizes-list.component"
 import { TimeLeftCountDown } from "../time-left-component/time-left.component"
 export const PreviewCard = ({title, description, timeLeft, dateType, views, points, entries, status, actions, previewActions, changeHandler, prizes, buttons, hasStarted, hasEnded, canParticipate, isPublished, id, element, isPreview, user_id, error, immediately, DoAction, DoBonus, showLoginForm, contestDone, endDate, onMouseLeave, onMouseOver})=>{
     var history = useHistory()
+    var dispatch = useDispatch()
     var hoverCard = (event)=>{
         document.getElementById("card").classList.toggle("backface")
     }
@@ -66,6 +69,13 @@ export const PreviewCard = ({title, description, timeLeft, dateType, views, poin
             }
         }
         return {timeLeft: timeValue, timeType: timeType}
+    }
+    var getWinners = ()=>{
+        ContestCardWinners(dispatch, id).then(value =>{
+            if(!value){
+                FailAlert(dispatch, "no_winners_yet")
+            }
+        })
     }
     var {t} = useTranslation()
     var {direction} = useSelector(state => state.userInfos)
@@ -129,6 +139,11 @@ export const PreviewCard = ({title, description, timeLeft, dateType, views, poin
                                         <img alt="" src={require("../../../assets/icons/ending.png").default} width={"20px"} /> 
                                     </div>]
                                 : null }
+                                 {!isPreview && timeleft(endDate, timeLeft, dateType).timeLeft === "Ended" ? 
+                                    <div onClick={()=> getWinners()}>
+                                        <img alt="" src={require("../../../assets/icons/winners.png").default} width={"20px"} />
+                                    </div>
+                                : null}
                                 <div>
                                     <img alt="" onClick={()=> hoverCard()} src={require("../../../assets/icons/trophy2.png").default} width={"20px"} />
                                 </div>

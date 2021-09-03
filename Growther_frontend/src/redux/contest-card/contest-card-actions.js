@@ -176,6 +176,23 @@ export const ActionDone = async (dispatch, action, id, index, points, idContest,
             return value
         })
 }
+export const ContestCardWinners = async (dispatch, id)=>{
+    dispatch({type: Contest_Card_Types.DOING_ACTION})
+    var token = localStorage.getItem("accessToken")
+    var config = {
+        headers: {
+            "Content-Type" : "application/json",
+            "Authorization" : `Bearer ${token}`
+        },
+    }
+    return axios.get(`${BACKEND_API}/api/contests/contest/winners/${id}`, config)
+                .then(response =>{
+                    dispatch({type: Contest_Card_Types.CONTEST_CARD_WINNERS, payload: response.data})
+                    return true
+                }).catch(err =>{
+                    return false
+                })
+}
 export const SetActionText = (dispatch, id, text, type, index)=>{
     try{
         dispatch({type: Contest_Card_Types.SET_ACTION_TEXT, payload: {id, text, type, index}})
