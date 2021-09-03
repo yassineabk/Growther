@@ -1,7 +1,8 @@
 import { decode } from "jsonwebtoken"
 import React, { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
+import { GetContests } from "../../../redux/contests/contests-actions"
 import { NumbersConverter } from "../../../services/numbers-converter"
 import { TimeLeft } from "../../../services/timeLeft"
 import { EmptyList } from "../../contest/empty-list/empty-list.component"
@@ -63,10 +64,11 @@ export const CardsContainer = ({data, title, showMore, addNew, Duplicate, Delete
     var onMouseLeave = ()=>{
         clearInterval(intervalIndex)
     }
+    var dispatch = useDispatch()
     return(
         <div className="is-flex is-flex-direction-column list-container">
             <Spinner show={isLoading} />
-            <CardTitle title={title} addNew={addNew} showMore={showMore} />
+            <CardTitle title={title} addNew={addNew} refresh={()=> GetContests(dispatch)} showMore={showMore} />
             <div className="columns is-multiline is-flex is-flex-row cards">
                 {Array.isArray(data) && data.length > 0 ? data.map((element, index)=>{
                     if(element === null && typeof(element) !== "object") return null

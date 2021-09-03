@@ -30,7 +30,10 @@ const ContestCard = (state = INITIAL_STATE, action)=>{
         case Contest_Card_Types.SET_CONTEST_STATE:
             return{
                 ...state,
-                information: {...action.payload.data},
+                information: {
+                    ...action.payload.data,
+                    actions: action.payload.data.actions.sort((item, nextItem) => (item.order - nextItem || item.id - nextItem.id))
+                },
                 canParticipate: action.payload.canParticipate,
                 isLoading: false,
                 error: false

@@ -45,11 +45,12 @@ export const PreviewAction = ({provider, links, points, status, changeHandler, D
                 </div> : null
             }
             <ContestInput 
-                value={provider && typeof(provider) === "string" && provider.toLowerCase() === "coupon" && coupon && done ? coupon  : t(links)} 
+                value={provider && typeof(provider) === "string" && provider.toLowerCase() === "coupon" && coupon && done ? coupon : t(links)} 
                 placeholder={"Action"} 
                 min={1}
                 readonly={"readonly"}
                 changeHandler={changeHandler && {}.toString.call(changeHandler) === '[object Function]' ? (event) => changeHandler(event, provider) : ()=> false}
+                bold={provider && typeof(provider) === "string" && provider.toLowerCase() === "coupon" && coupon && done ? true : false}
             />
             {points !== null && typeof(parseInt(points)) === "number" && done !== true ? 
                 (provider && typeof(provider) === "string" && provider.toLowerCase() === "coupon" ? <div onClick={(!isOwner || canParticipate) && status === "Published" ? ()=> doAction() : ()=> showLogin(!isOwner && !canParticipate)} className={`actionPoints is-flex ${direction === "rtl" ? "is-flex-direction-row-reverse" : ""}`}>

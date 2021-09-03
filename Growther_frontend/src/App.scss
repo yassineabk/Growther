@@ -2,7 +2,7 @@
 html, body{
   @extend .scroll;
   *{
-    direction: inherit;
+    direction: inherit !important;
   }
 }
 .App{
