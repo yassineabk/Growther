@@ -23,7 +23,7 @@ function loginWithFacebookAndGoogle(user){
         },
         body: JSON.stringify(user)
     };
-
+    console.log("success");
     return fetch(`${USERS_REST_API_URL}/api/users/update/${id}`, requestOptions)
             .then(response => {
             // store user details and jwt token in local storage to keep user logged in between page refreshes

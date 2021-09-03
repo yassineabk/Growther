@@ -516,6 +516,7 @@ public class ContestServiceImpl implements ContestService {
         contestWinners.setNumberOfWinners(min(prizes.size(),participationDtos.size()));
 
         winnersResponses=contestWinners.getAllWinners();
+
         int winnerIndex=0;
 
         for(Prize prize:prizes){

@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import SingupFirstStep from '../../Components/signup-first-step/signupFirstStep.component';
 import SingupSecondStep from '../../Components/signup-second-step/signup-second-step.component';
-import {registerWithEmailAndPassword} from '../../redux/registration/registration.action'
+import {registerWithEmailAndPassword,registerWithFacebookAndGoogle} from '../../redux/registration/registration.action'
 import { SignupUserType } from '../../Components/signup-user-type/signup-user-type.component';
 import {SetEmail,setRegistrationErrorMessage, SetPassword,SetConfirmationPassword,SetEmailError,SetEmailErrorMessage,SetPasswordError,SetPasswordErrorMessage,SetPasswordConfirmationError,SetPasswordConfirmationErrorMessage,SetUserType,ToogleSecondStep,ToogleThirddStep,setBrandName,setBrandNameError,setBrandNameErrorMessage,setBrandUrl,setBrandUrlError,setBrandUrlErrorMessage,setBrandActvity,setBrandActvityError,setBrandActvityErrorMessage,setIndividualName,setIndividualNameErrorMessage,setIndividualNameError} from '../../redux/registration/registration.action'
 import { FRONTEND_API } from '../../services/links';
@@ -21,6 +21,8 @@ class SignUpPage extends React.Component{
             localStorage.setItem("user", JSON.stringify(user))
             //this.props.setRegistrationError(false)
             //this.props.registerWithEmailAndPassword(user)
+            this.props.registerWithFacebookAndGoogle(user);
+            
           }else{
             const user={
               name:this.props.individual.name,
@@ -307,6 +309,7 @@ function mapStateToProps(state) {
 
 const mapStatsToDispatch={
   registerWithEmailAndPassword : registerWithEmailAndPassword,
+  registerWithFacebookAndGoogle : registerWithFacebookAndGoogle, 
   setEmail:(email)=>SetEmail(email),
   setPassword:(password)=>SetPassword(password),
   setConfirmationPassword:(password)=>SetConfirmationPassword(password),

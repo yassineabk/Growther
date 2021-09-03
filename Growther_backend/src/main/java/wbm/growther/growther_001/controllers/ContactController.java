@@ -7,11 +7,13 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import wbm.growther.growther_001.payload.GmailMsg;
 import wbm.growther.growther_001.security.EmailVerification.EmailService;
 
 import java.util.concurrent.RejectedExecutionException;
 
+@RestController
 @RequestMapping("/contactus/send")
 public class ContactController {
 

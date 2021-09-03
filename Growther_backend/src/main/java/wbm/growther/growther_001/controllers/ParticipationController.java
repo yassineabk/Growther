@@ -122,6 +122,10 @@ public class ParticipationController {
             action.setUsername(participationAction.getUsername());
             action.setDone(participationAction.isDone());
             actionRepository.save(action);
+            long participationId= action.getParticipation().getId();
+            Participation participation= repository.findParticipationById(participationId);
+            participation.setTotalPoints(participation.getTotalPoints()+action.getPoints());
+            repository.save(participation);
         }else throw new ResourceNotFoundException("No action with ID:"+participationActionId);
 
         return action;

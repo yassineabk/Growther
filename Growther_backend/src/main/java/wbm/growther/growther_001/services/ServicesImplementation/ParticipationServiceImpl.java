@@ -103,6 +103,7 @@ public class ParticipationServiceImpl implements ParticipationService {
         participation.setUser(user);
         participation.setContest(contest);
 
+
         repository.save(participation);
 
         actions.forEach( action -> {

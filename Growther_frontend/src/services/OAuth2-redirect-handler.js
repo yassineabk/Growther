@@ -16,9 +16,10 @@ const OAuth2RedirectHandler = ()=> {
     if(token) {
         localStorage.setItem('accessToken', token);
         var user = localStorage.getItem("user")
+        console.log("koko");
         registerWithFacebookAndGoogle(JSON.parse(user))
         SetCurrentToken(dispatch, token)
-
+        console.log("redirect");
         return <Redirect to={{
             pathname: "/dashboard",
             
