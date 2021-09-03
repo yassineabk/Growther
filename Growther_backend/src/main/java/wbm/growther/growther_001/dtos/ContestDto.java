@@ -195,8 +195,7 @@ public class ContestDto {
         this.user = user;
     }
 
-
-    public Date getDateInServerTimezone(String timezone,String date) throws ParseException {
+    public Date getDateInServerTimezone(String timezone, String date) throws ParseException {
         System.out.println(timezone);
         System.out.println(TimeZone.getDefault().getID());
         dateformat.setTimeZone(TimeZone.getTimeZone(timezone));
@@ -219,6 +218,8 @@ public class ContestDto {
 
         return convertedDate.toString();
     }
+
+
 
 
 

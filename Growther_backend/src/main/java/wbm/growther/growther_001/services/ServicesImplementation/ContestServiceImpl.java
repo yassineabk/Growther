@@ -400,7 +400,7 @@ public class ContestServiceImpl implements ContestService {
         contestDto.setMinPoints(contest.getMinPoints());
         contestDto.setActions(contest.getActions());
         contestDto.setPrizes(contest.getPrizes());
-        contestDto.setNumOfParticipation(this.GetNumOfParticipation(contest.getIdContest()));
+        contestDto.setNumOfParticipation(contest.getParticipations().size());
         return contestDto;
     }
 
@@ -435,6 +435,7 @@ public class ContestServiceImpl implements ContestService {
         contest.setMinPoints(contestDto.getMinPoints());
         contest.setActions(contestDto.getActions());
         contest.setPrizes(contestDto.getPrizes());
+
         return contest;
     }
     // returns a list of contests DTO
@@ -469,7 +470,8 @@ public class ContestServiceImpl implements ContestService {
         contestDto.setActions(contest.getActions());
         contestDto.setPrizes(contest.getPrizes());
         contestDto.setMinPoints(contest.getMinPoints());
-        contestDto.setNumOfParticipation(this.GetNumOfParticipation(contest.getIdContest()));
+        contestDto.setNumOfParticipation(contest.getParticipations().size());
+
         System.out.println(timezone);
         return contestDto;
     }
@@ -516,6 +518,7 @@ public class ContestServiceImpl implements ContestService {
         contestWinners.setNumberOfWinners(min(prizes.size(),participationDtos.size()));
 
         winnersResponses=contestWinners.getAllWinners();
+
         int winnerIndex=0;
 
         for(Prize prize:prizes){
