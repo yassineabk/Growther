@@ -208,8 +208,8 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
                 ...state,
                 information:{
                     ...state.information,
-                    actions: [action.payload],
-                    actionsNbr: 1
+                    actions: [{...action.payload, order: 1}],
+                    actionsNbr: 1,
                 },
                 isLoading: false,
                 error: null
@@ -219,7 +219,7 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
                 ...state,
                 information:{
                     ...state.information,
-                    actions: [...state.information.actions, action.payload],
+                    actions: [...state.information.actions, {...action.payload, order: state.information.actions.length + 1}],
                     actionsNbr: state.information.actions.length + 1
                 },
                 isLoading: false,
