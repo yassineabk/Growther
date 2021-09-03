@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux';
 const FormInput = ({handleChange,type,value,handleBlur,label,isError,message,placeholder})=>{
     var {direction} = useSelector(state => state.userInfos)
     var {t} = useTranslation()
-    console.log(message)
     return(
         <div className="contest_input is-flex is-flex-direction-column">
             <label dir={direction ? direction : "ltr"} >{typeof(label) === "string" ? t(label.toLowerCase()) : ""}</label>

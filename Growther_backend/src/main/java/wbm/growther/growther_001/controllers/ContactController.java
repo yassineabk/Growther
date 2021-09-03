@@ -12,13 +12,12 @@ import wbm.growther.growther_001.security.EmailVerification.EmailService;
 
 import java.util.concurrent.RejectedExecutionException;
 
-@RequestMapping("/contactus/send")
+@RequestMapping("/contactus")
 public class ContactController {
-
     @Autowired
     private EmailService emailService;
 
-    @PostMapping
+    @PostMapping("/send")
     public ResponseEntity<String> sendEmail(@Validated @RequestBody GmailMsg gmailMsg){
 
         try {

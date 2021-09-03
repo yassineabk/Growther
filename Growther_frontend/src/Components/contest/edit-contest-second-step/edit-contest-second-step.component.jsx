@@ -24,7 +24,7 @@ const EditContestSecondStep = ()=>{
         return {
             data: result,
             headers: tableHead,
-            filename: 'Participants_Report.csv'
+            filename: `${information.title}.csv`
         }
     }
     useEffect(()=>{
