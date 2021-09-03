@@ -538,5 +538,34 @@ public class ContestServiceImpl implements ContestService {
         return winnersResponses;
     }
 
+    @Override
+    public List<WinnersResponse> showContestWinners(Long contestId) {
+
+        Contest contest=repository.findContestByIdContest(contestId);
+        Set<Prize> prizes=contest.getPrizes();
+        List<Winners> winners =winnersRepository.getAllByContestIdContest(contestId);
+        List<WinnersResponse> winnersResponses;
+        if(winners.size() > 0){
+            winnersResponses= new ArrayList<>();
+            for(Winners winner : winners){
+                winnersResponses.add(new WinnersResponse(
+                        winner.getUser().getEmail(),
+                        winner.getRank()
+                ));
+            }
+
+            int winnerIndex=0;
+            for(Prize prize:prizes){
+                winnersResponses.get(winnerIndex).setPrize(prize);
+                winnerIndex++;
+            }
+
+            return  winnersResponses;
+
+        }
+        return  null;
+
+    }
+
 
 }
