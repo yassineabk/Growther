@@ -280,5 +280,6 @@
     "coupon_code": "كود الكوبون",
     "Invalid Coupon": "الكوبون غير صالح",
     "sent_failure": "فشل الإرسال",
-    "sent_successfully": "تم الإرسال بنجاح"
+    "sent_successfully": "تم الإرسال بنجاح",
+    "no_winners_yet": "لا يوجد فائزين بعد"
 }

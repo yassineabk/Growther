@@ -52,7 +52,6 @@ const INITIAL_STATE={
 }
 
 export const registrationReducer=(state=INITIAL_STATE,action)=>{
-    console.log(action)
     if(action === undefined) return {
         ...INITIAL_STATE
     }

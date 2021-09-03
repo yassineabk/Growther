@@ -12,7 +12,8 @@ const INITIAL_STATE = {
     isLoading: false,
     isDoingAction: false,
     canParticipate: false,
-    error: false
+    error: false,
+    winners: []
 }
 const ContestCard = (state = INITIAL_STATE, action)=>{
     switch(action.type){
@@ -103,6 +104,13 @@ const ContestCard = (state = INITIAL_STATE, action)=>{
                 isDoingAction: false,
                 isLoading: false,
                 actionModal: false
+            }
+        case Contest_Card_Types.CONTEST_CARD_WINNERS:
+            return {
+                ...state,
+                winners: action.payload,
+                isLoading: false,
+                error: false
             }
         case Contest_Card_Types.ACTION_FAIL:
             return {

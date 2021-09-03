@@ -72,7 +72,6 @@ function registerWithEmailAndPassword(user) {
     return fetch(`${USERS_REST_API_URL}/authentication/signup`, requestOptions)
     .then(handleResponse)
     .then(user => {
-        console.log(user)
         return user;
     }).catch(err =>{
         return false
