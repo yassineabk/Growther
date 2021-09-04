@@ -172,7 +172,7 @@ public class ContestServiceImpl implements ContestService {
         Contest contestExist = repository.findContestByIdContest(contestID);
         Contest contest = new Contest(contestExist);
 
-        Set<Prize> prizes = contestExist.getPrizes();
+         Set<Prize> prizes = contestExist.getPrizes();
         Set<Action> actions = contestExist.getActions();
         Set<Prize> newPrizes = new HashSet<>();
         Set<Action> newActions = new HashSet<>();
@@ -400,7 +400,10 @@ public class ContestServiceImpl implements ContestService {
         contestDto.setMinPoints(contest.getMinPoints());
         contestDto.setActions(contest.getActions());
         contestDto.setPrizes(contest.getPrizes());
-        contestDto.setNumOfParticipation(contest.getParticipations().size());
+        if(contest.getParticipations() != null)
+            contestDto.setNumOfParticipation(contest.getParticipations().size());
+        else
+            contestDto.setNumOfParticipation(0);
         return contestDto;
     }
 
@@ -470,7 +473,10 @@ public class ContestServiceImpl implements ContestService {
         contestDto.setActions(contest.getActions());
         contestDto.setPrizes(contest.getPrizes());
         contestDto.setMinPoints(contest.getMinPoints());
-        contestDto.setNumOfParticipation(contest.getParticipations().size());
+        if(contest.getParticipations() != null)
+            contestDto.setNumOfParticipation(contest.getParticipations().size());
+        else
+            contestDto.setNumOfParticipation(0);
 
         System.out.println(timezone);
         return contestDto;
