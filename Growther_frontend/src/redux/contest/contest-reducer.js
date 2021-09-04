@@ -252,7 +252,6 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
                 error: null
             }
         case ContestTypes.CHANGE_ACTIONS_PLACE:
-            console.log(action.payload)
             return {
                 ...state,
                 information: {

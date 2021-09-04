@@ -29,4 +29,5 @@ public interface ContestService {
 
     List<WinnersResponse> getContestWinners(List<ParticipationDto> participationDtos,
                                             Set<Prize> prizes, Long ContestId);
+    List<WinnersResponse> showContestWinners(Long contestId);
 }

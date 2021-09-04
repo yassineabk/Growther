@@ -29,6 +29,7 @@ export const ContestAction = ({data, removeAction, updateAction, validAction, id
             draggable 
             className="contestAction is-flex is-flex-direction-row"
             id={id}
+            style={{order: data.order}}
         >
             <div className="actionTitle">{t(data.provider.toLowerCase())}</div>
             <div className="actionSelect">
