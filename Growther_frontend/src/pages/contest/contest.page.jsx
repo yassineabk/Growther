@@ -18,7 +18,7 @@ const Contest = ()=>{
     var dispatch = useDispatch()
     var params = useParams()
     var location = useLocation()
-    var {information, selected, isLoading, error, points, canParticipate, isDoingAction} = useSelector(state => state.contest_card)
+    var {information, selected, isLoading, error, points, canParticipate, isDoingAction, winners} = useSelector(state => state.contest_card)
     var {isBrand} = useSelector(state => state.userInfos)
     var {t} = useTranslation()
     useEffect(()=>{
@@ -202,6 +202,7 @@ const Contest = ()=>{
                     showLoginForm={showLoginForm && {}.toString.call(showLoginForm) === '[object Function]' ? (value)=> showLoginForm(value) : ()=> false}
                     onMouseLeave={()=> onMouseLeave()}
                     onMouseOver={(element)=> onMouseOver(element)}
+                    winners={winners}
                 /> 
             : null}
         </div>
