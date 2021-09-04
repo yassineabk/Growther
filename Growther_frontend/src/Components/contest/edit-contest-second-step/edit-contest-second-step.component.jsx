@@ -65,7 +65,7 @@ const EditContestSecondStep = ()=>{
                                 </CSVLink>
                             </div>
                         </div>
-                        <div id="" dir="ltr" className="arrow-button-container is-flex is-justify-content-flex-end">
+                        <div id="" dir={direction ? direction : "ltr"} className="arrow-button-container is-flex is-justify-content-flex-end">
                             <div className="arrow-button">
                                 <Link 
                                     onClick={(event)=>{
