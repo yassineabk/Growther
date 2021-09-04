@@ -15,6 +15,7 @@ export const GetContests = async (dispatch)=>{
     return axios.get(`${BACKEND_API}/api/contests/all`, config)
         .then(response =>{
             var {data} = response
+            console.log(data)
             if(Array.isArray(data)){
                 var payload = data.map(item =>{
                     if(item && typeof(item) === "object" && item.contest !== null && typeof(item.contest) === "object"){

@@ -4,9 +4,9 @@ import { useTranslation } from "react-i18next"
 import { useSelector } from "react-redux"
 import { ActionIcon } from "../actions-icons/actions-icons.component"
 import { ContestInput } from "../contest-input/contest-input.component"
-export const PreviewAction = ({provider, links, points, status, changeHandler, DoAction, DoBonus, done, index, isOwner, canParticipate, showLoginForm, contestDone, coupon})=>{
+export const PreviewAction = ({provider, links, points, status, changeHandler, DoAction, DoBonus, done, index, isOwner, canParticipate, showLoginForm, contestDone, coupon, OwnerAlert})=>{
     var showLogin = (value)=>{
-        if(showLoginForm && {}.toString.call(DoAction) === '[object Function]' && typeof(status) === "string" && status.toLowerCase() === "published"){
+        if(showLoginForm && {}.toString.call(showLoginForm) === '[object Function]' && typeof(status) === "string" && status.toLowerCase() === "published"){
             showLoginForm(value)
         }
     }
@@ -18,6 +18,7 @@ export const PreviewAction = ({provider, links, points, status, changeHandler, D
         }
         var decodedToken = decode(token)
         if(!decodedToken || decodedToken === null || typeof(decodedToken) !== "object"){
+            localStorage.removeItem("accessToken")
             return showLogin(true)
         }
         if(typeof(provider) === "string" && ["coupon", "bonus"].includes(provider.toLowerCase())){

@@ -1,9 +1,10 @@
 import React, { useState } from "react"
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
-import { SetActionText } from "../../../redux/contest-card/contest-card-actions";
-import UrlSubmit from "../../contest/action-modal-container/action-submit-url.component";
-export const SnapchatFollow = ({url, valid_url_check, closeModal, id, index})=>{
+import { SetActionText } from "../../../../redux/contest-card/contest-card-actions";
+import UrlSubmit from "../../../contest/action-modal-container/action-submit-url.component";
+import { OpenLink } from "../../visit-social-media/visit-social-media.component";
+export const TwitterFollow = ({url, valid_url_check, closeModal, id, index})=>{
     var [username, setUsername] = useState("")
     var [message, setMessage] = useState("")
     var [userInput, showInput] = useState(false)
@@ -19,13 +20,16 @@ export const SnapchatFollow = ({url, valid_url_check, closeModal, id, index})=>{
         while(url[url.length - 1] === "/"){
             url = url.slice(0, url.length)
         }
-        url = url.split("/")
-        url = url[url.length - 1]
         return url
     }
     var buttonClick = ()=>{
-        window.open(`https://www.snapchat.com/add/${ParseUsername(url)}`, "_blank")
-        showInput(true)
+        OpenLink(`${ParseUsername(url)}`, dispatch).then(value =>{
+            if(value){
+                showInput(true)
+            }else{
+                setMessage("something_went_wrong")
+            }
+        })
     }
     var changeHandler = (event)=>{
         var value = event.target.value
@@ -40,14 +44,16 @@ export const SnapchatFollow = ({url, valid_url_check, closeModal, id, index})=>{
         SetActionText(dispatch, id, value, "username", index)
     }
     var {direction} = useSelector(state => state.userInfos)
-    if(!userInput) return (<div id="snapchatFollow">
-        <div dir={direction ? direction : "ltr"} onClick={()=> buttonClick()} id='snapchatFollowButton' className="is-flex">
-            <span>
-                <img dir={direction ? direction : "ltr"} alt="" src={require("../../../assets/icons/snapchat.png").default} />
-            </span>
-            <span>{t("snapchat")}</span>
+    if(!userInput) return (
+        <div id="snapchatFollow">
+            <div dir={direction ? direction : "ltr"} onClick={()=> buttonClick()} id='twitterFollowButton' className="is-flex">
+                <span>
+                    <img dir={direction ? direction : "ltr"} alt="" src={require("../../../../assets/icons/twitter.png").default} />
+                </span>
+                <span>{t("twitter")}</span>
+            </div>
         </div>
-    </div>)
+    )
     return(
         <div id="actionQuestion">
             <UrlSubmit

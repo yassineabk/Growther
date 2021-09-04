@@ -1,11 +1,15 @@
 import axios from "axios"
 import React, { useEffect, useState } from "react"
+import { useTranslation } from "react-i18next"
+import { useSelector } from "react-redux"
 import { DISCORD_AUTH_URL } from "../../../../services/links"
 import { GetDiscordToken } from "../../../../services/tokens"
 export const DiscordJoin = ({url, action_done, closeModal})=>{
     //var token = GetDiscordToken()
+    var {t} = useTranslation()
     const oauthUrl = DISCORD_AUTH_URL
     var [token, setToken] = useState(GetDiscordToken())
+    var {direction} = useSelector(state => state.userInfos)
     useEffect(()=>{
         window.addEventListener("storage", event=>{
             if(event.key === "discordAccessToken"){
@@ -46,24 +50,24 @@ export const DiscordJoin = ({url, action_done, closeModal})=>{
     }
     if(token){
         return(
-            <div className="is-flex is-flex-direction-column action-links">
+            <div dir={direction ? direction : "ltr"} className="is-flex is-flex-direction-column action-links">
                 <div>
-                    To complete this action, click on Join Guild:
+                    {t("To complete this action, click on Join Guild")}:
                 </div>
                 <div className="link-container">
-                    <div onClick={(event)=> Follow(event, url)}>Join Guild</div>
+                    <div onClick={(event)=> Follow(event, url)}>{t("Join Guild")}</div>
                 </div>
             </div>
         )
     }
     return(
         <div id="discordAuthContainer">
-            <div onClick={()=> window.open(oauthUrl, "_blank")} id="discordAuthButton" className="is-flex">
+            <div dir={direction ? direction : "ltr"} onClick={()=> window.open(oauthUrl, "_blank")} id="discordAuthButton" className="is-flex">
                 <span>
-                    <img alt="" src={require("../../../../assets/icons/discord.png").default} />
+                    <img dir={direction ? direction : "ltr"} alt="" src={require("../../../../assets/icons/discord.png").default} />
                 </span>
                 <span>
-                    Discord Auth
+                    {t("Discord Auth")}
                 </span>
             </div>
         </div>

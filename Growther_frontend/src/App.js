@@ -117,8 +117,8 @@ const App = ()=> {
           <Route path="/oauth2/redirect" component={OAuth2RedirectHandler}></Route> 
           <Route exact path={"/"} render={()=> <Redirect to='/landing-page' />}/>
           <Route exact path='/landing-page' render={()=> <LandingPage />} />
-          <Route exact path='/login' render={()=> currentUser ? (<Redirect to='/dashboard'/>) : (<LoginPage/>) } />
-          <Route exact path='/signup' render={()=> currentUser ? (<Redirect to='/'/>) : (<SignUpPage/>) } />
+          <Route exact path='/login' render={()=> currentUser ? (<Redirect to='/dashboard'/>) : (<LoginPage />) } />
+          <Route exact path='/signup' render={()=> currentUser ? (<Redirect to='/dashboard'/>) : (<SignUpPage />) } />
           <Route exact path='/terms' render={()=> <TermsConditionsComponent /> } />
           <Route exact path='/contest/:title/:id' render={()=> ([
             <ErrorsModal />,
@@ -133,10 +133,9 @@ const App = ()=> {
             />,
             <Contest />
           ])}/>
-          <Route exact path='/dashboard/pie' render={()=> (currentUser && isBrand === "true") ? (<Dashboard />) : (<Redirect to='/'/>)} />
-          <Route exact path='/dashboard/draft' render={()=> (currentUser && isBrand === "true") ?  (<Dashboard child={<DraftPage />} />) : (<Redirect to='/'/>)} />
-          <Route exact path='/dashboard/settings' render={()=> currentUser ?  (<Dashboard child={<SettingsComponent infos={infos} />} />) : (<Redirect to='/'/>)} />
-          <Route exact path='/dashboard/support' render={()=> currentUser ?  (<Dashboard child={<SupportPage />} />) : (<Redirect to='/'/>)} />
+          <Route exact path='/dashboard/draft' render={()=> (currentUser && isBrand === "true") ?  (<Dashboard child={<DraftPage />} />) : (<Redirect to='/dashboard'/>)} />
+          <Route exact path='/dashboard/settings' render={()=> currentUser ?  (<Dashboard child={<SettingsComponent infos={infos} />} />) : (<Redirect to='/dashboard'/>)} />
+          <Route exact path='/dashboard/support' render={()=> currentUser ?  (<Dashboard child={<SupportPage />} />) : (<Redirect to='/dashboard'/>)} />
           <Route exact path="/dashboard/My Contests/new" render={()=> (
               <Redirect to={{
                 pathname: "/dashboard/My Contests/new/firstStep",

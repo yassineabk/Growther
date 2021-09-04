@@ -1,7 +1,7 @@
 export const actions = [
     {provider: "Youtube", actions:["Visit Channel", "Submit Url", "Watch Video"]}, 
     {provider: "Facebook", actions:["Like Page", "Like Post", "Visit Page", "View Post"]},
-    {provider: "Instagram", actions:["Visit Page", "View Post"]},  
+    {provider: "Instagram", actions:["Follow", "Visit Page", "View Post"]},  
     {provider: "Twitter", actions: ["Tweet", "Follow", "Retweet", "View Tweet", "Visit Page"]} ,
     {provider: "Snapchat", actions: ["Follow"]},
     {provider: "Tiktok", actions: ["Watch Video", "Submit Video"]},

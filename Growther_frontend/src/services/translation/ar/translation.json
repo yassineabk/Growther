@@ -20,6 +20,7 @@
     "brand_name_placeholder":"أدخل اسم العلامة التجارية",
     "your_name":"الاسم",
     "your_name_placeholder":"أدخل اسمك",
+    "your_username": "إسم المستخدم",
     "confirm_password":"تأكيد كلمة المرور",
     "agree":"أوافق على",
     "terms":"الشروط والأحكام",
@@ -282,6 +283,16 @@
     "sent_failure": "فشل الإرسال",
     "sent_successfully": "تم الإرسال بنجاح",
     "no_winners_yet": "لا يوجد فائزين بعد",
+    "get_winners_successufully": "تم الحصول على الفائزين بنجاح",
     "This field is invalid": "هذا الحقل غير صالح",
-    "Message should contain more than 50 charachter": "الرسالة يجب أن تحتوي على أكثر من 50 حرف"
+    "Message should contain more than 50 charachter": "الرسالة يجب أن تحتوي على أكثر من 50 حرف",
+    "cannot open link": "تعذر فتح الرابط",
+    "To complete this action, click on save": "للمتابعة المرجو الضغط على حفظ",
+    "login_with_spotify": "الدخول مع سبوتيفاي",
+    "To complete this action, click on follow": "للمتابعة المرجو الظغط على متابعة",
+    "Follow Artist or User": "متابعة مستخدم أو فنان",
+    "The answer should be more than 100 character": "الجواب يجب أن يحتوي على أكثر من 50 حرف",
+    "Name should contain more than 3 characters": "الإسم يجب ان يحتوي على أكثر ثلات أحرف",
+    "Answer Question Here": "أجب عن السؤال هنا",
+    "contest_creater Cannot participate": "منظم المسابقة لا يستطيع المشاركة"
 }

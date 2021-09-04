@@ -6,7 +6,6 @@ import { useTranslation } from "react-i18next";
 
 export const SubscribeToNewsLetter = ({valid_url_check, id, index})=>{
     const { t } = useTranslation();
-
     var [nameMessage, setNameMessage] = useState("")
     var [emailMessage, setEmailMessage] = useState("")
     var [name, setName] = useState("")
@@ -36,7 +35,7 @@ export const SubscribeToNewsLetter = ({valid_url_check, id, index})=>{
             if(checkEmail(value)){
                 setEmailMessage("")
             }else{
-                setEmailMessage("Enter a valid Email")
+                setEmailMessage(t("please enter a valid email"))
             }
             if(checkEmail(value) && name.length > 3){
                 valid_url_check(true)
