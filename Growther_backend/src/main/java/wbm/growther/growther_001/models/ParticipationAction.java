@@ -43,7 +43,6 @@ public class ParticipationAction {
     public ParticipationAction() {
 
     }
-
     public void setId(Long id) {
         this.id = id;
     }

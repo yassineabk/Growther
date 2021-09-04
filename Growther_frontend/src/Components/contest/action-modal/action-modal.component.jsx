@@ -11,6 +11,9 @@ import { DiscordJoin } from "../../participation/discord/discord-follow.componen
 import { VisitSocialMedia } from "../../participation/visit-social-media/visit-social-media.component"
 import { FacebookViewPost } from "../../participation/facebook/facebook-view-post.component"
 import { SnapchatFollow } from "../../participation/snapchat/snapchat-follow.component"
+import { TwitterFollow } from "../../participation/twitter/follow-twitter-page/follow-twitter-page.component"
+import { TwitterTweet } from "../../participation/twitter/tweet/tweet.component"
+import { InstagramFollow } from "../../participation/instagram/instagram-follow/instagram-follow.component"
 export const ActionModal = ({action, valid_answer_check, action_done, valid_url_check, closeModal})=>{
     if(action === null && typeof(action) !== "object" && action.provider === null && typeof(action.provider) !== "string") return null
     switch(action.provider.toLowerCase()){
@@ -61,22 +64,7 @@ export const ActionModal = ({action, valid_answer_check, action_done, valid_url_
         case "instagram":
             switch(action.type.toLowerCase()){
                 case "visit page":
-                    return(
-                        <VisitSocialMedia 
-                            link={action.url} 
-                            action_done={(event)=> action_done(event, true)} 
-                        />
-                    )
                 case "view post":
-                    return (
-                        null
-                    )
-                default:
-                    return null
-            }
-        case "twitter":
-            switch(action.type.toLowerCase()){
-                case "visit page":
                     return(
                         <VisitSocialMedia 
                             link={action.url} 
@@ -84,11 +72,49 @@ export const ActionModal = ({action, valid_answer_check, action_done, valid_url_
                         />
                     )
                 case "follow":
+                    return (
+                        <InstagramFollow 
+                            url={action.url} 
+                            valid_url_check={(value)=> valid_url_check(value)} 
+                            closeModal={(event)=> closeModal(event)}
+                            id={action.id}
+                            index={action.index}
+                        />
+                    )
+                default:
                     return null
+            }
+        case "twitter":
+            switch(action.type.toLowerCase()){
+                case "visit page":
+                case "view tweet":
+                    return(
+                        <VisitSocialMedia 
+                            link={action.url} 
+                            action_done={(event)=> action_done(event, true)} 
+                        />
+                    )
                 case "tweet":
-                    return null
+                    return (
+                        <TwitterTweet 
+                            url={action.url} 
+                            valid_url_check={(value)=> valid_url_check(value)} 
+                            closeModal={(event)=> closeModal(event)}
+                            id={action.id}
+                            index={action.index}
+                        />
+                    )
                 case "retweet":
-                    return null
+                case "follow":
+                    return (
+                        <TwitterFollow
+                            url={action.url} 
+                            valid_url_check={(value)=> valid_url_check(value)} 
+                            closeModal={(event)=> closeModal(event)}
+                            id={action.id}
+                            index={action.index}
+                        />
+                    )
                 default:
                     return null
             }

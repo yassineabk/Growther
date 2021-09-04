@@ -23,10 +23,12 @@ const Contest = ()=>{
     var {t} = useTranslation()
     useEffect(()=>{
         window.addEventListener("storage", event =>{
-            var value = event.newValue
-            setToken(value)
-            if(value && value !== null){
-                SetData(dispatch, params.title, params.description, params.id)
+            if(event.key === "accessToken"){
+                var value = event.newValue
+                setToken(value)
+                if(value && value !== null){
+                    SetData(dispatch, params.title, params.description, params.id)
+                }
             }
         })
         token = decode(token)
@@ -137,7 +139,7 @@ const Contest = ()=>{
     }
     var showLoginForm = (value)=>{
         if(value){
-            window.open("/login")
+            window.open("/login", "_blank")
         }
     }
     var onMouseOver = (element)=>{

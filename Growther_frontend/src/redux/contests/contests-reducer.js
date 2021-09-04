@@ -55,22 +55,24 @@ const ContestsReducer = (state = INITIAL_STATE, action)=>{
         case CONTESTS_TYPES.APPEND_DONE_ACTION:
             return {
                 ...state,
-                contests: state.contests.map(item=>{
+                contests: Array.isArray(state.contests) && state.contests.length > 0 ? state.contests.map(item=>{
                     if(item.idContest.toString() === action.payload.id.toString()){
                         return {
                             ...item,
-                            actions: state.contests.actions.map(action =>{
-                                if(action.id === action.payload.actionId){
+                            actions: state.contests.actions.map(Action =>{
+                                if(Action.id === action.payload.actionId){
                                     return {...action.payload.action}
                                 }
                                 return {
                                     ...item
                                 }
-                            })
+                            }),
+                            totalPoints: item.totalPoints + action.payload.action.points
+                            
                         }
                     }
                     return item
-                })
+                }) : []
             }
         case CONTESTS_TYPES.APPEND_EDITED_DRAFT:
             return {

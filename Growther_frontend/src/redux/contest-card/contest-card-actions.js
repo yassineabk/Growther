@@ -187,8 +187,8 @@ export const ContestCardWinners = async (dispatch, id)=>{
     }
     return axios.get(`${BACKEND_API}/api/contests/show/winners/${id}`, config)
                 .then(response =>{
-                    dispatch({type: Contest_Card_Types.CONTEST_CARD_WINNERS, payload: response.data})
-                    return true
+                    dispatch({type: Contest_Card_Types.CONTEST_CARD_WINNERS, payload: Array.isArray(response.data) ? response.data : []})
+                    return response.data
                 }).catch(err =>{
                     return false
                 })

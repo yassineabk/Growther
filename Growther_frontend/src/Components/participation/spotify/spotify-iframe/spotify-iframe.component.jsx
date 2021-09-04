@@ -5,7 +5,7 @@ export const SpotifyIframe = ({url, action_done, onError, closeModal})=>{
     var [token, setToken] = useState(GetSpotifyToken())
     useEffect(()=>{
         window.addEventListener("storage", event=>{
-            if(event.key === "discordAccessToken"){
+            if(event.key === "spotifyAccessToken"){
                 setToken(event.newValue)
             }
         })

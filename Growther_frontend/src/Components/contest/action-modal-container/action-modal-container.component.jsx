@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react"
+import { useTranslation } from "react-i18next"
 import { useDispatch, useSelector } from "react-redux"
 import { ActionDone, CloseActionModal } from "../../../redux/contest-card/contest-card-actions"
 import { HideErrorModal } from "../../../redux/errors/errors-actions"
@@ -13,6 +14,7 @@ const ActionModalContainer = ({action, show, idContest, canParticipate, particip
     var [intervalIndex, setIntervalIndex] = useState(0)
     var {isBrand, direction} = useSelector(state => state.userInfos)
     var {information} = useSelector(state => state.contest_card)
+    var {t} = useTranslation()
     useEffect(()=>{
         window.onpopstate = e =>{
             clearInterval(intervalIndex)
@@ -87,28 +89,31 @@ const ActionModalContainer = ({action, show, idContest, canParticipate, particip
                         closeModal={()=> closeModal()}
                     />
                     <div className="is-flex is-flex-direction-column is-align-items-center is-justify-content-center">
-                        <div className="button-container is-flex is-justify-content-flex-end">
-                            {error.isError ? <div id="countdown"><span>{error.message}</span></div> : null}
-                            {withCountDown && !error.isError ? <div id="countdown"><span>00:{("0"+countdown).slice(-2)}</span></div> : null}
-                            <div onClick={activeButton && !isLoading ? (event)=> {
-                                ActionDone(dispatch, action, action.id, action.index, action.points, idContest, canParticipate, participationId, actions, information, isBrand === "true")
-                                    .then(value =>{
-                                        if(value){
-                                            setActiveButton(false)
-                                            setCountDown(false)
-                                            setCount(10)
-                                            clearInterval(intervalIndex)
-                                            setError({isError: false, message: ""})
-                                        }else{
-                                            setCountDown(false)
-                                            setCount(10)
-                                            clearInterval(intervalIndex)
-                                            setError({isError: true, message: "Something went wrong"})
-                                        }
-                                    })
-                                } : ()=> false} 
-                                className={`${activeButton ? "" : "active "}buttonContainer is-flex is-justify-content-center is-align-items-center`}>
-                                    Continue
+                        <div dir={direction ? direction : "ltr"} className="button-container is-flex is-justify-content-flex-end">
+                            {error.isError ? <div dir={direction ? direction : "ltr"} id="countdown"><span>{t(error.message)}</span></div> : null}
+                            {withCountDown && !error.isError ? <div dir={direction ? direction : "ltr"} id="countdown"><span>00:{("0"+countdown).slice(-2)}</span></div> : null}
+                            <div 
+                                onClick={activeButton && !isLoading ? (event)=> {
+                                    ActionDone(dispatch, action, action.id, action.index, action.points, idContest, canParticipate, participationId, actions, information, isBrand === "true")
+                                        .then(value =>{
+                                            if(value){
+                                                setActiveButton(false)
+                                                setCountDown(false)
+                                                setCount(10)
+                                                clearInterval(intervalIndex)
+                                                setError({isError: false, message: ""})
+                                            }else{
+                                                setCountDown(false)
+                                                setCount(10)
+                                                clearInterval(intervalIndex)
+                                                setError({isError: true, message: "something_went_wrong"})
+                                            }
+                                        })
+                                    } : ()=> false} 
+                                    className={`${activeButton ? "" : "active"} buttonContainer is-flex is-justify-content-center is-align-items-center`}
+                                    dir={direction ? direction : "ltr"}
+                                >
+                                   {t("continue")}
                             </div>
                         </div>
                     </div>
