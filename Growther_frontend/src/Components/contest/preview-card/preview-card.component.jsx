@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { useDispatch, useSelector } from "react-redux"
 import { Redirect, useHistory } from "react-router-dom"
-import { FailAlert } from "../../../redux/alert/alert-actions"
+import { FailAlert, SuccessAlert } from "../../../redux/alert/alert-actions"
 import { ContestCardWinners } from "../../../redux/contest-card/contest-card-actions"
 import { PreviewActionsList } from "../preview-actions-list/preview-actions-list.component"
 import { PreviewPrizesList } from "../preview-prizes-list/preview-prizes-list.component"
@@ -72,9 +72,14 @@ export const PreviewCard = ({title, description, timeLeft, dateType, views, poin
     }
     var getWinners = ()=>{
         ContestCardWinners(dispatch, id).then(value =>{
-            if(!value){
-                FailAlert(dispatch, "no_winners_yet")
+            if(value){
+                if(Array.isArray(value)){
+                    if(value.length > 0){
+                        return SuccessAlert(dispatch, "get_winners_successufully")
+                    }
+                }
             }
+            FailAlert(dispatch, "no_winners_yet")
         })
     }
     var {t} = useTranslation()

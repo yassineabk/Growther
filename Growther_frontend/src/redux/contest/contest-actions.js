@@ -479,17 +479,11 @@ export const PublishContest = async (dispatch, data = {information: {}, actions:
     dispatch({type: ContestTypes.NEW_CONTEST_LOADING})
     if(validInfos && validActions){
         if(data.information.status === "DRAFT"){
-            var store = {}
-            Object.keys(data.information).map((key)=>{
-                if(key !== "idContest"){
-                    store[key] = data.information[key]
-                }
-            })
             return axios.put(`${BACKEND_API}/api/contests/draft/publish/${data.information.idContest}`, {
-                ...store,
+                ...data.information,
             }, config)
             .then(response =>{
-                dispatch({type: ContestTypes.PUBLISH_SUCCESS, payload: `${FRONTEND_API}/contest/${data.information.title}/${response.data.idContest}`})
+                dispatch({type: ContestTypes.PUBLISH_SUCCESS, payload: `${FRONTEND_API}/contest/${data.information.title}/${data.information.idContest}`})
                 return response.data
             }).catch(err => {
                 dispatch({type: ContestTypes.PUBLISH_FAIL})
