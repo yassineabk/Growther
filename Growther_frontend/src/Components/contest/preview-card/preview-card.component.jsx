@@ -3,12 +3,12 @@ import React, { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { useDispatch, useSelector } from "react-redux"
 import { Redirect, useHistory } from "react-router-dom"
-import { FailAlert, SuccessAlert } from "../../../redux/alert/alert-actions"
+import { FailAlert } from "../../../redux/alert/alert-actions"
 import { ContestCardWinners } from "../../../redux/contest-card/contest-card-actions"
 import { PreviewActionsList } from "../preview-actions-list/preview-actions-list.component"
 import { PreviewPrizesList } from "../preview-prizes-list/preview-prizes-list.component"
 import { TimeLeftCountDown } from "../time-left-component/time-left.component"
-export const PreviewCard = ({title, description, timeLeft, dateType, views, points, entries, status, actions, previewActions, changeHandler, prizes, buttons, hasStarted, hasEnded, canParticipate, isPublished, id, element, isPreview, user_id, error, immediately, DoAction, DoBonus, showLoginForm, contestDone, endDate, onMouseLeave, onMouseOver})=>{
+export const PreviewCard = ({title, description, timeLeft, dateType, views, points, entries, status, actions, previewActions, changeHandler, prizes, buttons, hasStarted, hasEnded, canParticipate, isPublished, id, element, isPreview, user_id, error, immediately, DoAction, DoBonus, showLoginForm, contestDone, endDate, onMouseLeave, onMouseOver, winners})=>{
     var history = useHistory()
     var dispatch = useDispatch()
     var hoverCard = (event)=>{
@@ -178,7 +178,7 @@ export const PreviewCard = ({title, description, timeLeft, dateType, views, poin
                         </div>
                     </div>
                     <div id="previewPrizes" className="is-flex is-flex-direction-column">
-                        <PreviewPrizesList prizes={prizes}  />
+                        <PreviewPrizesList prizes={prizes} winners={winners}  />
                     </div>
                 </div>
             </div>

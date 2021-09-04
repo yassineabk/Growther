@@ -32,7 +32,7 @@ const ContestCard = (state = INITIAL_STATE, action)=>{
                 ...state,
                 information: {
                     ...action.payload.data,
-                    actions: action.payload.data.actions.sort((item, nextItem) => (item.order - nextItem || item.id - nextItem.id))
+                    actions: action.payload.data.actions.sort((item, nextItem) => (item.ordre - nextItem.ordre || item.id - nextItem.id))
                 },
                 canParticipate: action.payload.canParticipate,
                 isLoading: false,

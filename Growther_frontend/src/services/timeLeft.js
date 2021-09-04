@@ -7,17 +7,17 @@ export const TimeLeft = (endDate, endTime)=>{
                 return {date: "Ended", type: ""}
             }
             var seconds = parseInt(realSeconds/1000)
-            var years = ("0"+parseInt(seconds / (31104000)))
+            /*var years = ("0"+parseInt(seconds / (31104000)))
             seconds = seconds % 31104000
             var months = ("0"+parseInt(seconds / (2592000)))
-            seconds = seconds % (2592000)
+            seconds = seconds % (2592000)*/
             var days = ("0"+parseInt(seconds / (86400)))
             seconds = seconds % (86400)
             var hours = ("0"+parseInt(seconds / 3600)).slice(-2)
             seconds = seconds % 3600
             var minutes = ("0"+parseInt(seconds / 60)).slice(-2)
             seconds = ("0" + parseInt(seconds % 60)).slice(-2)
-            if(parseInt(years) > 0){
+            /*if(parseInt(years) > 0){
                 if(parseInt(years) === 1){
                     return {date: parseInt(years), type: "year"}
                 }
@@ -28,7 +28,7 @@ export const TimeLeft = (endDate, endTime)=>{
                     return {date: parseInt(months), type: "month"}
                 }
                 return {date: parseInt(months), type: "months"}
-            }
+            }*/
             if(parseInt(days) > 0){
                 if(parseInt(days) === 1){
                     return {date: parseInt(days), type: "day"}

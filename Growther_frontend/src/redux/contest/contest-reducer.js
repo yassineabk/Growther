@@ -208,7 +208,7 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
                 ...state,
                 information:{
                     ...state.information,
-                    actions: [{...action.payload, order: 1}],
+                    actions: [{...action.payload, ordre: 1}],
                     actionsNbr: 1,
                 },
                 isLoading: false,
@@ -219,7 +219,7 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
                 ...state,
                 information:{
                     ...state.information,
-                    actions: [...state.information.actions, {...action.payload, order: state.information.actions.length + 1}],
+                    actions: [...state.information.actions, {...action.payload, ordre: state.information.actions.length + 1}],
                     actionsNbr: state.information.actions.length + 1
                 },
                 isLoading: false,
@@ -231,55 +231,54 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
                 information: {
                     ...state.information,
                     actions: state.information.actions.map(element =>{
-                        if(element.order === action.payload.order1){
+                        if(element.ordre === action.payload.order1){
                             return {
                                 ...element,
-                                order: action.payload.order2
+                                ordre: action.payload.order2
                             }
                         }
-                        if(element.order === action.payload.order2){
+                        if(element.ordre === action.payload.order2){
                             return {
                                 ...element,
-                                order: action.payload.order1
+                                ordre: action.payload.order1
                             }
                         }
                         return {
                             ...element
                         }
-                    }).sort((item, nextItem) => item.order - nextItem.order)
+                    }).sort((item, nextItem) => item.ordre - nextItem.ordre)
                 },
                 isLoading: false,
                 error: null
             }
         case ContestTypes.CHANGE_ACTIONS_PLACE:
-            console.log(action.payload)
             return {
                 ...state,
                 information: {
                     ...state.information,
                     actions: state.information.actions.map((element, index)=>{
-                        if(element.order <= action.payload.newIndex && element.order > action.payload.dragged){
+                        if(element.ordre <= action.payload.newIndex && element.ordre > action.payload.dragged){
                             return {
                                 ...element,
-                                order: element.order - 1
+                                ordre: element.ordre - 1
                             }
                         }
-                        if(element.order >= action.payload.newIndex && element.order < action.payload.dragged){
+                        if(element.ordre >= action.payload.newIndex && element.ordre < action.payload.dragged){
                             return {
                                 ...element,
-                                order: element.order + 1
+                                ordre: element.ordre + 1
                             }
                         }
-                        if(element.order === action.payload.dragged){
+                        if(element.ordre === action.payload.dragged){
                             return {
                                 ...element,
-                                order: action.payload.newIndex
+                                ordre: action.payload.newIndex
                             }
                         }
                         return {
                             ...element,
                         }
-                    }).sort((item, nextItem)=> item.order - nextItem.order)
+                    }).sort((item, nextItem)=> item.ordre - nextItem.ordre)
                 }
             }
         case ContestTypes.REMOVE_ACTION:  
@@ -295,7 +294,7 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
                     }).map((element, index) =>{
                         return {
                             ...element,
-                            order: index + 1
+                            ordre: index + 1
                         }
                     }),
                     actionsNbr: state.information.actionsNbr === 0 ?  0 : state.information.actionsNbr - 1 

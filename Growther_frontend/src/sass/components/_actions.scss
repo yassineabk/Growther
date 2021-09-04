@@ -77,7 +77,7 @@
             &.droped{
                 transition: 0.5s all;
                 animation: popup-droped-action .25s alternate forwards, remove-droped-action .25s .25s alternate forwards;
-                background-color: $border-color !important;
+                margin: 20px 0;
                 @keyframes popup-droped-action {
                     from{
                         transform: scaleX(1);
