@@ -19,6 +19,7 @@ export const SetData = async (dispatch, title, description, id) =>{
             if(typeof(response.data) === "object"){
                 var startDate, endDate;
                 var data = response.data
+                console.log(response.data)
                 if(data.contest !== undefined  && data.contest !== null && typeof(data.contest) === "object"){
                     var {contest, user, participationActions, partipationDate, id, totalPoints, done} = data
                     startDate = contest.startDate
@@ -185,7 +186,7 @@ export const ContestCardWinners = async (dispatch, id)=>{
             "Authorization" : `Bearer ${token}`
         },
     }
-    return axios.get(`${BACKEND_API}/api/contests/contest/winners/${id}`, config)
+    return axios.get(`${BACKEND_API}/api/contests/show/winners/${id}`, config)
                 .then(response =>{
                     dispatch({type: Contest_Card_Types.CONTEST_CARD_WINNERS, payload: response.data})
                     return true

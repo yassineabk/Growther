@@ -71,7 +71,7 @@ const SupportPage = ()=>{
     }
     var SendMessage = ()=>{
         setLoading(true)
-        SendEmail(dispatch, email, userInfos.subject, userInfos.message, name).then(value =>{
+        SendEmail(dispatch, userInfos.email, userInfos.subject, userInfos.message, name).then(value =>{
             setLoading(false)
         })
     }
@@ -101,7 +101,7 @@ const SupportPage = ()=>{
                                 type="email"
                                 label={t("email")}
                                 placeholder={t("email_placeholder")}
-                                value={email}
+                                value={userInfos.email}
                                 changeHandler={event => changeHandler(event)}
                                 validData={error.email}
                                 id="email"

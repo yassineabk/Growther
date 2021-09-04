@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { useDispatch, useSelector } from "react-redux"
 import { ChangeActionPlace, ChangeOrder } from "../../../redux/contest/contest-actions"
@@ -60,10 +60,8 @@ export const ContestActions = ({data, removeAction, updateAction, validActions})
             event.target.classList.remove("resize")
             var droped = document.getElementById(`${draggedId}-${parseInt(newIndex  - 1)}`)
             if(droped && droped !== null){
-                event.target.classList.add("resize")
                 droped.classList.add("droped")
                 setTimeout(()=>{
-                    event.target.classList.remove("resize")
                     droped.classList.remove("droped")
                 }, 500)
             }
@@ -101,10 +99,11 @@ export const ContestActions = ({data, removeAction, updateAction, validActions})
                                 </p> 
                             </div> : null,
                         <div
-                            onDragOver={(event)=> changePlaceDragOver(event, element.order + 1)} 
+                            onDragOver={(event)=> changePlaceDragOver(event, element.ordre + 1)} 
                             onDragLeave={(event)=> changePlaceDragLeave(event)}
-                            onDrop={(event)=> changePlaceDrop(event, element.order + 1)} 
+                            onDrop={(event)=> changePlaceDrop(event, element.ordre + 1)} 
                             className="is-flex is-flex-direction-row empty-action"
+                            id={`${element.provider}-${index}-empty`}
                         >
                         </div>
                     ]
