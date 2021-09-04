@@ -31,11 +31,15 @@ public class Action {
     @JsonIgnore
     private Contest contest;
 
-    private int order;
+    private int ordre;
 
-    public int getOrder() { return order; }
+    public int getOrdre() {
+        return ordre;
+    }
 
-    public void setOrder(int order) { this.order = order; }
+    public void setOrdre(int ordre) {
+        this.ordre = ordre;
+    }
 
     public Action(Action action) {
         this.provider=action.getProvider();
