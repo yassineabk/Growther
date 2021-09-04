@@ -23,13 +23,13 @@ export const ContestAction = ({data, removeAction, updateAction, validAction, id
     return(
         <div 
             onDragOver={event=> dragOverEvent(event)} 
-            onDrop={event => dropEvent(event, data.order)} 
-            onDragStart={event => dragEvent(event, data.order)} 
+            onDrop={event => dropEvent(event, data.ordre)} 
+            onDragStart={event => dragEvent(event, data.ordre)} 
             onDragLeave={event => dragLeaveEvent(event)}
             draggable 
             className="contestAction is-flex is-flex-direction-row"
             id={id}
-            style={{order: data.order}}
+            style={{order: data.ordre}}
         >
             <div className="actionTitle">{t(data.provider.toLowerCase())}</div>
             <div className="actionSelect">

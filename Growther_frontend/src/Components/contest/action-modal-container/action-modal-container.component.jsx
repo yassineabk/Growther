@@ -11,7 +11,7 @@ const ActionModalContainer = ({action, show, idContest, canParticipate, particip
     var [withCountDown, setCountDown] = useState(false)
     var [error, setError] = useState({isError: false, message: ""})
     var [intervalIndex, setIntervalIndex] = useState(0)
-    var {isBrand} = useSelector(state => state.userInfos)
+    var {isBrand, direction} = useSelector(state => state.userInfos)
     var {information} = useSelector(state => state.contest_card)
     useEffect(()=>{
         window.onpopstate = e =>{
@@ -72,7 +72,7 @@ const ActionModalContainer = ({action, show, idContest, canParticipate, particip
     return(
         <div onClick={event => closeModal(event)} id="actionModal" className="Modal">
             <div className="is-flex is-flex-direction-column is-align-items-center is-justify-content-center">
-                <div id={"actionIframe"} className="is-flex is-flex-direction-column is-align-items-center is-justify-content-center actionModal-body">
+                <div dir={direction ? direction : "ltr"} id={"actionIframe"} className="is-flex is-flex-direction-column is-align-items-center is-justify-content-center actionModal-body">
                     <PreviewAction  
                         provider={action.provider}
                         links={action.type}

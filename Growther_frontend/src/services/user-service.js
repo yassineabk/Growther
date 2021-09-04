@@ -1,4 +1,5 @@
 import { decode } from "jsonwebtoken";
+import { SetCurrentToken } from "../redux/login/login.actions";
 import { BACKEND_API } from "./links";
 
 const USERS_REST_API_URL = BACKEND_API;
@@ -10,7 +11,7 @@ export const userService = {
     registerWithEmailAndPassword,
 };
 
-function loginWithFacebookAndGoogle(user){
+function loginWithFacebookAndGoogle(user, dispatch){
     let token = localStorage.getItem("accessToken");
     let decodedToken = decode(token);
     let id = decodedToken.sub
@@ -19,16 +20,16 @@ function loginWithFacebookAndGoogle(user){
         headers: {
             'Accept' : 'application/json',
             'Content-Type' : 'application/json',
-            'Authorization' : 'Bearer '+token 
+            'Authorization' : 'Bearer '+ token 
         },
         body: JSON.stringify(user)
     };
-    console.log("success");
     return fetch(`${USERS_REST_API_URL}/api/users/update/${id}`, requestOptions)
             .then(response => {
-            // store user details and jwt token in local storage to keep user logged in between page refreshes
-            // localStorage.setItem('user', JSON.stringify(user));
-        }).catch(error => {});
+                SetCurrentToken(dispatch, token)
+            }).catch(error => {
+                
+            });
 }
 
 
