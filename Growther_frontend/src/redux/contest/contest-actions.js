@@ -523,7 +523,7 @@ export const PublishContest = async (dispatch, data = {information: {}, actions:
             })
     }
     dispatch({type: ContestTypes.PUBLISH_FAIL})
-    FailAlert(dispatch, "publish failure")
+    FailAlert(dispatch, "publish_failure")
     return false
 }
 export const DuplicateContest = (dispatch, id, data)=>{

@@ -185,7 +185,7 @@ export const ContestCardWinners = async (dispatch, id)=>{
             "Authorization" : `Bearer ${token}`
         },
     }
-    return axios.get(`${BACKEND_API}/api/contests/contest/winners/${id}`, config)
+    return axios.get(`${BACKEND_API}/api/contests/show/winners/${id}`, config)
                 .then(response =>{
                     dispatch({type: Contest_Card_Types.CONTEST_CARD_WINNERS, payload: response.data})
                     return true
