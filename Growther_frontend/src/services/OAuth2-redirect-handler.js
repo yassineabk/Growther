@@ -1,6 +1,6 @@
 import React from 'react';
 import { Redirect, useLocation } from 'react-router-dom'
-import { SetCurrentToken } from '../redux/login/login.actions'
+import { setCurrentToken, SetCurrentToken, setCurrentUser } from '../redux/login/login.actions'
 import { useDispatch } from 'react-redux';
 import { registerWithFacebookAndGoogle } from '../redux/registration/registration.action';
 const OAuth2RedirectHandler = ()=> {
@@ -17,8 +17,8 @@ const OAuth2RedirectHandler = ()=> {
         localStorage.setItem('accessToken', token);
         var user = localStorage.getItem("user")
         registerWithFacebookAndGoogle(JSON.parse(user), dispatch)
-        SetCurrentToken(dispatch, token)
-        localStorage.removeItem("user")
+        setCurrentToken(dispatch, token)
+        //localStorage.removeItem("user")
         return <Redirect to={{
             pathname: "/dashboard",
         }}/>; 

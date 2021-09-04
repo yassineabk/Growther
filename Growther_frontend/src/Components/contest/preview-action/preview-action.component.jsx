@@ -38,7 +38,7 @@ export const PreviewAction = ({provider, links, points, status, changeHandler, D
     return(
         <div key={`previewAction-${provider}-${index}`} className="is-flex is-flex-direction-row prev-action">
             {provider && typeof(provider) === "string" ? 
-                <div id={provider.toLowerCase()} className="actionProvider">
+                <div dir={direction ? direction : "ltr"} id={provider.toLowerCase()} className="actionProvider">
                     <ActionIcon
                         provider={provider} 
                     />
@@ -53,11 +53,12 @@ export const PreviewAction = ({provider, links, points, status, changeHandler, D
                 bold={provider && typeof(provider) === "string" && provider.toLowerCase() === "coupon" && coupon && done ? true : false}
             />
             {points !== null && typeof(parseInt(points)) === "number" && done !== true ? 
-                (provider && typeof(provider) === "string" && provider.toLowerCase() === "coupon" ? <div onClick={(!isOwner || canParticipate) && status === "Published" ? ()=> doAction() : ()=> showLogin(!isOwner && !canParticipate)} className={`actionPoints is-flex ${direction === "rtl" ? "is-flex-direction-row-reverse" : ""}`}>
-                    <span>
-                        <img src={require("../../../assets/icons/coupon.png").default} />
-                    </span>
-                </div> : <div onClick={(!isOwner || canParticipate) && status === "Published" ? ()=> doAction() : ()=> showLogin(!isOwner && !canParticipate)} className={`actionPoints is-flex ${direction === "rtl" ? "is-flex-direction-row-reverse" : ""}`}>
+                (provider && typeof(provider) === "string" && provider.toLowerCase() === "coupon" ? 
+                    <div onClick={(!isOwner || canParticipate) && status === "Published" ? ()=> doAction() : ()=> showLogin(!isOwner && !canParticipate)} dir={direction ? direction : "ltr"} className={`actionPoints is-flex ${direction === "rtl" ? "is-flex-direction-row-reverse" : ""}`}>
+                        <span>
+                            <img src={require("../../../assets/icons/coupon.png").default} />
+                        </span>
+                    </div> : <div onClick={(!isOwner || canParticipate) && status === "Published" ? ()=> doAction() : ()=> showLogin(!isOwner && !canParticipate)} dir={direction ? direction : "ltr"} className={`actionPoints is-flex ${direction === "rtl" ? "is-flex-direction-row-reverse" : ""}`}>
                     <span>
                         +
                     </span>
