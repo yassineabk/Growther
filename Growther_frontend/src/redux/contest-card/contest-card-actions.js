@@ -19,7 +19,6 @@ export const SetData = async (dispatch, title, description, id) =>{
             if(typeof(response.data) === "object"){
                 var startDate, endDate;
                 var data = response.data
-                console.log(response.data)
                 if(data.contest !== undefined  && data.contest !== null && typeof(data.contest) === "object"){
                     var {contest, user, participationActions, partipationDate, id, totalPoints, done} = data
                     startDate = contest.startDate

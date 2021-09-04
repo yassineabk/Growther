@@ -486,6 +486,10 @@
       .prizeText{
         margin-top: 0.25em;
       }
+      .prizeWinner{
+        font-size: 15px;
+        color: gray;
+      }
       @media only screen and (max-width: 560px) {
         min-width: 50%;
         max-width: 50%;
