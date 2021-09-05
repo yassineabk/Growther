@@ -17,8 +17,9 @@ export const GetContests = async (dispatch)=>{
             var {data} = response
             if(Array.isArray(data)){
                 var payload = data.map(item =>{
-                    if(item && typeof(item) === "object" && item.contest !== null && typeof(item.contest) === "object"){
-                        var {contest, user, participationActions, partipationDate, id, totalPoints, done} = item
+                    if(item && typeof(item) === "object"){
+                        var contest = item.contest !== null && typeof(item.contest) === "object" ? item.contest : item.contestDto
+                        var {user, participationActions, partipationDate, id, totalPoints, done} = item
                         var {startDate, endDate} = contest
                         startDate = startDate.trim().replace(" ", "T")
                         endDate = endDate.trim().replace(" ", "T")
