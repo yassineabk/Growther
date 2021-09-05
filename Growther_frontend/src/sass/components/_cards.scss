@@ -260,8 +260,13 @@
       flex-direction: row !important;
       justify-content: center;
       align-items: center;
-      border-radius: 20px 20px 0 0  !important;
       font-size: 15px;
+      &[dir=ltr]{
+        border-radius: 20px 20px 0 0  !important;
+      }
+      &[dir=rtl]{
+        border-radius: 20px 20px 0 0  !important;
+      }
     }
     > div{
       width: 100%;
