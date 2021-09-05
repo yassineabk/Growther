@@ -118,7 +118,10 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
                 information:{
                     ...action.payload.data,
                     startDate: setStartDate(),
-                    endDate: setEndDate()
+                    endDate: setEndDate(),
+                    actions: [
+                        ...action.payload.data.actions
+                    ].sort((item, nextItem) => item.ordre - nextItem.ordre)
                 },
                 isLoading: false,
                 error: null

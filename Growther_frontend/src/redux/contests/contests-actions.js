@@ -15,7 +15,6 @@ export const GetContests = async (dispatch)=>{
     return axios.get(`${BACKEND_API}/api/contests/all`, config)
         .then(response =>{
             var {data} = response
-            console.log(data)
             if(Array.isArray(data)){
                 var payload = data.map(item =>{
                     if(item && typeof(item) === "object" && item.contest !== null && typeof(item.contest) === "object"){
@@ -38,12 +37,15 @@ export const GetContests = async (dispatch)=>{
             dispatch({type: CONTESTS_TYPES.GET_CONTESTS_FAIL})
             return false
         }).catch(err =>{
+            if(err.response.status !== 404){
+                dispatch({type: CONTESTS_TYPES.GET_CONTESTS_FAIL})
+                return false
+            }
             dispatch({type: CONTESTS_TYPES.GET_CONTESTS_FAIL})
-            return false
         }).then(value =>{
             if(value){
                 SuccessAlert(dispatch, "get_contests_successfuly")
-            }else{
+            }else if(value !== undefined){
                 FailAlert(dispatch, "get_contests_failure")
             }
             return value

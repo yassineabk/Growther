@@ -154,7 +154,7 @@ export const ActionDone = async (dispatch, action, id, index, points, idContest,
     })
     var data = {
         partipationDate: `${year}-${month}-${day}T${hour}:${min}:${seconds}.${mseconds}${TimeZone(timeZone)}`,
-        participationActions: [...actions, participationActions]
+        participationActions: [...actions, participationActions].sort((item, itemIndex)=> item.ordre - itemIndex.ordre)
     }
     return axios.post(`${BACKEND_API}/api/participations/create/${idContest}`, data, config)
         .then(response =>{

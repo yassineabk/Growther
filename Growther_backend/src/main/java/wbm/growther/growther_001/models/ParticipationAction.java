@@ -18,6 +18,7 @@ public class ParticipationAction {
     private String url;
     private int points;
     private boolean isDone;
+    private int ordre;
 
     //username -- link --- email --- text
     @Nullable
@@ -43,6 +44,15 @@ public class ParticipationAction {
     public ParticipationAction() {
 
     }
+
+    public int getOrdre() {
+        return ordre;
+    }
+
+    public void setOrdre(int ordre) {
+        this.ordre = ordre;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }

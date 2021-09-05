@@ -102,7 +102,7 @@ const ContestCard = (state = INITIAL_STATE, action)=>{
                         return {
                             ...item
                         }
-                    })],
+                    })].sort((item, nextItem)=> item.ordre - nextItem.ordre),
                     totalPoints: typeof(state.information.totalPoints) === "number" ? parseInt(state.information.totalPoints) + parseInt(action.payload.points) : (typeof(action.payload.points) === "number" ? parseInt(action.payload.points) : 0),
                 },
                 action: {},
