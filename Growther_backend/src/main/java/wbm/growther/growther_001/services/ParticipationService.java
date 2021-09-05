@@ -18,7 +18,7 @@ public interface ParticipationService {
 
     ParticipationDto getParticipationById(Long participationID);
 
-    ParticipationDto getParticipationByContestIdAndUserId(Long contestID, Long userID);
+    ParticipationDto getParticipationByContestIdAndUserId(Long contestID, Long userID,String timezone);
 
     ParticipationDto updateParticipation(ParticipationDto participationDto) throws ParseException;
 
@@ -27,4 +27,5 @@ public interface ParticipationService {
     void deleteParticipation(ParticipationDto participationDto) throws ParseException;
 
     ParticipationDto toDto(Participation participation);
+    ParticipationDto toDto(Participation participation,String timeZone);
 }

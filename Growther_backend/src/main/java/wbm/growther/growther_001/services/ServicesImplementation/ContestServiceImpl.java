@@ -570,7 +570,6 @@ public class ContestServiceImpl implements ContestService {
 
         }
         return  null;
-
     }
 
 
