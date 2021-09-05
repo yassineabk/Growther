@@ -59,7 +59,7 @@ const ContestsReducer = (state = INITIAL_STATE, action)=>{
                     if(item.idContest.toString() === action.payload.id.toString()){
                         return {
                             ...item,
-                            actions: Array.isArray(state.contests) && state.contests.length > 0 ? state.contests.actions.map(Action =>{
+                            actions: Array.isArray(state.contests.actions) && state.contests.actions.length > 0 ? state.contests.actions.map(Action =>{
                                 if(Action.id === action.payload.actionId){
                                     return {...action.payload.action}
                                 }
