@@ -33,7 +33,7 @@ public class Participation {
 
     private boolean isDone;
     private int totalPoints;
-
+    
     public Participation() {
     }
 
