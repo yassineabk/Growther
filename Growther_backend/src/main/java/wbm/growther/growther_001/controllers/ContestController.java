@@ -49,9 +49,9 @@ public class ContestController {
         List<ParticipationDto> participations = participationService.getParticipationsByUser(userId);
 
 
-        if (! contests.isEmpty()) {
+        if (contests != null && contests.size() > 0) {
             return contests;
-        }else if (! participations.isEmpty()) {
+        }else if (participations != null && participations.size() > 0) {
             return participations;
         }
         else throw new ResourceNotFoundException("No contests exist with USER ID : " +userId);
@@ -166,7 +166,7 @@ public class ContestController {
             if(contestDto.getStatus().equalsIgnoreCase("Published"))
             {
                 ParticipationDto participationDto=participationService
-                        .getParticipationByContestIdAndUserId(contestId,userId);
+                        .getParticipationByContestIdAndUserId(contestId,userId, timezone);
                 if(participationDto == null )
                     return ResponseEntity.ok().body(contestDto);
                 else  return ResponseEntity.ok().body(participationDto);

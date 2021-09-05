@@ -2,11 +2,16 @@
     width: 200px;
     position: fixed;
     bottom: 0.25em;
-    right: 0.25em;
     z-index: 9999999;
     align-items: flex-end;
     justify-content: center;
     transition: all .5s;
+    &[dir=ltr]{
+        right: 0.25em;
+    }
+    &[dir=rtl]{
+        left: 0.25em;
+    }
     .alert{
         position: relative;
         display: flex;

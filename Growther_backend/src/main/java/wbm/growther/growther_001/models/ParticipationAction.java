@@ -2,6 +2,7 @@ package wbm.growther.growther_001.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
@@ -18,6 +19,10 @@ public class ParticipationAction {
     private String url;
     private int points;
     private boolean isDone;
+
+    @Column(columnDefinition = "int default '0'")
+    private int ordre;
+
 
     //username -- link --- email --- text
     @Nullable
@@ -43,6 +48,15 @@ public class ParticipationAction {
     public ParticipationAction() {
 
     }
+
+    public int getOrdre() {
+        return ordre;
+    }
+
+    public void setOrdre(int ordre) {
+        this.ordre = ordre;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }

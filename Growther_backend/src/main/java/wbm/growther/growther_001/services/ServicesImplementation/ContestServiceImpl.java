@@ -63,7 +63,9 @@ public class ContestServiceImpl implements ContestService {
     @Override
     public List<ContestDto> getAllContestsByUser(Long userID) {
         List<Contest> contests = repository.findAllByUserId(userID);
-        return getContestsDto(contests);
+        if (!contests.isEmpty())
+            return getContestsDto(contests);
+        else return null;
     }
 
     @Override
