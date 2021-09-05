@@ -8,7 +8,7 @@ export const AlertComponent = ({alerts})=>{
     var dispatch = useDispatch()
     if(!alerts || alerts === null || !Array.isArray(alerts) || (Array.isArray(alerts) && alerts.length === 0)) return null
     return(
-        <div id="alerts-container" className="is-flex is-flex-direction-column">
+        <div dir={direction ? direction : "ltr"} id="alerts-container" className="is-flex is-flex-direction-column">
             {alerts.map((item, index) =>{
                 if(item && item !== null && typeof(item) === "object"){
                     if(item.message){
