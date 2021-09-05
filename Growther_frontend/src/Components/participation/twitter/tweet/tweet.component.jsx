@@ -18,7 +18,6 @@ export const TwitterTweet = ({url, valid_url_check, closeModal, id, index})=>{
         setMobile(check)
     };*/
     var buttonClick = ()=>{
-        console.log("hello")
         showInput(true)
     }
     var changeHandler = (event)=>{
