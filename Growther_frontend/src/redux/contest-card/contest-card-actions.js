@@ -50,13 +50,11 @@ export const SetData = async (dispatch, title, description, id) =>{
                     return data
                 }
             }else{
-                console.log("here")
                 dispatch({type: Contest_Card_Types.CONTEST_CARD_ERROR})
                 ShowErrorModal(dispatch, "Couldn't get this contest please try again later")
                 return false
             }
         }).catch(err =>{
-            console.log(err)
             dispatch({type: Contest_Card_Types.CONTEST_CARD_ERROR})
             ShowErrorModal(dispatch, "Couldn't get this contest please try again later")
             return false
