@@ -31,6 +31,7 @@ public class Action {
     @JsonIgnore
     private Contest contest;
 
+    @Column(columnDefinition = "int default '0'")
     private int ordre;
 
     public int getOrdre() {

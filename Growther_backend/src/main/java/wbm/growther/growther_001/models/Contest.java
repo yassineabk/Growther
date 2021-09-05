@@ -22,13 +22,15 @@ public class Contest {
     private String description;
     private int winnersNbr;
     private int actionsNbr;
-    private int minPoints;
     private Date startDate;
     private Date endDate;
     private String startTime;
     private String endTime;
     private String timeZone;
     private Boolean immediately;
+
+    @Column(columnDefinition = "int default '0'")
+    private int minPoints;
 
 
     @OneToMany(mappedBy="contest", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

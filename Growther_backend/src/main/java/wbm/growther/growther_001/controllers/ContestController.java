@@ -166,7 +166,7 @@ public class ContestController {
             if(contestDto.getStatus().equalsIgnoreCase("Published"))
             {
                 ParticipationDto participationDto=participationService
-                        .getParticipationByContestIdAndUserId(contestId,userId);
+                        .getParticipationByContestIdAndUserId(contestId,userId, timezone);
                 if(participationDto == null )
                     return ResponseEntity.ok().body(contestDto);
                 else  return ResponseEntity.ok().body(participationDto);
