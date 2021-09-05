@@ -1,10 +1,12 @@
 import React from "react"
+import { useSelector } from "react-redux"
 import { TimeLeft } from "../../../services/timeLeft"
 import { PreviewCard } from "../preview-card/preview-card.component"
 export const PreviewContainer = ({information, actions, previewActions, changeHandler, isPreview, showLoginForm})=>{
+    var {direction} = useSelector(state => state.userInfos)
     if(information === undefined || information === null || typeof(information) !== "object") return null
     return(
-        <div className="is-flex is-flex-direction-column preview is-justify-content-center is-align-items-center">
+        <div dir={direction ? direction : "ltr"} className="is-flex is-flex-direction-column preview is-justify-content-center is-align-items-center">
             <PreviewCard
                 title={information.title}
                 description={information.description}
