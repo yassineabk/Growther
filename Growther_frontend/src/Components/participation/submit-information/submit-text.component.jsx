@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { useTranslation } from "react-i18next"
 import { useDispatch } from "react-redux"
 import { SetActionText } from "../../../redux/contest-card/contest-card-actions"
 import TextAreaInput from "../../text-area-input/text-area-input.component"
@@ -15,13 +16,14 @@ export const SubmitTextAction = ({text, valid_answer_check, id, index})=>{
         valid_answer_check(value)
         SetActionText(dispatch, id, value, "text", index)
     }
+    var {t} = useTranslation()
     return(
         <div id="actionQuestion">
             <TextAreaInput 
-                placeholder="Answer Question Here"
-                label={text}
+                placeholder={t("Answer Question Here")}
+                label={t(text)}
                 isError={message.length === 0 ? true : false}
-                message={message}
+                message={t(message)}
                 handleChange={event => changeHandler(event)}
                 hideIcon={true}
             />

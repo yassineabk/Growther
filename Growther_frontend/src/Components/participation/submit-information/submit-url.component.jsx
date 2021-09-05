@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { useTranslation } from "react-i18next"
 import { useDispatch } from "react-redux"
 import { SetActionText } from "../../../redux/contest-card/contest-card-actions"
 import { UrlValidation } from "../../../redux/contest/contest-actions"
@@ -12,18 +13,19 @@ export const SubmitUrlAction = ({valid_url_check, provider, id, index})=>{
             setMessage("")
             valid_url_check(true)
         }else{
-            setMessage("Enter a valid url")
+            setMessage("invalid_link")
             valid_url_check(false)
         }
         SetActionText(dispatch, id, value, "link", index)
     }
+    var {t} = useTranslation()
     return(
         <div id="actionQuestion">
             <UrlSubmit
                 placeholder="Submit Url"
-                label={"Link"}
+                label={t("link")}
                 isError={message.length === 0 ? true : false}
-                message={message}
+                message={t(message)}
                 handleChange={event => changeHandler(event)}
                 hideIcon={true}
             />

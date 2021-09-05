@@ -1,12 +1,16 @@
 import axios from "axios"
 import React, { useEffect, useState } from "react"
+import { useTranslation } from "react-i18next"
+import { useSelector } from "react-redux"
 import { GetSpotifyToken } from "../../../../services/tokens"
 import { SpotifyAuthComponent } from "../spotify-login/spotify-login.compnent"
 export const SpotifySave = ({url, action_done})=>{
     var [token, setToken] = useState(GetSpotifyToken())
+    var {direction} = useSelector(state => state.userInfos)
+    var {t} = useTranslation()
     useEffect(()=>{
         window.addEventListener("storage", event=>{
-            if(event.key === "discordAccessToken"){
+            if(event.key === "spotifyAccessToken"){
                 setToken(event.newValue)
             }
         })
@@ -70,12 +74,12 @@ export const SpotifySave = ({url, action_done})=>{
             })
     }
     if(token) return(
-        <div className="is-flex is-flex-direction-column action-links">
+        <div dir={direction ? direction : "ltr"} className="is-flex is-flex-direction-column action-links">
             <div>
-                To complete this action, click on save:
+                {t("To complete this action, click on save")}:
             </div>
             {active ? <div className="link-container">
-                <div onClick={(event)=> Save(event, url)}>Save</div>
+                <div onClick={(event)=> Save(event, url)}>{t("save")}</div>
             </div> : null}
         </div>
     )

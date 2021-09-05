@@ -37,12 +37,15 @@ export const GetContests = async (dispatch)=>{
             dispatch({type: CONTESTS_TYPES.GET_CONTESTS_FAIL})
             return false
         }).catch(err =>{
+            if(err.response.status !== 404){
+                dispatch({type: CONTESTS_TYPES.GET_CONTESTS_FAIL})
+                return false
+            }
             dispatch({type: CONTESTS_TYPES.GET_CONTESTS_FAIL})
-            return false
         }).then(value =>{
             if(value){
                 SuccessAlert(dispatch, "get_contests_successfuly")
-            }else{
+            }else if(value !== undefined){
                 FailAlert(dispatch, "get_contests_failure")
             }
             return value

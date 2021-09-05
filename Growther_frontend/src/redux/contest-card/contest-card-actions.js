@@ -19,8 +19,9 @@ export const SetData = async (dispatch, title, description, id) =>{
             if(typeof(response.data) === "object"){
                 var startDate, endDate;
                 var data = response.data
-                if(data.contest !== undefined  && data.contest !== null && typeof(data.contest) === "object"){
-                    var {contest, user, participationActions, partipationDate, id, totalPoints, done} = data
+                var contest = data.contest !== undefined  && data.contest !== null && typeof(data.contest) === "object" ? data.contest : data.contestDto
+                if((contest !== undefined  && contest !== null && typeof(contest) === "object")){
+                    var {user, participationActions, partipationDate, id, totalPoints, done} = data
                     startDate = contest.startDate
                     endDate = contest.endDate
                     startDate = startDate.trim().replace(" ", "T")
@@ -49,11 +50,13 @@ export const SetData = async (dispatch, title, description, id) =>{
                     return data
                 }
             }else{
+                console.log("here")
                 dispatch({type: Contest_Card_Types.CONTEST_CARD_ERROR})
                 ShowErrorModal(dispatch, "Couldn't get this contest please try again later")
                 return false
             }
         }).catch(err =>{
+            console.log(err)
             dispatch({type: Contest_Card_Types.CONTEST_CARD_ERROR})
             ShowErrorModal(dispatch, "Couldn't get this contest please try again later")
             return false
@@ -154,7 +157,7 @@ export const ActionDone = async (dispatch, action, id, index, points, idContest,
     })
     var data = {
         partipationDate: `${year}-${month}-${day}T${hour}:${min}:${seconds}.${mseconds}${TimeZone(timeZone)}`,
-        participationActions: [...actions, participationActions]
+        participationActions: [...actions, participationActions].sort((item, itemIndex)=> item.ordre - itemIndex.ordre)
     }
     return axios.post(`${BACKEND_API}/api/participations/create/${idContest}`, data, config)
         .then(response =>{
@@ -187,8 +190,8 @@ export const ContestCardWinners = async (dispatch, id)=>{
     }
     return axios.get(`${BACKEND_API}/api/contests/show/winners/${id}`, config)
                 .then(response =>{
-                    dispatch({type: Contest_Card_Types.CONTEST_CARD_WINNERS, payload: response.data})
-                    return true
+                    dispatch({type: Contest_Card_Types.CONTEST_CARD_WINNERS, payload: Array.isArray(response.data) ? response.data : []})
+                    return response.data
                 }).catch(err =>{
                     return false
                 })

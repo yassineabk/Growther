@@ -20,10 +20,8 @@ import wbm.growther.growther_001.services.ContestService;
 import wbm.growther.growther_001.services.ParticipationService;
 
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+
 @Service
 public class ParticipationServiceImpl implements ParticipationService {
 
@@ -91,6 +89,7 @@ public class ParticipationServiceImpl implements ParticipationService {
         if(contest==null) System.out.println("No contest with ID: "+contestID);
         else System.out.println("contest with ID: "+contest.getIdContest());
         Participation participation = toParticipation(participationDto);
+        //participation.setContest(contest);
 
         Set<ParticipationAction> actions = participation.getParticipationActions();
         actions.forEach( action -> {
@@ -120,9 +119,9 @@ public class ParticipationServiceImpl implements ParticipationService {
     }
 
     @Override
-    public ParticipationDto getParticipationByContestIdAndUserId(Long contestID, Long userID,String timezone) {
+    public ParticipationDto getParticipationByContestIdAndUserId(Long contestID, Long userID, String timeZone) {
         Participation participation = repository.findParticipationByContestIdContestAndUserId(contestID,userID);
-        return (participation==null)? null :  toDto(participation,timezone);
+        return (participation==null)? null :  toDtoTimeZoned(participation, timeZone);
     }
 
     @Override
@@ -165,25 +164,27 @@ public class ParticipationServiceImpl implements ParticipationService {
     }
 
     @Override
-    public ParticipationDto toDto(Participation participation) {
+    public ParticipationDto toDto(Participation participation){
         ParticipationDto participationDto = new ParticipationDto();
         participationDto.setId(participation.getId());
         participationDto.setPartipationDate(participation.getPartipationDate());
-        participationDto.setContest(participation.getContest());
+        participationDto.setContestDto(contestService.getZonedtimeContestDto(participation.getContest(),
+                TimeZone.getDefault().toString()));
+        //participationDto.setContestDto(contestService.toDto(participation.getContest()));
+        //participationDto.setContest(participation.getContest());
         participationDto.setUser(participation.getUser());
         participationDto.setParticipationActions(participation.getParticipationActions());
         participationDto.setTotalPoints(participation.getTotalPoints());
         participationDto.setDone(participation.isDone());
         return participationDto;
     }
-
     //convert Dto to model
     private Participation toParticipation(ParticipationDto participationDto) throws ParseException {
         Participation participation = new Participation();
         participation.setId(participationDto.getId());
         participation.setPartipationDate(participationDto.getPartipationDate());
         //participation.setContest(contestService.toContest(participationDto.getContestDto()));
-        participation.setContest(participationDto.getContest());
+        //participation.setContest(participationDto.getContest());
         participation.setUser(participationDto.getUser());
         participation.setParticipationActions(participationDto.getParticipationActions());
         participation.setTotalPoints(participationDto.getTotalPoints());
@@ -191,12 +192,13 @@ public class ParticipationServiceImpl implements ParticipationService {
         return participation;
     }
     //convert model to DTO
-    public ParticipationDto toDto(Participation participation,String timeZone){
+    public ParticipationDto toDtoTimeZoned(Participation participation, String timeZone){
         ParticipationDto participationDto = new ParticipationDto();
         participationDto.setId(participation.getId());
         participationDto.setPartipationDate(participation.getPartipationDate());
-        //participationDto.setContestDto(contestService.getZonedtimeContestDto(participation.getContest(),timeZone));
-        participationDto.setContest(participation.getContest());
+        participationDto.setContestDto(contestService.getZonedtimeContestDto(participation.getContest(),timeZone));
+        //participationDto.setContestDto(contestService.toDto(participation.getContest()));
+        //participationDto.setContest(participation.getContest());
         participationDto.setUser(participation.getUser());
         participationDto.setParticipationActions(participation.getParticipationActions());
         participationDto.setTotalPoints(participation.getTotalPoints());

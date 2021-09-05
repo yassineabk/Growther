@@ -3,10 +3,12 @@ import { RESET_ALL_TYPE } from "../reset-all/reset-all-type";
 import { Contest_Card_Types } from "./contest-card-types";
 const INITIAL_STATE = {
     id: "",
-    points: 0,
     information: {
-        actions:[]
+        actions:[],
+        prizes: [],
+        totalPoints: 0
     },
+    points: 0,
     action: {},
     actionModal: false,
     isLoading: false,
@@ -32,8 +34,10 @@ const ContestCard = (state = INITIAL_STATE, action)=>{
                 ...state,
                 information: {
                     ...action.payload.data,
-                    actions: action.payload.data.actions.sort((item, nextItem) => (item.ordre - nextItem.ordre || item.id - nextItem.id))
+                    actions: action.payload.data.actions.sort((item, nextItem) => item.ordre - nextItem.ordre),
+                    totalPoints: action.payload.data.totalPoints,
                 },
+                points: action.payload.data.totalPoints,
                 canParticipate: action.payload.canParticipate,
                 isLoading: false,
                 error: false
@@ -98,12 +102,12 @@ const ContestCard = (state = INITIAL_STATE, action)=>{
                         return {
                             ...item
                         }
-                    })],
-                    totalPoints: parseInt(state.points) + parseInt(action.payload.points),
+                    })].sort((item, nextItem)=> item.ordre - nextItem.ordre),
+                    totalPoints: typeof(state.information.totalPoints) === "number" ? parseInt(state.information.totalPoints) + parseInt(action.payload.points) : (typeof(action.payload.points) === "number" ? parseInt(action.payload.points) : 0),
                 },
                 action: {},
                 canParticipate: true,
-                points: parseInt(state.points) + parseInt(action.payload.points),
+                points: typeof(state.points) === "number" ? parseInt(state.points) + parseInt(action.payload.points) : (typeof(action.payload.points) === "number" ? parseInt(action.payload.points) : 0),
                 isDoingAction: false,
                 isLoading: false,
                 actionModal: false
