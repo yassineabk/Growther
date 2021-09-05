@@ -89,6 +89,7 @@ public class ParticipationServiceImpl implements ParticipationService {
         if(contest==null) System.out.println("No contest with ID: "+contestID);
         else System.out.println("contest with ID: "+contest.getIdContest());
         Participation participation = toParticipation(participationDto);
+        //participation.setContest(contest);
 
         Set<ParticipationAction> actions = participation.getParticipationActions();
         actions.forEach( action -> {
@@ -182,7 +183,7 @@ public class ParticipationServiceImpl implements ParticipationService {
         Participation participation = new Participation();
         participation.setId(participationDto.getId());
         participation.setPartipationDate(participationDto.getPartipationDate());
-        participation.setContest(contestService.toContest(participationDto.getContestDto()));
+        //participation.setContest(contestService.toContest(participationDto.getContestDto()));
         //participation.setContest(participationDto.getContest());
         participation.setUser(participationDto.getUser());
         participation.setParticipationActions(participationDto.getParticipationActions());
