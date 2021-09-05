@@ -94,7 +94,6 @@ const ActionModalContainer = ({action, show, idContest, canParticipate, particip
                             {withCountDown && !error.isError ? <div dir={direction ? direction : "ltr"} id="countdown"><span>00:{("0"+countdown).slice(-2)}</span></div> : null}
                             <div 
                                 onClick={activeButton && !isLoading ? (event)=> {
-                                    console.log(actions, "here")
                                     ActionDone(dispatch, action, action.id, action.index, action.points, idContest, canParticipate, participationId, actions, information, isBrand === "true")
                                         .then(value =>{
                                             if(value){
