@@ -13,7 +13,7 @@ const ActionModalContainer = ({action, show, idContest, canParticipate, particip
     var [error, setError] = useState({isError: false, message: ""})
     var [intervalIndex, setIntervalIndex] = useState(0)
     var {isBrand, direction} = useSelector(state => state.userInfos)
-    var {information} = useSelector(state => state.contest_card)
+    var {information, isDoingAction} = useSelector(state => state.contest_card)
     var {t} = useTranslation()
     useEffect(()=>{
         window.onpopstate = e =>{
@@ -29,11 +29,11 @@ const ActionModalContainer = ({action, show, idContest, canParticipate, particip
         var container = document.getElementById("actionIframe")
         if(container !== null && typeof(container) === "object"){
             if(event !== undefined){
-                if(!container.contains(event.target)){
+                if(!container.contains(event.target) && !isDoingAction){
                     clearInterval(intervalIndex)
                     setActiveButton(false)
-                setCount(10)
-                setCountDown(false)
+                    setCount(10)
+                    setCountDown(false)
                     CloseActionModal(dispatch)
                 }
             }
@@ -93,7 +93,7 @@ const ActionModalContainer = ({action, show, idContest, canParticipate, particip
                             {error.isError ? <div dir={direction ? direction : "ltr"} id="countdown"><span>{t(error.message)}</span></div> : null}
                             {withCountDown && !error.isError ? <div dir={direction ? direction : "ltr"} id="countdown"><span>00:{("0"+countdown).slice(-2)}</span></div> : null}
                             <div 
-                                onClick={activeButton && !isLoading ? (event)=> {
+                                onClick={activeButton && !isLoading && !isDoingAction ? (event)=> {
                                     ActionDone(dispatch, action, action.id, action.index, action.points, idContest, canParticipate, participationId, actions, information, isBrand === "true")
                                         .then(value =>{
                                             if(value){

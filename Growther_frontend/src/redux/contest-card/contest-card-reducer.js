@@ -55,7 +55,7 @@ const ContestCard = (state = INITIAL_STATE, action)=>{
                 action: {
                     ...action.payload.element,
                     index: action.payload.index
-                }
+                },
             }
         case Contest_Card_Types.CLOSE_MODAL:
             return {
