@@ -14,6 +14,7 @@ class DiscordBotAuthHandler extends Component {
                 SetDiscordBotToken(token, 3600*1000)
             }
         });
+        window.close()
         return <Redirect to="/" />
     }
 }

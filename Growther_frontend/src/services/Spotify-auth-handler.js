@@ -13,6 +13,7 @@ class SpotifyAuthHandler extends Component {
         if(token) {
             SetSpotifyToken(token, 3600*1000)
         }
+        window.close()
         return <Redirect to="/" />
     }
 }

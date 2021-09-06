@@ -136,13 +136,13 @@ export const PreviewCard = ({title, description, timeLeft, dateType, views, poin
                                 <h3>{title ? title : ""}</h3>
                             </div>
                             <div className="is-flex is-flex-direction-row headButtons">
+                                {!isPreview ? <div onClick={()=> history.push("/dashboard")}>
+                                    <img alt="" src={require("../../../assets/icons/dashboard.png").default} width={"20px"} /> 
+                                </div> : null}
                                 {buttons && element.participationId === undefined ? 
                                     [<div onClick={(event)=> editContest(event)}>
                                         <img alt="" src={require("../../../assets/icons/edit.png").default} width={"20px"} /> 
-                                    </div>,
-                                    <div>
-                                        <img alt="" src={require("../../../assets/icons/ending.png").default} width={"20px"} /> 
-                                    </div>]
+                                    </div>,]
                                 : null }
                                  {!isPreview && element.participationId !== undefined && (timeleft(endDate, timeLeft, dateType).timeLeft === "Ended" || (typeof(status) === "string" && status.toLowerCase() === "done")) ? 
                                     <div onClick={()=> getWinners()}>
