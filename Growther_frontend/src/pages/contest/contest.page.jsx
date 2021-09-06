@@ -28,6 +28,9 @@ const Contest = ()=>{
                 setToken(value)
                 if(value && value !== null){
                     SetData(dispatch, params.title, params.description, params.id)
+                    token = decode(value)
+                    var sub = token !== null && typeof(token) === "object" ? token.sub : ""
+                    setId(sub)
                 }
             }
         })
