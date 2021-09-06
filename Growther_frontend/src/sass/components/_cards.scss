@@ -431,7 +431,7 @@
     }
     #min-points-alert{
       position: absolute;
-      bottom: .5em;
+      bottom: -2em;
       font-size: 13px;
       color: red;
       transition: .5s all;
@@ -496,8 +496,8 @@
         color: gray;
       }
       @media only screen and (max-width: 560px) {
-        min-width: 50%;
-        max-width: 50%;
+        min-width: 100%;
+        max-width: 100%;
       }
       @media only screen and (max-width: 382px) {
         min-width: 100%;

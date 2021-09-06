@@ -417,7 +417,7 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
             return{
                 ...state,
                 isPublished: true,
-                contestLink: action.payload,
+                contestLink: typeof(action.payload) === "string" ? action.payload.split(" ").join("%20") : "",
                 isLoading: false,
                 error: false
             }
