@@ -8,8 +8,8 @@ export const SubmitTextAction = ({text, valid_answer_check, id, index})=>{
     var dispatch = useDispatch()
     var changeHandler = (event)=>{
         var value = event.target.value
-        if(value.length < 100){
-            setMessage("The answer should be more than 100 character")
+        if((typeof(value) === "string" && value.trim().length < 10) || typeof(value) !== "string"){
+            setMessage("The answer should be more than 10 character")
         }else{
             setMessage("")
         }

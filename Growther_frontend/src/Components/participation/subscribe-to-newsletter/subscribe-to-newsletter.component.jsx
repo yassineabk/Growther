@@ -14,6 +14,7 @@ export const SubscribeToNewsLetter = ({valid_url_check, id, index})=>{
     var nameHandler = (event)=>{
         var value = event.target.value
         if(value !== null && typeof(value) === "string"){
+            value = value.trim()
             setName(value)
             if(value.length > 3){
                 setNameMessage("")
@@ -31,6 +32,7 @@ export const SubscribeToNewsLetter = ({valid_url_check, id, index})=>{
     var emailHandler = (event)=>{
         var value = event.target.value
         if(value !== null && typeof(value) === "string"){
+            value = value.trim()
             setEmail(value)
             if(checkEmail(value)){
                 setEmailMessage("")

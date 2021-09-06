@@ -291,7 +291,7 @@
     "login_with_spotify": "Login With Spotify",
     "To complete this action, click on follow": "To complete this action, click on follow",
     "Follow Artist or User": "Follow Artist or User",
-    "The answer should be more than 100 character": "The answer should contain more than 100 character",
+    "The answer should be more than 10 character": "The answer should contain more than 10 character",
     "Name should contain more than 3 characters": "The name should contain more than 3 characters",
     "Answer Question Here": "Answer Question Here",
     "contest_creater Cannot participate": "Organizer can't participate"

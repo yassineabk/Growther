@@ -152,12 +152,12 @@ export const NextStep = (dispatch, information)=>{
                 var dateEnd, dateStart, currentDate, currentDay, currentMonth, currentYear, currentHour, currentMin, timeStart, timeEnd, date, timediff, timediff2;
                 switch(key){
                     case "title":
-                        if(data["title"] === null || (typeof(data["title"]) === "string" && data["title"].length === 0)){
+                        if(data["title"] === null || (typeof(data["title"]) === "string" && data["title"].trim().length === 0)){
                             result["title"] = false
                         }
                         break
                     case "description":
-                        if(data["description"] === null || (typeof(data["description"]) === "string" && data["description"].length === 0)){
+                        if(data["description"] === null || (typeof(data["description"]) === "string" && data["description"].trim().length === 0)){
                             result["description"] = false
                         }
                         break
