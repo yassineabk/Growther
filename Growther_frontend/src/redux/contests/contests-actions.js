@@ -38,7 +38,7 @@ export const GetContests = async (dispatch)=>{
             dispatch({type: CONTESTS_TYPES.GET_CONTESTS_FAIL})
             return false
         }).catch(err =>{
-            if(err.response.status !== 404){
+            if(err.response && err.response !== null && typeof(err.response) === "object" && err.response.status !== 404){
                 dispatch({type: CONTESTS_TYPES.GET_CONTESTS_FAIL})
                 return false
             }
