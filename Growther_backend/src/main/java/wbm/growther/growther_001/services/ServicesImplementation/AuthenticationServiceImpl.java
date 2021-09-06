@@ -93,7 +93,7 @@ public class AuthenticationServiceImpl  implements wbm.growther.growther_001.ser
         );
         confirmationTokenService.saveConfirmationToken(confirmationToken);
 
-        String link="http://localhost:5000/authentication/confirmEmail?token="+token;
+        String link="https://staging-backendapp.herokuapp.com/authentication/confirmEmail?token="+token;
 
 
         //TODO : app email
