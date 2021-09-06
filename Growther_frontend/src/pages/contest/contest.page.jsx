@@ -10,6 +10,8 @@ import { ActionDone, OpenActionModal, SelectAction, SetData, SetDataFromLocation
 import { NumbersConverter } from "../../services/numbers-converter"
 import { TimeLeft } from "../../services/timeLeft"
 const Contest = ()=>{
+    var {information, selected, isLoading, error, points, canParticipate, isDoingAction, winners} = useSelector(state => state.contest_card)
+    var {isBrand} = useSelector(state => state.userInfos)
     var [token, setToken] = useState(localStorage.getItem("accessToken"))
     var [userId, setId] = useState("")
     var [hours, setHours] = useState("")
@@ -18,8 +20,6 @@ const Contest = ()=>{
     var dispatch = useDispatch()
     var params = useParams()
     var location = useLocation()
-    var {information, selected, isLoading, error, points, canParticipate, isDoingAction, winners} = useSelector(state => state.contest_card)
-    var {isBrand} = useSelector(state => state.userInfos)
     var {t} = useTranslation()
     useEffect(()=>{
         window.addEventListener("storage", event =>{
@@ -28,14 +28,14 @@ const Contest = ()=>{
                 setToken(value)
                 if(value && value !== null){
                     SetData(dispatch, params.title, params.description, params.id)
-                    token = decode(value)
-                    var sub = token !== null && typeof(token) === "object" ? token.sub : ""
+                    var newToken = decode(value)
+                    var sub = newToken !== null && typeof(newToken) === "object" ? newToken.sub : ""
                     setId(sub)
                 }
             }
         })
-        token = decode(token)
-        var sub = token !== null && typeof(token) === "object" ? token.sub : ""
+        var newToken = decode(token)
+        var sub = newToken !== null && typeof(newToken) === "object" ? newToken.sub : ""
         setId(sub)
         if(location.state){
             SetDataFromLocation(dispatch, location.state).then(data =>{
@@ -131,6 +131,7 @@ const Contest = ()=>{
                     }else{
                         result = result && false
                     }
+                    return true
                 })
                 if(result && !isDoingAction){
                     ActionDone(dispatch, element, element.id, index, element.points, information.idContest, canParticipate, information.participationId, information.actions, information, isBrand === "true")

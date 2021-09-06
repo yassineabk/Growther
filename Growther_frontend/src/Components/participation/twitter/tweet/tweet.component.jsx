@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { TwitterShareButton } from "react-share";
 import { SetActionText } from "../../../../redux/contest-card/contest-card-actions";
 import UrlSubmit from "../../../contest/action-modal-container/action-submit-url.component";
-import { OpenLink } from "../../visit-social-media/visit-social-media.component";
 export const TwitterTweet = ({url, valid_url_check, closeModal, id, index})=>{
     var [username, setUsername] = useState("")
     var [message, setMessage] = useState("")

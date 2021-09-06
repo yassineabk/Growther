@@ -18,6 +18,7 @@ const Navbar =()=> {
             if(element !== null && element !== undefined && typeof(element) === "object"){
                 element.classList.toggle("is-active")
             }
+            return true
         })
     }
     useEffect(()=>{

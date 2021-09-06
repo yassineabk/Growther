@@ -12,7 +12,6 @@ import { PreviewContainer } from "../preview-container/preview-container.compone
 const EditContestFirstStep = ()=>{
     var { information, isValidData, validData, isLoading } = useSelector(state => state.contest_edit)
     var { isBrand, direction } = useSelector(state => state.userInfos)
-    var userInfos = useSelector(state => state.userInfos)
     var dispatch = useDispatch()
     var location = useLocation()
     var params = useParams()

@@ -6,7 +6,7 @@ export const CardComponent = ({element, title, description, views, entries, id, 
     var history = useHistory()
     var openContest = ()=>{
         if(typeof(element.user === "object")){
-            if(userId.toString() === element.user.id.toString() &&(typeof(id) === "number" || typeof(id) === "string")){
+            if(userId.toString() === element.user.id.toString() && (typeof(id) === "number" || typeof(id) === "string")){
                 history.push(`/contest/${title}/${id}`, element)
             }
         }
@@ -56,7 +56,7 @@ export const CardComponent = ({element, title, description, views, entries, id, 
                             onMouseLeave(element)
                         } : ()=> false}
                         id="entries">
-                        {(timeLeft && typeof(timeLeft) === "object" && (typeof(timeLeft.date) === "string") ||  typeof(timeLeft.date) === "number") ? (timeLeft.date === "Ended" ? t("Ended") : timeLeft.date) : ""} 
+                        {(timeLeft && typeof(timeLeft) === "object") && (typeof(timeLeft.date) === "string" ||  typeof(timeLeft.date) === "number") ? (timeLeft.date === "Ended" ? t("Ended") : timeLeft.date) : ""} 
                         <span className="dateType">{timeLeft && typeof(timeLeft) === "object" && typeof(timeLeft.type) === "string" ? ` ${t(timeLeft.type)}` : ""}</span>
                         {endDate && typeof(endDate) === "string" ? 
                             <TimeLeftCountDown value={endDate} /> : null

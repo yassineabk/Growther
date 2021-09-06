@@ -15,11 +15,12 @@ export const GetContests = async (dispatch)=>{
     return axios.get(`${BACKEND_API}/api/contests/all`, config)
         .then(response =>{
             var {data} = response
-            console.log(data)
+            var contest = {};
             if(Array.isArray(data)){
                 var payload = data.map(item =>{
                     if(item && typeof(item) === "object" && item.contest !== null && typeof(item.contest) === "object"){
-                        var {contest, user, participationActions, partipationDate, id, totalPoints, done} = item
+                        contest = item.contest
+                        var {user, participationActions, partipationDate, id, totalPoints, done} = item
                         var {startDate, endDate} = contest
                         startDate = startDate.trim().replace(" ", "T")
                         endDate = endDate.trim().replace(" ", "T")
@@ -31,7 +32,7 @@ export const GetContests = async (dispatch)=>{
                         return {...contest, actions: participationActions, user, partipationDate, participationId: id, totalPoints, done}
                     }
                     if(item && typeof(item) === "object" && item.contestDto !== null && typeof(item.contestDto) === "object"){
-                        var contest = item.contestDto
+                        contest = item.contestDto
                         var {user, participationActions, partipationDate, id, totalPoints, done} = item
                         var {startDate, endDate} = contest
                         startDate = startDate.trim().replace(" ", "T")
@@ -49,11 +50,9 @@ export const GetContests = async (dispatch)=>{
                 dispatch({type: CONTESTS_TYPES.GET_CONTESTS, payload: payload})
                 return true
             }
-            console.log("here")
             dispatch({type: CONTESTS_TYPES.GET_CONTESTS_FAIL})
             return false
         }).catch(err =>{
-            console.log(err)
             if(err.response && err.response !== null && typeof(err.response) === "object" && err.response.status !== 404){
                 dispatch({type: CONTESTS_TYPES.GET_CONTESTS_FAIL})
                 return false

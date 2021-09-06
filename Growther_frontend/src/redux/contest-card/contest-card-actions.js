@@ -2,7 +2,7 @@ import axios from "axios"
 import { BACKEND_API } from "../../services/links"
 import { TimeZone } from "../../services/timeLeft"
 import { FailAlert, SuccessAlert } from "../alert/alert-actions"
-import { AppendActionDone, AppendContest, AppendEditedContest } from "../contests/contests-actions"
+import { AppendActionDone, AppendContest } from "../contests/contests-actions"
 import { ShowErrorModal } from "../errors/errors-actions"
 import { Contest_Card_Types } from "./contest-card-types"
 export const SetData = async (dispatch, title, description, id) =>{
