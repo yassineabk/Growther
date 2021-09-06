@@ -29,7 +29,7 @@ export const SnapchatFollow = ({url, valid_url_check, closeModal, id, index})=>{
     }
     var changeHandler = (event)=>{
         var value = event.target.value
-        if(value.length > 2 && value.length < 16){
+        if(typeof(value) && value.trim().length > 2 && value.trim().length < 16){
             setMessage("")
             valid_url_check(true)
         }else{

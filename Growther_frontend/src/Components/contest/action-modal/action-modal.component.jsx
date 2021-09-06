@@ -72,15 +72,16 @@ export const ActionModal = ({action, valid_answer_check, action_done, valid_url_
                         />
                     )
                 case "follow":
-                    return (
-                        <InstagramFollow 
-                            url={action.url} 
-                            valid_url_check={(value)=> valid_url_check(value)} 
-                            closeModal={(event)=> closeModal(event)}
-                            id={action.id}
-                            index={action.index}
-                        />
-                    )
+                    // return (
+                    //     <InstagramFollow 
+                    //         url={action.url} 
+                    //         valid_url_check={(value)=> valid_url_check(value)} 
+                    //         closeModal={(event)=> closeModal(event)}
+                    //         id={action.id}
+                    //         index={action.index}
+                    //     />
+                    // )
+                    null
                 default:
                     return null
             }

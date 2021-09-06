@@ -92,12 +92,12 @@ export const CheckEdits = (dispatch, information) =>{
                 var dateStart, dateEnd;
                 switch(key){
                     case "title":
-                        if(data["title"] === null || (typeof(data["title"]) === "string" && data["title"].length === 0)){
+                        if(data["title"] === null || (typeof(data["title"]) === "string" && data["title"].trim().length === 0)){
                             result["title"] = false
                         }
                         break
                     case "description":
-                        if(data["description"] === null || (typeof(data["description"]) === "string" && data["description"].length === 0)){
+                        if(data["description"] === null || (typeof(data["description"]) === "string" && data["description"].trim().length === 0)){
                             result["description"] = false
                         }
                         break
