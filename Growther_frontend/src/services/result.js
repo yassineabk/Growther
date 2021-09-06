@@ -25,7 +25,8 @@ export const MakeResultState = async (id)=>{
                     data.map((participation, participationIndex) =>{
                         var res = {}
                         if(typeof(participation) === "object" && participation !== null){
-                            var { contest, participationActions, done, user, partipationDate } = participation
+                            var contest = participation.contest && participation.contest !== null && typeof(participation.contest) === "object" ? participation.contest : participation.contestDto
+                            var {participationActions, done, user, partipationDate } = participation
                             var { actionsNbr } = contest
                             var actionsDone = 0
                             var totalPoints = 0
