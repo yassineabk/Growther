@@ -9,11 +9,11 @@ const SingupSecondStep=({handleChange,handleSubmit,BrandFunctions,IndividualFunc
     const { t } = useTranslation();
     var {direction} = useSelector(state => state.userInfos)
     return(
-        <section className="hero is-fullheight Modal">
+        <section id="sign-up-infos" className="hero is-fullheight Modal">
             <div className="hero-body ">
                 <div className="container ">
                 <div className="columns is-centered ">
-                    <div className="column is-5-tablet is-4-desktop is-4-widescreen ">
+                    <div className="column is-5-tablet is-4-desktop is-4-widescreen is-12-mobile">
                         <form action="" className="box" onSubmit={handleSubmit}>
                             <div id="auth-title" className="column has-text-centered">
                                 <p dir={direction ? direction : "ltr"} className="title is-3">{t("your_informations")}</p>
