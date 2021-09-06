@@ -40,7 +40,7 @@ export const TemplatesContainer = ()=>{
                             <div dir={direction ? direction : "ltr"} className="card-title">
                                 <h3>{t("refer_a_friend")}</h3>
                             </div>
-                            <div dir={direction ? direction : "ltr"} dir={direction ? direction : "ltr"} className="card-description">
+                            <div dir={direction ? direction : "ltr"} className="card-description">
                                 <p>{t("refer_a_friend_text")}</p>
                             </div>
                         </div>

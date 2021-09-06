@@ -41,6 +41,7 @@ class DiscordAuthHandler extends Component {
                 SetDiscordToken(token, 3600*1000)
             }
         });
+        window.close()
         return <Redirect to="/" />
     }
 }

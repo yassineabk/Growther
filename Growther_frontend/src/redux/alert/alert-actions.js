@@ -2,7 +2,7 @@ import { ALERT_TYPES } from "./alert-types"
 
 export const SuccessAlert = (dispatch, message)=>{
     var timeout;
-    var timeout = setTimeout(() =>{
+    timeout = setTimeout(() =>{
         HideAlert(dispatch, timeout)
     }, 5000)
     dispatch({type: ALERT_TYPES.SUCCESS_ALERT, payload: {message: message, timeout: timeout}})
