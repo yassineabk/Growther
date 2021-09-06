@@ -1,6 +1,6 @@
 .iframe{
-    width: calc(30vw) !important;
-    height: calc(50vh) !important;
+    width: 100% !important;
+    //height: calc(50vh) !important;
     min-width: 300px !important;
     max-width: 750px !important;
     overflow-y: scroll !important;
@@ -118,7 +118,7 @@
     &#actionModal{
         .actionModal-body{
             & > div{
-                width: 100%;
+                width: 100% !important;
             }
         }
         .contest_input{
@@ -238,7 +238,6 @@
         }
         #discordAuthContainer{
             flex: 1;
-            width: 300px;
             background-color: white;
             padding: 20px;
             border-top: 1px solid $border-color;
@@ -281,7 +280,6 @@
             }
         }
         #spotifyAuthContainer{
-            width: 300px;
             background-color: white;
             padding: 20px;
             border-top: 1px solid $border-color;
@@ -324,6 +322,7 @@
             }
         }
         .action-links{
+            width: 100% !important;
             background-color: white;
             padding: 20px;
             border-bottom: 1px solid $border-color;
@@ -353,7 +352,6 @@
             height: initial !important;
         }
         #snapchatFollow{
-            width: 300px;
             background-color: white;
             padding: 20px;
             border-top: 1px solid $border-color;
