@@ -293,5 +293,6 @@
   "The answer should contain more than 100 character": "La reponse doit contenir plus de 100 caractéres",
   "Name should contain more than 3 characters": "Le nom doit contenir plus de 3 caractéres",
   "Answer Question Here": "Repondre à la question ici",
-  "contest_creater Cannot participate": "L'organisateur ne peut pas participer"
+  "contest_creater Cannot participate": "L'organisateur ne peut pas participer",
+  "The answer should be more than 10 character": "La reponse doit contenir plus de 10 caractéres"
 }
