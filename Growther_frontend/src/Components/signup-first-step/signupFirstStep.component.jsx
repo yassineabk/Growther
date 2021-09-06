@@ -16,7 +16,7 @@ const SingupFirstStep=({handleSubmit,SignUpWithGoogle,SignUpWithFacebook,registr
     var {direction} = useSelector(state => state.userInfos)
     var dispatch = useDispatch()
     return(
-        <section className="hero is-fullheight Modal">
+        <section id="sign-up-infos" className="hero is-fullheight Modal">
             <div className="hero-body ">
                 <Spinner show={isLoading} />
                 <div className="container ">
