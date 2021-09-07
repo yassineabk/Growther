@@ -53,7 +53,7 @@
   "templates": "Modèles",
   "details": "Détails",
   "duplicate": "Dupliquer",
-  "preview": "Prévisualiser",
+  "preview": "Prévoir",
   "copy": "Copier",
   "continue": "Continuer",
   "edit": "Modifier",
@@ -63,9 +63,9 @@
   "delete": "Supprimer",
   "cancel": "Annuler",
   "time": "Temps Restant",
-  "entries": "Participants",
-  "views": "Nombre de Vues",
-  "points": "Nombre de Points",
+  "entries": "Les Participants",
+  "views": "Les Vues",
+  "points": "Vos Points",
   "export_csv": "Exporter en CSV",
   "draw_winners": "Draw Winners",
   "send_message": "Envoyer",
@@ -293,5 +293,6 @@
   "The answer should contain more than 100 character": "La reponse doit contenir plus de 100 caractéres",
   "Name should contain more than 3 characters": "Le nom doit contenir plus de 3 caractéres",
   "Answer Question Here": "Repondre à la question ici",
-  "contest_creater Cannot participate": "L'organisateur ne peut pas participer"
+  "contest_creater Cannot participate": "L'organisateur ne peut pas participer",
+  "The answer should be more than 10 character": "La reponse doit contenir plus de 10 caractéres"
 }

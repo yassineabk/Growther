@@ -9,6 +9,9 @@
         font-size: 25px;
         font-family: Poppins-Bold;
         color: #272D3B;
+        &[dir=rtl]{
+            font-family: Tajawal-Bold;
+        }
         @media only screen and (max-width: 470px){
             font-size: 20px;
         }
@@ -17,6 +20,9 @@
         color: #707070;
         font-size: 18px;
         font-family: Poppins-Medium;
+        &[dir=rtl]{
+            font-family: Tajawal-Medium;
+        }
         @media only screen and (max-width: 470px){
             font-size: 15px;
         }

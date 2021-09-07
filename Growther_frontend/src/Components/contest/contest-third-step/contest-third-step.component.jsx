@@ -1,6 +1,6 @@
-import React, { useEffect } from "react"
+import React from "react"
 import { useTranslation } from "react-i18next";
-import { useDispatch, useSelector } from "react-redux"
+import { useSelector } from "react-redux"
 import { useLocation } from "react-router"
 import { Redirect } from "react-router-dom"
 import {
@@ -10,7 +10,7 @@ import {
 } from "react-share";
 const ContestThirdStep = () =>{
     var {isValidData, isValidActions, isPublished, contestLink} = useSelector(state => state.contest)
-    var { isBrand } = useSelector(state => state.userInfos)
+    var { isBrand, direction } = useSelector(state => state.userInfos)
     var location = useLocation()
     var copyClipoard = ()=>{
         navigator.clipboard.writeText(contestLink)
@@ -29,10 +29,10 @@ const ContestThirdStep = () =>{
     return(
         <div className="is-flex is-flex-direction-column is-justify-content-center is-align-items-center">
             <div className="is-flex is-flex-direction-column is-justify-content-center is-align-items-center savedContest">
-                <div className="bigText">{t("congratulations")}</div>
-                <div className="subText">{t("ready_contest")}</div>
+                <div dir={direction ? direction : "ltr"} className="bigText">{t("congratulations")}</div>
+                <div dir={direction ? direction : "ltr"} className="subText">{t("ready_contest")}</div>
                 <div id="contestLink" onClick={()=> copyClipoard()} className="contestLink">{contestLink}</div>
-                <div className="subText">{t("share_via")}</div>
+                <div dir={direction ? direction : "ltr"} className="subText">{t("share_via")}</div>
                 <div className="is-flex is-flex-direction-row is-justify-content-center">
                     <div className="socialIcons is-flex is-justify-content-space-between is-align-items-center">
                         <div>

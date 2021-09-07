@@ -1,6 +1,6 @@
 .iframe{
-    width: calc(30vw) !important;
-    height: calc(50vh) !important;
+    width: 100% !important;
+    //height: calc(50vh) !important;
     min-width: 300px !important;
     max-width: 750px !important;
     overflow-y: scroll !important;
@@ -25,6 +25,20 @@
     > div{
         width: 100%;
         flex: 1;
+    }
+    &#sign-up-infos{
+        @media only screen and (max-width: 366px) {
+            .hero-body{
+                padding: 0px;
+                margin: 0;
+            }
+            form{
+                width: calc(100vw + .5em);
+                height: 100vh;
+                border-radius: 0;
+                overflow-y: auto;
+            }
+        }
     }
     &#settingModal{
         position: fixed;
@@ -118,7 +132,7 @@
     &#actionModal{
         .actionModal-body{
             & > div{
-                width: 100%;
+                width: 100% !important;
             }
         }
         .contest_input{
@@ -200,6 +214,7 @@
                 justify-content: flex-start;
                 &[dir=rtl]{
                     justify-content: flex-end;
+                    font-family: Tajawal-Medium;
                 }
                 span{
                     color: black;
@@ -237,7 +252,6 @@
         }
         #discordAuthContainer{
             flex: 1;
-            width: 300px;
             background-color: white;
             padding: 20px;
             border-top: 1px solid $border-color;
@@ -280,7 +294,6 @@
             }
         }
         #spotifyAuthContainer{
-            width: 300px;
             background-color: white;
             padding: 20px;
             border-top: 1px solid $border-color;
@@ -323,6 +336,7 @@
             }
         }
         .action-links{
+            width: 100% !important;
             background-color: white;
             padding: 20px;
             border-bottom: 1px solid $border-color;
@@ -333,6 +347,7 @@
                 font-family: Tajawal-Medium;
             }
             .link-container{
+                cursor: pointer;
                 & > div{
                     cursor: pointer;
                     color: black;
@@ -352,7 +367,6 @@
             height: initial !important;
         }
         #snapchatFollow{
-            width: 300px;
             background-color: white;
             padding: 20px;
             border-top: 1px solid $border-color;

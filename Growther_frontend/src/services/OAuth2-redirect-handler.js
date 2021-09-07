@@ -1,6 +1,6 @@
 import React from 'react';
 import { Redirect, useLocation } from 'react-router-dom'
-import { setCurrentToken, SetCurrentToken, setCurrentUser } from '../redux/login/login.actions'
+import { setCurrentToken } from '../redux/login/login.actions'
 import { useDispatch } from 'react-redux';
 import { registerWithFacebookAndGoogle } from '../redux/registration/registration.action';
 const OAuth2RedirectHandler = ()=> {

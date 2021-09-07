@@ -2,7 +2,7 @@ import axios from "axios"
 import { BACKEND_API } from "../../services/links"
 import { TimeZone } from "../../services/timeLeft"
 import { FailAlert, SuccessAlert } from "../alert/alert-actions"
-import { AppendActionDone, AppendContest, AppendEditedContest } from "../contests/contests-actions"
+import { AppendActionDone, AppendContest } from "../contests/contests-actions"
 import { ShowErrorModal } from "../errors/errors-actions"
 import { Contest_Card_Types } from "./contest-card-types"
 export const SetData = async (dispatch, title, description, id) =>{
@@ -50,13 +50,11 @@ export const SetData = async (dispatch, title, description, id) =>{
                     return data
                 }
             }else{
-                console.log("here")
                 dispatch({type: Contest_Card_Types.CONTEST_CARD_ERROR})
                 ShowErrorModal(dispatch, "Couldn't get this contest please try again later")
                 return false
             }
         }).catch(err =>{
-            console.log(err)
             dispatch({type: Contest_Card_Types.CONTEST_CARD_ERROR})
             ShowErrorModal(dispatch, "Couldn't get this contest please try again later")
             return false
@@ -157,7 +155,16 @@ export const ActionDone = async (dispatch, action, id, index, points, idContest,
     })
     var data = {
         partipationDate: `${year}-${month}-${day}T${hour}:${min}:${seconds}.${mseconds}${TimeZone(timeZone)}`,
-        participationActions: [...actions, participationActions].sort((item, itemIndex)=> item.ordre - itemIndex.ordre)
+        participationActions: [...actions].map(element => {
+            if(element.ordre === participationActions.ordre){
+                return {
+                    ...participationActions
+                }
+            }
+            return {
+                ...element
+            }
+        })
     }
     return axios.post(`${BACKEND_API}/api/participations/create/${idContest}`, data, config)
         .then(response =>{

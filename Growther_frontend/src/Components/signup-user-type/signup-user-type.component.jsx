@@ -12,7 +12,7 @@ export const SignupUserType = ({handleSubmit, handleClick,isBrand})=>{
     }
     var {direction} = useSelector(state => state.userInfos)
     return(
-        <section className="hero is-fullheight Modal">
+        <section id="sign-up-infos" className="hero is-fullheight Modal">
             <div className="hero-body ">
                 <div className="container ">
                     <div className="columns is-centered ">

@@ -1,6 +1,6 @@
 import { ContestTypes } from "./contest-types";
 import axios from "axios"
-import { AppendDraft, AppendEditedDraft, DeleteDraft } from "../contests/contests-actions";
+import { AppendDraft, AppendEditedDraft } from "../contests/contests-actions";
 import { BACKEND_API, FRONTEND_API } from "../../services/links";
 import { FailAlert, SuccessAlert } from "../alert/alert-actions";
 import { CONTESTS_TYPES } from "../contests/contests-types";
@@ -152,12 +152,12 @@ export const NextStep = (dispatch, information)=>{
                 var dateEnd, dateStart, currentDate, currentDay, currentMonth, currentYear, currentHour, currentMin, timeStart, timeEnd, date, timediff, timediff2;
                 switch(key){
                     case "title":
-                        if(data["title"] === null || (typeof(data["title"]) === "string" && data["title"].length === 0)){
+                        if(data["title"] === null || (typeof(data["title"]) === "string" && data["title"].trim().length === 0)){
                             result["title"] = false
                         }
                         break
                     case "description":
-                        if(data["description"] === null || (typeof(data["description"]) === "string" && data["description"].length === 0)){
+                        if(data["description"] === null || (typeof(data["description"]) === "string" && data["description"].trim().length === 0)){
                             result["description"] = false
                         }
                         break
@@ -458,12 +458,19 @@ export const EditDraft = (dispatch, data, id)=>{
             dispatch({type: ContestTypes.PUBLISH_FAIL})
             return false
         }).then(value =>{
+            if(value && typeof(value) === "object" && value !== null){
+                dispatch({type: ContestTypes.ADD_ACTIONS_PRIZES_IDS_TO_EDITED_DRAFT, payload: {actions: value.actions, prizes: value.prizes}})
+                return value
+            }
+            return false
+        }).then(value =>{
             if(value){
                 AppendEditedDraft(dispatch, id, value)
                 SuccessAlert(dispatch, "draft_updated")
             }else{
                 FailAlert(dispatch, "update_failure")
             }
+
         })
 }
 export const PublishContest = async (dispatch, data = {information: {}, actions: {}})=>{
@@ -478,6 +485,7 @@ export const PublishContest = async (dispatch, data = {information: {}, actions:
     }
     dispatch({type: ContestTypes.NEW_CONTEST_LOADING})
     if(validInfos && validActions){
+        console.log(data.information)
         if(data.information.status === "DRAFT"){
             return axios.put(`${BACKEND_API}/api/contests/draft/publish/${data.information.idContest}`, {
                 ...data.information,
@@ -528,6 +536,7 @@ export const DuplicateContest = (dispatch, id, data)=>{
             "Authorization" : `Bearer ${token}`
         } 
     }
+    dispatch({type: CONTESTS_TYPES.GET_CONTESTS_LOADING})
     dispatch({type: ContestTypes.NEW_CONTEST_LOADING})
     axios.get(`${BACKEND_API}/api/contests/draft/${id}`, config).then(response =>{
         dispatch({type: ContestTypes.DUPLICATE_CONTEST})
@@ -540,7 +549,7 @@ export const DuplicateContest = (dispatch, id, data)=>{
             AppendDraft(dispatch, data, `${value}`, data.user.id)
             SuccessAlert(dispatch, "successfully_duplicated")
         }else{
-            FailAlert(dispatch, "duplcation_dailure")
+            FailAlert(dispatch, "duplcation_failure")
         }
         return value
     })

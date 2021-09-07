@@ -129,7 +129,7 @@ const App = ()=> {
               canParticipate={canParticipate}
               isLoading={isSubmitingAction}
               participationId={information.participationId}
-              actions={Array.isArray(information.actions) ? information.actions.filter(element => element.id !== action.id) : []}
+              actions={Array.isArray(information.actions) ? information.actions : []}
             />,
             <Contest />
           ])}/>

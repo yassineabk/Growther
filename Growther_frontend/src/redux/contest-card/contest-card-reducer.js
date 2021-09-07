@@ -1,4 +1,3 @@
-import { ContestTypes } from "../contest/contest-types";
 import { RESET_ALL_TYPE } from "../reset-all/reset-all-type";
 import { Contest_Card_Types } from "./contest-card-types";
 const INITIAL_STATE = {
@@ -55,7 +54,7 @@ const ContestCard = (state = INITIAL_STATE, action)=>{
                 action: {
                     ...action.payload.element,
                     index: action.payload.index
-                }
+                },
             }
         case Contest_Card_Types.CLOSE_MODAL:
             return {

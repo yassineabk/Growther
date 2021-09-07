@@ -57,7 +57,7 @@ export const PreviewAction = ({provider, links, points, status, changeHandler, D
                 (provider && typeof(provider) === "string" && provider.toLowerCase() === "coupon" ? 
                     <div onClick={(!isOwner || canParticipate) && status === "Published" ? ()=> doAction() : ()=> showLogin(!isOwner && !canParticipate)} dir={direction ? direction : "ltr"} className={`actionPoints is-flex ${direction === "rtl" ? "is-flex-direction-row-reverse" : ""}`}>
                         <span>
-                            <img src={require("../../../assets/icons/coupon.png").default} />
+                            <img alt="" src={require("../../../assets/icons/coupon.png").default} />
                         </span>
                     </div> : <div onClick={(!isOwner || canParticipate) && status === "Published" ? ()=> doAction() : ()=> showLogin(!isOwner && !canParticipate)} dir={direction ? direction : "ltr"} className={`actionPoints is-flex ${direction === "rtl" ? "is-flex-direction-row-reverse" : ""}`}>
                     <span>

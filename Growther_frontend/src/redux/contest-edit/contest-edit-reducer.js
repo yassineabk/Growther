@@ -46,9 +46,9 @@ const EditReducer = (state = INITIAL_STATE, action)=>{
             var setEndDate = ()=>{
                 if(action.payload.targetId){
                     if(action.payload.targetId === "endDate"){
-                        return action.payload.data.endDate+"T"+state.information.endTime+`:00.000${TimeZone(state.information.timeZone)}`
+                        return action.payload.data.endDate+"T"+state.information.endTime+`:00.000${TimeZone(new Date().getTimezoneOffset())}`
                     }else if(action.payload.targetId === "endTime"){
-                        return state.information.endDate.split("T")[0]+"T"+action.payload.data.endTime+`:00.000${TimeZone(state.information.timeZone)}`
+                        return state.information.endDate.split("T")[0]+"T"+action.payload.data.endTime+`:00.000${TimeZone(new Date().getTimezoneOffset())}`
                     }
                     return state.information.endDate
                 }else{

@@ -13,7 +13,6 @@ import { FacebookViewPost } from "../../participation/facebook/facebook-view-pos
 import { SnapchatFollow } from "../../participation/snapchat/snapchat-follow.component"
 import { TwitterFollow } from "../../participation/twitter/follow-twitter-page/follow-twitter-page.component"
 import { TwitterTweet } from "../../participation/twitter/tweet/tweet.component"
-import { InstagramFollow } from "../../participation/instagram/instagram-follow/instagram-follow.component"
 export const ActionModal = ({action, valid_answer_check, action_done, valid_url_check, closeModal})=>{
     if(action === null && typeof(action) !== "object" && action.provider === null && typeof(action.provider) !== "string") return null
     switch(action.provider.toLowerCase()){
@@ -72,15 +71,16 @@ export const ActionModal = ({action, valid_answer_check, action_done, valid_url_
                         />
                     )
                 case "follow":
-                    return (
-                        <InstagramFollow 
-                            url={action.url} 
-                            valid_url_check={(value)=> valid_url_check(value)} 
-                            closeModal={(event)=> closeModal(event)}
-                            id={action.id}
-                            index={action.index}
-                        />
-                    )
+                    // return (
+                    //     <InstagramFollow 
+                    //         url={action.url} 
+                    //         valid_url_check={(value)=> valid_url_check(value)} 
+                    //         closeModal={(event)=> closeModal(event)}
+                    //         id={action.id}
+                    //         index={action.index}
+                    //     />
+                    // )
+                    return null
                 default:
                     return null
             }

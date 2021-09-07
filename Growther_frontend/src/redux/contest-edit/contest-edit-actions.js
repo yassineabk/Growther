@@ -92,12 +92,12 @@ export const CheckEdits = (dispatch, information) =>{
                 var dateStart, dateEnd;
                 switch(key){
                     case "title":
-                        if(data["title"] === null || (typeof(data["title"]) === "string" && data["title"].length === 0)){
+                        if(data["title"] === null || (typeof(data["title"]) === "string" && data["title"].trim().length === 0)){
                             result["title"] = false
                         }
                         break
                     case "description":
-                        if(data["description"] === null || (typeof(data["description"]) === "string" && data["description"].length === 0)){
+                        if(data["description"] === null || (typeof(data["description"]) === "string" && data["description"].trim().length === 0)){
                             result["description"] = false
                         }
                         break
@@ -203,9 +203,9 @@ export const Edit = async (dispatch, information, id, userId)=>{
         }).then(value =>{
             if(value){
                 AppendEditedContest(dispatch, id, Data)
-                SuccessAlert(dispatch, "successfully_edited")
+                SuccessAlert(dispatch, "succesfully_updated")
             }else{
-                FailAlert(dispatch, "edit_failure")
+                FailAlert(dispatch, "update_failure")
             }
         })
     }
