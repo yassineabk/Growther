@@ -477,7 +477,7 @@ export const EditDraft = (dispatch, data, id)=>{
             }else{
                 FailAlert(dispatch, "update_failure")
             }
-
+            return value
         })
 }
 export const PublishContest = async (dispatch, data = {information: {}, actions: {}})=>{

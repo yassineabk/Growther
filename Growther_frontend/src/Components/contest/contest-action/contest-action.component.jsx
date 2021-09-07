@@ -31,7 +31,7 @@ export const ContestAction = ({data, removeAction, updateAction, validAction, id
             id={id}
             style={{order: data.ordre}}
         >
-            <div className="actionTitle">{t(data.provider.toLowerCase())}</div>
+            <div className="actionTitle">{t(data.provider && data.provider !== null && typeof(data.provider) === "string" ? data.provider.toLowerCase() :  "")}</div>
             <div className="actionSelect">
                 <SelectInput 
                     data={
@@ -46,7 +46,7 @@ export const ContestAction = ({data, removeAction, updateAction, validAction, id
                     type={"url"}
                     id="actionUrl"
                     name="actionUrl"
-                    placeholder={TextActions.includes(data.type.toLowerCase()) ? (typeof(data.provider) === "string" && data.provider.toLowerCase() === "coupon" ? t("coupon_code") : t("action_description")) : t("action_url")}
+                    placeholder={typeof(data.type) === "string" && data.type !== null && TextActions.includes(data.type.toLowerCase()) ? (typeof(data.provider) === "string" && data.provider.toLowerCase() === "coupon" ? t("coupon_code") : t("action_description")) : t("action_url")}
                     changeHandler={(event)=> updateAction(data.provider, "url", event.target.value)}
                     value={typeof(data) === "object" && typeof(data.url) === "string" ? data.url : ""}
                     validData={typeof(validAction) === "object" ? {isValid: validAction.url, message: (typeof(data.provider) === "string" && data.provider.toLowerCase() === "coupon" ? t("Invalid Coupon") : t("invalid_link"))} : false}
