@@ -14,7 +14,7 @@ public interface ContestService {
     List<ContestDto> getAllContests();
     List<ContestDto> getAllContestsByUser(Long userID);
     Long createNewContest(ContestDto contestDto, String email) throws ParseException;
-    Long createNewDraftContest(ContestDto contestDto, String email) throws ParseException;
+    ContestDto createNewDraftContest(ContestDto contestDto, String email) throws ParseException;
     ContestDto getContestById(Long contestID);
     ContestDto draftContest(Long contestID);
     ContestDto updateContestInfos(ContestDto contestDto) throws ParseException;

@@ -197,7 +197,7 @@ public class ContestController {
     }
 
     @PostMapping("/create/draft")
-    public Long createDraftContest(@RequestBody ContestDto contestDto)
+    public ResponseEntity<ContestDto> createDraftContest(@RequestBody ContestDto contestDto)
             throws RejectedExecutionException, ParseException {
 
         // load the principal (authenticated user)
@@ -207,18 +207,18 @@ public class ContestController {
         //get the email from the principal
         String email= principal.getEmail();
 
-        Long contestCreated = contestService.createNewDraftContest(contestDto,email);
-        if(!contestCreated.equals(Long.decode("0"))) return contestCreated;
+        ContestDto contestCreated = contestService.createNewDraftContest(contestDto,email);
+        if(contestCreated != null) return ResponseEntity.ok().body(contestCreated);
         System.out.println(contestCreated);
         throw new RejectedExecutionException("A Contest with that ID already exist !!");
     }
 
     @GetMapping("/draft/{id}")
-    public Long draftContest(@PathVariable(value = "id") Long contestID)
+    public ResponseEntity<ContestDto> draftContest(@PathVariable(value = "id") Long contestID)
             throws RejectedExecutionException{
 
         ContestDto contestCreated = contestService.draftContest(contestID);
-        if(contestCreated != null) return contestCreated.getIdContest();
+        if(contestCreated != null) return ResponseEntity.ok().body(contestCreated);
         throw new RejectedExecutionException("NO DRAFT");
     }
 
