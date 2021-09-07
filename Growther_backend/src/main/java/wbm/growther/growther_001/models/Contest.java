@@ -38,11 +38,11 @@ public class Contest {
     private Set<Participation> participations;
 
     private String status;
-    @OneToMany(mappedBy="contest",  fetch = FetchType.LAZY)
+    @OneToMany(mappedBy="contest", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<Action> actions;
     //JSON field
-    @OneToMany(mappedBy="contest",  fetch = FetchType.LAZY)
+    @OneToMany(mappedBy="contest", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     //@JsonIgnore
     private Set<Prize> prizes;
 
