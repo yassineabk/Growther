@@ -33,21 +33,21 @@ public class Contest {
     private int minPoints;
 
 
-    @OneToMany(mappedBy="contest", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy="contest",  fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<Participation> participations;
 
     private String status;
-    @OneToMany(mappedBy="contest", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy="contest",  fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<Action> actions;
     //JSON field
-    @OneToMany(mappedBy="contest", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy="contest",  fetch = FetchType.LAZY)
     //@JsonIgnore
     private Set<Prize> prizes;
 
 
-    @OneToMany(mappedBy = "contest",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "contest", fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Winners> winners;
 
