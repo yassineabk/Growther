@@ -23,10 +23,9 @@ const ContestsReducer = (state = INITIAL_STATE, action)=>{
             return {
                 ...state,
                 draft: [...state.draft.reverse(), {
-                    ...action.payload.data,
+                    ...action.payload,
                     status: "DRAFT",
-                    idContest: action.payload.idContest,
-                    user: {id: action.payload.userId}
+                    
                 }].reverse(),
                 error: null,
                 isLoading: false
