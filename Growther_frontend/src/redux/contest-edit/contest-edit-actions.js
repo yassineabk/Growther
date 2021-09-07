@@ -203,9 +203,9 @@ export const Edit = async (dispatch, information, id, userId)=>{
         }).then(value =>{
             if(value){
                 AppendEditedContest(dispatch, id, Data)
-                SuccessAlert(dispatch, "successfully_edited")
+                SuccessAlert(dispatch, "succesfully_updated")
             }else{
-                FailAlert(dispatch, "edit_failure")
+                FailAlert(dispatch, "update_failure")
             }
         })
     }

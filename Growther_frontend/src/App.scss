@@ -16,6 +16,9 @@ html, body{
 .list-title{
   font-size: 20px;
   margin-bottom: 0.3em;
+  @media only screen and (max-width: 500px) {
+    font-size: 16px;
+  }
 }
 .App{
   min-height: 100vh;
@@ -60,6 +63,9 @@ html, body{
       font-family: Tajawal-Bold;
     }
     @media only screen and (max-width: 400px) {
+      font-size: 20px;
+    }
+    @media only screen and (max-width: 400px) {
       padding: 0px 15px !important;
     }
     @media only screen and (max-width: 359px) {
@@ -75,8 +81,8 @@ html, body{
         height: auto;
         //margin-right: 5px;
       }
-      @media only screen and (max-width: 359px) {
-        //margin-right: 25px;
+      @media only screen and (max-width: 400px) {
+        width: 20px;
       }
     }
   }
@@ -95,8 +101,8 @@ html, body{
   border-radius: 15px;
   box-shadow: 3px 3px 6px #272D3B33;
   position: relative;
-  @media only screen and (max-width: 375px) {
-    border-radius: 0px;
+  @media only screen and (max-width: 400px) {
+    padding: 20px 10px !important;
   }
   .splash{
     border-radius: 15px;
@@ -106,7 +112,7 @@ html, body{
     width: 100%;
     #addNewButton{
         display: none !important;
-        @media only screen and (max-width: 540px) {
+        @media only screen and (max-width: 700px) {
           display: flex !important;
         }
     }
@@ -126,7 +132,7 @@ html, body{
         color: white;
       }
       display: flex !important;
-      @media only screen and (max-width: 540px) {
+      @media only screen and (max-width: 700px) {
         display: none !important;
       }
     }
@@ -245,9 +251,16 @@ html, body{
         background-color: $button-color1;
         border-radius: 50%;
         padding: 10px;
+        @media only screen and (max-width: 500px) {
+          padding: 7px;
+        }
         img{
           width: 22px;
           height: auto;
+          @media only screen and (max-width: 500px) {
+            width: 18px;
+            height: auto;
+          }
         }
       }
     }
@@ -256,8 +269,10 @@ html, body{
     padding: 0 !important;
     margin-top: 0.5em;
     flex: 1;
-    @media only screen and (max-width: 400px){
-      padding: 5px;
+    @media only screen and (max-width: 375px) {
+      border: 0 !important;
+      border-radius: 0 !important;
+      box-shadow: 0 0 0 transparent;
     }
     .bottomContainer{
       flex: 1;
