@@ -12,7 +12,10 @@ export const PreviewCard = ({title, description, timeLeft, dateType, views, poin
     var history = useHistory()
     var dispatch = useDispatch()
     var hoverCard = (event)=>{
-        document.getElementById("card").classList.toggle("backface")
+        var target = document.getElementById("card")
+        if(target && target !== null && typeof(target) === "object"){
+            target.classList.toggle("backface")
+        }
     }
     var editContest = (event)=>{
         if(buttons && id !== undefined && element.participationId === undefined){
@@ -75,6 +78,7 @@ export const PreviewCard = ({title, description, timeLeft, dateType, views, poin
             if(value){
                 if(Array.isArray(value)){
                     if(value.length > 0){
+                        hoverCard()
                         return SuccessAlert(dispatch, "get_winners_successufully")
                     }
                 }
