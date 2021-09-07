@@ -17,7 +17,7 @@ html, body{
   font-size: 20px;
   margin-bottom: 0.3em;
   @media only screen and (max-width: 500px) {
-    font-size: 16px;
+    font-size: 18px;
   }
 }
 .App{
@@ -50,7 +50,7 @@ html, body{
   }
   @media only screen and (max-width: 375px) {
     &[dir=rtl], &[dir=ltr]{
-      padding: 25px 0px !important;
+      padding: 25px 0px 0px 0px !important;
     }
   }
   .big_title{
@@ -64,8 +64,6 @@ html, body{
     }
     @media only screen and (max-width: 400px) {
       font-size: 20px;
-    }
-    @media only screen and (max-width: 400px) {
       padding: 0px 15px !important;
     }
     @media only screen and (max-width: 359px) {
@@ -273,6 +271,7 @@ html, body{
       border: 0 !important;
       border-radius: 0 !important;
       box-shadow: 0 0 0 transparent;
+      margin-top: 25px;
     }
     .bottomContainer{
       flex: 1;

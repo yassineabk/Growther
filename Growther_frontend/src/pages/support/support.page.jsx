@@ -127,18 +127,18 @@ const SupportPage = ()=>{
                     </div>
                     <div dir={direction ? direction : "ltr"} className={`contestButtons is-flex is-justify-content-flex-end ${direction === "rtl" ? "is-flex-direction-row-reverse" : "is-flex-direction-row"}`}>
                         <ContestButton 
-                            color={"#5E2691"} 
-                            bgColor={"#FFFFFF"}
-                            borderColor={"#5E2691"}
-                            text={t("cancel")}
-                            clickEvent={()=> history.push("/dashboard")}
-                        />
-                        <ContestButton 
                             color={"#FFFFFF"}
                             bgColor={"#5E2691"} 
                             borderColor={"#5E2691"}
                             text={t("send_message")} 
                             clickEvent={CanSend() ? ()=> SendMessage() : ()=> FailAlert(dispatch, "can't_send_email") }
+                        />
+                        <ContestButton 
+                            color={"#5E2691"} 
+                            bgColor={"#FFFFFF"}
+                            borderColor={"#5E2691"}
+                            text={t("cancel")}
+                            clickEvent={()=> history.push("/dashboard")}
                         />
                     </div>
                 </div>

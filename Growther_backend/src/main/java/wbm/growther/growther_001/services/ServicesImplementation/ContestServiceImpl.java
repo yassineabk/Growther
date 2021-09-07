@@ -132,17 +132,17 @@ public class ContestServiceImpl implements ContestService {
 
     @Override
     @Transactional
-    public Long createNewDraftContest(ContestDto NewContestDto, String email) throws ParseException {
+    public ContestDto createNewDraftContest(ContestDto NewContestDto, String email) throws ParseException {
 
         User user = userRepository.findUserByEmail(email);
-        if(!user.getIsBrand().equalsIgnoreCase("true")) Long.decode("0");
+        if(!user.getIsBrand().equalsIgnoreCase("true")) return  null;
 
 
         Contest contest = toContest(NewContestDto);
         //check if a contest with the same id exist
         Contest contestExist = repository.findContestByIdContest(contest.getIdContest());
 
-        if(contestExist!=null) return Long.decode("0");
+        if(contestExist!=null) return null;
 
         contest.setStatus("DRAFT");
         contest.setUser(user);
@@ -162,7 +162,7 @@ public class ContestServiceImpl implements ContestService {
         System.out.println(contest.getIdContest());
 
 
-        return contest.getIdContest();
+        return toDto(contest);
     }
 
 
@@ -173,26 +173,27 @@ public class ContestServiceImpl implements ContestService {
 
         Contest contestExist = repository.findContestByIdContest(contestID);
         Contest contest = new Contest(contestExist);
-
-         Set<Prize> prizes = contestExist.getPrizes();
+        Set<Prize> prizes = contestExist.getPrizes();
         Set<Action> actions = contestExist.getActions();
-        Set<Prize> newPrizes = new HashSet<>();
-        Set<Action> newActions = new HashSet<>();
+
+
+        contest.setPrizes(new HashSet<Prize>());
+        contest.setActions(new HashSet<Action>());
 
         actions.forEach( action -> {
-            newActions.add(new Action(action));
+            contest.getActions().add(new Action(action));
             //action.setContest(contest);
         });
-        newActions.forEach( action -> {
-            action.setId(0L);
+        contest.getActions().forEach( action -> {
+           // action.setId(0L);
             action.setContest(contest);
         });
 
 
-        prizes.forEach( prize -> newPrizes.add(new Prize(prize)));
+        prizes.forEach( prize -> contest.getPrizes().add(new Prize(prize)));
 
-        newPrizes.forEach( prize -> {
-            prize.setId(0L);
+        contest.getPrizes().forEach( prize -> {
+           // prize.setId(0L);
             prize.setContest(contest);
         });
 
@@ -201,8 +202,10 @@ public class ContestServiceImpl implements ContestService {
 
         repository.save(contest);
 
-        newPrizes.forEach( prize -> prizeRepository.save(prize));
-        newActions.forEach( action -> actionRepository.save(action));
+        contest.getPrizes().forEach( prize -> prizeRepository.save(prize));
+        contest.getActions().forEach( action -> actionRepository.save(action));
+
+
         return toDto(contest);
     }
 

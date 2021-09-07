@@ -27,7 +27,7 @@ public class Action {
     @Nullable
     private String text;
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "idContest", nullable = false)
+    @JoinColumn(name = "idContest", nullable = true)
     @JsonIgnore
     private Contest contest;
 
