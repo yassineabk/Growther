@@ -458,12 +458,19 @@ export const EditDraft = (dispatch, data, id)=>{
             dispatch({type: ContestTypes.PUBLISH_FAIL})
             return false
         }).then(value =>{
+            if(value && typeof(value) === "object" && value !== null){
+                dispatch({type: ContestTypes.ADD_ACTIONS_PRIZES_IDS_TO_EDITED_DRAFT, payload: {actions: value.actions, prizes: value.prizes}})
+                return value
+            }
+            return false
+        }).then(value =>{
             if(value){
                 AppendEditedDraft(dispatch, id, value)
                 SuccessAlert(dispatch, "draft_updated")
             }else{
                 FailAlert(dispatch, "update_failure")
             }
+
         })
 }
 export const PublishContest = async (dispatch, data = {information: {}, actions: {}})=>{
@@ -478,6 +485,7 @@ export const PublishContest = async (dispatch, data = {information: {}, actions:
     }
     dispatch({type: ContestTypes.NEW_CONTEST_LOADING})
     if(validInfos && validActions){
+        console.log(data.information)
         if(data.information.status === "DRAFT"){
             return axios.put(`${BACKEND_API}/api/contests/draft/publish/${data.information.idContest}`, {
                 ...data.information,
@@ -528,6 +536,7 @@ export const DuplicateContest = (dispatch, id, data)=>{
             "Authorization" : `Bearer ${token}`
         } 
     }
+    dispatch({type: CONTESTS_TYPES.GET_CONTESTS_LOADING})
     dispatch({type: ContestTypes.NEW_CONTEST_LOADING})
     axios.get(`${BACKEND_API}/api/contests/draft/${id}`, config).then(response =>{
         dispatch({type: ContestTypes.DUPLICATE_CONTEST})
@@ -540,7 +549,7 @@ export const DuplicateContest = (dispatch, id, data)=>{
             AppendDraft(dispatch, data, `${value}`, data.user.id)
             SuccessAlert(dispatch, "successfully_duplicated")
         }else{
-            FailAlert(dispatch, "duplcation_dailure")
+            FailAlert(dispatch, "duplcation_failure")
         }
         return value
     })
