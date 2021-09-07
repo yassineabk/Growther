@@ -210,19 +210,20 @@ const SettingsComponent = ()=>{
                         </div>
                     </div>
                     <div dir={infos.direction ? infos.direction : "ltr"} className={`contestButtons is-flex is-justify-content-flex-end ${infos.direction === "rtl" ? "is-flex-direction-row-reverse" : "is-flex-direction-row "}`}>
-                        {infos.authProvider.toLowerCase() === "local" ? <ContestButton 
-                            color={"#5E2691"} 
-                            bgColor={"#FFFFFF"}
-                            borderColor={"#5E2691"}
-                            text={t("edit_password")} 
-                            clickEvent={()=> showModal(true)}/> : null}
-                        <ContestButton 
-                            color={"#FFFFFF"}
-                            bgColor={"#5E2691"} 
-                            borderColor={"#5E2691"}
-                            text={t("save")} 
-                            clickEvent={ CanSave() ? ()=> Save() : ()=> FailAlert(dispatch, "Update Failure")}
-                        />
+                        {infos.authProvider.toLowerCase() === "local" ? 
+                            <ContestButton 
+                                color={"#5E2691"} 
+                                bgColor={"#FFFFFF"}
+                                borderColor={"#5E2691"}
+                                text={t("edit_password")} 
+                                clickEvent={()=> showModal(true)}/> : null}
+                            <ContestButton 
+                                color={"#FFFFFF"}
+                                bgColor={"#5E2691"} 
+                                borderColor={"#5E2691"}
+                                text={t("save")} 
+                                clickEvent={ CanSave() ? ()=> Save() : ()=> FailAlert(dispatch, "Update Failure")}
+                            />
                     </div>
                 </div>
             </div>

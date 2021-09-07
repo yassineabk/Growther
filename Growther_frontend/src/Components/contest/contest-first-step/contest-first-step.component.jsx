@@ -19,7 +19,11 @@ const ContestFirstStep = ()=>{
     useEffect(()=>{
         if(location.state !== null && location.state !== undefined && typeof(location.state) === "object"){
             if(location.state.clear){
-                ResestNewContest(dispatch)
+                if(information !== null && information !== undefined &&  typeof(information) === "object"){
+                    if(!information.idContest){
+                        ResestNewContest(dispatch)
+                    }
+                }
             }else{
                 StateChange(dispatch, location.state)
             }

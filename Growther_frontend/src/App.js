@@ -163,7 +163,7 @@ const App = ()=> {
           <Route exact path='/dashboard/My Contests/winners/:id' render={()=> (
               (currentUser && isBrand === "true") ? (<Dashboard child={<EditContest child={<EditContestThirdStep />} />} />):(<Redirect to='/dashboard'/>)
           )}/>
-          <Route exact path='/dashboard/Templates' render={()=>(currentUser && isBrand === "true") ? (<Dashboard child={<DashboardTemplatesPage />} />):(<Redirect to='/dashboard'/>)}/>
+          <Route exact path='/dashboard/Templates' render={()=>(currentUser && isBrand === "true") || true ? (<Dashboard child={<DashboardTemplatesPage />} />):(<Redirect to='/dashboard'/>)}/>
           <Route exact path='/dashboard' render={()=> (currentUser) ? (<Dashboard child={
             <DashboardHomePage />
           }/>):(<Redirect to='/'/>) } />
