@@ -45,8 +45,8 @@ const ContestsReducer = (state = INITIAL_STATE, action)=>{
                     if(item.idContest.toString() === action.payload.id.toString()){
                         return {
                             ...action.payload.data,
-                            actions: [...item.actions],
-                            prizes: [...item.prizes]
+                            actions: Array.isArray(action.payload.data.actions) ? [...action.payload.data.actions].sort((item, item2) => item.ordre - item2.ordre) : [...item.actions],
+                            prizes: Array.isArray(action.payload.data.actions) ? [...action.payload.data.prizes] : [...item.prizes]
                         }
                     }
                     return item

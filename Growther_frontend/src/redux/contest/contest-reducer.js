@@ -44,6 +44,7 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
                 ...state,
                 information:{
                     ...state.information,
+                    actions: Array.isArray(state.information.actions) && state.information.actions.length > 1 ? state.information.actions.sort((item, item2)=> item.ordre - item2.ordre) : state.information.actions,
                     startDate: action.payload.startDate && action.payload.startTime ? action.payload.startDate+"T"+action.payload.startTime : "",
                     endDate: action.payload.endDate && action.payload.endTime ? action.payload.endDate+"T"+action.payload.endTime : "",
                     startTime: action.payload.startTime ? action.payload.startTime : "",
@@ -89,36 +90,34 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
                 error: null
             }
         case ContestTypes.SET_NEW_CONTEST_STATE:
-            var setStartDate =  ()=>{
-                if(action.payload.targetId){
-                    if(action.payload.targetId === "startDate"){
-                        return action.payload.data.startDate+"T"+state.information.startTime
-                    }else if(action.payload.targetId === "startTime"){
-                        return state.information.startDate.split("T")[0]+"T"+action.payload.data.startTime
+            var setStartDate =  (target, startDate, startTime)=>{
+                if(startDate && startTime){
+                    if(target === "startDate"){
+                        return action.payload.data.startDate+"T"+startTime
+                    }else if(target === "startTime"){
+                        return startDate.split("T")[0]+"T"+action.payload.data.startTime
                     }
-                    return state.information.startDate
-                }else{
-                    return state.information.startDate
+                    return startDate.split("T")[0]+"T"+startTime
                 }
+                return false
             }
-            var setEndDate = ()=>{
-                if(action.payload.targetId){
-                    if(action.payload.targetId === "endDate"){
-                        return action.payload.data.endDate+"T"+state.information.endTime
-                    }else if(action.payload.targetId === "endTime"){
-                        return state.information.endDate.split("T")[0]+"T"+action.payload.data.endTime
+            var setEndDate = (target, endDate, endTime)=>{
+                if(endDate && endTime){
+                    if(target === "endDate"){
+                        return action.payload.data.endDate+"T"+endTime
+                    }else if(target === "endTime"){
+                        return endDate.split("T")[0]+"T"+action.payload.data.endTime
                     }
-                    return state.information.endDate
-                }else{
-                    return state.information.endDate
+                    return endDate.split("T")[0]+"T"+endTime
                 }
+                return false
             }
             return {
                 ...state,
                 information:{
                     ...action.payload.data,
-                    startDate: setStartDate(),
-                    endDate: setEndDate(),
+                    startDate: setStartDate(action.payload.targetId, state.information.startDate, state.information.startTime) ? setStartDate(action.payload.targetId, state.information.startDate, state.information.startTime) : state.information.startDate,
+                    endDate: setEndDate(action.payload.targetId, state.information.endDate, state.information.endTime) ? setEndDate(action.payload.targetId, state.information.endDate, state.information.endTime) : state.information.endDate,
                     actions: [
                         ...action.payload.data.actions
                     ].sort((item, nextItem) => item.ordre - nextItem.ordre)
@@ -394,6 +393,16 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
             return{
                 ...state,
                 isLoading: true
+            }
+        case ContestTypes.ADD_ACTIONS_PRIZES_IDS_TO_EDITED_DRAFT:
+            return {
+                ...state,
+                information: {
+                    ...state.information,
+                    actions: Array.isArray(action.payload.actions) ? [...action.payload.actions].sort((item, item2) => item.ordre - item2.ordre) : [...state.information.actions],
+                    prizes: Array.isArray(action.payload.prizes) ? [...action.payload.prizes]: [...state.information.prizes]
+                },
+                isLoading: false,
             }
         case ContestTypes.SAVE_DRAFT:
             return{
