@@ -2,7 +2,7 @@
 export const location = window.location.href
 export const origin = window.location.origin
 
-export const BACKEND_API = location.includes("https://staging-frontendapp.herokuapp.com") ? "https://staging-backendapp.herokuapp.com" : origin.replace("3000", "5000")
+export const BACKEND_API = location.includes("localhost:3000") ? "http://localhost:5000"  : "https://staging-backendapp.herokuapp.com"
 export const FRONTEND_API = origin
 
 // Spotify
