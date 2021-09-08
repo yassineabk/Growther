@@ -157,7 +157,7 @@ export const PreviewCard = ({title, description, timeLeft, dateType, views, poin
                                         <img alt="" src={require("../../../assets/icons/edit.png").default} width={"20px"} /> 
                                     </div>,]
                                 : null }
-                                 {!isPreview && element.participationId !== undefined && (timeleft(endDate, timeLeft, dateType).timeLeft === "Ended" || (typeof(status) === "string" && status.toLowerCase() === "done")) ? 
+                                 {!isPreview && (timeleft(endDate, timeLeft, dateType).timeLeft === "Ended" || (typeof(status) === "string" && status.toLowerCase() === "done")) ? 
                                     <div onClick={()=> getWinners()}>
                                         <img alt="" src={require("../../../assets/icons/winners.png").default} width={"20px"} />
                                     </div>
