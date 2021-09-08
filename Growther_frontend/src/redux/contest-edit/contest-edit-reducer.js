@@ -43,23 +43,22 @@ const EditReducer = (state = INITIAL_STATE, action)=>{
                 error: false
             }
         case CONTEST_EDIT_TYPES.EDIT_STATE:
-            var setEndDate = ()=>{
-                if(action.payload.targetId){
-                    if(action.payload.targetId === "endDate"){
-                        return action.payload.data.endDate+"T"+state.information.endTime+`:00.000${TimeZone(new Date().getTimezoneOffset())}`
-                    }else if(action.payload.targetId === "endTime"){
-                        return state.information.endDate.split("T")[0]+"T"+action.payload.data.endTime+`:00.000${TimeZone(new Date().getTimezoneOffset())}`
+            var setEndDate = (target, endDate, endTime)=>{
+                if(endDate && endTime){
+                    if(target === "endDate"){
+                        return action.payload.data.endDate+"T"+endTime
+                    }else if(target === "endTime"){
+                        return endDate.split("T")[0]+"T"+action.payload.data.endTime
                     }
-                    return state.information.endDate
-                }else{
-                    return state.information.endDate
+                    return endDate.split("T")[0]+"T"+endTime
                 }
+                return false
             }
             return{
                 ...state,
                 information: {
                     ...action.payload.data,
-                    endDate: setEndDate()
+                    endDate: setEndDate(action.payload.targetId, state.information.endDate, state.information.endTime) ? setEndDate(action.payload.targetId, state.information.endDate, state.information.endTime) : state.information.endDate,
                 },
                 isLoading: false,
                 edited: false,

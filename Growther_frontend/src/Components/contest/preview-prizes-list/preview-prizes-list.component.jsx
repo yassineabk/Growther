@@ -1,5 +1,5 @@
 import React from "react"
-export const PreviewPrizesList = ({prizes, winners})=>{
+export const PreviewPrizesList = ({prizes, winners, email})=>{
     if(!Array.isArray(prizes)) return null
     var result = []
     prizes.map((item, index) =>{
@@ -14,7 +14,7 @@ export const PreviewPrizesList = ({prizes, winners})=>{
                             {`${item.description}`}
                         </span>
                     </div>
-                    {winners && Array.isArray(winners) && winners.length > 0 ? <span className="prizeWinner is-flex is-flex-direction-column">{winners[index].email}</span> : null}
+                    {winners && Array.isArray(winners) && winners.length > 0 ? <span className={`prizeWinner is-flex is-flex-direction-column ${email && email === winners[index].email ? "has-text-success" : ""}`}>{winners[index].email}</span> : null}
                 </div>
             )
         }
