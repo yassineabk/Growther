@@ -6,22 +6,29 @@ import { useLocation, useParams } from "react-router-dom"
 import { PreviewCard } from "../../Components/contest/preview-card/preview-card.component"
 import { Spinner } from "../../Components/spinner/spinner.component"
 import { FailAlert } from "../../redux/alert/alert-actions"
+import Confetti from 'react-confetti'
 import { ActionDone, OpenActionModal, SelectAction, SetData, SetDataFromLocation } from "../../redux/contest-card/contest-card-actions"
 import { NumbersConverter } from "../../services/numbers-converter"
 import { TimeLeft } from "../../services/timeLeft"
 const Contest = ()=>{
     var {information, selected, isLoading, error, points, canParticipate, isDoingAction, winners} = useSelector(state => state.contest_card)
-    var {isBrand} = useSelector(state => state.userInfos)
+    var {isBrand, email} = useSelector(state => state.userInfos)
     var [token, setToken] = useState(localStorage.getItem("accessToken"))
     var [userId, setId] = useState("")
     var [hours, setHours] = useState("")
     var [intervalIndex, setIntervalIndex] = useState(0)
     var [activeElement, setActiveElement] = useState(information)
+    var [heigth, setHeigth] = useState(window.innerHeight)
+    var [width, setWidth] = useState(window.innerWidth)
     var dispatch = useDispatch()
     var params = useParams()
     var location = useLocation()
     var {t} = useTranslation()
     useEffect(()=>{
+        window.addEventListener("resize", event=>{
+            setHeigth(window.innerHeight)
+            setWidth(window.innerWidth)
+        })
         window.addEventListener("storage", event =>{
             if(event.key === "accessToken"){
                 var value = event.newValue
@@ -209,8 +216,18 @@ const Contest = ()=>{
                     onMouseLeave={()=> onMouseLeave()}
                     onMouseOver={(element)=> onMouseOver(element)}
                     winners={winners}
-                /> 
+                />
             : null}
+            {winners && Array.isArray(winners) && winners.length > 0 && email && winners.filter(winner => winner.email === email).length > 0 ? 
+                <Confetti 
+                    height={heigth}
+                    width={width}
+                    numberOfPieces={500} 
+                    className="confetti" 
+                    friction={1}
+                    recycle={false}
+                /> : null
+            }
         </div>
     )
 }
