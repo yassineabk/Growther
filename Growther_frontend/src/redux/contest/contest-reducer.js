@@ -395,7 +395,6 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
                 isLoading: true
             }
         case ContestTypes.ADD_ACTIONS_PRIZES_IDS_TO_EDITED_DRAFT:
-            console.log(action.payload)
             return {
                 ...state,
                 information: {
