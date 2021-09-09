@@ -157,14 +157,14 @@ export const PreviewCard = ({title, description, timeLeft, dateType, views, poin
                                         <img alt="" src={require("../../../assets/icons/edit.png").default} width={"20px"} /> 
                                     </div>,]
                                 : null }
-                                 {!isPreview && (timeleft(endDate, timeLeft, dateType).timeLeft === "Ended" || (typeof(status) === "string" && status.toLowerCase() === "done")) ? 
+                                 {!isPreview && userId && element.participationId && (timeleft(endDate, timeLeft, dateType).timeLeft === "Ended" || (typeof(status) === "string" && status.toLowerCase() === "done")) ? 
                                     <div onClick={()=> getWinners()}>
                                         <img alt="" src={require("../../../assets/icons/winners.png").default} width={"20px"} />
                                     </div>
-                                : null}
-                                <div>
-                                    <img alt="" onClick={()=> hoverCard()} src={require("../../../assets/icons/trophy2.png").default} width={"20px"} />
-                                </div>
+                                :   <div>
+                                        <img alt="" onClick={()=> hoverCard()} src={require("../../../assets/icons/trophy2.png").default} width={"20px"} />
+                                    </div>
+                                }
                             </div>
                         </div>
                         <div dir={direction ? direction : "ltr"} className="card-description">

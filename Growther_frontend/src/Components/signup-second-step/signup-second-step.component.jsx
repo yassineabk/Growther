@@ -9,7 +9,7 @@ const SingupSecondStep=({handleChange,handleSubmit,BrandFunctions,IndividualFunc
     const { t } = useTranslation();
     var {direction} = useSelector(state => state.userInfos)
     return(
-        <section id="sign-up-infos" className="hero is-fullheight Modal">
+        <section id="sign-up-infos" className="hero is-fullheight">
             <div className="hero-body ">
                 <div className="container ">
                 <div className="columns is-centered ">
