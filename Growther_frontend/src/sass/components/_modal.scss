@@ -10,6 +10,37 @@
     background-color: white !important;
     @extend .scroll;
 }
+#sign-up-infos{
+    background-color: rgba(0, 0, 0, .8);
+    #auth-title{
+        margin-bottom: 0.5em;
+    }
+    @media only screen and (max-width: 400px) {
+        .hero-body{
+            padding: 0px;
+            margin: 0;
+            justify-content: center;
+            align-items: center;
+        }
+        .column{
+            padding: 0px !important;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 0;
+        }
+        .field{
+            margin-bottom: 0.25em;
+        }
+        form{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border-radius: 0;
+            width: calc(100vw + 0.25em);
+            min-height: 100vh !important;
+        }
+    }
+}
 .Modal{
     z-index: 1256463;
     position: fixed;
@@ -25,20 +56,6 @@
     > div{
         width: 100%;
         flex: 1;
-    }
-    &#sign-up-infos{
-        @media only screen and (max-width: 366px) {
-            .hero-body{
-                padding: 0px;
-                margin: 0;
-            }
-            form{
-                width: calc(100vw + .5em);
-                height: 100vh;
-                border-radius: 0;
-                overflow-y: auto;
-            }
-        }
     }
     &#settingModal{
         position: fixed;

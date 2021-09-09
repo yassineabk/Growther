@@ -8,6 +8,7 @@ import { Spinner } from "../../spinner/spinner.component";
 import { MakeResultState } from "../../../services/result";
 import { TableData } from "./table-data.component";
 import { useTranslation } from "react-i18next";
+import { CONTEST_EDIT_TYPES } from "../../../redux/contest-edit/contest-edit-types";
 const EditContestSecondStep = ()=>{
     var { information, isLoading } = useSelector(state => state.contest_edit)
     var { isBrand, direction } = useSelector(state => state.userInfos)
@@ -37,7 +38,9 @@ const EditContestSecondStep = ()=>{
                 }
             })
         }
+        dispatch({type: CONTEST_EDIT_TYPES.EDIT_LOADING})
         MakeResultState(params.id).then(res =>{
+            dispatch({type: CONTEST_EDIT_TYPES.EDIT_STOP_LOADING})
             if(res !== undefined && res !== null && typeof(res) === "object"){
                 setData(res.result)
                 setTableHead(res.tableHead)
@@ -70,7 +73,9 @@ const EditContestSecondStep = ()=>{
                                 <Link 
                                     onClick={(event)=>{
                                         event.preventDefault()
+                                        dispatch({type: CONTEST_EDIT_TYPES.EDIT_LOADING})
                                         MakeResultState(information.idContest).then(res =>{
+                                            dispatch({type: CONTEST_EDIT_TYPES.EDIT_STOP_LOADING})
                                             if(res !== undefined && res !== null && typeof(res) === "object"){
                                                 setData(res.result)
                                                 setTableHead(res.tableHead)
