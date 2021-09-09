@@ -159,16 +159,15 @@
           font-size: 13px;
           color: $container-border;
           font-family: Poppins-Medium;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          font-family: inherit;
+          overflow: hidden;
+          
           &[dir=rtl]{
             font-family: Tajawal-Medium;
-            p{
-              overflow: hidden;
-              text-overflow: ellipsis;
-              display: -webkit-box;
-              -webkit-line-clamp: 3;
-              -webkit-box-orient: vertical;
-              font-family: inherit;
-            }
           }
         }
       }
@@ -363,6 +362,7 @@
         -webkit-hyphens: auto;
         -moz-hyphens: auto;
         hyphens: auto;
+        text-overflow: ellipsis;
         &[dir=rtl]{
           font-family: Tajawal-Medium;
           p{
