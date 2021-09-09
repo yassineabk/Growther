@@ -230,20 +230,15 @@ public class ContestServiceImpl implements ContestService {
 
         contest.getPrizes().forEach(
                 prize -> {
-                    if(prize.getId() == null){
-                        prize.setId(0L);
-                    }
-                    else existingPrizesIds.add(prize.getId());
+                    if(prize.getId() != null)
+                        existingPrizesIds.add(prize.getId());
                     prize.setContest(contest);
                 }
         );
 
         contest.getActions().forEach(action ->
-        {
-            if(action.getId() == null){
-                action.setId(0L);
-            }
-            else existingActionsIds.add(action.getId());
+        {   if(action.getId() != null)
+            existingActionsIds.add(action.getId());
             action.setContest(contest);
         });
 

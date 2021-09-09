@@ -42,12 +42,12 @@ public class Contest {
     @JsonIgnore
     private Set<Action> actions;
     //JSON field
-    @OneToMany(mappedBy="contest",  fetch = FetchType.LAZY)
+    @OneToMany(mappedBy="contest", cascade = CascadeType.ALL,  fetch = FetchType.LAZY)
     //@JsonIgnore
     private Set<Prize> prizes;
 
 
-    @OneToMany(mappedBy = "contest", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "contest", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Winners> winners;
 
