@@ -425,12 +425,19 @@ export const SaveDraft = (dispatch, data, id)=>{
             dispatch({type: ContestTypes.PUBLISH_FAIL})
             return false
         }).then(value =>{
+            if(typeof(value) === "string" || typeof(value) === "number"){
+                AppendDraft(dispatch, data)
+            }else if(typeof(value) === "object" && value !== null){
+                AppendDraft(dispatch, value)
+            }
+            return value
+        }).then(value =>{
             if(value){
-                AppendDraft(dispatch, data, value, id)
                 SuccessAlert(dispatch, "saved_as_draft")
             }else{
                 FailAlert(dispatch, "save_failure")
             }
+            return true
         })
 }
 export const EditDraft = (dispatch, data, id)=>{
@@ -470,7 +477,7 @@ export const EditDraft = (dispatch, data, id)=>{
             }else{
                 FailAlert(dispatch, "update_failure")
             }
-
+            return value
         })
 }
 export const PublishContest = async (dispatch, data = {information: {}, actions: {}})=>{
@@ -545,8 +552,14 @@ export const DuplicateContest = (dispatch, id, data)=>{
         dispatch({type: ContestTypes.PUBLISH_FAIL})
         return false
     }).then(value => {
-        if(value || (typeof(value) === "number" && value === 0)){
-            AppendDraft(dispatch, data, `${value}`, data.user.id)
+        if(typeof(value) === "number" || typeof(value) === "string"){
+            AppendDraft(dispatch, data)
+        }else if(value !== null && typeof(value) === "object"){
+            AppendDraft(dispatch, value)
+        }
+        return value
+    }).then(value =>{
+        if(value){
             SuccessAlert(dispatch, "successfully_duplicated")
         }else{
             FailAlert(dispatch, "duplcation_failure")

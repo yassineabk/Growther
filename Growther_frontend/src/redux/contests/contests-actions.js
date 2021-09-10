@@ -67,10 +67,10 @@ export const GetContests = async (dispatch)=>{
             return value
         })
 }
-export const AppendDraft = (dispatch, data, idContest, userId) =>{
+export const AppendDraft = (dispatch, data) =>{
     try{
         if(typeof(data) === "object"){
-            dispatch({type: CONTESTS_TYPES.APPEND_TO_DRAFT, payload: {data, idContest, userId}})
+            dispatch({type: CONTESTS_TYPES.APPEND_TO_DRAFT, payload: data})
         }else{
             dispatch({type: CONTESTS_TYPES.GET_CONTESTS_FAIL})
         }

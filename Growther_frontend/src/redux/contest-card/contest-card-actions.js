@@ -14,6 +14,7 @@ export const SetData = async (dispatch, title, description, id) =>{
         } 
     }
     var timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
+    dispatch({type: Contest_Card_Types.LOADING_CONTEST_CARD})
     return axios.get(`${BACKEND_API}/api/contests/${title}/${id}?timezone=${timeZone}`, config)
         .then(response =>{
             if(typeof(response.data) === "object"){

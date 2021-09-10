@@ -218,7 +218,7 @@ public class ContestServiceImpl implements ContestService {
     }
 
     @Override
-    @Transactional
+    //@Transactional
     public ContestDto updateContestInfos(ContestDto contestDto) throws ParseException {
         Contest contest=toContest(contestDto);
 
@@ -228,17 +228,17 @@ public class ContestServiceImpl implements ContestService {
         HashSet<Long> existingPrizesIds= new HashSet<>();
         HashSet<Long> existingActionsIds= new HashSet<>();
 
-        contest.getPrizes().forEach(
-                prize -> {
-                    if(prize.getId() != null)
-                        existingPrizesIds.add(prize.getId());
-                    prize.setContest(contest);
-                }
-        );
+        contest.getPrizes().forEach( prize -> {
+            if(prize.getId() != null) {
+                existingPrizesIds.add(prize.getId());
+            }
+            prize.setContest(contest);
+        });
 
-        contest.getActions().forEach(action ->
-        {   if(action.getId() != null)
-            existingActionsIds.add(action.getId());
+        contest.getActions().forEach(action -> {
+            if(action.getId() != null) {
+                existingActionsIds.add(action.getId());
+            }
             action.setContest(contest);
         });
 
@@ -258,8 +258,8 @@ public class ContestServiceImpl implements ContestService {
                 }
         );
 
-
-        return toDto(repository.save(contest));
+        Contest newContest = repository.save(contest);
+        return toDto(newContest);
     }
     @Override
     @Transactional
@@ -571,6 +571,4 @@ public class ContestServiceImpl implements ContestService {
         }
         return  null;
     }
-
-
 }

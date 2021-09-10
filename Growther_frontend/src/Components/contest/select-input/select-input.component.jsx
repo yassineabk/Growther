@@ -8,7 +8,7 @@ export const SelectInput = ({data, value, changeHandler, placeholder})=>{
         <select 
             className={"selectForm"} 
             onChange={changeHandler && {}.toString.call(changeHandler) === '[object Function]' ? (event)=> changeHandler(event) : (event) => false}
-            value={typeof(value) === "object" ? value.type : value} 
+            value={typeof(value) === "object" && value !== null ? value.type : value} 
             dir={direction ? direction : "ltr"}
         >
             {placeholder ? 

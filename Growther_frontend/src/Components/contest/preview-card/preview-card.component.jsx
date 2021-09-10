@@ -10,9 +10,17 @@ import { PreviewPrizesList } from "../preview-prizes-list/preview-prizes-list.co
 import { TimeLeftCountDown } from "../time-left-component/time-left.component"
 export const PreviewCard = ({title, description, timeLeft, dateType, views, points, entries, status, actions, previewActions, changeHandler, prizes, buttons, hasStarted, hasEnded, canParticipate, isPublished, id, element, isPreview, user_id, error, immediately, DoAction, DoBonus, showLoginForm, contestDone, endDate, onMouseLeave, onMouseOver, winners})=>{
     var history = useHistory()
+    var {email} = useSelector(state => state.userInfos)
     var dispatch = useDispatch()
     var hoverCard = (event)=>{
-        document.getElementById("card").classList.toggle("backface")
+        var target = document.getElementById("card")
+        //var congrats = document.getElementById("win-alert")
+        if(target && target !== null && typeof(target) === "object"){
+            target.classList.toggle("backface")
+        }
+        // if(congrats && congrats !== null && typeof(congrats) === "object"){
+        //     congrats.classList.toggle("backface")
+        // }
     }
     var editContest = (event)=>{
         if(buttons && id !== undefined && element.participationId === undefined){
@@ -71,16 +79,21 @@ export const PreviewCard = ({title, description, timeLeft, dateType, views, poin
         return {timeLeft: timeValue, timeType: timeType}
     }
     var getWinners = ()=>{
-        ContestCardWinners(dispatch, id).then(value =>{
-            if(value){
-                if(Array.isArray(value)){
-                    if(value.length > 0){
-                        return SuccessAlert(dispatch, "get_winners_successufully")
+        if(!Array.isArray(winners) || (Array.isArray(winners) && winners.length === 0)){
+            ContestCardWinners(dispatch, id).then(value =>{
+                if(value){
+                    if(Array.isArray(value)){
+                        if(value.length > 0){
+                            hoverCard()
+                            return SuccessAlert(dispatch, "get_winners_successufully")
+                        }
                     }
                 }
-            }
-            FailAlert(dispatch, "no_winners_yet")
-        })
+                FailAlert(dispatch, "no_winners_yet")
+            })
+        }else{
+            hoverCard()
+        }
     }
     var {t} = useTranslation()
     var {direction} = useSelector(state => state.userInfos)
@@ -144,7 +157,7 @@ export const PreviewCard = ({title, description, timeLeft, dateType, views, poin
                                         <img alt="" src={require("../../../assets/icons/edit.png").default} width={"20px"} /> 
                                     </div>,]
                                 : null }
-                                 {!isPreview && element.participationId !== undefined && (timeleft(endDate, timeLeft, dateType).timeLeft === "Ended" || (typeof(status) === "string" && status.toLowerCase() === "done")) ? 
+                                 {!isPreview && (timeleft(endDate, timeLeft, dateType).timeLeft === "Ended" || (typeof(status) === "string" && status.toLowerCase() === "done")) ? 
                                     <div onClick={()=> getWinners()}>
                                         <img alt="" src={require("../../../assets/icons/winners.png").default} width={"20px"} />
                                     </div>
@@ -183,9 +196,14 @@ export const PreviewCard = ({title, description, timeLeft, dateType, views, poin
                         </div>
                     </div>
                     <div id="previewPrizes" className="is-flex is-flex-direction-column">
-                        <PreviewPrizesList prizes={prizes} winners={winners}  />
+                        <PreviewPrizesList email={email} prizes={prizes} winners={winners}  />
                     </div>
                 </div>
+                {/*winners && Array.isArray(winners) && winners.length > 0 && email && winners.filter(winner => winner.email === email).length > 0 ? 
+                    <div id="win-alert" className={`prizeWinner is-flex is-flex-direction-column`}>
+                        <span id="win-alert-text">{t("congratulations")}</span>
+                    </div> : null
+                */}
             </div>
         )
     }else{
