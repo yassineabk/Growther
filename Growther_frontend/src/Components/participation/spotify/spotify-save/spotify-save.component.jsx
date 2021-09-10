@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next"
 import { useSelector } from "react-redux"
 import { GetSpotifyToken } from "../../../../services/tokens"
 import { SpotifyAuthComponent } from "../spotify-login/spotify-login.compnent"
-export const SpotifySave = ({url, action_done})=>{
+export const SpotifySave = ({url, action_done, onError})=>{
     var [token, setToken] = useState(GetSpotifyToken())
     var {direction} = useSelector(state => state.userInfos)
     var {t} = useTranslation()
@@ -64,13 +64,19 @@ export const SpotifySave = ({url, action_done})=>{
                                 }
                                 if(result){
                                     action_done(event, true)
+                                    return result
                                 }
                             }
                         }
                     })
                 }
+                return value
             }).catch(err=>{
                 return false
+            }).then(value =>{
+                if(!value){
+                    onError()
+                }
             })
     }
     if(token) return(

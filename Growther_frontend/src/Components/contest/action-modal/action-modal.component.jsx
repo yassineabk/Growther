@@ -13,7 +13,7 @@ import { FacebookViewPost } from "../../participation/facebook/facebook-view-pos
 import { SnapchatFollow } from "../../participation/snapchat/snapchat-follow.component"
 import { TwitterFollow } from "../../participation/twitter/follow-twitter-page/follow-twitter-page.component"
 import { TwitterTweet } from "../../participation/twitter/tweet/tweet.component"
-export const ActionModal = ({action, valid_answer_check, action_done, valid_url_check, closeModal})=>{
+export const ActionModal = ({action, valid_answer_check, action_done, valid_url_check, closeModal, handleError})=>{
     if(action === null && typeof(action) !== "object" && action.provider === null && typeof(action.provider) !== "string") return null
     switch(action.provider.toLowerCase()){
         case "facebook":
@@ -182,11 +182,13 @@ export const ActionModal = ({action, valid_answer_check, action_done, valid_url_
         case "discord":
             switch(action.type.toLowerCase()){
                 case "join server":
-                    return (<DiscordJoin 
-                                url={action.url} 
-                                action_done={(event, value)=> action_done(event, value)} 
-                                closeModal={event => closeModal(event)}
-                            />)
+                    return (
+                        <DiscordJoin 
+                            url={action.url} 
+                            action_done={(event, value)=> action_done(event, value)} 
+                            closeModal={event => closeModal(event)}
+                        />
+                    )
                 default:
                     return null
             }
@@ -197,19 +199,34 @@ export const ActionModal = ({action, valid_answer_check, action_done, valid_url_
                         <SpotifyIframe 
                             url={action.url} 
                             action_done={(event, value)=> action_done(event, value)} 
-                            onError={()=> closeModal()}
-                            closeModal={()=> closeModal()}
+                            onError={()=> handleError()}
                         />
                     )
                 case "save album":
                 case "save track":
                     return (
-                        <SpotifySave url={action.url} action_done={(event, value)=> action_done(event, value)} />
+                        <SpotifySave 
+                            url={action.url} 
+                            action_done={(event, value)=> action_done(event, value)} 
+                            onError={()=> handleError()}
+                        />
                     )
                 case "follow playlist":
-                    return <SpotifyFollowPlaylist url={action.url} action_done={(event, value)=> action_done(event, value)} />
+                    return (
+                        <SpotifyFollowPlaylist 
+                            url={action.url} 
+                            action_done={(event, value)=> action_done(event, value)} 
+                            onError={()=> handleError()}
+                        />
+                    )
                 case "follow artist":
-                    return <SpotifyFollowArtist url={action.url} action_done={(event, value)=> action_done(event, value)} />
+                    return (
+                        <SpotifyFollowArtist 
+                            url={action.url} 
+                            action_done={(event, value)=> action_done(event, value)} 
+                            onError={()=> handleError()}
+                        />
+                    )
                 default:
                     return null
             }
