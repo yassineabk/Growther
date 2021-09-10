@@ -30,6 +30,7 @@
         }
         .field{
             margin-bottom: 0.25em;
+            flex: none;
         }
         form{
             display: flex;
@@ -38,6 +39,9 @@
             border-radius: 0;
             width: calc(100vw + 0.25em);
             min-height: 100vh !important;
+        }
+        #auth-checkbox{
+            margin-bottom: 0.5rem;
         }
     }
 }
