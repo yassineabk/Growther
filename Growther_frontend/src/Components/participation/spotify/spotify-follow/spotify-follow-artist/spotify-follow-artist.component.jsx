@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next"
 import { useSelector } from "react-redux"
 import { GetSpotifyToken } from "../../../../../services/tokens"
 import { SpotifyAuthComponent } from "../../spotify-login/spotify-login.compnent"
-export const SpotifyFollowArtist = ({url, action_done})=>{
+export const SpotifyFollowArtist = ({url, action_done, onError})=>{
     var [token, setToken] = useState(GetSpotifyToken())
     var [active, setActive] = useState(true)
     var {direction} = useSelector(state => state.userInfos)
@@ -46,6 +46,8 @@ export const SpotifyFollowArtist = ({url, action_done})=>{
                 if(value){
                     setActive(false)
                     action_done(event, true)
+                }else{
+                    onError()
                 }
             })
     }

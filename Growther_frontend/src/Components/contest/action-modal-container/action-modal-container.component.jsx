@@ -62,12 +62,18 @@ const ActionModalContainer = ({action, show, idContest, canParticipate, particip
     }
     var valid_answer_check = (value)=>{
         if(value !== null && typeof(value) === "string"){
-            var valid = value.length > 100
+            var valid = value.length > 10
             setActiveButton(valid)
         }
     }
     var valid_url_check = (value)=>{
         setActiveButton(value)
+    }
+    var handleError = ()=>{
+        setCountDown(false)
+        setCount(10)
+        clearInterval(intervalIndex)
+        setError({isError: true, message: "something_went_wrong"})
     }
     if(!show) return null
     if(action === null && typeof(action) !== "object" && action.provider === null && typeof(action.provider) !== "string") return null
@@ -87,6 +93,7 @@ const ActionModalContainer = ({action, show, idContest, canParticipate, particip
                         valid_url_check={(value) => valid_url_check(value)}
                         action_done={(event, value)=> action_done(event, value)} 
                         closeModal={()=> closeModal()}
+                        handleError={()=> handleError()}
                     />
                     <div className="is-flex is-flex-direction-column is-align-items-center is-justify-content-center">
                         <div dir={direction ? direction : "ltr"} className="button-container is-flex is-justify-content-flex-end">
