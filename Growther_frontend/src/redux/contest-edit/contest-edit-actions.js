@@ -187,9 +187,7 @@ export const Edit = async (dispatch, information, id, userId)=>{
     if(typeof(information) === "object" && information.user !== null && information.user.id.toString() === userId.toString()){
         var Data = {}
         Object.keys(information).map(key => {
-            if(key !== "actions"){
-                Data[key] = information[key] 
-            }
+            Data[key] = information[key] 
             return true
         })
         dispatch({type: CONTEST_EDIT_TYPES.EDIT_LOADING})
