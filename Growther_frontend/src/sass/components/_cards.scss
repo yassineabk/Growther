@@ -339,6 +339,7 @@
         font-weight: 500;
         word-wrap: break-word;
         word-break: break-all;
+        align-items: flex-end;
         &[dir=rtl]{
           font-family: Tajawal-Bold;
         }
