@@ -30,6 +30,13 @@ const EditReducer = (state = INITIAL_STATE, action)=>{
                 edited: false,
                 error: false
             }
+        case CONTEST_EDIT_TYPES.EDIT_STOP_LOADING:
+            return {
+                ...state,
+                isLoading: false,
+                edited: false,
+                error: false
+            }
         case CONTEST_EDIT_TYPES.SET_STATE_TO_EDIT:
             return{
                 ...state,

@@ -56,8 +56,8 @@ export const CardComponent = ({element, title, description, views, entries, id, 
                             onMouseLeave(element)
                         } : ()=> false}
                         id="entries">
-                        {(timeLeft && typeof(timeLeft) === "object") && (typeof(timeLeft.date) === "string" ||  typeof(timeLeft.date) === "number") ? (timeLeft.date === "Ended" ? t("Ended") : timeLeft.date) : ""} 
-                        <span className="dateType">{timeLeft && typeof(timeLeft) === "object" && typeof(timeLeft.type) === "string" ? ` ${t(timeLeft.type)}` : ""}</span>
+                        {(timeLeft && typeof(timeLeft) === "object") && (typeof(timeLeft.date) === "string" ||  typeof(timeLeft.date) === "number") ? (timeLeft.date === "Ended" ? "0" : timeLeft.date) : ""} 
+                        <span className="dateType">{timeLeft && typeof(timeLeft) === "object" && typeof(timeLeft.type) === "string" ? ` ${t(timeLeft.type) === "" ? t("seconds") : t(timeLeft.type)}` : ""}</span>
                         {endDate && typeof(endDate) === "string" ? 
                             <TimeLeftCountDown value={endDate} /> : null
                         }

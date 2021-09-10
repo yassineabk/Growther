@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { GetSpotifyToken } from "../../../../services/tokens";
 import { SpotifyAuthComponent } from "../spotify-login/spotify-login.compnent";
-export const SpotifyIframe = ({url, action_done, onError, closeModal})=>{
+export const SpotifyIframe = ({url, action_done, onError})=>{
     var [token, setToken] = useState(GetSpotifyToken())
     useEffect(()=>{
         window.addEventListener("storage", event=>{
@@ -32,7 +32,7 @@ export const SpotifyIframe = ({url, action_done, onError, closeModal})=>{
         <iframe 
             title="spotify-iframe"
             onLoad={()=> iframeBlur()} 
-            onError={()=> closeModal()}
+            onError={()=> onError()}
             id="spotifyIframe" 
             src={`https://open.spotify.com/embed/track/${SpotifyIdMaker(url)}`} 
             width="300" 

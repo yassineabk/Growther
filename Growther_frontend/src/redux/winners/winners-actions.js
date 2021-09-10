@@ -9,7 +9,7 @@ export const DrawWinners = (dispatch, idContest)=>{
         headers: {
             "Content-Type" : "application/json",
             "Authorization" : `Bearer ${token}`
-                } 
+        } 
     }
     dispatch({type: WINNERS_TYPES.GET_CONTEST_WINNERS_LOADING})
     axios.get(`${BACKEND_API}/api/contests/winners/${idContest}`, config)
