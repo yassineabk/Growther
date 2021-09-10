@@ -38,7 +38,7 @@ public class ContestWinners {
     }
     public void deleteWinner(PotentialWinner winner){
 
-        List<PotentialWinner> copie=new ArrayList<>(potentialWinners);
+        List<PotentialWinner> copie=new ArrayList<>();
         int copieSize=0;
         long diff = 0;
 
@@ -60,6 +60,7 @@ public class ContestWinners {
                         .get(i).accumulatedPoints-potentialWinners.get(i-1).accumulatedPoints;
             }
         }
+        accumulatedPoints=copie.get(copieSize-1).accumulatedPoints;
         potentialWinners=copie;
 
     }
