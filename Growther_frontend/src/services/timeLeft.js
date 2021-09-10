@@ -1,7 +1,13 @@
 export const TimeLeft = (endDate, endTime)=>{
     try{
-        if(endDate && endTime){
+        if(endDate && endTime && typeof(endDate) === "string" &&  typeof(endTime) === "string" ){
             endDate = endDate.trim().replace(" ", "T")
+            endDate = endDate.split("T")
+            if(endDate.length === 1){
+                endDate = endDate[0]+"T"+endTime
+            }else{
+                endDate = endDate.join("T")
+            }
             var realSeconds = parseInt(new Date(endDate) - new Date())
             //endDate = Array.isArray(endDate) ? endDate[0] : endDate.split("T")[0]
             if(realSeconds <= 0){
