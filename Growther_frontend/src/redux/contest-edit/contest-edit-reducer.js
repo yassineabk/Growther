@@ -1,4 +1,3 @@
-import { TimeZone } from "../../services/timeLeft"
 import { RESET_ALL_TYPE } from "../reset-all/reset-all-type"
 import { CONTEST_EDIT_TYPES } from "./contest-edit-types"
 const INITIAL_STATE={
@@ -42,6 +41,8 @@ const EditReducer = (state = INITIAL_STATE, action)=>{
                 ...state,
                 information: {
                     ...action.payload,
+                    endDate: typeof(action.payload.endDate) === "string" ?  action.payload.endDate.trim().replace(" ", "T") : "",
+                    startDate: typeof(action.payload.startDate) === "string" ?  action.payload.startDate.trim().replace(" ", "T") : ""
                 },
                 validData: {},
                 isLoading: false,

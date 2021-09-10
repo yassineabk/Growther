@@ -492,7 +492,6 @@ export const PublishContest = async (dispatch, data = {information: {}, actions:
     }
     dispatch({type: ContestTypes.NEW_CONTEST_LOADING})
     if(validInfos && validActions){
-        console.log(data.information)
         if(data.information.status === "DRAFT"){
             return axios.put(`${BACKEND_API}/api/contests/draft/publish/${data.information.idContest}`, {
                 ...data.information,
