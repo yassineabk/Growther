@@ -6,6 +6,7 @@ const INITIAL_STATE = {
     draft: [],
     error: null,
     isLoading: false,
+    loaded: false,
     activeContest: null
 }
 const ContestsReducer = (state = INITIAL_STATE, action)=>{
@@ -100,12 +101,14 @@ const ContestsReducer = (state = INITIAL_STATE, action)=>{
                     return false
                 }) : [],
                 isLoading: false,
+                loaded: true,
                 error: null
             }
         case CONTESTS_TYPES.GET_CONTESTS_FAIL:
             return {
                 ...state,
                 isLoading: false,
+                loaded: true,
                 error: true
             }
         case CONTESTS_TYPES.GET_CONTESTS_LOADING:

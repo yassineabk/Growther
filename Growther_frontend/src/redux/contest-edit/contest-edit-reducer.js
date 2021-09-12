@@ -41,8 +41,6 @@ const EditReducer = (state = INITIAL_STATE, action)=>{
                 ...state,
                 information: {
                     ...action.payload,
-                    endDate: typeof(action.payload.endDate) === "string" ?  action.payload.endDate.trim().replace(" ", "T") : "",
-                    startDate: typeof(action.payload.startDate) === "string" ?  action.payload.startDate.trim().replace(" ", "T") : ""
                 },
                 validData: {},
                 isLoading: false,
@@ -51,11 +49,11 @@ const EditReducer = (state = INITIAL_STATE, action)=>{
                 error: false
             }
         case CONTEST_EDIT_TYPES.EDIT_STATE:
+            console.log(action.payload.data)
             return{
                 ...state,
                 information: {
                     ...action.payload.data,
-                    endDate: action.payload.data.endDate.split("T")[0]+"T"+action.payload.data.endTime
                 },
                 isLoading: false,
                 edited: false,

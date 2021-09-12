@@ -7,10 +7,10 @@ import { CardsContainer } from "../cards-container/cards-container.component"
 import { TemplatesContainer } from "../templates-container/templates-container.component"
 const DashboardHomePage = () =>{
     var dispatch = useDispatch()
-    var {contests, isLoading} = useSelector(state => state.get_contests)
+    var {contests, isLoading, loaded} = useSelector(state => state.get_contests)
     var { isBrand } = useSelector(state => state.userInfos)
     useEffect(()=>{
-        if(((Array.isArray(contests) && contests.length === 0) || !Array.isArray(contests)) && !isLoading){
+        if(((Array.isArray(contests) && contests.length === 0) || !Array.isArray(contests)) && !isLoading && !loaded){
             GetContests(dispatch)
         } 
     }, [dispatch])
