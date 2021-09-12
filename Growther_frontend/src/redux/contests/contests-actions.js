@@ -44,7 +44,9 @@ export const GetContests = async (dispatch)=>{
                         }
                         return {...contest, actions: participationActions, user, partipationDate, participationId: id, totalPoints, done}
                     }
-    
+                    var {startDate, endDate} = item
+                    startDate = startDate.trim().replace(" ", "T")
+                    endDate = endDate.trim().replace(" ", "T")
                     return item
                 })
                 dispatch({type: CONTESTS_TYPES.GET_CONTESTS, payload: payload})

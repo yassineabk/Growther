@@ -88,7 +88,7 @@ const ContestCard = (state = INITIAL_STATE, action)=>{
                 information: {
                     ...state.information,
                     participationId: action.payload.participationId && action.payload.participationId !== undefined ? action.payload.participationId : state.participationId,
-                    actions: Array.isArray(action.payload.actions) ? [...action.payload.actions] : [...state.information.actions.map((item, index)=>{
+                    actions: Array.isArray(action.payload.actions) ? [...action.payload.actions].sort((item, nextItem)=> item.ordre - nextItem.ordre) : [...state.information.actions.map((item, index)=>{
                         if(item !== null && typeof(item) === "object"){
                             if(action.payload.index === index || (typeof(action.payload.id) === "number" && typeof(item.id) === "number" && item.id === action.payload.id)){
                                 return {

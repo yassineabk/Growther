@@ -8,10 +8,10 @@ import { CardsContainer } from "../../dashboard/cards-container/cards-container.
 
 const DashboardContestPage = () =>{
     var dispatch = useDispatch()
-    var { contests } = useSelector(state => state.get_contests)
+    var { contests, loaded, isLoading } = useSelector(state => state.get_contests)
     var { isBrand } = useSelector(state => state.userInfos)
     useEffect(()=>{
-        if((Array.isArray(contests) && contests.length === 0) || !Array.isArray(contests)){
+        if((Array.isArray(contests) && contests.length === 0) || !Array.isArray(contests) && !isLoading && !loaded){
             GetContests(dispatch)
         }
     }, [dispatch])

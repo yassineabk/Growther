@@ -94,8 +94,6 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
                 ...state,
                 information:{
                     ...action.payload.data,
-                    endDate: action.payload.data.endDate.split("T")[0]+"T"+action.payload.data.endTime,
-                    startDate: action.payload.data.startDate.split("T")[0]+"T"+action.payload.data.startTime,
                     actions: [
                         ...action.payload.data.actions
                     ].sort((item, nextItem) => item.ordre - nextItem.ordre)
