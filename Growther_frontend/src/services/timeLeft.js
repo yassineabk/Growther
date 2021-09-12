@@ -11,9 +11,9 @@ export const TimeLeft = (endDate, endTime)=>{
             if(seconds < 60){
                 if(parseInt(seconds) > 0){
                     if(parseInt(seconds) === 1){
-                        return {date: ("0"+parseInt(seconds)).slice(-2), type: "second"}
+                        return {date: seconds, type: "second"}
                     }
-                    return {date: ("0"+parseInt(seconds)).slice(-2), type: "seconds"}
+                    return {date: seconds, type: "seconds"}
                 }
                 return {date: "Ended", type: ""}
             }
@@ -27,7 +27,7 @@ export const TimeLeft = (endDate, endTime)=>{
             seconds = seconds % 3600
             var minutes = ("0"+parseInt(seconds / 60)).slice(-2)
             seconds = ("0" + parseInt(seconds % 60)).slice(-2)
-            
+
             if(parseInt(years) > 0){
                 if(parseInt(years) === 1){
                     return {date: parseInt(years), type: "year"}
@@ -60,9 +60,9 @@ export const TimeLeft = (endDate, endTime)=>{
             }
             if(parseInt(seconds) > 0){
                 if(parseInt(seconds) === 1){
-                    return {date: ("0"+parseInt(seconds)).slice(-2), type: "second"}
+                    return {date: seconds, type: "second"}
                 }
-                return {date: ("0"+parseInt(seconds)).slice(-2), type: "seconds"}
+                return {date: seconds, type: "seconds"}
             }
             return {date: "Ended", type: ""}
         }
