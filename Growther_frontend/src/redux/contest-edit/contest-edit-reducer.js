@@ -49,7 +49,6 @@ const EditReducer = (state = INITIAL_STATE, action)=>{
                 error: false
             }
         case CONTEST_EDIT_TYPES.EDIT_STATE:
-            console.log(action.payload.data)
             return{
                 ...state,
                 information: {
