@@ -11,9 +11,9 @@ export const TimeLeft = (endDate, endTime)=>{
             if(seconds < 60){
                 if(parseInt(seconds) > 0){
                     if(parseInt(seconds) === 1){
-                        return {date: seconds, type: "second"}
+                        return {date: parseInt(seconds), type: "second"}
                     }
-                    return {date: seconds, type: "seconds"}
+                    return {date: parseInt(seconds), type: "seconds"}
                 }
                 return {date: "Ended", type: ""}
             }
@@ -38,7 +38,7 @@ export const TimeLeft = (endDate, endTime)=>{
                 if(parseInt(months) === 1){
                     return {date: parseInt(months), type: "month"}
                 }
-                return {date: ("0"+parseInt(months)), type: "months"}
+                return {date: parseInt(months), type: "months"}
             }
             if(parseInt(days) > 0){
                 if(parseInt(days) === 1){
@@ -60,9 +60,9 @@ export const TimeLeft = (endDate, endTime)=>{
             }
             if(parseInt(seconds) > 0){
                 if(parseInt(seconds) === 1){
-                    return {date: seconds, type: "second"}
+                    return {date: parseInt(seconds), type: "second"}
                 }
-                return {date: seconds, type: "seconds"}
+                return {date: parseInt(seconds), type: "seconds"}
             }
             return {date: "Ended", type: ""}
         }

@@ -71,7 +71,6 @@ export const SetStateToEditFromLocation = async (dispatch, data, userId)=>{
     
 }
 export const EditState = (dispatch, information, id, targetId) =>{
-    console.log(information)
     try{
         dispatch(
             {
@@ -220,7 +219,11 @@ export const Edit = async (dispatch, information, id, userId)=>{
         //     startDate: information.startDate.split("T")[0]+"T"+information.startTime
         // }
         dispatch({type: CONTEST_EDIT_TYPES.EDIT_LOADING})
-        return axios.put(`${BACKEND_API}/api/contests/update/${id}`, information, config)
+        return axios.put(`${BACKEND_API}/api/contests/update/${id}`, {
+                ...information,
+                endDate: information.endDate.replace(" ", "T").split("T")[0]+"T"+information.endTime,
+                startDate: information.startDate.replace(" ", "T").split("T")[0]+"T"+information.startTime
+            }, config)
         .then(response =>{
             dispatch({type: CONTEST_EDIT_TYPES.EDIT_SUCCESS})
             return response.data
