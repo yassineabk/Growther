@@ -82,7 +82,6 @@ const Contest = ()=>{
                     seconds = ("0" + parseInt(seconds % 60)).slice(-2)
                     var value = `${hours}:${minutes}:${seconds}`
                     setHours(`${value}`)
-                    
                 }else{
                     setHours("00:00:00")
                 }
@@ -117,14 +116,14 @@ const Contest = ()=>{
         return false
     }
     var DoAction = (index, element)=>{
-        if(hours !== "00:00:00" || (typeof(information) === "object" && information !== null && typeof(information.status) === "string" && information.status.toLowerCase() === "done")){
+        if((hours !== "00:00:00" && TimeLeft(element.endDate, element.endTime) !== "Ended") || (typeof(information) === "object" && information !== null && typeof(information.status) === "string" && information.status.toLowerCase() === "done")){
             OpenActionModal(dispatch, index, element)
         }else{
             FailAlert(dispatch,  t("contest_ended"))
         }
     }
     var DoBonus = (index, element)=>{
-        if(hours !== "00:00:00" || (typeof(information) === "object" && information !== null && typeof(information.status) === "string" && information.status.toLowerCase() === "done")){
+        if((hours !== "00:00:00" && TimeLeft(element.endDate, element.endTime) !== "Ended") || (typeof(information) === "object" && information !== null && typeof(information.status) === "string" && information.status.toLowerCase() === "done")){
             if(information !== null && information !== undefined && typeof(information) === "object" && Array.isArray(information.actions)){
                 var result = true
                 information.actions.map((item, ix) =>{
@@ -193,8 +192,8 @@ const Contest = ()=>{
                     entries={NumbersConverter(information.numOfParticipation)}
                     description={information.description}
                     endDate={hours}
-                    timeLeft={information.endDate && typeof(information.endDate) === "string" ? TimeLeft(information.endDate.trim().replace(" ","T"), information.endTime).date : ""}
-                    dateType={information.endDate && typeof(information.endDate) === "string" ? TimeLeft(information.endDate.trim().replace(" ","T"), information.endTime).type : ""}
+                    timeLeft={information.endDate && typeof(information.endDate) === "string" ? TimeLeft(information.endDate, information.endTime).date : ""}
+                    dateType={information.endDate && typeof(information.endDate) === "string" ? TimeLeft(information.endDate, information.endTime).type : ""}
                     actions={Array.isArray(information.actions) ? information.actions : []}
                     prizes={information.prizes}
                     previewActions={selected}

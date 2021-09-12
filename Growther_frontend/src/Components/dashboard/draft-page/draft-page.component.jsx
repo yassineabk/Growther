@@ -6,9 +6,9 @@ import { DeleteDraft, GetContests } from "../../../redux/contests/contests-actio
 import { CardsContainer } from "../cards-container/cards-container.component"
 const DraftPage = ()=>{
     var dispatch = useDispatch()
-    var { isLoading, draft } = useSelector(state => state.get_contests)
+    var { isLoading, draft, loaded } = useSelector(state => state.get_contests)
     useEffect(()=>{
-        if(((Array.isArray(draft) && draft.length === 0) || !Array.isArray(draft)) && !isLoading){
+        if(((Array.isArray(draft) && draft.length === 0) || !Array.isArray(draft)) && !isLoading && !loaded){
             GetContests(dispatch)
         }
     }, [dispatch])

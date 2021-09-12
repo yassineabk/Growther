@@ -22,7 +22,14 @@ export const SetStateToEdit = async (dispatch, id, userId)=>{
     dispatch({type: CONTEST_EDIT_TYPES.EDIT_LOADING})
     return axios.get(`${BACKEND_API}/api/contests/${id}`, config).then(response =>{
         if(response.data.user !== null && typeof(response.data.user) === "object" && response.data.user.id.toString() === userId.toString()){
-            dispatch({type: CONTEST_EDIT_TYPES.SET_STATE_TO_EDIT, payload: response.data})
+            dispatch({
+                type: CONTEST_EDIT_TYPES.SET_STATE_TO_EDIT, 
+                payload: {
+                    ...response.data, 
+                    endDate: response.data.endDate.trim().replace(" ", "T"),
+                    startDate: response.data.startDate.trim().replace(" ", "T")
+                }
+            })
             return true
         }else{
             dispatch({type: CONTEST_EDIT_TYPES.EDIT_FAIL})
@@ -43,7 +50,13 @@ export const SetStateToEdit = async (dispatch, id, userId)=>{
 export const SetStateToEditFromLocation = async (dispatch, data, userId)=>{
     try{
         if(data.user.id.toString() === userId.toString()){
-            dispatch({type: CONTEST_EDIT_TYPES.SET_STATE_TO_EDIT, payload: data})
+            dispatch({
+                type: CONTEST_EDIT_TYPES.SET_STATE_TO_EDIT, 
+                payload: {
+                    ...data,
+                    endDate: data.endDate.replace(" ", "T"),
+                    startDate: data.startDate.replace(" ", "T")
+                }})
             SuccessAlert(dispatch, "get_contest_successfully")
             return true
         }
@@ -58,8 +71,19 @@ export const SetStateToEditFromLocation = async (dispatch, data, userId)=>{
     
 }
 export const EditState = (dispatch, information, id, targetId) =>{
+    console.log(information)
     try{
-        dispatch({type: CONTEST_EDIT_TYPES.EDIT_STATE, payload: {data: information, targetId}})
+        dispatch(
+            {
+                type: CONTEST_EDIT_TYPES.EDIT_STATE, 
+                payload: {
+                    data: {
+                        ...information,
+                        endDate: information.endDate.replace(" ", "T").split("T")[0]+"T"+information.endTime,
+                        startDate: information.startDate.replace(" ", "T").split("T")[0]+"T"+information.startTime,
+                    }, 
+                targetId
+            }})
     }catch{
         FailAlert(dispatch, "something_went_wrong")
         dispatch({type: CONTEST_EDIT_TYPES.EDIT_ERROR})
@@ -185,18 +209,18 @@ export const Edit = async (dispatch, information, id, userId)=>{
     }
     dispatch({type: CONTEST_EDIT_TYPES.EDIT_LOADING})
     if(typeof(information) === "object" && information.user !== null && information.user.id.toString() === userId.toString()){
-        var Data = {}
-        Object.keys(information).map(key => {
-            Data[key] = information[key] 
-            return true
-        })
-        Data = {
-            ...Data, 
-            endDate: information.endDate.split("T")+"T"+information.endTime,
-            startDate: information.startDate.split("T")+"T"+information.startTime
-        }
+        // var Data = {}
+        // Object.keys(information).map(key => {
+        //     Data[key] = information[key] 
+        //     return true
+        // })
+        // Data = {
+        //     ...Data, 
+        //     endDate: information.endDate.split("T")[0]+"T"+information.endTime,
+        //     startDate: information.startDate.split("T")[0]+"T"+information.startTime
+        // }
         dispatch({type: CONTEST_EDIT_TYPES.EDIT_LOADING})
-        return axios.put(`${BACKEND_API}/api/contests/update/${id}`, Data, config)
+        return axios.put(`${BACKEND_API}/api/contests/update/${id}`, information, config)
         .then(response =>{
             dispatch({type: CONTEST_EDIT_TYPES.EDIT_SUCCESS})
             return response.data
@@ -205,7 +229,7 @@ export const Edit = async (dispatch, information, id, userId)=>{
             return false
         }).then(value =>{
             if(value){
-                AppendEditedContest(dispatch, id, Data)
+                AppendEditedContest(dispatch, id, information)
                 SuccessAlert(dispatch, "succesfully_updated")
             }else{
                 FailAlert(dispatch, "update_failure")

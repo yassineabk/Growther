@@ -52,6 +52,9 @@ export const PreviewCard = ({title, description, timeLeft, dateType, views, poin
     var timeleft = ()=>{
         var time = endDate, timeValue = timeLeft, timeType = dateType
         if(time && typeof(time) === "string" && time.length > 0 && !isPreview){
+            if(!["hours", "hour", "minutes", "minute", "seconds", "second"].includes(timeType)){
+                return {timeLeft: timeValue, timeType: timeType}
+            }
             time = time.split(":")
             if(Array.isArray(time) && time.length === 3){
                 if(parseInt(time[0]) > 0){
@@ -136,7 +139,7 @@ export const PreviewCard = ({title, description, timeLeft, dateType, views, poin
                             } : ()=> false}
                             id="entries">
                             {!isPreview ? (timeleft(endDate, timeLeft, dateType).timeLeft === "Ended" ? t("Ended") : timeleft(endDate, timeLeft, dateType).timeLeft) : (timeLeft === "Ended" ? t("Ended") : timeLeft) } <span className="dateType">{!isPreview ? t(timeleft(endDate, timeLeft, dateType).timeType) : t(dateType)}</span>
-                            {endDate && typeof(endDate) === "string" && !isPreview ? 
+                            {endDate && ["hours", "hour", "minutes", "minute", "seconds", "second"].includes(dateType) && typeof(endDate) === "string" && !isPreview ? 
                                 <TimeLeftCountDown value={endDate} /> : null
                             }
                         </span>
