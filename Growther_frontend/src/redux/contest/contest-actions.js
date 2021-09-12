@@ -466,6 +466,11 @@ export const EditDraft = (dispatch, data, id)=>{
         }
         return true
     })
+    payload = {
+        ...payload,
+        endDate: payload.endDate.replace(" ", "T").split("T")[0]+"T"+payload.endTime,
+        startDate: payload.startDate.replace(" ", "T").split("T")[0]+"T"+payload.startTime
+    }
     dispatch({type: ContestTypes.NEW_CONTEST_LOADING})
     axios.put(`${BACKEND_API}/api/contests/update/draft/${id}`, payload, config)
         .then(response =>{
@@ -505,6 +510,8 @@ export const PublishContest = async (dispatch, data = {information: {}, actions:
         if(data.information.status === "DRAFT"){
             return axios.put(`${BACKEND_API}/api/contests/draft/publish/${data.information.idContest}`, {
                 ...data.information,
+                endDate: data.information.endDate.replace(" ", "T").split("T")[0]+"T"+data.information.endTime,
+                startDate: data.information.startDate.replace(" ", "T").split("T")[0]+"T"+data.information.startTime
             }, config)
             .then(response =>{
                 dispatch({type: ContestTypes.PUBLISH_SUCCESS, payload: `${FRONTEND_API}/contest/${data.information.title}/${data.information.idContest}`})
@@ -523,7 +530,12 @@ export const PublishContest = async (dispatch, data = {information: {}, actions:
                 }
             })
         }
-        return axios.post(`${BACKEND_API}/api/contests/create`, data.information,config)
+        return axios.post(`${BACKEND_API}/api/contests/create`,
+                {
+                    ...data.information,
+                    endDate: data.information.endDate.replace(" ", "T").split("T")[0]+"T"+data.information.endTime,
+                    startDate: data.information.startDate.replace(" ", "T").split("T")[0]+"T"+data.information.startTime
+                }, config)
             .then(response =>{
                 dispatch({type: ContestTypes.PUBLISH_SUCCESS, payload: `${FRONTEND_API}/contest/${data.information.title}/${response.data}`})
                 return response.data
