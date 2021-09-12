@@ -90,34 +90,12 @@ const contestReducer=(state=INITIAL_STATE,action)=>{
                 error: null
             }
         case ContestTypes.SET_NEW_CONTEST_STATE:
-            var setStartDate =  (target, startDate, startTime)=>{
-                if(startDate && startTime){
-                    if(target === "startDate"){
-                        return action.payload.data.startDate+"T"+startTime
-                    }else if(target === "startTime"){
-                        return startDate.split("T")[0]+"T"+action.payload.data.startTime
-                    }
-                    return startDate.split("T")[0]+"T"+startTime
-                }
-                return false
-            }
-            var setEndDate = (target, endDate, endTime)=>{
-                if(endDate && endTime){
-                    if(target === "endDate"){
-                        return action.payload.data.endDate+"T"+endTime
-                    }else if(target === "endTime"){
-                        return endDate.split("T")[0]+"T"+action.payload.data.endTime
-                    }
-                    return endDate.split("T")[0]+"T"+endTime
-                }
-                return false
-            }
             return {
                 ...state,
                 information:{
                     ...action.payload.data,
-                    startDate: setStartDate(action.payload.targetId, state.information.startDate, state.information.startTime) ? setStartDate(action.payload.targetId, state.information.startDate, state.information.startTime) : state.information.startDate,
-                    endDate: setEndDate(action.payload.targetId, state.information.endDate, state.information.endTime) ? setEndDate(action.payload.targetId, state.information.endDate, state.information.endTime) : state.information.endDate,
+                    endDate: action.payload.data.endDate.split("T")[0]+"T"+action.payload.data.endTime,
+                    startDate: action.payload.data.startDate.split("T")[0]+"T"+action.payload.data.startTime,
                     actions: [
                         ...action.payload.data.actions
                     ].sort((item, nextItem) => item.ordre - nextItem.ordre)

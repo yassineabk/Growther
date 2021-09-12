@@ -51,22 +51,11 @@ const EditReducer = (state = INITIAL_STATE, action)=>{
                 error: false
             }
         case CONTEST_EDIT_TYPES.EDIT_STATE:
-            var setEndDate = (target, endDate, endTime)=>{
-                if(endDate && endTime){
-                    if(target === "endDate"){
-                        return action.payload.data.endDate+"T"+endTime
-                    }else if(target === "endTime"){
-                        return endDate.split("T")[0]+"T"+action.payload.data.endTime
-                    }
-                    return endDate.split("T")[0]+"T"+endTime
-                }
-                return false
-            }
             return{
                 ...state,
                 information: {
                     ...action.payload.data,
-                    endDate: setEndDate(action.payload.targetId, state.information.endDate, state.information.endTime) ? setEndDate(action.payload.targetId, state.information.endDate, state.information.endTime) : state.information.endDate,
+                    endDate: action.payload.data.endDate.split("T")[0]+"T"+action.payload.data.endTime
                 },
                 isLoading: false,
                 edited: false,

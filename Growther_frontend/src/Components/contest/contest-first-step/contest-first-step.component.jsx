@@ -20,7 +20,7 @@ const ContestFirstStep = ()=>{
         if(location.state !== null && location.state !== undefined && typeof(location.state) === "object"){
             if(location.state.clear){
                 if(information !== null && information !== undefined &&  typeof(information) === "object"){
-                    if(!information.idContest){
+                    if(!information.idContest || isPublished){
                         ResestNewContest(dispatch)
                     }
                 }
@@ -30,7 +30,7 @@ const ContestFirstStep = ()=>{
         }else if(information === null || information === undefined || typeof(information) !== "object"){
             InitState(dispatch)
         }else if(information !== null && information !== undefined &&  typeof(information) === "object"){
-            if(isPublished === true){
+            if(isPublished){
                 ResestNewContest(dispatch)
             }
         }else{
