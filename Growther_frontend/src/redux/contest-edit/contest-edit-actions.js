@@ -190,6 +190,11 @@ export const Edit = async (dispatch, information, id, userId)=>{
             Data[key] = information[key] 
             return true
         })
+        Data = {
+            ...Data, 
+            endDate: information.endDate.split("T")+"T"+information.endTime,
+            startDate: information.startDate.split("T")+"T"+information.startTime
+        }
         dispatch({type: CONTEST_EDIT_TYPES.EDIT_LOADING})
         return axios.put(`${BACKEND_API}/api/contests/update/${id}`, Data, config)
         .then(response =>{
